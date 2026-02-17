@@ -11,32 +11,29 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
 
 body{
-background:#0b0f19;
+background:#0a0f1c;
 color:white;
+overflow-x:hidden;
 scroll-behavior:smooth;
 }
 
+/* NAV */
 nav{
 position:fixed;
 width:100%;
 display:flex;
 justify-content:space-between;
-padding:20px 60px;
-background:rgba(0,0,0,0.6);
+align-items:center;
+padding:20px 80px;
+background:rgba(10,15,28,0.7);
 backdrop-filter:blur(10px);
 z-index:1000;
-}
-
-nav ul{
-display:flex;
-gap:40px;
-list-style:none;
 }
 
 nav a{
 color:white;
 text-decoration:none;
-font-weight:500;
+margin-left:40px;
 transition:.3s;
 }
 
@@ -44,21 +41,41 @@ nav a:hover{
 color:#00d4ff;
 }
 
+/* HERO */
 .hero{
 height:100vh;
 display:flex;
 align-items:center;
-justify-content:space-between;
 padding:0 100px;
-background:linear-gradient(135deg,#0b0f19 40%,#10192d);
+position:relative;
+background:radial-gradient(circle at 20% 40%,#13203a,transparent 60%);
+}
+
+.hero::after{
+content:'';
+position:absolute;
+right:-200px;
+top:-200px;
+width:600px;
+height:600px;
+background:#00d4ff;
+opacity:0.05;
+border-radius:50%;
+animation:float 8s ease-in-out infinite;
+}
+
+@keyframes float{
+0%,100%{transform:translateY(0px);}
+50%{transform:translateY(40px);}
 }
 
 .hero-text{
-max-width:600px;
+max-width:650px;
+z-index:1;
 }
 
 .hero-text h1{
-font-size:60px;
+font-size:64px;
 font-weight:800;
 line-height:1.1;
 }
@@ -68,79 +85,84 @@ color:#00d4ff;
 }
 
 .hero-text p{
-margin-top:25px;
+margin-top:30px;
 font-size:18px;
-color:#aaa;
-line-height:1.6;
+color:#a0aec0;
+line-height:1.7;
 }
 
 .btn{
-margin-top:35px;
-padding:14px 30px;
+display:inline-block;
+margin-top:40px;
+padding:15px 35px;
 background:#00d4ff;
 color:black;
-text-decoration:none;
 font-weight:600;
 border-radius:6px;
+text-decoration:none;
 transition:.3s;
-display:inline-block;
 }
 
 .btn:hover{
 background:white;
 }
 
+/* SECTION */
 .section{
-padding:120px 100px;
+padding:140px 100px;
 }
 
-.section-light{
+.section h2{
+font-size:44px;
+margin-bottom:60px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:50px;
+}
+
+.card{
+background:#111827;
+padding:40px;
+border-radius:12px;
+transition:.4s;
+border:1px solid rgba(255,255,255,0.05);
+}
+
+.card:hover{
+transform:translateY(-12px);
+border-color:#00d4ff;
+}
+
+/* LIGHT SECTION */
+.light{
 background:white;
 color:#111;
 }
 
-.section-light h2{
-font-size:42px;
-margin-bottom:40px;
+.light .card{
+background:#f3f4f6;
 }
 
-.services-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:40px;
-}
-
-.service-card{
-padding:40px;
-border-radius:10px;
-background:#151c2f;
-transition:.3s;
-}
-
-.section-light .service-card{
-background:#f2f2f2;
-}
-
-.service-card:hover{
-transform:translateY(-8px);
-}
-
-.contact-section{
-background:#10192d;
+/* CONTACT */
+.contact{
 text-align:center;
+background:#0f172a;
 }
 
-.contact-section h2{
-font-size:40px;
-margin-bottom:30px;
+.contact p{
+margin:15px 0;
+font-size:18px;
 }
 
+/* FOOTER */
 footer{
 text-align:center;
 padding:30px;
 background:black;
-font-size:14px;
-color:#888;
+color:#777;
 }
 </style>
 </head>
@@ -149,52 +171,59 @@ color:#888;
 
 <nav>
 <h2>Tech1World</h2>
-<ul>
-<li><a href="#services">Services</a></li>
-<li><a href="#about">About</a></li>
-<li><a href="#contact">Contact</a></li>
-</ul>
+<div>
+<a href="#services">Services</a>
+<a href="#about">About</a>
+<a href="#contact">Contact</a>
+</div>
 </nav>
 
 <section class="hero">
 <div class="hero-text">
-<h1>Building The Future With <span>Enterprise Technology</span></h1>
-<p>Tech1World is a next-generation IT services and outsourcing company delivering scalable digital transformation solutions from Jammu to global markets.</p>
-<a href="#contact" class="btn">Start Collaboration</a>
+<h1>Engineering The Future With <span>Enterprise Technology</span></h1>
+<p>Tech1World delivers secure, scalable and performance-driven IT solutions. From custom software engineering to global outsourcing, we empower businesses to transform digitally.</p>
+<a href="#contact" class="btn">Start a Conversation</a>
 </div>
 </section>
 
 <section id="services" class="section">
-<h2 style="font-size:42px;margin-bottom:40px;">Our Capabilities</h2>
-<div class="services-grid">
-<div class="service-card">
-<h3>Custom Software Engineering</h3>
-<p>Enterprise-grade web and application development solutions.</p>
+<h2>Enterprise Capabilities</h2>
+<div class="grid">
+<div class="card">
+<h3>Digital Engineering</h3>
+<p>Modern web platforms and enterprise-grade applications built for scale.</p>
 </div>
-<div class="service-card">
-<h3>IT Consulting</h3>
-<p>Strategic advisory and digital modernization frameworks.</p>
+
+<div class="card">
+<h3>Technology Consulting</h3>
+<p>Architecture modernization and digital transformation strategy.</p>
 </div>
-<div class="service-card">
-<h3>Global Outsourcing</h3>
-<p>Dedicated offshore development and managed services teams.</p>
+
+<div class="card">
+<h3>Managed IT Services</h3>
+<p>End-to-end offshore teams delivering reliability and performance.</p>
 </div>
 </div>
 </section>
 
-<section id="about" class="section section-light">
+<section id="about" class="section light">
 <h2>About Tech1World</h2>
-<p style="max-width:800px;line-height:1.7;">
-We empower organizations through secure, scalable and innovative technology solutions. Our expertise spans web engineering, consulting and offshore development services.
-</p>
+<div class="grid">
+<div class="card">
+<p>Based in Jammu, Tech1World is focused on delivering high-impact technology solutions for startups and enterprises worldwide.</p>
+</div>
+<div class="card">
+<p>We combine engineering excellence with business insight to create measurable digital growth.</p>
+</div>
+</div>
 </section>
 
-<section id="contact" class="section contact-section">
-<h2>Let’s Build Something Great</h2>
+<section id="contact" class="section contact">
+<h2>Let’s Build The Next Big Thing</h2>
 <p>Email: <a href="mailto:info@tech1world.com" style="color:#00d4ff;">info@tech1world.com</a></p>
 <p>Phone: +91 98765 43210</p>
 <p>JDA Colony, Tara Vihar, Jammu, India</p>
-<a href="https://wa.me/919876543210" class="btn" target="_blank">WhatsApp Us</a>
+<a href="https://wa.me/919876543210" class="btn" target="_blank">WhatsApp Now</a>
 </section>
 
 <footer>
