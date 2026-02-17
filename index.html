@@ -1,150 +1,178 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Tech1World - IT Solutions</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tech1World | IT Services & Outsourcing</title>
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-        body {
-            background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364);
-            background-size: 400% 400%;
-            animation: gradientBG 10s ease infinite;
-            color: white;
-        }
+<!-- AOS Animation -->
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
-        @keyframes gradientBG {
-            0% {background-position: 0% 50%;}
-            50% {background-position: 100% 50%;}
-            100% {background-position: 0% 50%;}
-        }
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
 
-        header {
-            padding: 20px;
-            text-align: center;
-            background: rgba(0,0,0,0.3);
-        }
+body {
+  color: white;
+  background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364);
+  background-size: 400% 400%;
+  animation: gradientBG 12s ease infinite;
+}
 
-        header h1 {
-            font-size: 40px;
-        }
+@keyframes gradientBG {
+  0% {background-position: 0% 50%;}
+  50% {background-position: 100% 50%;}
+  100% {background-position: 0% 50%;}
+}
 
-        .hero {
-            text-align: center;
-            padding: 100px 20px;
-        }
+nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 50px;
+}
 
-        .hero h2 {
-            font-size: 35px;
-            margin-bottom: 20px;
-        }
+nav h2 {
+  font-weight: 700;
+}
 
-        .hero p {
-            font-size: 18px;
-            margin-bottom: 30px;
-        }
+nav ul {
+  display: flex;
+  list-style: none;
+  gap: 25px;
+}
 
-        .btn {
-            padding: 12px 25px;
-            background: #00c6ff;
-            border: none;
-            color: black;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: 0.3s;
-        }
+nav ul li {
+  cursor: pointer;
+  transition: 0.3s;
+}
 
-        .btn:hover {
-            background: white;
-        }
+nav ul li:hover {
+  color: #00f7ff;
+}
 
-        .section {
-            padding: 60px 20px;
-            text-align: center;
-        }
+.hero {
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 80px;
+}
 
-        .services {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
+.hero h1 {
+  font-size: 50px;
+}
 
-        .card {
-            background: rgba(255,255,255,0.1);
-            margin: 15px;
-            padding: 20px;
-            width: 250px;
-            border-radius: 10px;
-            transition: 0.4s;
-        }
+.hero span {
+  color: #00f7ff;
+}
 
-        .card:hover {
-            transform: translateY(-10px);
-            background: rgba(255,255,255,0.2);
-        }
+.hero p {
+  margin-top: 20px;
+  width: 500px;
+  line-height: 1.6;
+}
 
-        footer {
-            text-align: center;
-            padding: 20px;
-            background: rgba(0,0,0,0.3);
-        }
-    </style>
+.btn {
+  margin-top: 25px;
+  padding: 12px 25px;
+  background: #00f7ff;
+  color: black;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background: white;
+}
+
+.section {
+  padding: 80px;
+  text-align: center;
+}
+
+.services {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 40px;
+}
+
+.card {
+  background: rgba(255,255,255,0.05);
+  padding: 30px;
+  border-radius: 10px;
+  width: 250px;
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  background: rgba(0,247,255,0.1);
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  background: rgba(0,0,0,0.4);
+  margin-top: 40px;
+}
+</style>
 </head>
 
 <body>
 
-<header>
-    <h1>Tech1World</h1>
-    <p>Innovative IT Solutions for a Digital Future</p>
-</header>
+<nav>
+  <h2>Tech1World</h2>
+  <ul>
+    <li>Home</li>
+    <li>Services</li>
+    <li>About</li>
+    <li>Contact</li>
+  </ul>
+</nav>
 
-<section class="hero">
-    <h2>We Build Smart Digital Solutions</h2>
-    <p>Web Development | Software | Cloud | IT Consulting</p>
-    <button class="btn">Contact Us</button>
-</section>
+<div class="hero" data-aos="fade-right">
+  <h1>Empowering Businesses With <span>Smart IT Solutions</span></h1>
+  <p>Tech1World is an IT services and outsourcing company delivering innovative, scalable and secure technology solutions worldwide.</p>
+  <button class="btn">Get Started</button>
+</div>
 
-<section class="section">
-    <h2>Our Services</h2>
-    <div class="services">
-        <div class="card">
-            <h3>Web Development</h3>
-            <p>Modern responsive websites for businesses.</p>
-        </div>
-
-        <div class="card">
-            <h3>Software Development</h3>
-            <p>Custom business software solutions.</p>
-        </div>
-
-        <div class="card">
-            <h3>Cloud Solutions</h3>
-            <p>Secure cloud deployment & management.</p>
-        </div>
-
-        <div class="card">
-            <h3>App Development</h3>
-            <p>Android & iOS mobile applications.</p>
-        </div>
+<div class="section" data-aos="fade-up">
+  <h2>Our Services</h2>
+  <div class="services">
+    <div class="card">
+      <h3>Web Development</h3>
+      <p>Modern responsive websites and web applications.</p>
     </div>
-</section>
-
-<section class="section">
-    <h2>Contact Us</h2>
-    <p>Email: info@tech1world.com</p>
-    <p>Phone: +91 XXXXX XXXXX</p>
-    <p>Address: Your City, India</p>
-</section>
+    <div class="card">
+      <h3>IT Consulting</h3>
+      <p>Strategic technology planning and business solutions.</p>
+    </div>
+    <div class="card">
+      <h3>Outsourcing</h3>
+      <p>Reliable offshore development and support teams.</p>
+    </div>
+  </div>
+</div>
 
 <footer>
-    <p>© 2026 Tech1World. All Rights Reserved.</p>
+  © 2026 Tech1World | All Rights Reserved
 </footer>
+
+<!-- AOS Script -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init();
+</script>
 
 </body>
 </html>
