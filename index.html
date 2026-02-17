@@ -1,116 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tech1World | Enterprise IT Solutions</title>
 
-<!-- SEO Meta Tags -->
-<title>Tech1World | IT Services & Outsourcing Company in Jammu</title>
-<meta name="description" content="Tech1World is a professional IT services and outsourcing company based in Jammu providing web development, IT consulting and offshore development solutions.">
-<meta name="keywords" content="IT Company in Jammu, Web Development Jammu, IT Services India, Outsourcing Company">
-<meta name="author" content="Tech1World">
-
-<!-- Open Graph (Social Sharing) -->
-<meta property="og:title" content="Tech1World | IT Services & Outsourcing">
-<meta property="og:description" content="Innovative IT solutions, consulting and outsourcing services in Jammu.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://tech1world.com">
-
-<link rel="icon" href="favicon.ico" type="image/x-icon">
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;scroll-behavior:smooth;}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
 
 body{
+background:#0b0f19;
 color:white;
-background:linear-gradient(-45deg,#0f2027,#203a43,#2c5364);
-background-size:400% 400%;
-animation:gradientBG 12s ease infinite;
-}
-
-@keyframes gradientBG{
-0%{background-position:0% 50%;}
-50%{background-position:100% 50%;}
-100%{background-position:0% 50%;}
+scroll-behavior:smooth;
 }
 
 nav{
+position:fixed;
+width:100%;
 display:flex;
 justify-content:space-between;
 padding:20px 60px;
-position:fixed;
-width:100%;
 background:rgba(0,0,0,0.6);
 backdrop-filter:blur(10px);
 z-index:1000;
 }
 
-nav ul{display:flex;gap:30px;list-style:none;}
-nav ul li a{color:white;text-decoration:none;transition:.3s;}
-nav ul li a:hover{color:#00f7ff;}
+nav ul{
+display:flex;
+gap:40px;
+list-style:none;
+}
 
-.section{padding:120px 80px;text-align:center;}
+nav a{
+color:white;
+text-decoration:none;
+font-weight:500;
+transition:.3s;
+}
+
+nav a:hover{
+color:#00d4ff;
+}
 
 .hero{
 height:100vh;
 display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:flex-start;
-padding-left:80px;
+align-items:center;
+justify-content:space-between;
+padding:0 100px;
+background:linear-gradient(135deg,#0b0f19 40%,#10192d);
 }
 
-.hero h1{font-size:50px;}
-.hero span{color:#00f7ff;}
-.hero p{margin-top:20px;width:550px;line-height:1.6;}
+.hero-text{
+max-width:600px;
+}
+
+.hero-text h1{
+font-size:60px;
+font-weight:800;
+line-height:1.1;
+}
+
+.hero-text span{
+color:#00d4ff;
+}
+
+.hero-text p{
+margin-top:25px;
+font-size:18px;
+color:#aaa;
+line-height:1.6;
+}
 
 .btn{
-margin-top:25px;
-padding:12px 25px;
-background:#00f7ff;
+margin-top:35px;
+padding:14px 30px;
+background:#00d4ff;
 color:black;
-border-radius:5px;
 text-decoration:none;
+font-weight:600;
+border-radius:6px;
+transition:.3s;
 display:inline-block;
-transition:.3s;
 }
 
-.btn:hover{background:white;}
+.btn:hover{
+background:white;
+}
 
-.services{
-display:flex;
-justify-content:center;
+.section{
+padding:120px 100px;
+}
+
+.section-light{
+background:white;
+color:#111;
+}
+
+.section-light h2{
+font-size:42px;
+margin-bottom:40px;
+}
+
+.services-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
 gap:40px;
-margin-top:40px;
-flex-wrap:wrap;
 }
 
-.card{
-background:rgba(255,255,255,0.05);
-padding:30px;
+.service-card{
+padding:40px;
 border-radius:10px;
-width:260px;
+background:#151c2f;
 transition:.3s;
 }
 
-.card:hover{
-transform:translateY(-10px);
-background:rgba(0,247,255,0.15);
+.section-light .service-card{
+background:#f2f2f2;
 }
 
-.contact-info{margin-top:30px;line-height:2;}
-.contact-info a{color:#00f7ff;text-decoration:none;}
+.service-card:hover{
+transform:translateY(-8px);
+}
 
-iframe{margin-top:30px;border-radius:10px;}
+.contact-section{
+background:#10192d;
+text-align:center;
+}
+
+.contact-section h2{
+font-size:40px;
+margin-bottom:30px;
+}
 
 footer{
 text-align:center;
-padding:20px;
-background:rgba(0,0,0,0.7);
+padding:30px;
+background:black;
+font-size:14px;
+color:#888;
 }
 </style>
 </head>
@@ -120,93 +150,56 @@ background:rgba(0,0,0,0.7);
 <nav>
 <h2>Tech1World</h2>
 <ul>
-<li><a href="#home">Home</a></li>
 <li><a href="#services">Services</a></li>
 <li><a href="#about">About</a></li>
 <li><a href="#contact">Contact</a></li>
 </ul>
 </nav>
 
-<section id="home" class="hero" data-aos="fade-right">
-<h1>Empowering Businesses With <span>Smart IT Solutions</span></h1>
-<p>Tech1World is a Jammu-based IT services and outsourcing company delivering scalable web development, consulting, and offshore technology solutions worldwide.</p>
-<a href="#contact" class="btn">Start Your Project</a>
+<section class="hero">
+<div class="hero-text">
+<h1>Building The Future With <span>Enterprise Technology</span></h1>
+<p>Tech1World is a next-generation IT services and outsourcing company delivering scalable digital transformation solutions from Jammu to global markets.</p>
+<a href="#contact" class="btn">Start Collaboration</a>
+</div>
 </section>
 
-<section id="services" class="section" data-aos="fade-up">
-<h2>Our Services</h2>
-<div class="services">
-<div class="card">
-<h3>Web Development</h3>
-<p>Custom responsive websites and enterprise-grade web applications.</p>
+<section id="services" class="section">
+<h2 style="font-size:42px;margin-bottom:40px;">Our Capabilities</h2>
+<div class="services-grid">
+<div class="service-card">
+<h3>Custom Software Engineering</h3>
+<p>Enterprise-grade web and application development solutions.</p>
 </div>
-
-<div class="card">
+<div class="service-card">
 <h3>IT Consulting</h3>
-<p>Digital transformation, architecture planning and business strategy.</p>
+<p>Strategic advisory and digital modernization frameworks.</p>
 </div>
-
-<div class="card">
-<h3>Outsourcing</h3>
-<p>Dedicated offshore development teams and managed IT services.</p>
+<div class="service-card">
+<h3>Global Outsourcing</h3>
+<p>Dedicated offshore development and managed services teams.</p>
 </div>
 </div>
 </section>
 
-<section id="about" class="section" data-aos="fade-up">
+<section id="about" class="section section-light">
 <h2>About Tech1World</h2>
-<p style="margin-top:20px;max-width:750px;margin-left:auto;margin-right:auto;">
-Tech1World is an innovative IT services company in Jammu focused on delivering high-quality, secure and scalable digital solutions for startups and enterprises.
+<p style="max-width:800px;line-height:1.7;">
+We empower organizations through secure, scalable and innovative technology solutions. Our expertise spans web engineering, consulting and offshore development services.
 </p>
 </section>
 
-<section id="contact" class="section" data-aos="fade-up">
-<h2>Contact Us</h2>
-
-<div class="contact-info">
-
-<p><strong>Email:</strong> 
-<a href="mailto:info@tech1world.com">info@tech1world.com</a>
-</p>
-
-<p><strong>Phone:</strong> 
-<a href="tel:+919419281505">+91 9419281505</a>
-</p>
-
-<p><strong>Address:</strong><br>
-JDA Colony, Pandoka Colony Phase 2,<br>
-Plot 37, Tara Vihar,<br>
-Jammu, Jammu & Kashmir, India
-</p>
-
-<p>
-<a href="https://wa.me/919419281505" class="btn" target="_blank">
-Chat on WhatsApp
-</a>
-</p>
-
-</div>
-
-<iframe 
-src="https://www.google.com/maps?q=Jammu&t=&z=13&ie=UTF8&iwloc=&output=embed"
-width="100%" height="350">
-</iframe>
-
+<section id="contact" class="section contact-section">
+<h2>Let’s Build Something Great</h2>
+<p>Email: <a href="mailto:info@tech1world.com" style="color:#00d4ff;">info@tech1world.com</a></p>
+<p>Phone: +91 98765 43210</p>
+<p>JDA Colony, Tara Vihar, Jammu, India</p>
+<a href="https://wa.me/919876543210" class="btn" target="_blank">WhatsApp Us</a>
 </section>
-dd
+
 <footer>
-<p>© 2026 Tech1World | All Rights Reserved</p>
-<p>
-Email:
-<a href="mailto:info@tech1world.com" style="color:#00f7ff;">
-info@tech1world.com
-</a>
-</p>
+© 2026 Tech1World. All Rights Reserved.
 </footer>
-
-
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script>AOS.init();</script>
 
 </body>
 </html>
