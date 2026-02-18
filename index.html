@@ -1,74 +1,65 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tech1World | AI Innovation</title>
-
+<title>Tech1World | AI Enterprise</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
 
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
-scroll-behavior:smooth;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins;}
+body{background:#0b0f1a;color:white;transition:.4s;overflow-x:hidden;}
+body.light{background:#fff;color:#111;}
+a{text-decoration:none;color:inherit;cursor:pointer;}
 
-body{
-background:#0b0b16;
-color:white;
-overflow-x:hidden;
-}
-
-/* PARTICLE CANVAS */
-canvas{
+video.bg{
 position:fixed;
-top:0;
-left:0;
+right:0;
+bottom:0;
+min-width:100%;
+min-height:100%;
+object-fit:cover;
 z-index:-1;
+filter:brightness(35%);
 }
 
-/* NAVBAR */
 nav{
 position:fixed;
+top:0;
 width:100%;
-padding:20px 8%;
 display:flex;
 justify-content:space-between;
 align-items:center;
-backdrop-filter:blur(20px);
-background:rgba(0,0,0,0.3);
+padding:20px 8%;
+background:rgba(0,0,0,.6);
+backdrop-filter:blur(15px);
 z-index:1000;
-}
-
-nav h1{
-font-weight:800;
-font-size:22px;
-background:linear-gradient(90deg,#00f2ff,#ff00c8);
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
 }
 
 nav ul{
 display:flex;
-gap:30px;
+gap:25px;
 list-style:none;
 }
 
-nav a{
-color:white;
-text-decoration:none;
-font-weight:500;
-transition:.3s;
+nav li:hover{color:#00f2ff;}
+
+.toggle{
+padding:8px 15px;
+border-radius:20px;
+background:linear-gradient(90deg,#00f2ff,#ff00c8);
+cursor:pointer;
 }
 
-nav a:hover{
-color:#00f2ff;
+.page{
+display:none;
+padding:120px 10%;
+min-height:100vh;
+text-align:center;
 }
 
-/* HERO */
+.active{display:block;}
+
 .hero{
 height:100vh;
 display:flex;
@@ -76,213 +67,139 @@ flex-direction:column;
 justify-content:center;
 align-items:center;
 text-align:center;
-padding:0 20px;
 }
 
-.hero h2{
+.hero h1{
 font-size:60px;
-font-weight:800;
-}
-
-.hero p{
-margin-top:20px;
-max-width:700px;
-opacity:.8;
+background:linear-gradient(90deg,#00f2ff,#ff00c8);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
 }
 
 .btn{
-margin-top:30px;
+margin-top:25px;
 padding:15px 40px;
 border:none;
-border-radius:50px;
+border-radius:40px;
 background:linear-gradient(90deg,#00f2ff,#ff00c8);
 color:white;
-font-weight:600;
 cursor:pointer;
-transition:.4s;
-box-shadow:0 0 20px rgba(0,242,255,.6);
 }
 
-.btn:hover{
-transform:scale(1.1);
-box-shadow:0 0 40px rgba(255,0,200,.8);
-}
-
-/* SECTION */
-section{
-padding:120px 10%;
-text-align:center;
-}
-
-.section-title{
-font-size:42px;
-margin-bottom:60px;
-}
-
-/* CARDS */
 .cards{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
 gap:40px;
+margin-top:60px;
 }
 
 .card{
+background:rgba(255,255,255,0.05);
 padding:40px;
-border-radius:25px;
-background:rgba(255,255,255,0.08);
-backdrop-filter:blur(20px);
+border-radius:20px;
 transition:.5s;
-transform-style:preserve-3d;
-}
-
-.card:hover{
-transform:rotateY(10deg) rotateX(10deg) scale(1.05);
-background:rgba(255,255,255,0.15);
-}
-
-/* CONTACT */
-.contact form{
-max-width:500px;
-margin:auto;
-display:flex;
-flex-direction:column;
-gap:20px;
-}
-
-.contact input,.contact textarea{
-padding:15px;
-border:none;
-border-radius:12px;
+opacity:0;
+transform:translateY(50px);
 }
 
 footer{
 padding:40px;
+background:#000;
 text-align:center;
-background:rgba(0,0,0,.4);
-margin-top:50px;
-}
-
-@media(max-width:768px){
-.hero h2{
-font-size:35px;
-}
 }
 </style>
 </head>
-
 <body>
 
-<canvas id="particles"></canvas>
+<video autoplay muted loop class="bg">
+<source src="ai-background.mp4" type="video/mp4">
+</video>
 
 <nav>
-<h1>Tech1World</h1>
+<h2 onclick="showPage('home')">Tech1World</h2>
 <ul>
-<li><a href="#about">About</a></li>
-<li><a href="#services">Services</a></li>
-<li><a href="#contact">Contact</a></li>
+<li onclick="showPage('home')">Home</li>
+<li onclick="showPage('services')">Services</li>
+<li onclick="showPage('team')">Team</li>
+<li onclick="showPage('blog')">Blog</li>
+<li onclick="showPage('contact')">Contact</li>
 </ul>
+<div class="toggle" onclick="toggleMode()">Mode</div>
 </nav>
 
+<!-- HOME -->
+<div id="home" class="page active">
 <div class="hero">
-<h2 id="typing"></h2>
-<p>We build AI-powered products, automation systems, and scalable digital platforms for global enterprises.</p>
-<button class="btn">Launch Your Future</button>
+<h1>Building Intelligent AI Ecosystems</h1>
+<p>Enterprise AI automation and scalable digital platforms.</p>
+<button class="btn" onclick="showPage('services')">Explore Solutions</button>
+</div>
 </div>
 
-<section id="about">
-<h2 class="section-title">About Us</h2>
-<p style="max-width:800px;margin:auto;">
-Tech1World is a next-generation AI startup delivering intelligent automation,
-enterprise SaaS, and digital transformation solutions worldwide.
-</p>
-</section>
-
-<section id="services">
-<h2 class="section-title">Our Services</h2>
+<!-- SERVICES -->
+<div id="services" class="page">
+<h1>Our Services</h1>
 <div class="cards">
-<div class="card">
-<h3>AI Development</h3>
-<p>Machine learning, automation, and predictive intelligence systems.</p>
-</div>
-<div class="card">
-<h3>Web & App Engineering</h3>
-<p>Modern, scalable, secure digital products built for growth.</p>
-</div>
-<div class="card">
-<h3>Cloud & DevOps</h3>
-<p>Enterprise cloud infrastructure and deployment automation.</p>
+<div class="card"><h3>AI Development</h3><p>Machine learning & automation systems.</p></div>
+<div class="card"><h3>Cloud Engineering</h3><p>Scalable enterprise infrastructure.</p></div>
+<div class="card"><h3>SaaS Platforms</h3><p>High-performance digital ecosystems.</p></div>
 </div>
 </div>
-</section>
 
-<section id="contact" class="contact">
-<h2 class="section-title">Contact Us</h2>
-<form>
-<input type="text" placeholder="Your Name">
-<input type="email" placeholder="Your Email">
-<textarea rows="5" placeholder="Your Message"></textarea>
+<!-- TEAM -->
+<div id="team" class="page">
+<h1>Leadership Team</h1>
+<div class="cards">
+<div class="card"><h3>Deepanshu Sharma</h3><p>Founder & CEO</p></div>
+<div class="card"><h3>CTO</h3><p>Cloud & AI Architecture</p></div>
+<div class="card"><h3>Product Head</h3><p>Enterprise SaaS Scaling</p></div>
+</div>
+</div>
+
+<!-- BLOG -->
+<div id="blog" class="page">
+<h1>Latest Insights</h1>
+<div class="cards">
+<div class="card"><h3>Future of AI</h3><p>Enterprise automation by 2030.</p></div>
+<div class="card"><h3>AI + Cloud</h3><p>Scaling intelligent systems globally.</p></div>
+</div>
+</div>
+
+<!-- CONTACT -->
+<div id="contact" class="page">
+<h1>Contact Us</h1>
+<form style="max-width:500px;margin:auto;display:flex;flex-direction:column;gap:20px;">
+<input type="text" placeholder="Your Name" style="padding:15px;border-radius:10px;border:none;">
+<input type="email" placeholder="Your Email" style="padding:15px;border-radius:10px;border:none;">
+<textarea rows="5" placeholder="Your Message" style="padding:15px;border-radius:10px;border:none;"></textarea>
 <button class="btn">Send Message</button>
 </form>
-</section>
+</div>
 
 <footer>
-© 2026 Tech1World | AI Innovation Company
+© 2026 Tech1World | AI Enterprise
 </footer>
 
 <script>
-
-/* TYPING EFFECT */
-const text="Building Billion-Dollar AI Systems";
-let i=0;
-function type(){
-if(i<text.length){
-document.getElementById("typing").innerHTML+=text.charAt(i);
-i++;
-setTimeout(type,70);
+function showPage(page){
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+document.getElementById(page).classList.add("active");
+window.scrollTo(0,0);
+animateCards();
 }
+
+function toggleMode(){
+document.body.classList.toggle("light");
 }
-type();
 
-/* PARTICLE BACKGROUND */
-const canvas=document.getElementById("particles");
-const ctx=canvas.getContext("2d");
-
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
-
-let particles=[];
-for(let i=0;i<100;i++){
-particles.push({
-x:Math.random()*canvas.width,
-y:Math.random()*canvas.height,
-size:Math.random()*2,
-speedX:(Math.random()-.5),
-speedY:(Math.random()-.5)
+function animateCards(){
+document.querySelectorAll(".card").forEach(card=>{
+card.style.opacity=1;
+card.style.transform="translateY(0)";
 });
 }
 
-function animate(){
-ctx.clearRect(0,0,canvas.width,canvas.height);
-particles.forEach(p=>{
-p.x+=p.speedX;
-p.y+=p.speedY;
-
-if(p.x<0||p.x>canvas.width) p.speedX*=-1;
-if(p.y<0||p.y>canvas.height) p.speedY*=-1;
-
-ctx.fillStyle="rgba(0,242,255,0.7)";
-ctx.beginPath();
-ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
-ctx.fill();
-});
-requestAnimationFrame(animate);
-}
-animate();
-
-window.addEventListener("resize",()=>{
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
-});
+animateCards();
 </script>
 
 </body>
