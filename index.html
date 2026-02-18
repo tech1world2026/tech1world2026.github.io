@@ -3,100 +3,91 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tech1World | Global Technology Consulting</title>
+<title>Tech1World | Global Technology Consulting & Digital Engineering</title>
 
 <style>
 
-/* ===== GLOBAL ===== */
-*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,sans-serif;scroll-behavior:smooth;}
-body{background:linear-gradient(135deg,#0a0f1f,#111827);color:#fff;overflow-x:hidden;}
-section{padding:100px 8%;}
-h2{font-size:40px;margin-bottom:30px;color:#00eaff;text-align:center;}
-p{color:#cbd5e1;line-height:1.7;}
+/* ================= GLOBAL ================= */
+*{margin:0;padding:0;box-sizing:border-box;font-family: 'Segoe UI', sans-serif;}
+body{background:#0c111d;color:#e5e7eb;line-height:1.7;}
+section{padding:90px 8%;}
+h1,h2,h3{color:#ffffff;}
+h2{font-size:38px;margin-bottom:30px;}
+p{color:#cbd5e1;}
 .container{max-width:1300px;margin:auto;}
-.btn{padding:14px 32px;background:#00eaff;color:#000;border-radius:30px;text-decoration:none;font-weight:bold;}
-.btn:hover{background:#fff;}
-
-/* ===== LOADER ===== */
-#loader{
-position:fixed;
-width:100%;
-height:100%;
-background:#0a0f1f;
-display:flex;
-justify-content:center;
-align-items:center;
-z-index:9999;
-font-size:30px;
-color:#00eaff;
+.btn{
+display:inline-block;
+padding:14px 30px;
+background:#00eaff;
+color:#000;
+border-radius:30px;
+text-decoration:none;
+font-weight:bold;
+margin-top:20px;
 }
+.btn:hover{background:#fff;}
+.grid{display:grid;gap:30px;}
+.card{
+background:#111827;
+padding:30px;
+border-radius:10px;
+transition:0.4s;
+}
+.card:hover{transform:translateY(-8px);background:#1f2937;}
+.small{font-size:14px;color:#9ca3af;}
 
-/* ===== NAV ===== */
+/* ================= NAVBAR ================= */
 nav{
 display:flex;
 justify-content:space-between;
 align-items:center;
 padding:20px 8%;
-background:rgba(0,0,0,0.7);
+background:#0c111d;
 position:fixed;
 width:100%;
 z-index:1000;
+border-bottom:1px solid #1f2937;
 }
 nav h1{color:#00eaff;}
 nav ul{display:flex;gap:25px;list-style:none;}
-nav ul li a{color:#fff;text-decoration:none;}
+nav ul li a{color:#e5e7eb;text-decoration:none;}
 nav ul li a:hover{color:#00eaff;}
 
-/* ===== HERO ===== */
+/* ================= HERO ================= */
 .hero{
 height:100vh;
 display:flex;
 flex-direction:column;
 justify-content:center;
-align-items:flex-start;
-padding:0 8%;
 }
-.hero h1{font-size:60px;max-width:800px;color:#00eaff;}
-.hero p{max-width:650px;margin:20px 0;}
-
-/* ===== GRID ===== */
-.grid{display:grid;gap:30px;}
-.card{
-background:rgba(255,255,255,0.05);
-padding:30px;
-border-radius:15px;
-transition:0.4s;
+.hero h1{
+font-size:60px;
+max-width:850px;
+margin-bottom:20px;
+color:#00eaff;
 }
-.card:hover{transform:translateY(-10px);background:rgba(0,234,255,0.1);}
+.hero p{max-width:700px;font-size:18px;}
 
-/* ===== STATS ===== */
-.stats{display:flex;justify-content:space-around;flex-wrap:wrap;text-align:center;}
-.stat{margin:20px;}
-.stat h3{font-size:45px;color:#00eaff;}
-
-/* ===== TESTIMONIAL ===== */
-.testimonial{
-text-align:center;
-max-width:800px;
-margin:auto;
-}
-
-/* ===== CLIENT LOGOS ===== */
-.clients{
+/* ================= STATS ================= */
+.stats{
 display:flex;
-justify-content:space-around;
+justify-content:space-between;
 flex-wrap:wrap;
-opacity:0.7;
+text-align:center;
 }
-.clients div{
+.stat{
+flex:1 1 200px;
 margin:20px;
-font-size:22px;
+}
+.stat h3{
+font-size:45px;
+color:#00eaff;
 }
 
-/* ===== FOOTER ===== */
+/* ================= FOOTER ================= */
 footer{
-background:#050812;
-padding:50px 8%;
+background:#0a0f1a;
+padding:60px 8%;
 }
 .footer-grid{
 display:grid;
@@ -105,177 +96,207 @@ gap:40px;
 }
 footer h4{color:#00eaff;margin-bottom:15px;}
 footer ul{list-style:none;}
-footer ul li{margin-bottom:8px;color:#cbd5e1;}
-.bottom{text-align:center;margin-top:30px;color:#777;font-size:14px;}
-
-/* ===== WHATSAPP ===== */
-.whatsapp{
-position:fixed;
-bottom:20px;
-right:20px;
-background:#25D366;
-color:white;
-padding:15px;
-border-radius:50%;
-text-decoration:none;
-font-weight:bold;
+footer ul li{margin-bottom:8px;color:#9ca3af;}
+.bottom{
+margin-top:40px;
+text-align:center;
+color:#6b7280;
+font-size:14px;
 }
 
+/* ================= RESPONSIVE ================= */
 @media(max-width:900px){
-.hero h1{font-size:40px;}
+.hero h1{font-size:38px;}
+.stats{flex-direction:column;}
 }
 
 </style>
 </head>
 <body>
 
-<div id="loader">Loading Tech1World...</div>
-
 <nav>
 <h1>Tech1World</h1>
 <ul>
-<li><a href="#services">Services</a></li>
+<li><a href="#about">About</a></li>
+<li><a href="#capabilities">Capabilities</a></li>
 <li><a href="#industries">Industries</a></li>
 <li><a href="#case">Case Studies</a></li>
-<li><a href="#career">Careers</a></li>
+<li><a href="#careers">Careers</a></li>
 <li><a href="#contact">Contact</a></li>
 </ul>
 </nav>
 
+<!-- HERO -->
 <section class="hero">
-<h1>Engineering Digital Excellence For Global Enterprises</h1>
-<p>Tech1World partners with forward-thinking organizations to architect scalable platforms, secure digital ecosystems, and future-ready enterprise solutions.</p>
-<a href="#contact" class="btn">Request Consultation</a>
+<h1>Driving Enterprise-Scale Digital Transformation Through Strategic Technology Leadership</h1>
+<p>
+Tech1World is a global technology consulting and digital engineering firm enabling enterprises to modernize core systems, enhance operational resilience, and unlock measurable business value through innovation.
+</p>
+<a href="#contact" class="btn">Speak to an Expert</a>
 </section>
 
-<section id="services">
-<h2>Enterprise Services</h2>
-<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr));">
-<div class="card">Enterprise Application Engineering</div>
-<div class="card">Cloud & DevOps Transformation</div>
-<div class="card">Cybersecurity & Risk Management</div>
-<div class="card">AI, Data & Analytics</div>
-</div>
-</section>
-
-<section id="industries">
-<h2>Industries</h2>
-<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr));">
-<div class="card">Banking & Financial Services</div>
-<div class="card">Healthcare</div>
-<div class="card">Retail</div>
-<div class="card">Telecom</div>
-<div class="card">Public Sector</div>
-</div>
-</section>
-
-<section>
-<h2>Our Impact</h2>
-<div class="stats">
-<div class="stat"><h3 class="counter" data-target="50">0</h3><p>Projects Delivered</p></div>
-<div class="stat"><h3 class="counter" data-target="20">0</h3><p>Technology Experts</p></div>
-<div class="stat"><h3 class="counter" data-target="100">0</h3><p>% Client Focus</p></div>
-</div>
-</section>
-
-<section id="case">
-<h2>Case Studies</h2>
-<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr));">
-<div class="card">Digital Banking Platform Modernization</div>
-<div class="card">AI-Based Retail Analytics Engine</div>
-<div class="card">Cloud Migration for Enterprise ERP</div>
-</div>
-</section>
-
-<section>
-<h2>Our Clients</h2>
-<div class="clients">
-<div>Global Bank</div>
-<div>HealthTech Corp</div>
-<div>RetailMax</div>
-<div>TeleLink</div>
-</div>
-</section>
-
-<section>
-<h2>Client Testimonial</h2>
-<div class="testimonial">
-<p>"Tech1World delivered a highly scalable and secure enterprise solution that transformed our operations."</p>
+<!-- ABOUT -->
+<section id="about">
+<div class="container">
+<h2>About Tech1World</h2>
+<p>
+We partner with forward-thinking enterprises to solve complex business challenges through technology-led transformation. 
+Our approach integrates strategic consulting, enterprise architecture, secure engineering practices, and data-driven intelligence to create scalable and future-ready digital ecosystems.
+</p>
 <br>
-<strong>— CEO, Financial Services Firm</strong>
+<h3>Vision</h3>
+<p>To become a globally trusted strategic technology partner delivering sustainable digital impact.</p>
+<br>
+<h3>Mission</h3>
+<p>To provide secure, scalable, and high-performance technology solutions aligned with business objectives and regulatory standards.</p>
 </div>
 </section>
 
-<section id="career">
-<h2>Careers</h2>
-<p style="text-align:center;">Join our team of engineers, architects and innovators.</p>
-<p style="text-align:center;">Send resume: careers@tech1world.com</p>
+<!-- CAPABILITIES -->
+<section id="capabilities">
+<div class="container">
+<h2>Core Capabilities</h2>
+<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr));">
+<div class="card">
+<h3>Digital Engineering</h3>
+<p>Enterprise application modernization, microservices architecture, API ecosystems, and full lifecycle engineering.</p>
+</div>
+<div class="card">
+<h3>Cloud & DevOps Transformation</h3>
+<p>Multi-cloud strategy, infrastructure automation, CI/CD pipelines, and cloud-native modernization.</p>
+</div>
+<div class="card">
+<h3>Cybersecurity & Risk Advisory</h3>
+<p>Zero-trust frameworks, compliance audits, SOC enablement, and enterprise-grade security governance.</p>
+</div>
+<div class="card">
+<h3>Data, AI & Analytics</h3>
+<p>Predictive analytics platforms, AI pipelines, enterprise dashboards, and real-time intelligence systems.</p>
+</div>
+</div>
+</div>
 </section>
 
+<!-- INDUSTRIES -->
+<section id="industries">
+<div class="container">
+<h2>Industry Expertise</h2>
+<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));">
+<div class="card">Banking & Financial Services</div>
+<div class="card">Healthcare & Life Sciences</div>
+<div class="card">Retail & Consumer Markets</div>
+<div class="card">Telecommunications</div>
+<div class="card">Government & Public Sector</div>
+<div class="card">Education & EdTech</div>
+</div>
+</div>
+</section>
+
+<!-- STATS -->
+<section>
+<div class="container">
+<h2>Enterprise Impact</h2>
+<div class="stats">
+<div class="stat"><h3>50+</h3><p>Enterprise Projects Delivered</p></div>
+<div class="stat"><h3>20+</h3><p>Technology Experts</p></div>
+<div class="stat"><h3>99.9%</h3><p>System Availability Across Deployments</p></div>
+<div class="stat"><h3>24/7</h3><p>Dedicated Monitoring & Support</p></div>
+</div>
+</div>
+</section>
+
+<!-- CASE STUDIES -->
+<section id="case">
+<div class="container">
+<h2>Selected Case Studies</h2>
+<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr));">
+<div class="card">
+<h3>Digital Banking Modernization</h3>
+<p>Re-architected legacy banking infrastructure into a scalable cloud-native platform reducing operational cost by 30%.</p>
+</div>
+<div class="card">
+<h3>AI-Powered Retail Analytics</h3>
+<p>Developed predictive analytics engine improving demand forecasting accuracy by 40%.</p>
+</div>
+<div class="card">
+<h3>Enterprise Cloud Migration</h3>
+<p>Successfully migrated ERP systems to secure cloud environment ensuring zero downtime.</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- CAREERS -->
+<section id="careers">
+<div class="container">
+<h2>Careers at Tech1World</h2>
+<p>
+We cultivate innovation, accountability, and continuous learning. 
+We are seeking engineers, consultants, architects, and strategists passionate about enterprise-grade technology solutions.
+</p>
+<br>
+<p><strong>Email your CV:</strong> careers@tech1world.com</p>
+</div>
+</section>
+
+<!-- CONTACT -->
 <section id="contact">
-<h2>Contact</h2>
-<p style="text-align:center;"><strong>Address:</strong> JDA Colony Phase 2, Plot No. 37, Pandoka Colony, Jammu</p>
-<p style="text-align:center;"><strong>Mobile:</strong> 9419281505</p>
-<p style="text-align:center;"><strong>Email:</strong> info@tech1world.com</p>
+<div class="container">
+<h2>Contact Information</h2>
+<p><strong>Corporate Office</strong></p>
+<p>JDA Colony Phase 2</p>
+<p>Plot No. 37, Pandoka Colony</p>
+<p>Jammu, India</p>
+<br>
+<p><strong>Mobile:</strong> +91 9419281505</p>
+<p><strong>Email:</strong> info@tech1world.com</p>
+</div>
 </section>
 
+<!-- FOOTER -->
 <footer>
 <div class="footer-grid">
 <div>
 <h4>Company</h4>
 <ul>
-<li>About</li>
+<li>About Us</li>
 <li>Leadership</li>
 <li>Careers</li>
+<li>Governance</li>
 </ul>
 </div>
 <div>
-<h4>Services</h4>
+<h4>Capabilities</h4>
 <ul>
+<li>Digital Engineering</li>
 <li>Cloud</li>
 <li>Cybersecurity</li>
 <li>Analytics</li>
 </ul>
 </div>
 <div>
-<h4>Resources</h4>
+<h4>Industries</h4>
 <ul>
-<li>Blog</li>
-<li>Whitepapers</li>
-<li>Support</li>
+<li>BFSI</li>
+<li>Healthcare</li>
+<li>Retail</li>
+<li>Public Sector</li>
+</ul>
+</div>
+<div>
+<h4>Contact</h4>
+<ul>
+<li>Jammu, India</li>
+<li>+91 9419281505</li>
+<li>info@tech1world.com</li>
 </ul>
 </div>
 </div>
-<div class="bottom">© 2026 Tech1World | Global Technology Consulting</div>
+
+<div class="bottom">
+© 2026 Tech1World | Global Technology Consulting & Digital Engineering
+</div>
 </footer>
-
-<a href="https://wa.me/919419281505" class="whatsapp">W</a>
-
-<script>
-
-/* Loader */
-window.onload = function(){
-document.getElementById("loader").style.display="none";
-}
-
-/* Counter Animation */
-const counters=document.querySelectorAll('.counter');
-counters.forEach(counter=>{
-const update=()=>{
-const target=+counter.getAttribute('data-target');
-const count=+counter.innerText;
-const inc=target/100;
-if(count<target){
-counter.innerText=Math.ceil(count+inc);
-setTimeout(update,20);
-}else{
-counter.innerText=target;
-}
-}
-update();
-});
-
-</script>
 
 </body>
 </html>
