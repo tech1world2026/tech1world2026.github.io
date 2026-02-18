@@ -3,51 +3,52 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tech1World | Intelligent Systems Company</title>
+<title>Tech1World | AI Infrastructure Platform</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
 body{
-background:#0a0a0f;
+background:#0c0f18;
 color:white;
 overflow-x:hidden;
 scroll-behavior:smooth;
 }
 
-/* Animated Gradient Mesh */
+/* Animated Glow Background */
 body::before{
 content:'';
 position:fixed;
 width:100%;
 height:100%;
-background:radial-gradient(circle at 20% 20%,#00f5ff22,transparent 40%),
-radial-gradient(circle at 80% 60%,#00ff8755,transparent 40%),
-radial-gradient(circle at 50% 80%,#0055ff33,transparent 40%);
+background:
+radial-gradient(circle at 10% 20%,#00f5ff33,transparent 40%),
+radial-gradient(circle at 80% 30%,#6f00ff33,transparent 40%),
+radial-gradient(circle at 50% 90%,#00ff8755,transparent 40%);
 z-index:-1;
-animation:moveBg 15s infinite alternate ease-in-out;
+animation:bgMove 18s infinite alternate ease-in-out;
 }
-@keyframes moveBg{
-0%{transform:translateY(0px);}
-100%{transform:translateY(-40px);}
+@keyframes bgMove{
+0%{transform:translateY(0);}
+100%{transform:translateY(-50px);}
 }
 
 /* Navbar */
 nav{
 position:fixed;
 width:100%;
-padding:25px 100px;
+padding:25px 120px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-background:rgba(0,0,0,0.4);
+background:rgba(10,15,25,0.6);
 backdrop-filter:blur(20px);
 z-index:1000;
 }
 nav h2{font-weight:800;}
-nav ul{display:flex;gap:30px;list-style:none;}
-nav ul li a{text-decoration:none;color:#ccc;transition:0.3s;}
+nav ul{display:flex;gap:35px;list-style:none;}
+nav ul li a{text-decoration:none;color:#bbb;transition:0.3s;}
 nav ul li a:hover{color:white;}
 
 /* Hero */
@@ -61,9 +62,9 @@ text-align:center;
 padding:0 20px;
 }
 .hero h1{
-font-size:72px;
+font-size:80px;
 font-weight:800;
-line-height:1.1;
+line-height:1.05;
 }
 .hero span{
 background:linear-gradient(90deg,#00f5ff,#00ff87);
@@ -71,14 +72,14 @@ background:linear-gradient(90deg,#00f5ff,#00ff87);
 color:transparent;
 }
 .hero p{
-max-width:700px;
+max-width:750px;
 margin-top:25px;
 color:#aaa;
-font-size:18px;
+font-size:20px;
 }
 .btn{
 margin-top:40px;
-padding:15px 45px;
+padding:16px 50px;
 background:white;
 color:black;
 border:none;
@@ -87,54 +88,69 @@ font-weight:600;
 cursor:pointer;
 transition:0.3s;
 }
-.btn:hover{transform:scale(1.05);}
+.btn:hover{transform:scale(1.07);}
 
 /* Sections */
-section{padding:140px 100px;}
+section{padding:160px 120px;}
 .section-title{
-font-size:50px;
-margin-bottom:60px;
+font-size:55px;
+margin-bottom:80px;
 }
 
 /* Grid */
 .grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-gap:40px;
+gap:50px;
 }
 
 /* Cards */
 .card{
-padding:40px;
+padding:45px;
 border-radius:25px;
 background:rgba(255,255,255,0.03);
 border:1px solid rgba(255,255,255,0.08);
 transition:0.4s;
 }
 .card:hover{
-transform:translateY(-15px);
-background:rgba(255,255,255,0.06);
+transform:translateY(-20px);
+background:rgba(255,255,255,0.07);
 }
 
-/* KPI Dashboard */
+/* Metrics */
 .stats{
 display:flex;
 justify-content:space-between;
 flex-wrap:wrap;
 }
-.stat{
-margin-bottom:40px;
-}
 .stat h2{
-font-size:60px;
+font-size:70px;
 background:linear-gradient(90deg,#00f5ff,#00ff87);
 -webkit-background-clip:text;
 color:transparent;
 }
+.stat p{color:#888;}
+
+/* Pricing */
+.pricing .card{
+text-align:center;
+}
+.price{
+font-size:60px;
+margin:20px 0;
+}
+
+/* CTA */
+.cta{
+text-align:center;
+padding:120px;
+background:linear-gradient(90deg,#00f5ff22,#00ff8722);
+border-radius:40px;
+}
 
 /* Footer */
 footer{
-padding:60px;
+padding:80px;
 text-align:center;
 color:#777;
 border-top:1px solid rgba(255,255,255,0.1);
@@ -147,83 +163,92 @@ border-top:1px solid rgba(255,255,255,0.1);
 <nav>
 <h2>Tech1World</h2>
 <ul>
-<li><a href="#products">Products</a></li>
-<li><a href="#impact">Impact</a></li>
-<li><a href="#cases">Case Studies</a></li>
+<li><a href="#platform">Platform</a></li>
+<li><a href="#metrics">Metrics</a></li>
+<li><a href="#pricing">Pricing</a></li>
 <li><a href="#contact">Contact</a></li>
 </ul>
 </nav>
 
 <div class="hero">
-<h1>Building <span>Intelligent Infrastructure</span> For The Digital Economy</h1>
-<p>Tech1World is a next-generation AI systems company engineering scalable, secure, and autonomous digital platforms for enterprises and governments worldwide.</p>
-<button class="btn">Explore Platform</button>
+<h1>AI Infrastructure <span>Built For Scale</span></h1>
+<p>Tech1World is an enterprise AI platform powering secure, scalable, and autonomous digital systems for global organizations.</p>
+<button class="btn">Request Demo</button>
 </div>
 
-<section id="products">
-<h2 class="section-title">Core Platforms</h2>
+<section id="platform">
+<h2 class="section-title">Platform Capabilities</h2>
 <div class="grid">
 <div class="card">
-<h3>NeuralOps AI</h3>
-<p>Enterprise-grade generative AI orchestration system.</p>
+<h3>Autonomous AI Engine</h3>
+<p>Deploy enterprise-grade generative AI models with governance controls.</p>
 </div>
 <div class="card">
-<h3>CloudMatrix</h3>
-<p>Autonomous cloud deployment & optimization engine.</p>
+<h3>Cloud-Native Core</h3>
+<p>Optimized for multi-cloud scalability and performance resilience.</p>
 </div>
 <div class="card">
-<h3>CyberShield X</h3>
-<p>AI-powered zero-trust cybersecurity ecosystem.</p>
+<h3>Enterprise Security</h3>
+<p>Zero-trust architecture and AI-powered threat detection.</p>
 </div>
 </div>
 </section>
 
-<section id="impact">
-<h2 class="section-title">Global Metrics</h2>
+<section id="metrics">
+<h2 class="section-title">Global Impact</h2>
 <div class="stats">
 <div class="stat">
-<h2 id="m1">0</h2>
+<h2 id="s1">0</h2>
 <p>Enterprise Clients</p>
 </div>
 <div class="stat">
-<h2 id="m2">0</h2>
-<p>AI Models Deployed</p>
+<h2 id="s2">0</h2>
+<p>AI Deployments</p>
 </div>
 <div class="stat">
-<h2 id="m3">0</h2>
+<h2 id="s3">0</h2>
 <p>Countries Active</p>
 </div>
 </div>
 </section>
 
-<section id="cases">
-<h2 class="section-title">Case Studies</h2>
+<section id="pricing" class="pricing">
+<h2 class="section-title">Enterprise Pricing</h2>
 <div class="grid">
 <div class="card">
-<h3>Fortune 100 Retailer</h3>
-<p>Reduced cloud cost by 38% using AI-driven optimization.</p>
+<h3>Growth</h3>
+<div class="price">$499</div>
+<p>For scaling startups</p>
 </div>
 <div class="card">
-<h3>Global Bank</h3>
-<p>Deployed enterprise AI fraud detection across 14 regions.</p>
+<h3>Enterprise</h3>
+<div class="price">$1999</div>
+<p>For global organizations</p>
 </div>
 <div class="card">
-<h3>Healthcare Network</h3>
-<p>Implemented predictive diagnostics platform.</p>
+<h3>Custom</h3>
+<div class="price">Contact</div>
+<p>Tailored AI infrastructure</p>
 </div>
 </div>
+</section>
+
+<section class="cta">
+<h2>Build The Future With Intelligent Infrastructure</h2>
+<p style="margin-top:20px;color:#aaa;">Partner with Tech1World to power next-generation enterprise systems.</p>
+<button class="btn">Schedule Consultation</button>
 </section>
 
 <section id="contact">
 <h2 class="section-title">Enterprise Contact</h2>
 <div class="card">
 <p>Email: enterprise@tech1world.com</p>
-<p>Headquarters: India | Silicon Valley | London | Singapore</p>
+<p>India | Silicon Valley | London | Singapore</p>
 </div>
 </section>
 
 <footer>
-© 2026 Tech1World | Intelligent Systems Company
+© 2026 Tech1World | AI Infrastructure Platform
 </footer>
 
 <script>
@@ -234,11 +259,11 @@ let interval=setInterval(()=>{
 count++;
 obj.textContent=count+"+";
 if(count>=end)clearInterval(interval);
-},15);
+},10);
 }
-animate("m1",220);
-animate("m2",850);
-animate("m3",32);
+animate("s1",300);
+animate("s2",1200);
+animate("s3",40);
 </script>
 
 </body>
