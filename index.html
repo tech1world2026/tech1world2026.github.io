@@ -3,265 +3,239 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tech1World | AI-Driven Digital Transformation</title>
-
+<title>Tech1World Global Solutions</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
-
-/* ================= GLOBAL ================= */
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-body{background:#0b1120;color:#e2e8f0;overflow-x:hidden;}
-section{padding:100px 8%;position:relative;z-index:2;}
-h1,h2,h3{color:#ffffff;}
-h2{font-size:42px;margin-bottom:30px;}
-p{color:#cbd5e1;line-height:1.8;}
-.container{max-width:1300px;margin:auto;}
-.btn{
-display:inline-block;
-padding:14px 32px;
-background:#00f0ff;
-color:#000;
-border-radius:30px;
-text-decoration:none;
-font-weight:600;
-margin-top:20px;
-transition:0.3s;
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+scroll-behavior:smooth;
 }
-.btn:hover{background:#fff;}
 
-/* ================= NAV ================= */
+body{
+background:#0f2027;
+color:white;
+overflow-x:hidden;
+}
+
+/* Animated AI Gradient Background */
+body::before{
+content:'';
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:linear-gradient(-45deg,#0f2027,#203a43,#2c5364,#00c6ff);
+background-size:400% 400%;
+animation:gradientMove 12s ease infinite;
+z-index:-1;
+}
+
+@keyframes gradientMove{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+/* Navbar */
 nav{
+position:fixed;
+width:100%;
+padding:20px 80px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:20px 8%;
-position:fixed;
-width:100%;
-background:rgba(0,0,0,0.5);
+background:rgba(0,0,0,0.4);
 backdrop-filter:blur(10px);
 z-index:1000;
 }
-nav h1{color:#00f0ff;font-weight:700;}
-nav ul{display:flex;gap:25px;list-style:none;}
-nav ul li a{color:#fff;text-decoration:none;font-weight:500;}
-nav ul li a:hover{color:#00f0ff;}
 
-/* ================= HERO ================= */
+nav h2{
+color:#00e0ff;
+}
+
+nav ul{
+display:flex;
+gap:30px;
+list-style:none;
+}
+
+nav ul li a{
+color:white;
+text-decoration:none;
+font-weight:500;
+transition:0.3s;
+}
+
+nav ul li a:hover{
+color:#00e0ff;
+}
+
+/* Hero Section */
 .hero{
 height:100vh;
 display:flex;
 flex-direction:column;
 justify-content:center;
+align-items:center;
+text-align:center;
+padding:0 20px;
 }
-.hero h1{
-font-size:65px;
-max-width:900px;
-color:#00f0ff;
-}
-.hero p{max-width:700px;margin-top:20px;font-size:18px;}
 
-/* ================= GLASS CARD ================= */
+.hero h1{
+font-size:55px;
+font-weight:700;
+background:linear-gradient(to right,#00f5ff,#00ff87);
+-webkit-background-clip:text;
+color:transparent;
+}
+
+.hero p{
+margin-top:20px;
+max-width:700px;
+line-height:1.6;
+color:#ddd;
+}
+
+.btn{
+margin-top:30px;
+padding:14px 35px;
+background:#00e0ff;
+color:black;
+border:none;
+border-radius:30px;
+cursor:pointer;
+font-weight:600;
+transition:0.3s;
+}
+
+.btn:hover{
+background:white;
+}
+
+/* Sections */
+section{
+padding:100px 80px;
+}
+
+.section-title{
+text-align:center;
+margin-bottom:60px;
+font-size:40px;
+color:#00f5ff;
+}
+
+/* Cards */
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:30px;
+}
+
 .card{
 background:rgba(255,255,255,0.05);
-backdrop-filter:blur(15px);
 padding:30px;
-border-radius:15px;
-transition:0.4s;
+border-radius:20px;
+backdrop-filter:blur(10px);
+transition:0.3s;
 }
+
 .card:hover{
 transform:translateY(-10px);
-background:rgba(0,240,255,0.08);
+background:rgba(0,224,255,0.1);
 }
 
-/* ================= GRID ================= */
-.grid{display:grid;gap:30px;}
-
-/* ================= PARALLAX IMAGE SECTION ================= */
-.parallax{
-background:url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1600&q=80') center/cover fixed;
-height:400px;
-display:flex;
-align-items:center;
-justify-content:center;
-text-align:center;
-}
-.parallax h2{
-background:rgba(0,0,0,0.6);
-padding:20px 40px;
-border-radius:10px;
-}
-
-/* ================= FOOTER ================= */
+/* Footer */
 footer{
-background:#0a0f1a;
-padding:60px 8%;
-}
-.footer-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-gap:40px;
-}
-footer h4{color:#00f0ff;margin-bottom:15px;}
-footer ul{list-style:none;}
-footer ul li{margin-bottom:8px;color:#94a3b8;}
-.bottom{
-margin-top:40px;
+background:#000;
 text-align:center;
-color:#64748b;
-font-size:14px;
+padding:30px;
+color:#aaa;
 }
-
-/* ================= AI CANVAS BACKGROUND ================= */
-canvas{
-position:fixed;
-top:0;
-left:0;
-z-index:1;
-}
-
-/* ================= RESPONSIVE ================= */
-@media(max-width:900px){
-.hero h1{font-size:40px;}
-}
-
 </style>
 </head>
+
 <body>
 
-<canvas id="ai-bg"></canvas>
-
 <nav>
-<h1>Tech1World</h1>
+<h2>Tech1World</h2>
 <ul>
 <li><a href="#about">About</a></li>
-<li><a href="#services">Capabilities</a></li>
+<li><a href="#services">Services</a></li>
+<li><a href="#technology">Technology</a></li>
+<li><a href="#careers">Careers</a></li>
 <li><a href="#contact">Contact</a></li>
 </ul>
 </nav>
 
-<section class="hero">
-<h1>AI-Powered Enterprise Transformation</h1>
-<p>
-We engineer scalable digital ecosystems through artificial intelligence, secure cloud infrastructure, and next-generation enterprise software solutions.
-</p>
-<a href="#contact" class="btn">Consult With Experts</a>
-</section>
+<div class="hero">
+<h1>Transforming Businesses with AI & Cloud</h1>
+<p>Tech1World Global Solutions is a next-generation IT outsourcing and digital transformation company delivering scalable cloud, AI, and enterprise solutions to clients worldwide.</p>
+<button class="btn">Explore Services</button>
+</div>
 
 <section id="about">
-<h2>About Tech1World</h2>
-<p>
-Tech1World is a digital engineering and AI-driven consulting firm delivering secure, scalable, and performance-oriented technology ecosystems for enterprises and institutions.
+<h2 class="section-title">About Us</h2>
+<p style="text-align:center;max-width:900px;margin:auto;line-height:1.8;">
+Founded with a vision to redefine digital excellence, Tech1World operates across multiple global markets providing AI-powered applications, enterprise cloud solutions, cybersecurity frameworks, and data engineering platforms. Our team consists of certified architects, DevOps engineers, and AI specialists delivering enterprise-grade results.
 </p>
 </section>
 
-<div class="parallax">
-<h2>Engineering Intelligent Digital Futures</h2>
-</div>
-
 <section id="services">
-<h2>Core Capabilities</h2>
-<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr));">
+<h2 class="section-title">Our Services</h2>
+<div class="cards">
 <div class="card">
 <h3>AI & Machine Learning</h3>
-<p>Predictive analytics, neural networks, automation systems, enterprise AI deployment.</p>
+<p>Predictive analytics, NLP, Computer Vision, and custom AI model development.</p>
 </div>
 <div class="card">
-<h3>Cloud & DevOps</h3>
-<p>Cloud-native architecture, infrastructure automation, continuous integration pipelines.</p>
+<h3>Cloud Engineering</h3>
+<p>AWS, Azure & GCP architecture, migration, and scalable infrastructure deployment.</p>
 </div>
 <div class="card">
-<h3>Cybersecurity Engineering</h3>
-<p>Zero-trust frameworks, compliance strategy, risk intelligence systems.</p>
+<h3>Enterprise Software</h3>
+<p>Custom ERP, CRM, SaaS products with secure microservices architecture.</p>
 </div>
 <div class="card">
-<h3>Enterprise Applications</h3>
-<p>Scalable SaaS platforms, ERP modernization, high-availability systems.</p>
+<h3>Cybersecurity</h3>
+<p>Threat detection, penetration testing, and enterprise security audits.</p>
 </div>
 </div>
+</section>
+
+<section id="technology">
+<h2 class="section-title">Technology Stack</h2>
+<div class="cards">
+<div class="card">Java | Spring Boot</div>
+<div class="card">React | Angular</div>
+<div class="card">Node.js | Python</div>
+<div class="card">Docker | Kubernetes</div>
+<div class="card">MySQL | MongoDB</div>
+<div class="card">AWS | Azure</div>
+</div>
+</section>
+
+<section id="careers">
+<h2 class="section-title">Careers</h2>
+<p style="text-align:center;max-width:800px;margin:auto;">
+We are constantly looking for talented engineers, AI researchers, DevOps specialists, and product designers to join our global team. Build innovative technology that impacts millions.
+</p>
 </section>
 
 <section id="contact">
-<h2>Contact Us</h2>
-<p><strong>Address:</strong> JDA Colony Phase 2, Plot No. 37, Pandoka Colony, Jammu</p>
-<p><strong>Mobile:</strong> +91 9419281505</p>
-<p><strong>Email:</strong> info@tech1world.com</p>
+<h2 class="section-title">Contact Us</h2>
+<p style="text-align:center;">Email: contact@tech1world.com</p>
+<p style="text-align:center;">Phone: +91-9876543210</p>
+<p style="text-align:center;">Head Office: India | Global Delivery Centers</p>
 </section>
 
 <footer>
-<div class="footer-grid">
-<div>
-<h4>Company</h4>
-<ul>
-<li>About</li>
-<li>Careers</li>
-<li>Leadership</li>
-</ul>
-</div>
-<div>
-<h4>Services</h4>
-<ul>
-<li>AI Solutions</li>
-<li>Cloud</li>
-<li>Cybersecurity</li>
-</ul>
-</div>
-<div>
-<h4>Contact</h4>
-<ul>
-<li>Jammu, India</li>
-<li>+91 9419281505</li>
-<li>info@tech1world.com</li>
-</ul>
-</div>
-</div>
-<div class="bottom">© 2026 Tech1World | AI-Driven Digital Engineering</div>
+© 2026 Tech1World Global Solutions. All Rights Reserved.
 </footer>
-
-<script>
-
-/* ===== AI NETWORK BACKGROUND ===== */
-const canvas=document.getElementById("ai-bg");
-const ctx=canvas.getContext("2d");
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
-
-let particles=[];
-for(let i=0;i<100;i++){
-particles.push({
-x:Math.random()*canvas.width,
-y:Math.random()*canvas.height,
-vx:(Math.random()-0.5)*1.5,
-vy:(Math.random()-0.5)*1.5
-});
-}
-
-function animate(){
-ctx.clearRect(0,0,canvas.width,canvas.height);
-particles.forEach(p=>{
-p.x+=p.vx;
-p.y+=p.vy;
-if(p.x<0||p.x>canvas.width)p.vx*=-1;
-if(p.y<0||p.y>canvas.height)p.vy*=-1;
-ctx.fillStyle="#00f0ff";
-ctx.fillRect(p.x,p.y,2,2);
-
-particles.forEach(p2=>{
-let dist=Math.hypot(p.x-p2.x,p.y-p2.y);
-if(dist<120){
-ctx.strokeStyle="rgba(0,240,255,0.08)";
-ctx.beginPath();
-ctx.moveTo(p.x,p.y);
-ctx.lineTo(p2.x,p2.y);
-ctx.stroke();
-}
-});
-});
-requestAnimationFrame(animate);
-}
-animate();
-
-</script>
 
 </body>
 </html>
