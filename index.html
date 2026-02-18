@@ -3,26 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tech1World | AI Enterprise</title>
+<title>Tech1World | AI Systems Company</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Poppins;}
-body{background:#0b0f1a;color:white;transition:.4s;overflow-x:hidden;}
-body.light{background:#fff;color:#111;}
-a{text-decoration:none;color:inherit;cursor:pointer;}
+body{background:#050816;color:white;overflow-x:hidden;}
+section{padding:120px 8%;position:relative;}
+h1,h2,h3{font-weight:700;}
+p{opacity:.85;line-height:1.6;}
+a{text-decoration:none;color:inherit;}
 
-video.bg{
+canvas{
 position:fixed;
-right:0;
-bottom:0;
-min-width:100%;
-min-height:100%;
-object-fit:cover;
+top:0;left:0;
 z-index:-1;
-filter:brightness(35%);
 }
 
+/* NAVBAR */
 nav{
 position:fixed;
 top:0;
@@ -31,34 +29,12 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 padding:20px 8%;
-background:rgba(0,0,0,.6);
+background:rgba(0,0,0,.5);
 backdrop-filter:blur(15px);
 z-index:1000;
 }
-
-nav ul{
-display:flex;
-gap:25px;
-list-style:none;
-}
-
-nav li:hover{color:#00f2ff;}
-
-.toggle{
-padding:8px 15px;
-border-radius:20px;
-background:linear-gradient(90deg,#00f2ff,#ff00c8);
-cursor:pointer;
-}
-
-.page{
-display:none;
-padding:120px 10%;
-min-height:100vh;
-text-align:center;
-}
-
-.active{display:block;}
+nav ul{display:flex;gap:30px;list-style:none;}
+nav li:hover{color:#00f2ff;cursor:pointer;}
 
 .hero{
 height:100vh;
@@ -68,138 +44,247 @@ justify-content:center;
 align-items:center;
 text-align:center;
 }
-
 .hero h1{
-font-size:60px;
+font-size:70px;
 background:linear-gradient(90deg,#00f2ff,#ff00c8);
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
 }
-
+.hero p{max-width:700px;margin-top:20px;font-size:20px;}
 .btn{
-margin-top:25px;
+margin-top:30px;
 padding:15px 40px;
 border:none;
 border-radius:40px;
 background:linear-gradient(90deg,#00f2ff,#ff00c8);
 color:white;
+font-weight:600;
 cursor:pointer;
 }
 
-.cards{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:40px;
+/* GLASS SECTION */
+.glass{
+background:rgba(255,255,255,.05);
+backdrop-filter:blur(15px);
+border-radius:20px;
+padding:60px;
 margin-top:60px;
 }
 
-.card{
-background:rgba(255,255,255,0.05);
-padding:40px;
-border-radius:20px;
-transition:.5s;
-opacity:0;
-transform:translateY(50px);
+/* GRID */
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:40px;
+margin-top:40px;
 }
 
-footer{
+.card{
+background:rgba(255,255,255,.05);
 padding:40px;
+border-radius:20px;
+transition:.4s;
+}
+.card:hover{
+transform:translateY(-10px);
+background:rgba(255,255,255,.1);
+}
+
+/* STATS */
+.stats{
+display:flex;
+justify-content:space-around;
+flex-wrap:wrap;
+margin-top:60px;
+}
+.stat{
+font-size:40px;
+font-weight:700;
+}
+
+/* FOOTER */
+footer{
+padding:60px 8%;
 background:#000;
 text-align:center;
+}
+
+@media(max-width:768px){
+.hero h1{font-size:40px;}
 }
 </style>
 </head>
 <body>
 
-<video autoplay muted loop class="bg">
-<source src="ai-background.mp4" type="video/mp4">
-</video>
+<canvas id="particles"></canvas>
 
 <nav>
-<h2 onclick="showPage('home')">Tech1World</h2>
+<h2>Tech1World</h2>
 <ul>
-<li onclick="showPage('home')">Home</li>
-<li onclick="showPage('services')">Services</li>
-<li onclick="showPage('team')">Team</li>
-<li onclick="showPage('blog')">Blog</li>
-<li onclick="showPage('contact')">Contact</li>
+<li><a href="#about">About</a></li>
+<li><a href="#services">Services</a></li>
+<li><a href="#team">Team</a></li>
+<li><a href="#contact">Contact</a></li>
 </ul>
-<div class="toggle" onclick="toggleMode()">Mode</div>
 </nav>
 
-<!-- HOME -->
-<div id="home" class="page active">
-<div class="hero">
-<h1>Building Intelligent AI Ecosystems</h1>
-<p>Enterprise AI automation and scalable digital platforms.</p>
-<button class="btn" onclick="showPage('services')">Explore Solutions</button>
+<!-- HERO -->
+<section class="hero">
+<h1 id="typing"></h1>
+<p>We architect intelligent AI ecosystems, scalable SaaS platforms, and enterprise-grade automation infrastructure.</p>
+<button class="btn">Start Your Transformation</button>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+<div class="glass">
+<h2>Who We Are</h2>
+<p>
+Tech1World is an AI-focused innovation company delivering enterprise automation,
+predictive intelligence systems, and digital transformation platforms across industries.
+</p>
+
+<div class="stats">
+<div><div class="stat" data-target="120">0</div>Clients</div>
+<div><div class="stat" data-target="25">0</div>Countries</div>
+<div><div class="stat" data-target="300">0</div>Deployments</div>
 </div>
+
 </div>
+</section>
 
 <!-- SERVICES -->
-<div id="services" class="page">
-<h1>Our Services</h1>
-<div class="cards">
-<div class="card"><h3>AI Development</h3><p>Machine learning & automation systems.</p></div>
-<div class="card"><h3>Cloud Engineering</h3><p>Scalable enterprise infrastructure.</p></div>
-<div class="card"><h3>SaaS Platforms</h3><p>High-performance digital ecosystems.</p></div>
+<section id="services">
+<h2>Our Expertise</h2>
+<div class="grid">
+<div class="card">
+<h3>AI Engineering</h3>
+<p>Custom ML systems, automation pipelines, and enterprise intelligence models.</p>
+</div>
+<div class="card">
+<h3>Cloud Architecture</h3>
+<p>Scalable multi-cloud infrastructure and DevOps automation.</p>
+</div>
+<div class="card">
+<h3>Digital Platforms</h3>
+<p>High-performance SaaS systems designed for global scalability.</p>
+</div>
+<div class="card">
+<h3>Data Analytics</h3>
+<p>Advanced predictive analytics and real-time business insights.</p>
 </div>
 </div>
+</section>
 
 <!-- TEAM -->
-<div id="team" class="page">
-<h1>Leadership Team</h1>
-<div class="cards">
-<div class="card"><h3>Deepanshu Sharma</h3><p>Founder & CEO</p></div>
-<div class="card"><h3>CTO</h3><p>Cloud & AI Architecture</p></div>
-<div class="card"><h3>Product Head</h3><p>Enterprise SaaS Scaling</p></div>
+<section id="team">
+<h2>Leadership</h2>
+<div class="grid">
+<div class="card">
+<h3>Deepanshu Sharma</h3>
+<p>Founder & CEO — AI Strategy and Enterprise Systems.</p>
+</div>
+<div class="card">
+<h3>Chief Technology Officer</h3>
+<p>Cloud & Distributed Systems Architecture.</p>
+</div>
+<div class="card">
+<h3>Head of Product</h3>
+<p>Platform Scaling & Enterprise SaaS Innovation.</p>
 </div>
 </div>
-
-<!-- BLOG -->
-<div id="blog" class="page">
-<h1>Latest Insights</h1>
-<div class="cards">
-<div class="card"><h3>Future of AI</h3><p>Enterprise automation by 2030.</p></div>
-<div class="card"><h3>AI + Cloud</h3><p>Scaling intelligent systems globally.</p></div>
-</div>
-</div>
+</section>
 
 <!-- CONTACT -->
-<div id="contact" class="page">
-<h1>Contact Us</h1>
-<form style="max-width:500px;margin:auto;display:flex;flex-direction:column;gap:20px;">
-<input type="text" placeholder="Your Name" style="padding:15px;border-radius:10px;border:none;">
-<input type="email" placeholder="Your Email" style="padding:15px;border-radius:10px;border:none;">
-<textarea rows="5" placeholder="Your Message" style="padding:15px;border-radius:10px;border:none;"></textarea>
+<section id="contact">
+<div class="glass">
+<h2>Contact Us</h2>
+<p>Partner with us to build the next generation of AI-driven infrastructure.</p>
+<form style="max-width:500px;margin-top:40px;">
+<input type="text" placeholder="Your Name" style="width:100%;padding:15px;margin-bottom:15px;border-radius:10px;border:none;">
+<input type="email" placeholder="Your Email" style="width:100%;padding:15px;margin-bottom:15px;border-radius:10px;border:none;">
+<textarea rows="5" placeholder="Your Message" style="width:100%;padding:15px;border-radius:10px;border:none;"></textarea>
 <button class="btn">Send Message</button>
 </form>
 </div>
+</section>
 
 <footer>
-© 2026 Tech1World | AI Enterprise
+© 2026 Tech1World | AI Infrastructure Company
 </footer>
 
 <script>
-function showPage(page){
-document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-document.getElementById(page).classList.add("active");
-window.scrollTo(0,0);
-animateCards();
-}
 
-function toggleMode(){
-document.body.classList.toggle("light");
+/* Typing Effect */
+const text="Engineering Billion-Dollar AI Systems";
+let i=0;
+function type(){
+if(i<text.length){
+document.getElementById("typing").innerHTML+=text.charAt(i);
+i++;
+setTimeout(type,60);
 }
+}
+type();
 
-function animateCards(){
-document.querySelectorAll(".card").forEach(card=>{
-card.style.opacity=1;
-card.style.transform="translateY(0)";
+/* Counter Animation */
+const counters=document.querySelectorAll(".stat");
+const speed=200;
+
+window.addEventListener("scroll",()=>{
+counters.forEach(counter=>{
+const update=()=>{
+const target=+counter.getAttribute("data-target");
+const count=+counter.innerText;
+const inc=target/speed;
+if(count<target){
+counter.innerText=Math.ceil(count+inc);
+setTimeout(update,20);
+}else{
+counter.innerText=target;
+}
+};
+update();
+});
+});
+
+/* AI Particle Background */
+const canvas=document.getElementById("particles");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let particles=[];
+for(let i=0;i<120;i++){
+particles.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+size:Math.random()*2,
+speedX:(Math.random()-.5),
+speedY:(Math.random()-.5)
 });
 }
 
-animateCards();
+function animate(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+particles.forEach(p=>{
+p.x+=p.speedX;
+p.y+=p.speedY;
+if(p.x<0||p.x>canvas.width)p.speedX*=-1;
+if(p.y<0||p.y>canvas.height)p.speedY*=-1;
+ctx.fillStyle="rgba(0,242,255,0.6)";
+ctx.beginPath();
+ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+ctx.fill();
+});
+requestAnimationFrame(animate);
+}
+animate();
+
+window.addEventListener("resize",()=>{
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+});
 </script>
 
 </body>
