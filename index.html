@@ -3,32 +3,67 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tech1World Global | AI & Cloud Enterprise</title>
+<title>Tech1World Global Enterprise</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<script src="https://unpkg.com/scrollreveal"></script>
 
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
-scroll-behavior:smooth;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;scroll-behavior:smooth;}
 
 body{
-background:#0a0f1c;
+background:#0b0f1a;
 color:white;
 overflow-x:hidden;
+transition:0.4s;
 }
 
-/* AI Particle Background */
+body.light{
+background:#f4f7fa;
+color:#111;
+}
+
 #particles-js{
 position:fixed;
 width:100%;
 height:100%;
-z-index:-1;
+z-index:-2;
 }
+
+video{
+position:fixed;
+right:0;
+bottom:0;
+min-width:100%;
+min-height:100%;
+object-fit:cover;
+z-index:-3;
+opacity:0.15;
+}
+
+/* Preloader */
+#preloader{
+position:fixed;
+width:100%;
+height:100%;
+background:#000;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:2000;
+}
+
+.loader{
+border:6px solid #222;
+border-top:6px solid #00f5ff;
+border-radius:50%;
+width:60px;
+height:60px;
+animation:spin 1s linear infinite;
+}
+
+@keyframes spin{100%{transform:rotate(360deg);}}
 
 /* Navbar */
 nav{
@@ -38,14 +73,12 @@ padding:20px 80px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-background:rgba(0,0,0,0.5);
+background:rgba(0,0,0,0.6);
 backdrop-filter:blur(15px);
 z-index:1000;
 }
 
-nav h2{
-color:#00f5ff;
-}
+nav h2{color:#00f5ff;}
 
 nav ul{
 display:flex;
@@ -59,8 +92,15 @@ text-decoration:none;
 transition:0.3s;
 }
 
-nav ul li a:hover{
-color:#00f5ff;
+nav ul li a:hover{color:#00f5ff;}
+
+.toggle{
+cursor:pointer;
+padding:8px 15px;
+background:#00f5ff;
+border-radius:20px;
+color:black;
+font-weight:600;
 }
 
 /* Hero */
@@ -75,7 +115,7 @@ padding:0 20px;
 }
 
 .hero h1{
-font-size:60px;
+font-size:65px;
 background:linear-gradient(to right,#00f5ff,#00ff87);
 -webkit-background-clip:text;
 color:transparent;
@@ -84,8 +124,8 @@ color:transparent;
 .hero p{
 max-width:750px;
 margin-top:20px;
-line-height:1.6;
 color:#ccc;
+line-height:1.6;
 }
 
 .btn{
@@ -105,9 +145,7 @@ color:black;
 }
 
 /* Sections */
-section{
-padding:120px 80px;
-}
+section{padding:120px 80px;}
 
 .section-title{
 text-align:center;
@@ -132,8 +170,7 @@ transition:0.4s;
 }
 
 .card:hover{
-transform:translateY(-12px) scale(1.02);
-background:rgba(0,245,255,0.08);
+transform:translateY(-15px) scale(1.03);
 }
 
 /* Stats */
@@ -149,33 +186,6 @@ font-size:50px;
 color:#00ff87;
 }
 
-.stat p{
-color:#aaa;
-}
-
-/* Client Slider */
-.slider{
-overflow:hidden;
-white-space:nowrap;
-margin-top:50px;
-}
-
-.slider-track{
-display:inline-block;
-animation:scroll 20s linear infinite;
-}
-
-.slider-track img{
-height:60px;
-margin:0 40px;
-opacity:0.8;
-}
-
-@keyframes scroll{
-from{transform:translateX(0);}
-to{transform:translateX(-50%);}
-}
-
 /* Footer */
 footer{
 background:#000;
@@ -188,81 +198,73 @@ color:#888;
 
 <body>
 
+<div id="preloader"><div class="loader"></div></div>
 <div id="particles-js"></div>
+
+<video autoplay muted loop>
+<source src="https://cdn.coverr.co/videos/coverr-cloud-network-1583/1080p.mp4" type="video/mp4">
+</video>
 
 <nav>
 <h2>Tech1World</h2>
 <ul>
 <li><a href="#services">Services</a></li>
-<li><a href="#stats">Impact</a></li>
-<li><a href="#clients">Clients</a></li>
+<li><a href="#impact">Impact</a></li>
 <li><a href="#contact">Contact</a></li>
 </ul>
+<div class="toggle" onclick="toggleMode()">Mode</div>
 </nav>
 
 <div class="hero">
-<h1>Engineering The Future With AI</h1>
-<p>Tech1World Global is a next-generation IT consulting and outsourcing enterprise delivering AI-driven transformation, cloud modernization, and enterprise-scale digital engineering worldwide.</p>
-<button class="btn">Explore Enterprise Solutions</button>
+<h1>Building Intelligent Digital Enterprises</h1>
+<p>Tech1World Global is a multinational IT consulting and AI engineering company delivering cloud-native platforms, enterprise cybersecurity, and digital innovation solutions across global markets.</p>
+<button class="btn">Discover Solutions</button>
 </div>
 
 <section id="services">
-<h2 class="section-title">Enterprise Services</h2>
+<h2 class="section-title">Strategic Capabilities</h2>
 <div class="cards">
 <div class="card">
-<h3>AI & Data Engineering</h3>
-<p>Advanced analytics, generative AI systems, and enterprise ML deployment pipelines.</p>
+<h3>AI Transformation</h3>
+<p>Enterprise AI adoption, generative AI systems, and predictive analytics pipelines.</p>
 </div>
 <div class="card">
-<h3>Cloud & DevOps</h3>
-<p>Cloud-native architecture, CI/CD automation, Kubernetes orchestration.</p>
+<h3>Cloud Modernization</h3>
+<p>Cloud-native architecture, Kubernetes orchestration, DevSecOps automation.</p>
 </div>
 <div class="card">
-<h3>Digital Product Engineering</h3>
-<p>Scalable SaaS platforms, enterprise microservices & system integration.</p>
+<h3>Digital Engineering</h3>
+<p>Enterprise SaaS platforms, microservices, system integrations.</p>
 </div>
 <div class="card">
-<h3>Cybersecurity & Compliance</h3>
-<p>Zero-trust frameworks, risk audits, and enterprise data protection.</p>
+<h3>Cyber Resilience</h3>
+<p>Zero-trust frameworks and enterprise risk mitigation strategies.</p>
 </div>
 </div>
 </section>
 
-<section id="stats">
-<h2 class="section-title">Our Global Impact</h2>
+<section id="impact">
+<h2 class="section-title">Global Impact</h2>
 <div class="stats">
 <div class="stat">
-<h2 id="clientsCount">0</h2>
+<h2 id="clients">0</h2>
 <p>Global Clients</p>
 </div>
 <div class="stat">
-<h2 id="projectsCount">0</h2>
+<h2 id="projects">0</h2>
 <p>Projects Delivered</p>
 </div>
 <div class="stat">
-<h2 id="countriesCount">0</h2>
+<h2 id="countries">0</h2>
 <p>Countries Served</p>
 </div>
 </div>
 </section>
 
-<section id="clients">
-<h2 class="section-title">Trusted By Industry Leaders</h2>
-<div class="slider">
-<div class="slider-track">
-<img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg">
-<img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg">
-<img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg">
-<img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg">
-<img src="https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg">
-</div>
-</div>
-</section>
-
 <section id="contact">
-<h2 class="section-title">Contact Us</h2>
+<h2 class="section-title">Contact</h2>
 <p style="text-align:center;">Email: contact@tech1world.com</p>
-<p style="text-align:center;">India Headquarters | Global Delivery Centers</p>
+<p style="text-align:center;">India HQ | USA | Europe | APAC</p>
 </section>
 
 <footer>
@@ -270,35 +272,38 @@ color:#888;
 </footer>
 
 <script>
-/* Particle Background */
+window.onload=function(){document.getElementById("preloader").style.display="none";}
+
 particlesJS("particles-js",{
-"particles":{"number":{"value":80},
+"particles":{"number":{"value":90},
 "color":{"value":"#00f5ff"},
 "shape":{"type":"circle"},
-"opacity":{"value":0.5},
+"opacity":{"value":0.4},
 "size":{"value":3},
-"line_linked":{"enable":true,"distance":150,"color":"#00f5ff","opacity":0.4,"width":1},
-"move":{"enable":true,"speed":3}},
+"line_linked":{"enable":true,"distance":150,"color":"#00f5ff","opacity":0.3,"width":1},
+"move":{"enable":true,"speed":2}},
 "interactivity":{"events":{"onhover":{"enable":true,"mode":"repulse"}}}
 });
 
-/* Animated Counters */
-function animateValue(id, start, end, duration) {
-let obj = document.getElementById(id);
-let range = end - start;
-let current = start;
-let increment = end > start?1:-1;
-let stepTime = Math.abs(Math.floor(duration / range));
-let timer = setInterval(function() {
-current += increment;
-obj.textContent = current + "+";
-if (current == end) clearInterval(timer);
-}, stepTime);
+function animate(id,end){
+let obj=document.getElementById(id);
+let count=0;
+let interval=setInterval(()=>{
+count++;
+obj.textContent=count+"+";
+if(count>=end)clearInterval(interval);
+},20);
 }
 
-animateValue("clientsCount",0,120,2000);
-animateValue("projectsCount",0,350,2000);
-animateValue("countriesCount",0,18,2000);
+animate("clients",150);
+animate("projects",500);
+animate("countries",25);
+
+function toggleMode(){
+document.body.classList.toggle("light");
+}
+
+ScrollReveal().reveal('.card',{delay:200,distance:'50px',origin:'bottom'});
 </script>
 
 </body>
