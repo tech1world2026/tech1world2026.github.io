@@ -1,269 +1,269 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tech1World | Enterprise IT Solutions</title>
-
-<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<title>Tech1World | IT Solutions & Software Services</title>
 
 <style>
-body{
+
+/* ====== GLOBAL STYLING ====== */
+*{
 margin:0;
-font-family:Arial;
-background:#0f172a;
-color:white;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, Helvetica, sans-serif;
 scroll-behavior:smooth;
 }
 
-nav{
+body{
+background:#0f172a;
+color:white;
+overflow-x:hidden;
+}
+
+/* ====== ANIMATED BACKGROUND ====== */
+body::before{
+content:"";
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:linear-gradient(45deg,#0f172a,#0b1120,#020617,#1e293b);
+background-size:400% 400%;
+animation:gradientMove 10s ease infinite;
+z-index:-2;
+}
+
+@keyframes gradientMove{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+/* floating tech dots */
+.tech-bg{
 position:fixed;
 width:100%;
-top:0;
+height:100%;
+z-index:-1;
+}
+
+.tech-bg span{
+position:absolute;
+display:block;
+width:6px;
+height:6px;
+background:#00f7ff;
+border-radius:50%;
+animation:float 15s linear infinite;
+}
+
+@keyframes float{
+0%{transform:translateY(100vh);}
+100%{transform:translateY(-10vh);}
+}
+
+/* ====== NAVBAR ====== */
+nav{
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:15px 8%;
-background:rgba(0,0,0,0.8);
+padding:20px 10%;
+background:rgba(0,0,0,0.6);
+position:fixed;
+width:100%;
 z-index:1000;
 }
 
-nav a{
+nav h1{
+color:#00f7ff;
+}
+
+nav ul{
+display:flex;
+gap:30px;
+list-style:none;
+}
+
+nav ul li a{
 color:white;
 text-decoration:none;
-margin-left:25px;
+transition:0.3s;
 }
 
-nav a:hover{
-color:#00d4ff;
+nav ul li a:hover{
+color:#00f7ff;
 }
 
-.logo{
-font-weight:bold;
-font-size:22px;
-color:#00d4ff;
-}
-
-section{
-padding:100px 10%;
-text-align:center;
-}
-
-#particles-js{
-position:relative;
+/* ====== HERO SECTION ====== */
+.hero{
 height:100vh;
 display:flex;
+flex-direction:column;
 justify-content:center;
 align-items:center;
 text-align:center;
+padding:20px;
 }
 
-.hero-content{
-position:relative;
-z-index:1;
+.hero h2{
+font-size:45px;
+color:#00f7ff;
+margin-bottom:20px;
 }
 
-h1{
-font-size:55px;
+.hero p{
+max-width:700px;
+font-size:18px;
+margin-bottom:30px;
 }
 
-button{
+.btn{
 padding:12px 30px;
-border:none;
-background:#00d4ff;
+background:#00f7ff;
 color:black;
-font-weight:bold;
+text-decoration:none;
 border-radius:30px;
-cursor:pointer;
+font-weight:bold;
+transition:0.3s;
 }
 
-.grid{
-display:flex;
-flex-wrap:wrap;
-justify-content:center;
+.btn:hover{
+background:white;
+}
+
+/* ====== SECTION ====== */
+section{
+padding:100px 10%;
+}
+
+section h2{
+text-align:center;
+margin-bottom:40px;
+color:#00f7ff;
+}
+
+/* ====== SERVICES ====== */
+.services{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
 gap:30px;
 }
 
 .card{
-background:#1e293b;
+background:rgba(255,255,255,0.05);
 padding:30px;
-width:260px;
-border-radius:15px;
-transition:0.3s;
+border-radius:10px;
+transition:0.4s;
 }
 
 .card:hover{
 transform:translateY(-10px);
-background:#00d4ff;
-color:black;
+background:rgba(0,247,255,0.1);
 }
 
-.clients img{
-width:120px;
-margin:20px;
-filter:grayscale(100%);
-opacity:0.7;
-}
-
-.clients img:hover{
-filter:none;
-opacity:1;
-}
-
-.footer{
-background:#020617;
-padding:50px 10%;
-display:flex;
-flex-wrap:wrap;
-justify-content:space-between;
-}
-
-.footer div{
-margin:20px;
-}
-
-.footer a{
-display:block;
-color:#94a3b8;
-text-decoration:none;
+/* ====== CONTACT ====== */
+.contact p{
 margin-bottom:10px;
 }
 
-.footer a:hover{
-color:#00d4ff;
+/* ====== FOOTER ====== */
+footer{
+background:#020617;
+padding:30px;
+text-align:center;
 }
 
-iframe{
-width:100%;
-height:300px;
-border:none;
-margin-top:20px;
+footer p{
+margin:5px 0;
+font-size:14px;
 }
+
 </style>
 </head>
 
 <body>
 
-<!-- NAVBAR -->
-<nav>
-<div class="logo">Tech1World</div>
-<div>
-<a href="#">Home</a>
-<a href="#services">Services</a>
-<a href="#clients">Clients</a>
-<a href="#careers">Careers</a>
-<a href="#contact">Contact</a>
+<!-- Floating Tech Dots -->
+<div class="tech-bg">
+<span style="left:10%;animation-delay:0s;"></span>
+<span style="left:30%;animation-delay:3s;"></span>
+<span style="left:50%;animation-delay:6s;"></span>
+<span style="left:70%;animation-delay:2s;"></span>
+<span style="left:90%;animation-delay:4s;"></span>
 </div>
+
+<!-- NAVIGATION -->
+<nav>
+<h1>Tech1World</h1>
+<ul>
+<li><a href="#home">Home</a></li>
+<li><a href="#about">About</a></li>
+<li><a href="#services">Services</a></li>
+<li><a href="#career">Career</a></li>
+<li><a href="#contact">Contact</a></li>
+</ul>
 </nav>
 
 <!-- HERO -->
-<div id="particles-js">
-<div class="hero-content">
-<h1>Engineering The Future of Enterprise Technology</h1>
-<p>Cloud | AI | Cybersecurity | Digital Transformation</p>
-<button onclick="document.getElementById('services').scrollIntoView()">Explore</button>
-</div>
-</div>
+<section class="hero" id="home">
+<h2>Innovative IT Solutions For Your Business</h2>
+<p>We deliver world-class software development, IT consulting, and digital transformation services to help businesses grow in the modern tech world.</p>
+<a href="#contact" class="btn">Get In Touch</a>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+<h2>About Us</h2>
+<p>Tech1World is a professional IT services company providing high-quality software solutions, web development, mobile apps, and IT outsourcing services. We aim to deliver scalable and secure technology solutions like global MNC standards.</p>
+</section>
 
 <!-- SERVICES -->
 <section id="services">
-<h2>Our Enterprise Services</h2>
-<div class="grid">
-<div class="card"><h3>Cloud Engineering</h3><p>Secure enterprise cloud architecture.</p></div>
-<div class="card"><h3>Artificial Intelligence</h3><p>Data-driven automation systems.</p></div>
-<div class="card"><h3>Cybersecurity</h3><p>Advanced digital protection services.</p></div>
-<div class="card"><h3>IT Consulting</h3><p>Strategic digital transformation.</p></div>
+<h2>Our Services</h2>
+<div class="services">
+<div class="card">
+<h3>Software Development</h3>
+<p>Custom enterprise-grade software solutions tailored to your business.</p>
+</div>
+<div class="card">
+<h3>Web Development</h3>
+<p>Modern, responsive, and high-performance websites.</p>
+</div>
+<div class="card">
+<h3>Mobile App Development</h3>
+<p>Android & iOS application development with latest technologies.</p>
+</div>
+<div class="card">
+<h3>IT Consulting</h3>
+<p>Strategic IT planning and digital transformation solutions.</p>
+</div>
 </div>
 </section>
 
-<!-- WHY CHOOSE US -->
-<section>
-<h2>Why Choose Tech1World?</h2>
-<p>✔ Enterprise-grade architecture<br>
-✔ Scalable digital systems<br>
-✔ Security-first approach<br>
-✔ Innovation-driven mindset</p>
-</section>
-
-<!-- CLIENTS -->
-<section id="clients">
-<h2>Trusted By Industry Leaders</h2>
-<div class="clients">
-<img src="https://cdn-icons-png.flaticon.com/512/5968/5968705.png">
-<img src="https://cdn-icons-png.flaticon.com/512/5968/5968702.png">
-<img src="https://cdn-icons-png.flaticon.com/512/5968/5968853.png">
-</div>
-</section>
-
-<!-- CASE STUDY -->
-<section>
-<h2>Case Study</h2>
-<p>Helped retail enterprise migrate to multi-cloud reducing operational costs by 40%.</p>
-</section>
-
-<!-- CAREERS -->
-<section id="careers">
+<!-- CAREER -->
+<section id="career">
 <h2>Careers</h2>
-<p>Join our team of technology innovators.</p>
-<button onclick="location.href='mailto:info@tech1world.com'">Apply Now</button>
+<p>Join our dynamic team of developers, designers, and innovators.</p>
+<p>Email your resume at: <strong>careers@tech1world.com</strong></p>
+<a href="#contact" class="btn">Apply Now</a>
 </section>
 
 <!-- CONTACT -->
-<section id="contact">
+<section id="contact" class="contact">
 <h2>Contact Us</h2>
-<p><b>Email:</b> info@tech1world.com</p>
-<p><b>Mobile:</b> +91 9419281505</p>
-<p><b>Address:</b><br>
-JDA Colony Phase 2, Plot No.37,<br>
-Pandoka Colony, Jammu, India</p>
-
-<iframe src="https://maps.google.com/maps?q=Jammu&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
+<p><strong>Address:</strong> JDA Colony Phase 2, Plot No. 37, Pandoka Colony, Jammu</p>
+<p><strong>Mobile:</strong> 9419281505</p>
+<p><strong>Email:</strong> info@tech1world.com</p>
 </section>
 
 <!-- FOOTER -->
-<div class="footer">
-<div>
-<h3>Company</h3>
-<a href="#">About</a>
-<a href="#careers">Careers</a>
-<a href="#">Leadership</a>
-<a href="#">Blog</a>
-</div>
-
-<div>
-<h3>Legal</h3>
-<a href="#">Privacy Policy</a>
-<a href="#">Terms & Conditions</a>
-</div>
-
-<div>
-<h3>Contact</h3>
-<p>info@tech1world.com</p>
-<p>+91 9419281505</p>
-</div>
-</div>
-
-<footer style="text-align:center;padding:20px;background:#01040a;">
-© 2026 Tech1World. All Rights Reserved.
+<footer>
+<p>© 2026 Tech1World. All Rights Reserved.</p>
+<p>Designed with Innovation & Technology</p>
 </footer>
-
-<script>
-particlesJS("particles-js", {
-particles: {
-number: { value: 90 },
-size: { value: 3 },
-color: { value: "#00d4ff" },
-line_linked: {
-enable: true,
-distance: 150,
-color: "#00d4ff",
-opacity: 0.4,
-width: 1
-},
-move: { enable: true, speed: 2 }
-}
-});
-</script>
 
 </body>
 </html>
