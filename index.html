@@ -3,82 +3,49 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tech1World | IT Solutions & Software Services</title>
+<title>Tech1World | Enterprise IT Solutions</title>
 
 <style>
 
-/* ====== GLOBAL STYLING ====== */
+/* ===== GLOBAL ===== */
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Arial, Helvetica, sans-serif;
+font-family:Segoe UI, sans-serif;
 scroll-behavior:smooth;
 }
 
 body{
-background:#0f172a;
+background:#0a0f1c;
 color:white;
 overflow-x:hidden;
 }
 
-/* ====== ANIMATED BACKGROUND ====== */
-body::before{
-content:"";
+/* ===== ANIMATED DIGITAL BACKGROUND ===== */
+canvas{
 position:fixed;
 top:0;
 left:0;
-width:100%;
-height:100%;
-background:linear-gradient(45deg,#0f172a,#0b1120,#020617,#1e293b);
-background-size:400% 400%;
-animation:gradientMove 10s ease infinite;
-z-index:-2;
-}
-
-@keyframes gradientMove{
-0%{background-position:0% 50%;}
-50%{background-position:100% 50%;}
-100%{background-position:0% 50%;}
-}
-
-/* floating tech dots */
-.tech-bg{
-position:fixed;
-width:100%;
-height:100%;
 z-index:-1;
 }
 
-.tech-bg span{
-position:absolute;
-display:block;
-width:6px;
-height:6px;
-background:#00f7ff;
-border-radius:50%;
-animation:float 15s linear infinite;
-}
-
-@keyframes float{
-0%{transform:translateY(100vh);}
-100%{transform:translateY(-10vh);}
-}
-
-/* ====== NAVBAR ====== */
+/* ===== NAVBAR ===== */
 nav{
 display:flex;
 justify-content:space-between;
 align-items:center;
 padding:20px 10%;
 background:rgba(0,0,0,0.6);
+backdrop-filter:blur(10px);
 position:fixed;
 width:100%;
 z-index:1000;
 }
 
 nav h1{
-color:#00f7ff;
+color:#00eaff;
+font-size:22px;
 }
 
 nav ul{
@@ -88,16 +55,16 @@ list-style:none;
 }
 
 nav ul li a{
-color:white;
 text-decoration:none;
+color:white;
 transition:0.3s;
 }
 
 nav ul li a:hover{
-color:#00f7ff;
+color:#00eaff;
 }
 
-/* ====== HERO SECTION ====== */
+/* ===== HERO ===== */
 .hero{
 height:100vh;
 display:flex;
@@ -109,23 +76,23 @@ padding:20px;
 }
 
 .hero h2{
-font-size:45px;
-color:#00f7ff;
+font-size:50px;
+color:#00eaff;
 margin-bottom:20px;
 }
 
 .hero p{
 max-width:700px;
-font-size:18px;
 margin-bottom:30px;
+font-size:18px;
 }
 
 .btn{
 padding:12px 30px;
-background:#00f7ff;
+background:#00eaff;
 color:black;
-text-decoration:none;
 border-radius:30px;
+text-decoration:none;
 font-weight:bold;
 transition:0.3s;
 }
@@ -134,7 +101,7 @@ transition:0.3s;
 background:white;
 }
 
-/* ====== SECTION ====== */
+/* ===== SECTIONS ===== */
 section{
 padding:100px 10%;
 }
@@ -142,10 +109,10 @@ padding:100px 10%;
 section h2{
 text-align:center;
 margin-bottom:40px;
-color:#00f7ff;
+color:#00eaff;
 }
 
-/* ====== SERVICES ====== */
+/* ===== SERVICES ===== */
 .services{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
@@ -154,53 +121,86 @@ gap:30px;
 
 .card{
 background:rgba(255,255,255,0.05);
+backdrop-filter:blur(15px);
 padding:30px;
-border-radius:10px;
+border-radius:15px;
 transition:0.4s;
 }
 
 .card:hover{
 transform:translateY(-10px);
-background:rgba(0,247,255,0.1);
+background:rgba(0,234,255,0.1);
 }
 
-/* ====== CONTACT ====== */
+/* ===== CAREER FORM ===== */
+form{
+max-width:500px;
+margin:auto;
+display:flex;
+flex-direction:column;
+gap:15px;
+}
+
+input, textarea{
+padding:10px;
+border-radius:5px;
+border:none;
+outline:none;
+}
+
+button{
+padding:10px;
+background:#00eaff;
+border:none;
+border-radius:5px;
+font-weight:bold;
+cursor:pointer;
+}
+
+/* ===== CONTACT ===== */
 .contact p{
 margin-bottom:10px;
 }
 
-/* ====== FOOTER ====== */
+/* ===== MAP ===== */
+iframe{
+width:100%;
+height:300px;
+border-radius:15px;
+margin-top:20px;
+}
+
+/* ===== FOOTER ===== */
 footer{
-background:#020617;
+background:#050a14;
 padding:30px;
 text-align:center;
 }
 
-footer p{
-margin:5px 0;
-font-size:14px;
+/* ===== WHATSAPP FLOAT ===== */
+.whatsapp{
+position:fixed;
+bottom:20px;
+right:20px;
+background:#25D366;
+color:white;
+padding:15px;
+border-radius:50%;
+font-size:22px;
+text-decoration:none;
 }
 
 </style>
 </head>
-
 <body>
 
-<!-- Floating Tech Dots -->
-<div class="tech-bg">
-<span style="left:10%;animation-delay:0s;"></span>
-<span style="left:30%;animation-delay:3s;"></span>
-<span style="left:50%;animation-delay:6s;"></span>
-<span style="left:70%;animation-delay:2s;"></span>
-<span style="left:90%;animation-delay:4s;"></span>
-</div>
+<canvas id="network"></canvas>
 
-<!-- NAVIGATION -->
+<!-- NAVBAR -->
 <nav>
 <h1>Tech1World</h1>
 <ul>
 <li><a href="#home">Home</a></li>
-<li><a href="#about">About</a></li>
 <li><a href="#services">Services</a></li>
 <li><a href="#career">Career</a></li>
 <li><a href="#contact">Contact</a></li>
@@ -209,61 +209,111 @@ font-size:14px;
 
 <!-- HERO -->
 <section class="hero" id="home">
-<h2>Innovative IT Solutions For Your Business</h2>
-<p>We deliver world-class software development, IT consulting, and digital transformation services to help businesses grow in the modern tech world.</p>
-<a href="#contact" class="btn">Get In Touch</a>
-</section>
-
-<!-- ABOUT -->
-<section id="about">
-<h2>About Us</h2>
-<p>Tech1World is a professional IT services company providing high-quality software solutions, web development, mobile apps, and IT outsourcing services. We aim to deliver scalable and secure technology solutions like global MNC standards.</p>
+<h2>Enterprise IT & Software Solutions</h2>
+<p>Delivering scalable digital transformation, enterprise software, and IT consulting solutions with global MNC standards.</p>
+<a href="#contact" class="btn">Contact Us</a>
 </section>
 
 <!-- SERVICES -->
 <section id="services">
-<h2>Our Services</h2>
+<h2>Our Expertise</h2>
 <div class="services">
 <div class="card">
-<h3>Software Development</h3>
-<p>Custom enterprise-grade software solutions tailored to your business.</p>
+<h3>Enterprise Software</h3>
+<p>Custom ERP, CRM and enterprise applications.</p>
 </div>
 <div class="card">
-<h3>Web Development</h3>
-<p>Modern, responsive, and high-performance websites.</p>
+<h3>Cloud Solutions</h3>
+<p>AWS, Azure & Cloud Infrastructure services.</p>
 </div>
 <div class="card">
-<h3>Mobile App Development</h3>
-<p>Android & iOS application development with latest technologies.</p>
+<h3>Mobile Apps</h3>
+<p>Android & iOS scalable applications.</p>
 </div>
 <div class="card">
-<h3>IT Consulting</h3>
-<p>Strategic IT planning and digital transformation solutions.</p>
+<h3>Cyber Security</h3>
+<p>Enterprise-grade security solutions.</p>
 </div>
 </div>
 </section>
 
 <!-- CAREER -->
 <section id="career">
-<h2>Careers</h2>
-<p>Join our dynamic team of developers, designers, and innovators.</p>
-<p>Email your resume at: <strong>careers@tech1world.com</strong></p>
-<a href="#contact" class="btn">Apply Now</a>
+<h2>Join Our Team</h2>
+<form>
+<input type="text" placeholder="Full Name" required>
+<input type="email" placeholder="Email Address" required>
+<input type="text" placeholder="Position Applying For" required>
+<textarea rows="4" placeholder="Why should we hire you?"></textarea>
+<button type="submit">Submit Application</button>
+</form>
 </section>
 
 <!-- CONTACT -->
 <section id="contact" class="contact">
-<h2>Contact Us</h2>
+<h2>Contact Information</h2>
 <p><strong>Address:</strong> JDA Colony Phase 2, Plot No. 37, Pandoka Colony, Jammu</p>
 <p><strong>Mobile:</strong> 9419281505</p>
 <p><strong>Email:</strong> info@tech1world.com</p>
+
+<!-- Google Map -->
+<iframe 
+src="https://www.google.com/maps?q=Jammu&output=embed">
+</iframe>
 </section>
 
-<!-- FOOTER -->
 <footer>
-<p>© 2026 Tech1World. All Rights Reserved.</p>
-<p>Designed with Innovation & Technology</p>
+<p>© 2026 Tech1World | All Rights Reserved</p>
+<p>Designed for Enterprise Excellence</p>
 </footer>
+
+<!-- WhatsApp Button -->
+<a href="https://wa.me/919419281505" class="whatsapp">W</a>
+
+<!-- NETWORK ANIMATION SCRIPT -->
+<script>
+const canvas = document.getElementById("network");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+for(let i=0;i<80;i++){
+particles.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+vx:(Math.random()-0.5),
+vy:(Math.random()-0.5)
+});
+}
+
+function animate(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+particles.forEach(p=>{
+p.x+=p.vx;
+p.y+=p.vy;
+
+if(p.x<0||p.x>canvas.width)p.vx*=-1;
+if(p.y<0||p.y>canvas.height)p.vy*=-1;
+
+ctx.fillStyle="#00eaff";
+ctx.fillRect(p.x,p.y,2,2);
+
+particles.forEach(p2=>{
+let dist=Math.hypot(p.x-p2.x,p.y-p2.y);
+if(dist<100){
+ctx.strokeStyle="rgba(0,234,255,0.1)";
+ctx.beginPath();
+ctx.moveTo(p.x,p.y);
+ctx.lineTo(p2.x,p2.y);
+ctx.stroke();
+}
+});
+});
+requestAnimationFrame(animate);
+}
+animate();
+</script>
 
 </body>
 </html>
