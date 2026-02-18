@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tech1World Global Solutions</title>
+<title>Tech1World Global | AI & Cloud Enterprise</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 
 <style>
 *{
@@ -16,29 +17,17 @@ scroll-behavior:smooth;
 }
 
 body{
-background:#0f2027;
+background:#0a0f1c;
 color:white;
 overflow-x:hidden;
 }
 
-/* Animated AI Gradient Background */
-body::before{
-content:'';
+/* AI Particle Background */
+#particles-js{
 position:fixed;
-top:0;
-left:0;
 width:100%;
 height:100%;
-background:linear-gradient(-45deg,#0f2027,#203a43,#2c5364,#00c6ff);
-background-size:400% 400%;
-animation:gradientMove 12s ease infinite;
 z-index:-1;
-}
-
-@keyframes gradientMove{
-0%{background-position:0% 50%;}
-50%{background-position:100% 50%;}
-100%{background-position:0% 50%;}
 }
 
 /* Navbar */
@@ -49,13 +38,13 @@ padding:20px 80px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-background:rgba(0,0,0,0.4);
-backdrop-filter:blur(10px);
+background:rgba(0,0,0,0.5);
+backdrop-filter:blur(15px);
 z-index:1000;
 }
 
 nav h2{
-color:#00e0ff;
+color:#00f5ff;
 }
 
 nav ul{
@@ -67,15 +56,14 @@ list-style:none;
 nav ul li a{
 color:white;
 text-decoration:none;
-font-weight:500;
 transition:0.3s;
 }
 
 nav ul li a:hover{
-color:#00e0ff;
+color:#00f5ff;
 }
 
-/* Hero Section */
+/* Hero */
 .hero{
 height:100vh;
 display:flex;
@@ -87,45 +75,44 @@ padding:0 20px;
 }
 
 .hero h1{
-font-size:55px;
-font-weight:700;
+font-size:60px;
 background:linear-gradient(to right,#00f5ff,#00ff87);
 -webkit-background-clip:text;
 color:transparent;
 }
 
 .hero p{
+max-width:750px;
 margin-top:20px;
-max-width:700px;
 line-height:1.6;
-color:#ddd;
+color:#ccc;
 }
 
 .btn{
 margin-top:30px;
-padding:14px 35px;
-background:#00e0ff;
-color:black;
+padding:15px 40px;
+background:#00f5ff;
 border:none;
 border-radius:30px;
-cursor:pointer;
 font-weight:600;
+cursor:pointer;
 transition:0.3s;
 }
 
 .btn:hover{
 background:white;
+color:black;
 }
 
 /* Sections */
 section{
-padding:100px 80px;
+padding:120px 80px;
 }
 
 .section-title{
 text-align:center;
 margin-bottom:60px;
-font-size:40px;
+font-size:42px;
 color:#00f5ff;
 }
 
@@ -138,104 +125,181 @@ gap:30px;
 
 .card{
 background:rgba(255,255,255,0.05);
-padding:30px;
+padding:35px;
 border-radius:20px;
-backdrop-filter:blur(10px);
-transition:0.3s;
+backdrop-filter:blur(20px);
+transition:0.4s;
 }
 
 .card:hover{
-transform:translateY(-10px);
-background:rgba(0,224,255,0.1);
+transform:translateY(-12px) scale(1.02);
+background:rgba(0,245,255,0.08);
+}
+
+/* Stats */
+.stats{
+display:flex;
+justify-content:space-around;
+flex-wrap:wrap;
+text-align:center;
+}
+
+.stat h2{
+font-size:50px;
+color:#00ff87;
+}
+
+.stat p{
+color:#aaa;
+}
+
+/* Client Slider */
+.slider{
+overflow:hidden;
+white-space:nowrap;
+margin-top:50px;
+}
+
+.slider-track{
+display:inline-block;
+animation:scroll 20s linear infinite;
+}
+
+.slider-track img{
+height:60px;
+margin:0 40px;
+opacity:0.8;
+}
+
+@keyframes scroll{
+from{transform:translateX(0);}
+to{transform:translateX(-50%);}
 }
 
 /* Footer */
 footer{
 background:#000;
 text-align:center;
-padding:30px;
-color:#aaa;
+padding:40px;
+color:#888;
 }
 </style>
 </head>
 
 <body>
 
+<div id="particles-js"></div>
+
 <nav>
 <h2>Tech1World</h2>
 <ul>
-<li><a href="#about">About</a></li>
 <li><a href="#services">Services</a></li>
-<li><a href="#technology">Technology</a></li>
-<li><a href="#careers">Careers</a></li>
+<li><a href="#stats">Impact</a></li>
+<li><a href="#clients">Clients</a></li>
 <li><a href="#contact">Contact</a></li>
 </ul>
 </nav>
 
 <div class="hero">
-<h1>Transforming Businesses with AI & Cloud</h1>
-<p>Tech1World Global Solutions is a next-generation IT outsourcing and digital transformation company delivering scalable cloud, AI, and enterprise solutions to clients worldwide.</p>
-<button class="btn">Explore Services</button>
+<h1>Engineering The Future With AI</h1>
+<p>Tech1World Global is a next-generation IT consulting and outsourcing enterprise delivering AI-driven transformation, cloud modernization, and enterprise-scale digital engineering worldwide.</p>
+<button class="btn">Explore Enterprise Solutions</button>
 </div>
-
-<section id="about">
-<h2 class="section-title">About Us</h2>
-<p style="text-align:center;max-width:900px;margin:auto;line-height:1.8;">
-Founded with a vision to redefine digital excellence, Tech1World operates across multiple global markets providing AI-powered applications, enterprise cloud solutions, cybersecurity frameworks, and data engineering platforms. Our team consists of certified architects, DevOps engineers, and AI specialists delivering enterprise-grade results.
-</p>
-</section>
 
 <section id="services">
-<h2 class="section-title">Our Services</h2>
+<h2 class="section-title">Enterprise Services</h2>
 <div class="cards">
 <div class="card">
-<h3>AI & Machine Learning</h3>
-<p>Predictive analytics, NLP, Computer Vision, and custom AI model development.</p>
+<h3>AI & Data Engineering</h3>
+<p>Advanced analytics, generative AI systems, and enterprise ML deployment pipelines.</p>
 </div>
 <div class="card">
-<h3>Cloud Engineering</h3>
-<p>AWS, Azure & GCP architecture, migration, and scalable infrastructure deployment.</p>
+<h3>Cloud & DevOps</h3>
+<p>Cloud-native architecture, CI/CD automation, Kubernetes orchestration.</p>
 </div>
 <div class="card">
-<h3>Enterprise Software</h3>
-<p>Custom ERP, CRM, SaaS products with secure microservices architecture.</p>
+<h3>Digital Product Engineering</h3>
+<p>Scalable SaaS platforms, enterprise microservices & system integration.</p>
 </div>
 <div class="card">
-<h3>Cybersecurity</h3>
-<p>Threat detection, penetration testing, and enterprise security audits.</p>
+<h3>Cybersecurity & Compliance</h3>
+<p>Zero-trust frameworks, risk audits, and enterprise data protection.</p>
 </div>
 </div>
 </section>
 
-<section id="technology">
-<h2 class="section-title">Technology Stack</h2>
-<div class="cards">
-<div class="card">Java | Spring Boot</div>
-<div class="card">React | Angular</div>
-<div class="card">Node.js | Python</div>
-<div class="card">Docker | Kubernetes</div>
-<div class="card">MySQL | MongoDB</div>
-<div class="card">AWS | Azure</div>
+<section id="stats">
+<h2 class="section-title">Our Global Impact</h2>
+<div class="stats">
+<div class="stat">
+<h2 id="clientsCount">0</h2>
+<p>Global Clients</p>
+</div>
+<div class="stat">
+<h2 id="projectsCount">0</h2>
+<p>Projects Delivered</p>
+</div>
+<div class="stat">
+<h2 id="countriesCount">0</h2>
+<p>Countries Served</p>
+</div>
 </div>
 </section>
 
-<section id="careers">
-<h2 class="section-title">Careers</h2>
-<p style="text-align:center;max-width:800px;margin:auto;">
-We are constantly looking for talented engineers, AI researchers, DevOps specialists, and product designers to join our global team. Build innovative technology that impacts millions.
-</p>
+<section id="clients">
+<h2 class="section-title">Trusted By Industry Leaders</h2>
+<div class="slider">
+<div class="slider-track">
+<img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg">
+<img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg">
+<img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg">
+<img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg">
+<img src="https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg">
+</div>
+</div>
 </section>
 
 <section id="contact">
 <h2 class="section-title">Contact Us</h2>
 <p style="text-align:center;">Email: contact@tech1world.com</p>
-<p style="text-align:center;">Phone: +91-9876543210</p>
-<p style="text-align:center;">Head Office: India | Global Delivery Centers</p>
+<p style="text-align:center;">India Headquarters | Global Delivery Centers</p>
 </section>
 
 <footer>
-© 2026 Tech1World Global Solutions. All Rights Reserved.
+© 2026 Tech1World Global Enterprise. All Rights Reserved.
 </footer>
+
+<script>
+/* Particle Background */
+particlesJS("particles-js",{
+"particles":{"number":{"value":80},
+"color":{"value":"#00f5ff"},
+"shape":{"type":"circle"},
+"opacity":{"value":0.5},
+"size":{"value":3},
+"line_linked":{"enable":true,"distance":150,"color":"#00f5ff","opacity":0.4,"width":1},
+"move":{"enable":true,"speed":3}},
+"interactivity":{"events":{"onhover":{"enable":true,"mode":"repulse"}}}
+});
+
+/* Animated Counters */
+function animateValue(id, start, end, duration) {
+let obj = document.getElementById(id);
+let range = end - start;
+let current = start;
+let increment = end > start?1:-1;
+let stepTime = Math.abs(Math.floor(duration / range));
+let timer = setInterval(function() {
+current += increment;
+obj.textContent = current + "+";
+if (current == end) clearInterval(timer);
+}, stepTime);
+}
+
+animateValue("clientsCount",0,120,2000);
+animateValue("projectsCount",0,350,2000);
+animateValue("countriesCount",0,18,2000);
+</script>
 
 </body>
 </html>
