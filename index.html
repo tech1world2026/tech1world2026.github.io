@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TECH 1WORLD // Software Architecture & Data Systems</title>
+    <title>Tech1World | Global Enterprise IT & AI Solutions</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@800&family=Inter:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@300;400;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -14,205 +15,274 @@
 
     <style>
         :root {
-            --bg: #020203;
+            --bg: #030304;
             --text: #ffffff;
             --accent: #00f2ff;
-            --dim: rgba(255, 255, 255, 0.2);
+            --primary-grad: linear-gradient(135deg, #00f2ff 0%, #7b2ff7 100%);
             --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
         }
 
+        /* RESET & BASE */
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none !important; }
-        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
 
-        #canvas-container { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
+        /* LOADER */
+        #loader { position: fixed; inset: 0; background: var(--bg); z-index: 10000; display: flex; justify-content: center; align-items: center; }
+        .spinner { width: 40px; height: 40px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* CANVAS BACKDROP */
+        #canvas-container { position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0.4; }
+
+        /* CURSOR */
+        #cursor-dot { position: fixed; width: 6px; height: 6px; background: #fff; border-radius: 50%; z-index: 10001; pointer-events: none; }
+        #cursor-ring { position: fixed; width: 35px; height: 35px; border: 1px solid var(--accent); border-radius: 50%; z-index: 10000; pointer-events: none; transition: transform 0.2s; }
+
+        /* STICKY NAV */
+        nav { position: fixed; top: 0; width: 100%; padding: 25px 50px; display: flex; justify-content: space-between; align-items: center; z-index: 2000; transition: 0.4s; }
+        nav.scrolled { background: rgba(3, 3, 4, 0.85); backdrop-filter: blur(20px); padding: 15px 50px; border-bottom: 1px solid var(--border); }
+        .logo { font-family: 'Syne'; font-size: 24px; font-weight: 800; letter-spacing: -1px; }
+        .logo span { color: var(--accent); }
+        .nav-links { display: flex; gap: 40px; font-family: 'IBM Plex Mono'; font-size: 11px; letter-spacing: 2px; }
+        .nav-links a { opacity: 0.6; transition: 0.3s; }
+        .nav-links a:hover { opacity: 1; color: var(--accent); }
+
+        /* HERO SECTION */
+        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 0 10%; position: relative; z-index: 10; }
+        .hero h4 { font-family: 'IBM Plex Mono'; color: var(--accent); font-size: 12px; letter-spacing: 5px; margin-bottom: 20px; text-transform: uppercase; }
+        .hero h1 { font-family: 'Syne'; font-size: clamp(40px, 7vw, 100px); line-height: 0.9; margin-bottom: 30px; }
+        .hero p { max-width: 600px; font-size: 18px; opacity: 0.6; line-height: 1.6; margin-bottom: 40px; }
+        .btn-grad { background: var(--primary-grad); padding: 18px 40px; border-radius: 4px; font-weight: 600; display: inline-block; transition: 0.3s; }
+        .btn-grad:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0, 242, 255, 0.3); }
+
+        /* GRID SECTIONS */
+        section { padding: 100px 10%; position: relative; z-index: 10; }
+        .section-header { margin-bottom: 60px; }
+        .section-header h2 { font-family: 'Syne'; font-size: 4vw; text-transform: uppercase; }
         
-        /* HIGH-END OVERLAY */
-        .interface {
-            position: fixed; inset: 0; z-index: 100;
-            padding: 40px; display: flex; flex-direction: column;
-            justify-content: space-between; pointer-events: none;
-        }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .card { background: var(--glass); border: 1px solid var(--border); padding: 40px; border-radius: 8px; backdrop-filter: blur(10px); transition: 0.4s; }
+        .card:hover { border-color: var(--accent); background: rgba(255,255,255,0.05); transform: translateY(-10px); }
+        .card i { font-size: 30px; color: var(--accent); margin-bottom: 25px; }
+        .card h3 { font-family: 'Syne'; margin-bottom: 15px; }
+        .card p { font-size: 14px; opacity: 0.6; line-height: 1.6; }
 
-        /* TOP NAVIGATION */
-        .top-nav { display: flex; justify-content: space-between; align-items: flex-start; }
-        .logo-block h1 { 
-            font-family: 'Syne'; font-size: 5vw; line-height: 0.8; letter-spacing: -3px; 
-            background: linear-gradient(180deg, #fff 0%, var(--dim) 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-
-        .meta-group { font-family: 'IBM Plex Mono'; font-size: 10px; color: var(--dim); margin-top: 20px; letter-spacing: 1px; line-height: 2; }
-        .accent-text { color: var(--accent); opacity: 1; }
-
-        /* MANIFESTO GLASS BOX */
-        .manifesto-box {
-            max-width: 380px; text-align: right; pointer-events: auto;
-            background: var(--glass); padding: 30px; border-radius: 2px;
-            border-right: 1px solid var(--accent); backdrop-filter: blur(10px);
-        }
-        .m-label { font-family: 'IBM Plex Mono'; font-size: 9px; color: var(--accent); margin-bottom: 15px; letter-spacing: 5px; }
-        .m-text { font-size: 16px; line-height: 1.4; font-weight: 500; color: rgba(255,255,255,0.7); }
-
-        /* HUD ELEMENTS */
-        #cursor { position: fixed; width: 6px; height: 6px; background: #fff; border-radius: 50%; z-index: 10000; pointer-events: none; }
-        #cursor-ring { position: fixed; width: 40px; height: 40px; border: 1px solid var(--accent); border-radius: 50%; z-index: 9999; pointer-events: none; }
-
-        .footer-hud { display: flex; justify-content: space-between; align-items: flex-end; }
-        .location-data { font-family: 'IBM Plex Mono'; font-size: 9px; color: var(--dim); letter-spacing: 2px; }
+        /* FOOTER HUD */
+        footer { padding: 80px 10%; border-top: 1px solid var(--border); background: #010101; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 50px; margin-bottom: 50px; }
+        .footer-logo { font-family: 'Syne'; font-size: 30px; margin-bottom: 20px; }
+        .footer-info p { font-family: 'IBM Plex Mono'; font-size: 11px; color: var(--dim); line-height: 2; margin-bottom: 20px; }
         
-        /* CONTENT BLOCKS */
-        .main-scroller { position: relative; z-index: 10; }
-        section { height: 100vh; padding: 10vw; display: flex; align-items: center; }
-        
-        .service-card { opacity: 0; transform: translateX(-50px); transition: 1s cubic-bezier(0.19, 1, 0.22, 1); }
-        .service-card.active { opacity: 1; transform: translateX(0); }
-        .service-card h2 { font-family: 'Syne'; font-size: 8vw; text-transform: uppercase; line-height: 0.9; margin-bottom: 20px; }
-        .service-card p { font-family: 'IBM Plex Mono'; color: var(--accent); font-size: 12px; letter-spacing: 4px; }
+        /* MAGNETIC WRAPPER */
+        .magnetic-btn { display: inline-block; pointer-events: auto; }
 
-        .magnetic-wrap { pointer-events: auto; display: inline-block; }
+        /* STATS COUNTER */
+        .stat-val { font-family: 'Syne'; font-size: 3vw; color: var(--accent); }
+
     </style>
 </head>
 <body>
 
-    <div id="cursor"></div>
+    <div id="loader"><div class="spinner"></div></div>
+    <div id="cursor-dot"></div>
     <div id="cursor-ring"></div>
     <div id="canvas-container"></div>
 
-    <main class="interface">
-        <div class="top-nav">
-            <div class="logo-block magnetic-wrap">
-                <h1>TECH<br>1WORLD</h1>
-                <div class="meta-group">
-                    <span class="accent-text">●</span> SOFTWARE_DEVELOPMENT<br>
-                    <span class="accent-text">●</span> DATA_ENGINEERING<br>
-                    MOB: +91 9419281505
-                </div>
+    <nav id="main-nav">
+        <div class="logo">TECH1<span>WORLD</span></div>
+        <div class="nav-links">
+            <a href="#home">HOME</a>
+            <a href="#about">ABOUT</a>
+            <a href="#services">SERVICES</a>
+            <a href="#portfolio">PROJECTS</a>
+            <a href="#contact">CONTACT</a>
+        </div>
+    </nav>
+
+    <header class="hero" id="home">
+        <h4 data-aos="fade-up">// ENTERPRISE IT SOLUTIONS</h4>
+        <h1 data-aos="fade-right">SOFTWARE<br>INFRASTRUCTURE<br>FOR <span>2026.</span></h1>
+        <p data-aos="fade-up" data-aos-delay="200">Tech1World is a global IT powerhouse specializing in scalable software architecture, AI-driven data intelligence, and hybrid cloud modernization for startups and MNCs.</p>
+        <div class="magnetic-btn" data-aos="zoom-in" data-aos-delay="400">
+            <a href="#contact" class="btn-grad">START TRANSFORMATION</a>
+        </div>
+    </header>
+
+    <section id="about">
+        <div class="grid-3">
+            <div class="stat-card card">
+                <div class="stat-val" data-target="250">0</div>
+                <p>DEPLOYED SYSTEMS</p>
             </div>
-            
-            <div class="manifesto-box magnetic-wrap">
-                <p class="m-label">► MISSION_LOG</p>
-                <p class="m-text">
-                    Engineering high-performance software and scalable data systems from our base in Jammu to the global stage.
+            <div class="stat-card card">
+                <div class="stat-val" data-target="98">0</div>
+                <p>CLIENT RETENTION %</p>
+            </div>
+            <div class="stat-card card">
+                <div class="stat-val" data-target="15">0</div>
+                <p>GLOBAL TECH HUBS</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="services">
+        <div class="section-header">
+            <h2>CORE <span>ECOSYSTEM</span></h2>
+        </div>
+        
+        <div class="grid-3">
+            <div class="card">
+                <i class="fas fa-code"></i>
+                <h3>Custom Software</h3>
+                <p>Architecture of resilient web/mobile applications using Node.js, Python, and React high-performance stacks.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-cloud"></i>
+                <h3>Cloud Modernization</h3>
+                <p>Seamless migration to AWS/Azure/GCP with serverless architecture and automated CI/CD pipelines.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-brain"></i>
+                <h3>AI & Automation</h3>
+                <p>Integrating LLMs and neural networks to automate complex business workflows and predictive analytics.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="footer-grid">
+            <div class="footer-info">
+                <div class="footer-logo">T1W</div>
+                <p>
+                    TECH1WORLD PVT. LTD.<br>
+                    JDA COLONY PHASE 2, PLOT 37,<br>
+                    TARA VIHAR, PANDOKA COLONY, JAMMU<br>
+                    TEL: +91 9419281505<br>
+                    EMAIL: OPERATIONS@TECH1WORLD.COM
                 </p>
             </div>
+            <div class="footer-links">
+                <h4 style="margin-bottom: 20px;">SYSTEMS</h4>
+                <p style="font-size: 11px; opacity: 0.5;">WEB DEVELOPMENT</p>
+                <p style="font-size: 11px; opacity: 0.5;">CLOUD MESH</p>
+                <p style="font-size: 11px; opacity: 0.5;">AI INTEGRATION</p>
+            </div>
+            <div class="footer-links">
+                <h4 style="margin-bottom: 20px;">SOCIAL</h4>
+                <p style="font-size: 11px; opacity: 0.5;">LINKEDIN</p>
+                <p style="font-size: 11px; opacity: 0.5;">GITHUB</p>
+                <p style="font-size: 11px; opacity: 0.5;">TWITTER / X</p>
+            </div>
         </div>
+    </section>
 
-        <div class="footer-hud">
-            <div class="location-data">
-                [ 32.7266° N, 74.8570° E ]<br>
-                JDA COLONY PHASE 2, PLOT 37, JAMMU
-            </div>
-            <div class="magnetic-wrap" style="font-family: 'IBM Plex Mono'; font-size: 10px; letter-spacing: 3px; color: var(--accent);">
-                ESTABLISHED_2026 // VERSION_4.0
-            </div>
+    <footer>
+        <div style="display: flex; justify-content: space-between; font-family: 'IBM Plex Mono'; font-size: 9px; opacity: 0.4;">
+            <p>© 2026 TECH1WORLD. ALL PROTOCOLS RESERVED.</p>
+            <p>[ 32.7266° N, 74.8570° E ]</p>
         </div>
-    </main>
-
-    <div class="main-scroller">
-        <section>
-            <div class="service-card active">
-                <p>01 // SOLUTIONS</p>
-                <h2>ADVANCED<br>SOFTWARE</h2>
-            </div>
-        </section>
-        <section>
-            <div class="service-card">
-                <p>02 // INFRASTRUCTURE</p>
-                <h2>CLOUD<br>SCALING</h2>
-            </div>
-        </section>
-        <section>
-            <div class="service-card">
-                <p>03 // ANALYTICS</p>
-                <h2>DATA<br>INTELLIGENCE</h2>
-            </div>
-        </section>
-    </div>
+    </footer>
 
     <script>
-        gsap.registerPlugin(ScrollTrigger);
-
-        // 1. ENGINE: THREE.JS LIQUID CORE
+        // 1. PERFORMANCE ENGINE: THREE.JS
         const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.getElementById('canvas-container').appendChild(renderer.domElement);
 
-        const geometry = new THREE.IcosahedronGeometry(2, 64);
+        // CREATE GEOMETRY (The Global Core)
+        const geometry = new THREE.IcosahedronGeometry(3, 15);
         const material = new THREE.MeshPhongMaterial({ 
-            color: 0x000000, emissive: 0x00f2ff, emissiveIntensity: 0.1,
-            wireframe: true, transparent: true, opacity: 0.2 
+            color: 0x00f2ff, 
+            wireframe: true, 
+            transparent: true, 
+            opacity: 0.15 
         });
-        const core = new THREE.Mesh(geometry, material);
-        scene.add(core);
+        const globe = new THREE.Mesh(geometry, material);
+        scene.add(globe);
 
         const light = new THREE.PointLight(0x00f2ff, 2, 50);
         light.position.set(5, 5, 5);
         scene.add(light);
-        camera.position.z = 5.5;
+        camera.position.z = 8;
 
-        // 2. MAGNETIC PHYSICS
-        const magnetics = document.querySelectorAll('.magnetic-wrap');
-        magnetics.forEach(m => {
-            m.addEventListener('mousemove', (e) => {
-                const rect = m.getBoundingClientRect();
-                const x = (e.clientX - rect.left - rect.width / 2) * 0.4;
-                const y = (e.clientY - rect.top - rect.height / 2) * 0.4;
-                gsap.to(m, { x: x, y: y, duration: 0.6, ease: "power2.out" });
-                gsap.to('#cursor-ring', { scale: 1.5, borderColor: '#fff' });
-            });
-            m.addEventListener('mouseleave', () => {
-                gsap.to(m, { x: 0, y: 0, duration: 0.6, ease: "elastic.out(1, 0.3)" });
-                gsap.to('#cursor-ring', { scale: 1, borderColor: '#00f2ff' });
-            });
+        // 2. KINETIC CURSOR
+        const dot = document.getElementById('cursor-dot');
+        const ring = document.getElementById('cursor-ring');
+        
+        window.addEventListener('mousemove', (e) => {
+            gsap.to(dot, { x: e.clientX, y: e.clientY, duration: 0 });
+            gsap.to(ring, { x: e.clientX - 17, y: e.clientY - 17, duration: 0.3 });
+            
+            // Sphere look-at
+            const x = (e.clientX / window.innerWidth) - 0.5;
+            const y = (e.clientY / window.innerHeight) - 0.5;
+            gsap.to(globe.rotation, { y: x * 2, x: y * 2, duration: 2 });
         });
 
-        // 3. SCROLL SYSTEM (LENIS)
-        const lenis = new Lenis({ lerp: 0.1 });
+        // 3. PAGE NAVIGATION & SMOOTH SCROLL
+        const lenis = new Lenis();
         function raf(time) {
             lenis.raf(time);
             requestAnimationFrame(raf);
         }
         requestAnimationFrame(raf);
 
-        // 4. MOUSE TRACKING
-        window.addEventListener('mousemove', (e) => {
-            gsap.to('#cursor', { x: e.clientX, y: e.clientY, duration: 0 });
-            gsap.to('#cursor-ring', { x: e.clientX - 20, y: e.clientY - 20, duration: 0.4 });
-            const x = (e.clientX / window.innerWidth) - 0.5;
-            const y = (e.clientY / window.innerHeight) - 0.5;
-            gsap.to(core.rotation, { y: x * 2.5, x: y * 2.5, duration: 2 });
-        });
-
-        // 5. LIQUID ANIMATION LOOP
-        const originalPositions = geometry.attributes.position.array.slice();
+        // 4. ANIMATION LOOP
         function animate() {
             requestAnimationFrame(animate);
-            const time = Date.now() * 0.001;
-            const positions = geometry.attributes.position.array;
-            
-            for (let i = 0; i < positions.length; i += 3) {
-                const scrollMod = lenis.velocity * 0.005;
-                positions[i] = originalPositions[i] + Math.sin(time + originalPositions[i+1]) * (0.1 + scrollMod);
-                positions[i+1] = originalPositions[i+1] + Math.cos(time + originalPositions[i]) * (0.1 + scrollMod);
-            }
-            geometry.attributes.position.needsUpdate = true;
-            core.rotation.y += 0.003;
+            globe.rotation.y += 0.001;
             renderer.render(scene, camera);
         }
         animate();
 
-        // 6. SCROLL TRIGGER REVEALS
-        document.querySelectorAll('.service-card').forEach((card, i) => {
-            ScrollTrigger.create({
-                trigger: card,
-                start: "top 80%",
-                onEnter: () => card.classList.add('active'),
-                onEnterBack: () => card.classList.add('active'),
-                onLeave: () => card.classList.remove('active')
+        // 5. LOADER & NAV SCROLL
+        window.addEventListener('load', () => {
+            gsap.to('#loader', { opacity: 0, duration: 1, onComplete: () => {
+                document.getElementById('loader').style.display = 'none';
+            }});
+        });
+
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('main-nav');
+            if (window.scrollY > 50) nav.classList.add('scrolled');
+            else nav.classList.remove('scrolled');
+        });
+
+        // 6. MAGNETIC BUTTONS
+        document.querySelectorAll('.magnetic-btn').forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width/2;
+                const y = e.clientY - rect.top - rect.height/2;
+                gsap.to(btn, { x: x * 0.3, y: y * 0.3, duration: 0.5 });
+            });
+            btn.addEventListener('mouseleave', () => {
+                gsap.to(btn, { x: 0, y: 0, duration: 0.5, ease: "elastic.out(1, 0.3)" });
             });
         });
+
+        // 7. COUNTERS
+        const counters = document.querySelectorAll('.stat-val');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    const target = +entry.target.getAttribute('data-target');
+                    gsap.to(entry.target, { 
+                        innerText: target, 
+                        duration: 2, 
+                        snap: { innerText: 1 },
+                        ease: "power2.out"
+                    });
+                }
+            });
+        }, { threshold: 0.5 });
+        counters.forEach(c => observer.observe(c));
+
     </script>
 </body>
 </html>
