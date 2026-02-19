@@ -3,11 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tech1 World | IT Services & AI Consulting</title>
+<title>Tech1 World | AI Driven IT Solutions</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-
-<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 <script src="https://unpkg.com/scrollreveal"></script>
 
 <style>
@@ -24,31 +22,34 @@ color:white;
 overflow-x:hidden;
 }
 
-/* NAVBAR */
+/* PREMIUM GLASS NAV */
 nav{
 position:fixed;
 width:100%;
 display:flex;
 justify-content:space-between;
-padding:20px 60px;
-background:rgba(0,0,0,0.6);
-backdrop-filter:blur(10px);
+align-items:center;
+padding:20px 80px;
+background:rgba(0,0,0,0.4);
+backdrop-filter:blur(15px);
 z-index:1000;
 }
 
 nav h2{
 color:#00f7ff;
+font-weight:700;
 }
 
 nav ul{
 display:flex;
-gap:25px;
+gap:30px;
 list-style:none;
 }
 
 nav ul li a{
 color:white;
 text-decoration:none;
+font-weight:500;
 transition:0.3s;
 }
 
@@ -56,44 +57,69 @@ nav ul li a:hover{
 color:#00f7ff;
 }
 
-/* HERO */
+/* HERO SECTION */
 .hero{
+position:relative;
 height:100vh;
 display:flex;
-flex-direction:column;
 justify-content:center;
 align-items:center;
 text-align:center;
-position:relative;
+overflow:hidden;
 }
 
-#particles-js{
+/* Background Video */
+.hero video{
 position:absolute;
 width:100%;
 height:100%;
+object-fit:cover;
+z-index:-2;
+}
+
+/* Gradient Overlay Animation */
+.hero::after{
+content:"";
+position:absolute;
+width:100%;
+height:100%;
+background:linear-gradient(270deg,#00f7ff,#0f172a,#00ff88);
+background-size:600% 600%;
+animation:gradientMove 12s ease infinite;
+opacity:0.4;
 z-index:-1;
 }
 
+@keyframes gradientMove{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+/* Hero Content */
+.hero-content{
+max-width:900px;
+}
+
 .hero h1{
-font-size:60px;
+font-size:70px;
 background:linear-gradient(to right,#00f7ff,#00ff88);
 -webkit-background-clip:text;
 color:transparent;
 }
 
-.typing{
-font-size:22px;
+.hero p{
 margin-top:20px;
-color:#ccc;
-height:30px;
+font-size:20px;
+color:#ddd;
 }
 
 .btn{
 margin-top:30px;
-padding:15px 35px;
-border-radius:30px;
-background:linear-gradient(45deg,#00f7ff,#00ff88);
+padding:15px 40px;
+border-radius:50px;
 border:none;
+background:linear-gradient(45deg,#00f7ff,#00ff88);
 font-weight:bold;
 cursor:pointer;
 transition:0.4s;
@@ -101,12 +127,46 @@ transition:0.4s;
 
 .btn:hover{
 transform:scale(1.1);
-box-shadow:0 0 25px #00f7ff;
+box-shadow:0 0 30px #00f7ff;
 }
 
-/* SECTION */
+/* Floating Images */
+.floating-img{
+position:absolute;
+width:120px;
+animation:float 6s ease-in-out infinite;
+}
+
+.floating1{top:20%;left:10%;}
+.floating2{bottom:20%;right:15%;animation-delay:2s;}
+
+@keyframes float{
+0%{transform:translateY(0);}
+50%{transform:translateY(-20px);}
+100%{transform:translateY(0);}
+}
+
+/* STATS BAR */
+.stats{
+background:#111827;
+padding:60px;
+display:flex;
+justify-content:space-around;
+text-align:center;
+}
+
+.stat h2{
+font-size:45px;
+color:#00ff88;
+}
+
+.stat p{
+margin-top:10px;
+color:#aaa;
+}
+
 section{
-padding:100px 60px;
+padding:100px 80px;
 }
 
 .section-title{
@@ -116,37 +176,10 @@ margin-bottom:60px;
 color:#00f7ff;
 }
 
-/* CARDS */
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-gap:30px;
-}
-
-.card{
-background:rgba(255,255,255,0.05);
-padding:25px;
-border-radius:20px;
-backdrop-filter:blur(15px);
-transition:0.5s;
-}
-
-.card:hover{
-transform:translateY(-10px);
-box-shadow:0 0 20px #00f7ff;
-}
-
-/* COUNTER */
-.counter{
-font-size:45px;
-color:#00ff88;
-font-weight:bold;
-}
-
 footer{
 background:black;
-text-align:center;
 padding:30px;
+text-align:center;
 }
 </style>
 </head>
@@ -157,56 +190,45 @@ padding:30px;
 <h2>Tech1 World</h2>
 <ul>
 <li><a href="#services">Services</a></li>
-<li><a href="#projects">Projects</a></li>
 <li><a href="#contact">Contact</a></li>
 </ul>
 </nav>
 
 <div class="hero">
-<div id="particles-js"></div>
-<h1>Tech1 World</h1>
-<div class="typing" id="typing"></div>
-<button class="btn">Explore Solutions</button>
+<video autoplay muted loop>
+<source src="https://cdn.coverr.co/videos/coverr-programming-on-a-laptop-1570/1080p.mp4" type="video/mp4">
+</video>
+
+<img src="https://cdn-icons-png.flaticon.com/512/906/906324.png" class="floating-img floating1">
+<img src="https://cdn-icons-png.flaticon.com/512/2721/2721292.png" class="floating-img floating2">
+
+<div class="hero-content">
+<h1>AI-Powered Enterprise IT Solutions</h1>
+<p>Tech1 World delivers MNC-level software engineering, SDET automation, cloud transformation, and global IT outsourcing for startups and enterprises.</p>
+<button class="btn">Start Your Digital Transformation</button>
+</div>
+</div>
+
+<div class="stats">
+<div class="stat">
+<h2>50+</h2>
+<p>Projects Delivered</p>
+</div>
+<div class="stat">
+<h2>30+</h2>
+<p>Global Clients</p>
+</div>
+<div class="stat">
+<h2>100+</h2>
+<p>Automation Suites</p>
+</div>
 </div>
 
 <section id="services">
-<h2 class="section-title">Enterprise IT Services</h2>
-<div class="grid">
-<div class="card">
-<h3>Software Development</h3>
-<p>Enterprise-grade web & mobile apps, cloud-native architecture, SaaS platforms, secure backend systems, scalable APIs.</p>
-</div>
-<div class="card">
-<h3>SDET & QA Automation</h3>
-<p>Automation frameworks, Selenium, API automation, CI/CD integration, performance testing & enterprise QA strategy.</p>
-</div>
-<div class="card">
-<h3>IT Consulting</h3>
-<p>Digital transformation, DevOps, cloud migration, cybersecurity advisory & scalable architecture planning.</p>
-</div>
-<div class="card">
-<h3>Global IT Outsourcing</h3>
-<p>Dedicated offshore teams, enterprise project delivery, long-term MNC-level outsourcing solutions.</p>
-</div>
-</div>
-</section>
-
-<section id="projects">
-<h2 class="section-title">Startup Achievements</h2>
-<div class="grid">
-<div class="card">
-<div class="counter" data-target="50">0</div>
-<p>Completed Projects</p>
-</div>
-<div class="card">
-<div class="counter" data-target="30">0</div>
-<p>Global Clients</p>
-</div>
-<div class="card">
-<div class="counter" data-target="100">0</div>
-<p>Automation Suites Built</p>
-</div>
-</div>
+<h2 class="section-title">Enterprise Services</h2>
+<p style="text-align:center;max-width:800px;margin:auto;">
+We specialize in full-cycle software development, QA automation, DevOps, AI consulting, scalable cloud-native applications, and enterprise outsourcing solutions at global standards.
+</p>
 </section>
 
 <section id="contact">
@@ -220,59 +242,12 @@ Phone: +91 9876543210
 </section>
 
 <footer>
-© 2026 Tech1 World | AI Powered IT Solutions
+© 2026 Tech1 World | Premium AI & IT Consulting Company
 </footer>
 
 <script>
-/* Typing Effect */
-const textArray = ["AI Consulting & Automation", "Enterprise Software Development", "SDET & QA Engineering", "Global IT Outsourcing"];
-let typingElement = document.getElementById("typing");
-let i=0,j=0,currentText="",isDeleting=false;
-
-function type(){
-if(i<textArray.length){
-if(!isDeleting && j<=textArray[i].length){
-currentText=textArray[i].substring(0,j++);
-}
-else if(isDeleting && j>=0){
-currentText=textArray[i].substring(0,j--);
-}
-typingElement.innerHTML=currentText;
-if(j==textArray[i].length) isDeleting=true;
-if(j==0 && isDeleting){isDeleting=false;i++;}
-}
-setTimeout(type,100);
-}
-type();
-
-/* Counter Animation */
-const counters=document.querySelectorAll(".counter");
-counters.forEach(counter=>{
-const update=()=>{
-const target=+counter.getAttribute("data-target");
-const count=+counter.innerText;
-const increment=target/100;
-if(count<target){
-counter.innerText=Math.ceil(count+increment);
-setTimeout(update,30);
-}
-else{
-counter.innerText=target;
-}
-};
-update();
-});
-
-/* Scroll Reveal */
-ScrollReveal().reveal('.card',{delay:200,distance:'50px',origin:'bottom',duration:1000});
-
-/* Particles */
-particlesJS("particles-js",{
-"particles":{"number":{"value":80},"color":{"value":"#00f7ff"},
-"shape":{"type":"circle"},"opacity":{"value":0.5},
-"size":{"value":3},"line_linked":{"enable":true,"color":"#00f7ff"},
-"move":{"enable":true,"speed":2}}
-});
+ScrollReveal().reveal('.hero-content',{delay:400,distance:'50px',origin:'bottom',duration:1500});
+ScrollReveal().reveal('.stat',{interval:200});
 </script>
 
 </body>
