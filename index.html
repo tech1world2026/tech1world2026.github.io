@@ -1,1112 +1,193 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tech1World — Building Intelligent AI Ecosystems</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=Fraunces:ital,wght@0,300;0,600;1,300&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #030508;
-    --surface: #0a0d14;
-    --border: rgba(255,255,255,0.06);
-    --text: #e8eaf0;
-    --muted: #5a607a;
-    --accent: #00e5ff;
-    --accent2: #7b61ff;
-    --accent3: #ff4d6d;
-    --glow: rgba(0,229,255,0.15);
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    font-family: 'DM Mono', monospace;
-    background: var(--bg);
-    color: var(--text);
-    overflow-x: hidden;
-    cursor: none;
-  }
-
-  /* Custom cursor */
-  .cursor {
-    position: fixed;
-    width: 10px; height: 10px;
-    background: var(--accent);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9999;
-    transition: transform 0.1s ease;
-    mix-blend-mode: screen;
-  }
-  .cursor-ring {
-    position: fixed;
-    width: 36px; height: 36px;
-    border: 1px solid rgba(0,229,255,0.4);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9998;
-    transition: transform 0.18s ease, width 0.2s, height 0.2s;
-  }
-
-  /* Noise overlay */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-    background-size: 200px;
-    pointer-events: none;
-    z-index: 1000;
-    opacity: 0.5;
-  }
-
-  /* Grid background */
-  body::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
-    background-size: 60px 60px;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  /* ─── NAV ─── */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 48px;
-    border-bottom: 1px solid var(--border);
-    background: rgba(3,5,8,0.7);
-    backdrop-filter: blur(20px);
-  }
-
-  .nav-logo {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 1.1rem;
-    letter-spacing: 0.15em;
-    color: var(--accent);
-    text-decoration: none;
-    text-transform: uppercase;
-  }
-
-  .nav-links {
-    display: flex;
-    gap: 36px;
-    list-style: none;
-  }
-
-  .nav-links a {
-    color: var(--muted);
-    text-decoration: none;
-    font-size: 0.72rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    transition: color 0.2s;
-  }
-  .nav-links a:hover { color: var(--accent); }
-
-  .nav-cta {
-    background: transparent;
-    border: 1px solid var(--accent);
-    color: var(--accent);
-    font-family: 'DM Mono', monospace;
-    font-size: 0.68rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    padding: 9px 22px;
-    cursor: none;
-    transition: background 0.2s, color 0.2s;
-  }
-  .nav-cta:hover { background: var(--accent); color: var(--bg); }
-
-  /* ─── HERO ─── */
-  .hero {
-    position: relative;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 120px 48px 80px;
-    overflow: hidden;
-  }
-
-  .hero-orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(90px);
-    pointer-events: none;
-    animation: orb-float 8s ease-in-out infinite;
-  }
-  .hero-orb-1 {
-    width: 600px; height: 600px;
-    background: radial-gradient(circle, rgba(0,229,255,0.12) 0%, transparent 70%);
-    top: -100px; right: -100px;
-    animation-delay: 0s;
-  }
-  .hero-orb-2 {
-    width: 400px; height: 400px;
-    background: radial-gradient(circle, rgba(123,97,255,0.1) 0%, transparent 70%);
-    bottom: 0; left: 200px;
-    animation-delay: -4s;
-  }
-
-  @keyframes orb-float {
-    0%, 100% { transform: translateY(0) scale(1); }
-    50% { transform: translateY(-30px) scale(1.05); }
-  }
-
-  .hero-tag {
-    font-size: 0.65rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 32px;
-    opacity: 0;
-    animation: fade-up 0.8s 0.2s forwards;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .hero-tag::before {
-    content: '';
-    display: block;
-    width: 40px; height: 1px;
-    background: var(--accent);
-  }
-
-  .hero-title {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: clamp(3rem, 7vw, 6.5rem);
-    line-height: 0.95;
-    letter-spacing: -0.02em;
-    margin-bottom: 32px;
-    opacity: 0;
-    animation: fade-up 0.8s 0.4s forwards;
-    max-width: 900px;
-  }
-
-  .hero-title em {
-    font-style: italic;
-    font-family: 'Fraunces', serif;
-    font-weight: 300;
-    color: var(--accent);
-  }
-
-  .hero-sub {
-    font-size: 0.85rem;
-    color: var(--muted);
-    max-width: 400px;
-    line-height: 1.8;
-    margin-bottom: 52px;
-    opacity: 0;
-    animation: fade-up 0.8s 0.6s forwards;
-    letter-spacing: 0.04em;
-  }
-
-  .hero-actions {
-    display: flex;
-    gap: 16px;
-    opacity: 0;
-    animation: fade-up 0.8s 0.8s forwards;
-  }
-
-  .btn-primary {
-    background: var(--accent);
-    color: var(--bg);
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    padding: 14px 32px;
-    border: none;
-    cursor: none;
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.2s;
-  }
-  .btn-primary::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(255,255,255,0.15);
-    transform: translateX(-110%);
-    transition: transform 0.3s ease;
-  }
-  .btn-primary:hover::after { transform: translateX(0); }
-  .btn-primary:hover { transform: translateY(-2px); }
-
-  .btn-ghost {
-    background: transparent;
-    color: var(--text);
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    padding: 14px 32px;
-    border: 1px solid var(--border);
-    cursor: none;
-    transition: border-color 0.2s, color 0.2s;
-  }
-  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
-
-  .hero-stats {
-    position: absolute;
-    right: 48px;
-    bottom: 80px;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    opacity: 0;
-    animation: fade-left 0.8s 1s forwards;
-  }
-
-  .stat {
-    text-align: right;
-  }
-  .stat-num {
-    font-family: 'Syne', sans-serif;
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--accent);
-    line-height: 1;
-  }
-  .stat-label {
-    font-size: 0.6rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-top: 4px;
-  }
-
-  .hero-scroll {
-    position: absolute;
-    bottom: 36px;
-    left: 48px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 0.6rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--muted);
-    opacity: 0;
-    animation: fade-up 0.8s 1.2s forwards;
-  }
-  .scroll-line {
-    width: 60px; height: 1px;
-    background: var(--muted);
-    position: relative;
-    overflow: hidden;
-  }
-  .scroll-line::after {
-    content: '';
-    position: absolute;
-    left: -100%; top: 0;
-    width: 100%; height: 100%;
-    background: var(--accent);
-    animation: scroll-anim 2s 1.5s ease-in-out infinite;
-  }
-  @keyframes scroll-anim {
-    0% { left: -100%; }
-    100% { left: 100%; }
-  }
-
-  @keyframes fade-up {
-    from { opacity: 0; transform: translateY(24px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes fade-left {
-    from { opacity: 0; transform: translateX(24px); }
-    to { opacity: 1; transform: translateX(0); }
-  }
-
-  /* ─── MARQUEE ─── */
-  .marquee-section {
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    padding: 18px 0;
-    overflow: hidden;
-    position: relative;
-  }
-  .marquee-track {
-    display: flex;
-    gap: 60px;
-    animation: marquee 20s linear infinite;
-    width: max-content;
-  }
-  .marquee-item {
-    font-size: 0.62rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--muted);
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    gap: 60px;
-  }
-  .marquee-item span { color: var(--accent); font-size: 0.5rem; }
-  @keyframes marquee {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
-  }
-
-  /* ─── SECTIONS ─── */
-  section { position: relative; z-index: 1; }
-
-  .section-label {
-    font-size: 0.6rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .section-label::before {
-    content: '';
-    display: block;
-    width: 24px; height: 1px;
-    background: var(--accent);
-  }
-
-  .section-title {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: clamp(2rem, 4vw, 3.2rem);
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    margin-bottom: 60px;
-  }
-  .section-title em {
-    font-style: italic;
-    font-family: 'Fraunces', serif;
-    font-weight: 300;
-    color: var(--muted);
-  }
-
-  /* ─── SERVICES ─── */
-  #services {
-    padding: 120px 48px;
-  }
-
-  .services-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-  }
-
-  .service-card {
-    background: var(--bg);
-    padding: 52px 40px;
-    position: relative;
-    overflow: hidden;
-    transition: background 0.3s;
-  }
-  .service-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--accent), var(--accent2));
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.4s ease;
-  }
-  .service-card:hover::before { transform: scaleX(1); }
-  .service-card:hover { background: var(--surface); }
-
-  .service-icon {
-    width: 44px; height: 44px;
-    margin-bottom: 32px;
-    position: relative;
-  }
-  .service-icon svg { width: 100%; height: 100%; }
-
-  .service-num {
-    position: absolute;
-    top: 40px; right: 40px;
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 4rem;
-    color: rgba(255,255,255,0.03);
-    line-height: 1;
-    transition: color 0.3s;
-  }
-  .service-card:hover .service-num { color: rgba(0,229,255,0.06); }
-
-  .service-name {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 1.2rem;
-    margin-bottom: 14px;
-    letter-spacing: -0.01em;
-  }
-
-  .service-desc {
-    font-size: 0.75rem;
-    color: var(--muted);
-    line-height: 1.8;
-    letter-spacing: 0.03em;
-  }
-
-  .service-arrow {
-    margin-top: 36px;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.62rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--accent);
-    opacity: 0;
-    transform: translateY(6px);
-    transition: opacity 0.3s, transform 0.3s;
-  }
-  .service-card:hover .service-arrow { opacity: 1; transform: translateY(0); }
-
-  /* ─── TEAM ─── */
-  #team {
-    padding: 120px 48px;
-    border-top: 1px solid var(--border);
-  }
-
-  .team-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-  }
-
-  .team-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 0;
-    overflow: hidden;
-    position: relative;
-    transition: border-color 0.3s;
-  }
-  .team-card:hover { border-color: rgba(0,229,255,0.2); }
-
-  .team-card-top {
-    height: 200px;
-    background: linear-gradient(135deg, #0d1117 0%, #0a0f1e 100%);
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .team-avatar {
-    width: 80px; height: 80px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--accent2), var(--accent));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 1.5rem;
-    color: var(--bg);
-    position: relative;
-    z-index: 1;
-  }
-
-  .team-card-top::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at 50% 50%, rgba(0,229,255,0.06), transparent 70%);
-  }
-
-  /* Geometric decoration */
-  .team-card-top::after {
-    content: '';
-    position: absolute;
-    bottom: -20px; right: -20px;
-    width: 120px; height: 120px;
-    border: 1px solid var(--border);
-    border-radius: 50%;
-  }
-
-  .team-card-body {
-    padding: 28px 28px 32px;
-  }
-
-  .team-role {
-    font-size: 0.58rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 8px;
-  }
-
-  .team-name {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 1.1rem;
-    letter-spacing: -0.01em;
-    margin-bottom: 14px;
-  }
-
-  .team-specialty {
-    font-size: 0.7rem;
-    color: var(--muted);
-    line-height: 1.7;
-    letter-spacing: 0.03em;
-  }
-
-  /* ─── BLOG ─── */
-  #blog {
-    padding: 120px 48px;
-    border-top: 1px solid var(--border);
-    background: var(--surface);
-  }
-
-  .blog-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-  }
-
-  .blog-card {
-    border: 1px solid var(--border);
-    padding: 44px 40px;
-    position: relative;
-    overflow: hidden;
-    background: var(--bg);
-    transition: border-color 0.3s;
-    cursor: none;
-  }
-  .blog-card:hover { border-color: rgba(0,229,255,0.2); }
-
-  .blog-cat {
-    font-size: 0.58rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--accent2);
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .blog-cat::before {
-    content: '';
-    display: block;
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--accent2);
-  }
-
-  .blog-title {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 1.4rem;
-    letter-spacing: -0.02em;
-    line-height: 1.2;
-    margin-bottom: 16px;
-  }
-
-  .blog-excerpt {
-    font-size: 0.72rem;
-    color: var(--muted);
-    line-height: 1.8;
-    letter-spacing: 0.03em;
-    margin-bottom: 32px;
-  }
-
-  .blog-link {
-    font-size: 0.62rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--accent);
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    transition: gap 0.2s;
-  }
-  .blog-link:hover { gap: 16px; }
-
-  .blog-year {
-    position: absolute;
-    bottom: 40px; right: 40px;
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 3.5rem;
-    color: rgba(255,255,255,0.025);
-    line-height: 1;
-  }
-
-  /* ─── CONTACT ─── */
-  #contact {
-    padding: 120px 48px;
-    border-top: 1px solid var(--border);
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    align-items: center;
-  }
-
-  .contact-left .section-title { margin-bottom: 24px; }
-
-  .contact-desc {
-    font-size: 0.75rem;
-    color: var(--muted);
-    line-height: 1.8;
-    letter-spacing: 0.03em;
-    margin-bottom: 40px;
-  }
-
-  .contact-detail {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .contact-item {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    font-size: 0.7rem;
-    color: var(--muted);
-    letter-spacing: 0.05em;
-  }
-  .contact-item-icon {
-    width: 32px; height: 32px;
-    border: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-
-  .contact-form {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-
-  .form-field {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .form-label {
-    font-size: 0.58rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
-
-  .form-input, .form-textarea {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    color: var(--text);
-    font-family: 'DM Mono', monospace;
-    font-size: 0.75rem;
-    padding: 14px 16px;
-    outline: none;
-    transition: border-color 0.2s;
-    resize: none;
-    letter-spacing: 0.03em;
-  }
-  .form-input:focus, .form-textarea:focus {
-    border-color: var(--accent);
-  }
-  .form-textarea { min-height: 120px; }
-  .form-input::placeholder, .form-textarea::placeholder { color: rgba(90,96,122,0.5); }
-
-  /* ─── FOOTER ─── */
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 32px 48px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .footer-logo {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 0.85rem;
-    letter-spacing: 0.15em;
-    color: var(--accent);
-    text-transform: uppercase;
-  }
-
-  .footer-copy {
-    font-size: 0.6rem;
-    color: var(--muted);
-    letter-spacing: 0.15em;
-  }
-
-  .footer-links {
-    display: flex;
-    gap: 28px;
-    list-style: none;
-  }
-  .footer-links a {
-    font-size: 0.6rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--muted);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-  .footer-links a:hover { color: var(--accent); }
-
-  /* Scanline effect on hover for cards */
-  .service-card::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 3px,
-      rgba(0,229,255,0.007) 3px,
-      rgba(0,229,255,0.007) 4px
-    );
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-  .service-card:hover::after { opacity: 1; }
-
-  /* Scroll reveal */
-  .reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-  }
-  .reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  @media (max-width: 900px) {
-    nav { padding: 16px 24px; }
-    .hero { padding: 100px 24px 80px; }
-    .hero-stats { display: none; }
-    #services, #team, #blog, #contact { padding: 80px 24px; }
-    .services-grid, .team-grid, .blog-grid { grid-template-columns: 1fr; }
-    .form-row { grid-template-columns: 1fr; }
-    #contact { grid-template-columns: 1fr; }
-    footer { flex-direction: column; gap: 16px; text-align: center; }
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech1World — Kinetic AI Ecosystems</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <style>
+        :root {
+            --bg: #02040a;
+            --text: #dde2f0;
+            --cyan: #00d4ff;
+            --violet: #7c5cfc;
+            --border: rgba(255, 255, 255, 0.08);
+        }
+
+        /* 1. KINETIC DEFAULTS */
+        * { box-sizing: border-box; margin: 0; padding: 0; cursor: none !important; }
+        html.lenis { height: auto; }
+        .lenis-smooth { scroll-behavior: auto !important; }
+        body { 
+            font-family: 'DM Mono', monospace; 
+            background: var(--bg); 
+            color: var(--text); 
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* 2. CUSTOM CURSOR (Delayed Follower) */
+        #cur { position: fixed; width: 8px; height: 8px; background: var(--cyan); border-radius: 50%; pointer-events: none; z-index: 10000; }
+        #cur-ring { position: fixed; width: 40px; height: 40px; border: 1px solid var(--cyan); border-radius: 50%; pointer-events: none; z-index: 9999; }
+
+        /* 3. NAV GLASS */
+        nav {
+            position: fixed; top: 0; width: 100%; padding: 30px 50px;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000; transition: background 0.4s, padding 0.4s;
+        }
+        nav.scrolled { background: rgba(2, 4, 10, 0.7); backdrop-filter: blur(20px); padding: 20px 50px; }
+        .logo-text { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.2rem; letter-spacing: -0.02em; }
+        
+        /* 4. HERO SECTION (Igloo Style) */
+        .hero {
+            height: 100vh; display: flex; flex-direction: column; 
+            justify-content: center; padding: 0 10%; position: relative;
+        }
+        .hero-title {
+            font-family: 'Syne', sans-serif; font-size: clamp(3rem, 10vw, 8rem);
+            line-height: 0.9; font-weight: 800; text-transform: uppercase;
+        }
+        .ln-wrap { overflow: hidden; display: block; } /* Mask for text reveal */
+        .hero-sub { max-width: 500px; margin: 40px 0; color: #a0a8c0; font-size: 1rem; }
+
+        /* 5. HORIZONTAL SCROLL SECTION (The Igloo Signature) */
+        .horizontal-container { overflow: hidden; display: flex; height: 100vh; width: 400vw; background: #050810; }
+        .panel { 
+            width: 100vw; height: 100vh; display: flex; align-items: center; 
+            justify-content: center; border-right: 1px solid var(--border);
+            padding: 100px;
+        }
+        .panel h2 { font-family: 'Syne', sans-serif; font-size: 6vw; text-transform: uppercase; opacity: 0.2; }
+        
+        /* 6. UTILS */
+        .noise {
+            position: fixed; inset: 0; z-index: 9998; pointer-events: none; opacity: .03;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+    </style>
 </head>
 <body>
 
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursor-ring"></div>
+<div id="cur"></div>
+<div id="cur-ring"></div>
+<div class="noise"></div>
 
-<!-- NAV -->
-<nav>
-  <a href="#" class="nav-logo">Tech1World</a>
-  <ul class="nav-links">
-    <li><a href="#services">Services</a></li>
-    <li><a href="#team">Team</a></li>
-    <li><a href="#blog">Blog</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-  <button class="nav-cta">Get Started</button>
+<nav id="nav">
+    <div class="logo-text">TECH1WORLD</div>
+    <div style="display:flex; gap:30px; font-size: 10px; font-weight: 500;">
+        <span>SOLUTIONS</span>
+        <span>ECOSYSTEM</span>
+        <span>CONTACT</span>
+    </div>
 </nav>
 
-<!-- HERO -->
-<section class="hero" id="home">
-  <div class="hero-orb hero-orb-1"></div>
-  <div class="hero-orb hero-orb-2"></div>
-  <div class="hero-tag">Enterprise AI Platform</div>
-  <h1 class="hero-title">Building <em>Intelligent</em><br>AI Ecosystems</h1>
-  <p class="hero-sub">Enterprise AI automation and scalable digital platforms — engineered for the next decade of business intelligence.</p>
-  <div class="hero-actions">
-    <button class="btn-primary">Explore Solutions</button>
-    <button class="btn-ghost">View Our Work</button>
-  </div>
-
-  <div class="hero-stats">
-    <div class="stat">
-      <div class="stat-num">200+</div>
-      <div class="stat-label">Deployments</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num">99.9%</div>
-      <div class="stat-label">Uptime SLA</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num">40+</div>
-      <div class="stat-label">Enterprise Clients</div>
-    </div>
-  </div>
-
-  <div class="hero-scroll">
-    <div class="scroll-line"></div>
-    Scroll to explore
-  </div>
+<section class="hero">
+    <h1 class="hero-title">
+        <span class="ln-wrap"><span class="ln">BUILDING</span></span>
+        <span class="ln-wrap"><span class="ln" style="color: var(--cyan);">INTELLIGENT</span></span>
+        <span class="ln-wrap"><span class="ln">FUTURE</span></span>
+    </h1>
+    <p class="hero-sub">Enterprise-grade AI automation that lives, breathes, and scales with your business.</p>
 </section>
 
-<!-- MARQUEE -->
-<div class="marquee-section">
-  <div class="marquee-track">
-    <div class="marquee-item">AI Development <span>◆</span> Machine Learning <span>◆</span> Cloud Engineering <span>◆</span> SaaS Platforms <span>◆</span> Enterprise Automation <span>◆</span> AI Ecosystems <span>◆</span> Neural Infrastructure <span>◆</span> Intelligent Systems <span>◆</span></div>
-    <div class="marquee-item">AI Development <span>◆</span> Machine Learning <span>◆</span> Cloud Engineering <span>◆</span> SaaS Platforms <span>◆</span> Enterprise Automation <span>◆</span> AI Ecosystems <span>◆</span> Neural Infrastructure <span>◆</span> Intelligent Systems <span>◆</span></div>
-  </div>
+<div class="horizontal-container">
+    <section class="panel">
+        <div style="text-align: left; width: 100%;">
+            <p style="color: var(--cyan); font-size: 12px; margin-bottom: 20px;">01 // ANALYTICS</p>
+            <h2>Neural Networks</h2>
+        </div>
+    </section>
+    <section class="panel">
+        <div style="text-align: left; width: 100%;">
+            <p style="color: var(--violet); font-size: 12px; margin-bottom: 20px;">02 // AUTOMATION</p>
+            <h2>Task Ecosystems</h2>
+        </div>
+    </section>
+    <section class="panel">
+        <div style="text-align: left; width: 100%;">
+            <p style="color: #ff3d6e; font-size: 12px; margin-bottom: 20px;">03 // SCALING</p>
+            <h2>Global Deploy</h2>
+        </div>
+    </section>
+    <section class="panel">
+        <h2>Ready?</h2>
+    </section>
 </div>
 
-<!-- SERVICES -->
-<section id="services">
-  <div class="section-label">What We Build</div>
-  <h2 class="section-title">Core <em>Services</em></h2>
-  <div class="services-grid">
-
-    <div class="service-card reveal">
-      <div class="service-num">01</div>
-      <div class="service-icon">
-        <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="1" y="1" width="42" height="42" rx="2" stroke="rgba(0,229,255,0.3)" stroke-width="1"/>
-          <circle cx="22" cy="22" r="8" stroke="#00e5ff" stroke-width="1.5"/>
-          <path d="M22 10 L22 14M22 30 L22 34M10 22 L14 22M30 22 L34 22" stroke="rgba(0,229,255,0.5)" stroke-width="1.5" stroke-linecap="round"/>
-          <circle cx="22" cy="22" r="2" fill="#00e5ff"/>
-        </svg>
-      </div>
-      <div class="service-name">AI Development</div>
-      <div class="service-desc">Custom machine learning models and automation systems tailored to your enterprise workflows. From NLP to computer vision, we build AI that creates measurable impact.</div>
-      <div class="service-arrow">Learn More →</div>
-    </div>
-
-    <div class="service-card reveal" style="transition-delay:0.1s">
-      <div class="service-num">02</div>
-      <div class="service-icon">
-        <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="1" y="1" width="42" height="42" rx="2" stroke="rgba(123,97,255,0.3)" stroke-width="1"/>
-          <path d="M8 28 C8 20 36 20 36 28" stroke="#7b61ff" stroke-width="1.5" stroke-linecap="round"/>
-          <rect x="14" y="28" width="4" height="8" rx="1" fill="rgba(123,97,255,0.4)"/>
-          <rect x="20" y="24" width="4" height="12" rx="1" fill="rgba(123,97,255,0.6)"/>
-          <rect x="26" y="20" width="4" height="16" rx="1" fill="#7b61ff"/>
-        </svg>
-      </div>
-      <div class="service-name">Cloud Engineering</div>
-      <div class="service-desc">Scalable enterprise infrastructure built on modern cloud-native architectures. Zero downtime deployments, multi-region redundancy, and FinOps-optimized cost management.</div>
-      <div class="service-arrow">Learn More →</div>
-    </div>
-
-    <div class="service-card reveal" style="transition-delay:0.2s">
-      <div class="service-num">03</div>
-      <div class="service-icon">
-        <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="1" y="1" width="42" height="42" rx="2" stroke="rgba(255,77,109,0.3)" stroke-width="1"/>
-          <rect x="10" y="14" width="24" height="16" rx="2" stroke="#ff4d6d" stroke-width="1.5"/>
-          <path d="M16 22 L20 26 L28 18" stroke="#ff4d6d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
-      <div class="service-name">SaaS Platforms</div>
-      <div class="service-desc">High-performance digital ecosystems engineered for growth. Multi-tenant architectures, real-time analytics, and white-label solutions that scale to millions of users.</div>
-      <div class="service-arrow">Learn More →</div>
-    </div>
-
-  </div>
+<section style="height: 100vh; display: flex; align-items: center; justify-content: center;">
+    <h3 style="font-family: 'Syne'; font-size: 20px; letter-spacing: 10px;">SCROLL TO RESTART</h3>
 </section>
-
-<!-- TEAM -->
-<section id="team">
-  <div class="section-label">Leadership</div>
-  <h2 class="section-title">The <em>Minds</em> Behind<br>the Machine</h2>
-  <div class="team-grid">
-
-    <div class="team-card reveal">
-      <div class="team-card-top">
-        <div class="team-avatar">DS</div>
-      </div>
-      <div class="team-card-body">
-        <div class="team-role">Founder & CEO</div>
-        <div class="team-name">Deepanshu Sharma</div>
-        <div class="team-specialty">Visionary entrepreneur driving enterprise AI strategy and ecosystem development at global scale.</div>
-      </div>
-    </div>
-
-    <div class="team-card reveal" style="transition-delay:0.1s">
-      <div class="team-card-top" style="background: linear-gradient(135deg, #0a0f1e 0%, #0d1420 100%);">
-        <div class="team-avatar" style="background: linear-gradient(135deg, #00e5ff, #0099ff);">CTO</div>
-      </div>
-      <div class="team-card-body">
-        <div class="team-role">Chief Technology Officer</div>
-        <div class="team-name">Chief Architect</div>
-        <div class="team-specialty">Cloud & AI Architecture — designing fault-tolerant distributed systems that power mission-critical enterprise workloads.</div>
-      </div>
-    </div>
-
-    <div class="team-card reveal" style="transition-delay:0.2s">
-      <div class="team-card-top" style="background: linear-gradient(135deg, #0f0a1e 0%, #140a1e 100%);">
-        <div class="team-avatar" style="background: linear-gradient(135deg, #ff4d6d, #7b61ff);">PH</div>
-      </div>
-      <div class="team-card-body">
-        <div class="team-role">Product Head</div>
-        <div class="team-name">Head of Product</div>
-        <div class="team-specialty">Enterprise SaaS Scaling — translating complex technical capabilities into products that deliver measurable business value.</div>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- BLOG -->
-<section id="blog">
-  <div class="section-label">Latest Insights</div>
-  <h2 class="section-title">Intelligence,<br><em>Distilled</em></h2>
-  <div class="blog-grid">
-
-    <div class="blog-card reveal">
-      <div class="blog-cat">Analysis</div>
-      <div class="blog-title">Future of AI: Enterprise Automation by 2030</div>
-      <div class="blog-excerpt">As large language models mature into multi-agent systems, the enterprise automation landscape is undergoing a fundamental transformation. We explore what this means for your business over the next five years.</div>
-      <a href="#" class="blog-link">Read Article →</a>
-      <div class="blog-year">2026</div>
-    </div>
-
-    <div class="blog-card reveal" style="transition-delay:0.1s">
-      <div class="blog-cat" style="color: var(--accent);">Deep Dive</div>
-      <div class="blog-title">AI + Cloud: Scaling Intelligent Systems Globally</div>
-      <div class="blog-excerpt">The intersection of cloud infrastructure and AI workloads presents unique engineering challenges. Our architects break down the architectural patterns driving globally distributed AI deployments today.</div>
-      <a href="#" class="blog-link">Read Article →</a>
-      <div class="blog-year">2026</div>
-    </div>
-
-  </div>
-</section>
-
-<!-- CONTACT -->
-<section id="contact">
-  <div class="contact-left">
-    <div class="section-label">Contact Us</div>
-    <h2 class="section-title" style="margin-bottom:24px;">Let's <em>Build</em><br>Together</h2>
-    <p class="contact-desc">Ready to deploy intelligent systems at scale? Our team of enterprise AI specialists is ready to architect your next breakthrough.</p>
-    <div class="contact-detail">
-      <div class="contact-item">
-        <div class="contact-item-icon">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <rect x="1" y="3" width="12" height="8" rx="1" stroke="#5a607a" stroke-width="1.2"/>
-            <path d="M1 4L7 8L13 4" stroke="#5a607a" stroke-width="1.2" stroke-linecap="round"/>
-          </svg>
-        </div>
-        hello@tech1world.ai
-      </div>
-      <div class="contact-item">
-        <div class="contact-item-icon">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <circle cx="7" cy="6" r="3" stroke="#5a607a" stroke-width="1.2"/>
-            <path d="M7 9C4.79 9 2 10.5 2 12" stroke="#5a607a" stroke-width="1.2" stroke-linecap="round"/>
-            <path d="M7 9C9.21 9 12 10.5 12 12" stroke="#5a607a" stroke-width="1.2" stroke-linecap="round"/>
-          </svg>
-        </div>
-        Enterprise clients worldwide
-      </div>
-    </div>
-  </div>
-
-  <div class="contact-right reveal">
-    <form class="contact-form" onsubmit="return false;">
-      <div class="form-row">
-        <div class="form-field">
-          <label class="form-label">First Name</label>
-          <input type="text" class="form-input" placeholder="Deepanshu">
-        </div>
-        <div class="form-field">
-          <label class="form-label">Last Name</label>
-          <input type="text" class="form-input" placeholder="Sharma">
-        </div>
-      </div>
-      <div class="form-field">
-        <label class="form-label">Email Address</label>
-        <input type="email" class="form-input" placeholder="name@company.com">
-      </div>
-      <div class="form-field">
-        <label class="form-label">Company</label>
-        <input type="text" class="form-input" placeholder="Your Enterprise">
-      </div>
-      <div class="form-field">
-        <label class="form-label">Message</label>
-        <textarea class="form-textarea" placeholder="Tell us about your project..."></textarea>
-      </div>
-      <button class="btn-primary" style="align-self:flex-start">Send Message</button>
-    </form>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-logo">Tech1World</div>
-  <ul class="footer-links">
-    <li><a href="#services">Services</a></li>
-    <li><a href="#team">Team</a></li>
-    <li><a href="#blog">Blog</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-  <div class="footer-copy">© 2026 Tech1World | AI Enterprise</div>
-</footer>
 
 <script>
-  // Custom cursor
-  const cursor = document.getElementById('cursor');
-  const ring = document.getElementById('cursor-ring');
-  let mx = 0, my = 0, rx = 0, ry = 0;
+    // 1. REGISTER GSAP PLUGINS
+    gsap.registerPlugin(ScrollTrigger);
 
-  document.addEventListener('mousemove', e => {
-    mx = e.clientX; my = e.clientY;
-    cursor.style.left = mx - 5 + 'px';
-    cursor.style.top = my - 5 + 'px';
-  });
-
-  function animRing() {
-    rx += (mx - rx) * 0.12;
-    ry += (my - ry) * 0.12;
-    ring.style.left = rx - 18 + 'px';
-    ring.style.top = ry - 18 + 'px';
-    requestAnimationFrame(animRing);
-  }
-  animRing();
-
-  document.querySelectorAll('button, a, .service-card, .blog-card, .team-card').forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      cursor.style.transform = 'scale(2)';
-      ring.style.width = '56px';
-      ring.style.height = '56px';
+    // 2. SMOOTH SCROLL (LENIS)
+    const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     });
-    el.addEventListener('mouseleave', () => {
-      cursor.style.transform = 'scale(1)';
-      ring.style.width = '36px';
-      ring.style.height = '36px';
-    });
-  });
+    function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
 
-  // Scroll reveal
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        observer.unobserve(e.target);
-      }
+    // 3. KINETIC CURSOR
+    const cursor = document.getElementById('cur');
+    const ring = document.getElementById('cur-ring');
+    
+    gsap.set(cursor, {xPercent: -50, yPercent: -50});
+    gsap.set(ring, {xPercent: -50, yPercent: -50});
+
+    window.addEventListener('mousemove', e => {
+        gsap.to(cursor, {x: e.clientX, y: e.clientY, duration: 0.1});
+        gsap.to(ring, {x: e.clientX, y: e.clientY, duration: 0.4});
     });
-  }, { threshold: 0.12 });
-  reveals.forEach(r => observer.observe(r));
+
+    // 4. HERO TEXT REVEAL
+    gsap.from(".ln", {
+        y: 200,
+        skewY: 10,
+        stagger: 0.1,
+        duration: 1.5,
+        ease: "power4.out",
+        delay: 0.5
+    });
+
+    // 5. HORIZONTAL SCROLL (The "Igloo" Logic)
+    let sections = gsap.utils.toArray(".panel");
+
+    gsap.to(sections, {
+        xPercent: -100 * (sections.length - 1),
+        ease: "none",
+        scrollTrigger: {
+            trigger: ".horizontal-container",
+            pin: true,
+            scrub: 1,
+            snap: 1 / (sections.length - 1),
+            end: () => "+=" + document.querySelector(".horizontal-container").offsetWidth
+        }
+    });
+
+    // 6. NAV BLUR ON SCROLL
+    ScrollTrigger.create({
+        start: 'top -80',
+        onUpdate: (self) => {
+            if(self.direction === 1) {
+                document.getElementById('nav').classList.add('scrolled');
+            } else {
+                document.getElementById('nav').classList.remove('scrolled');
+            }
+        }
+    });
 </script>
+
 </body>
 </html>
