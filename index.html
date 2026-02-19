@@ -3,20 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Neural AI</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-<style>
+<title>Tech1 World | IT & Data Solutions</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
 
+<style>
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:'Orbitron',sans-serif;
+font-family:'Inter',sans-serif;
 }
 
 body{
-background:#000;
-color:white;
+background:#0b0f19;
+color:#fff;
 overflow-x:hidden;
 }
 
@@ -27,29 +27,14 @@ left:0;
 z-index:-1;
 }
 
+/* Layout */
 section{
-min-height:100vh;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-text-align:center;
-padding:40px;
-opacity:0;
-transform:translateY(60px);
-transition:1s ease;
-}
-
-section.visible{
-opacity:1;
-transform:translateY(0);
+padding:120px 10%;
 }
 
 h1{
-font-size:70px;
-background:linear-gradient(90deg,#00f0ff,#ff00ff);
--webkit-background-clip:text;
-color:transparent;
+font-size:60px;
+font-weight:700;
 }
 
 h2{
@@ -58,112 +43,143 @@ margin-bottom:20px;
 }
 
 p{
-max-width:700px;
-opacity:0.7;
-line-height:1.6;
+opacity:0.8;
+line-height:1.7;
+max-width:800px;
 }
 
-button{
+/* Hero */
+.hero{
+min-height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+}
+
+.hero span{
+background:linear-gradient(90deg,#00c6ff,#7b2ff7);
+-webkit-background-clip:text;
+color:transparent;
+}
+
+.btn{
 margin-top:30px;
-padding:15px 40px;
+padding:14px 30px;
+border-radius:8px;
+background:#7b2ff7;
 border:none;
-border-radius:50px;
-background:linear-gradient(90deg,#00f0ff,#ff00ff);
 color:white;
-font-size:16px;
 cursor:pointer;
-transition:0.4s;
+transition:0.3s;
 }
 
-button:hover{
-transform:scale(1.1);
-box-shadow:0 0 40px #00f0ff;
+.btn:hover{
+background:#00c6ff;
 }
 
+/* Services */
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:40px;
+margin-top:50px;
+}
+
+.card{
+background:#121829;
+padding:30px;
+border-radius:12px;
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-8px);
+background:#18213a;
+}
+
+/* Footer */
+footer{
+padding:50px 10%;
+background:#070b14;
+font-size:14px;
+opacity:0.7;
+}
 </style>
 </head>
+
 <body>
 
-<section>
-<h1>NEURAL AI</h1>
-<p>Immersive Neural Intelligence Engine</p>
-<button>Initialize Core</button>
+<section class="hero">
+<h1>Welcome to <span>Tech1 World</span></h1>
+<p>
+Tech1 World delivers enterprise-grade IT services, data solutions, and strategic consulting to accelerate digital transformation for modern businesses.
+</p>
+<button class="btn">Explore Services</button>
 </section>
 
 <section>
-<h2>About The Engine</h2>
+<h2>About Us</h2>
 <p>
-Our neural architecture processes massive datasets in real time using adaptive learning algorithms and distributed AI systems.
+Tech1 World is a technology-driven company specializing in IT outsourcing, data engineering, cloud architecture, and business consulting. 
+We help startups and enterprises build scalable digital ecosystems.
 </p>
 </section>
 
 <section>
-<h2>AI Capabilities</h2>
+<h2>Our Services</h2>
+<div class="grid">
+
+<div class="card">
+<h3>IT Services</h3>
+<p>Custom software development, web applications, system integration, and infrastructure support.</p>
+</div>
+
+<div class="card">
+<h3>Technology Consulting</h3>
+<p>Strategic IT planning, digital transformation roadmaps, and enterprise system optimization.</p>
+</div>
+
+<div class="card">
+<h3>Data Solutions</h3>
+<p>Data analytics, machine learning integration, business intelligence dashboards, and automation systems.</p>
+</div>
+
+<div class="card">
+<h3>Cloud & DevOps</h3>
+<p>Secure cloud migration, CI/CD pipelines, scalable deployment architectures.</p>
+</div>
+
+</div>
+</section>
+
+<section>
+<h2>Why Choose Tech1 World</h2>
 <p>
-• Real-time predictive modeling  
-• Autonomous decision systems  
-• 3D neural visualization  
-• Enterprise AI automation  
+• Scalable architecture  
+• Modern technology stack  
+• Security-first approach  
+• Transparent consulting model  
+• Cost-efficient IT outsourcing  
 </p>
 </section>
 
 <section>
-<h2>Deploy Intelligence</h2>
+<h2>Technologies We Work With</h2>
 <p>
-Integrate next-generation AI into your infrastructure with scalable cloud-based architecture.
+Java • Python • React • Node.js • AWS • Azure • MySQL • AI/ML • DevOps • Microservices
 </p>
 </section>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<section>
+<h2>Contact Us</h2>
+<p>Email: info@tech1world.com</p>
+<p>Phone: +91-XXXXXXXXXX</p>
+<p>Location: India</p>
+</section>
 
-<script>
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer({alpha:true});
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
-
-const geometry = new THREE.IcosahedronGeometry(2, 1);
-const material = new THREE.MeshStandardMaterial({
-color:0x00ffff,
-wireframe:true
-});
-
-const sphere = new THREE.Mesh(geometry, material);
-scene.add(sphere);
-
-const light = new THREE.PointLight(0xffffff, 1);
-light.position.set(5,5,5);
-scene.add(light);
-
-camera.position.z = 5;
-
-function animate(){
-requestAnimationFrame(animate);
-sphere.rotation.x += 0.003;
-sphere.rotation.y += 0.004;
-renderer.render(scene, camera);
-}
-animate();
-
-window.addEventListener("resize", ()=>{
-renderer.setSize(window.innerWidth, window.innerHeight);
-camera.aspect = window.innerWidth/window.innerHeight;
-camera.updateProjectionMatrix();
-});
-
-/* Scroll reveal */
-const sections = document.querySelectorAll("section");
-
-window.addEventListener("scroll", ()=>{
-sections.forEach(section=>{
-const rect = section.getBoundingClientRect();
-if(rect.top < window.innerHeight - 100){
-section.classList.add("visible");
-}
-});
-});
-</script>
+<footer>
+© 2026 Tech1 World | IT & Data Consulting Company
+</footer>
 
 </body>
 </html>
