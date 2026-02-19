@@ -3,8 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tech1 World - IT Services & Consulting</title>
+<title>Tech1 World | IT Services & AI Consulting</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<script src="https://unpkg.com/scrollreveal"></script>
 
 <style>
 *{
@@ -17,18 +21,18 @@ font-family:'Poppins',sans-serif;
 body{
 background:#0f172a;
 color:white;
-scroll-behavior:smooth;
+overflow-x:hidden;
 }
 
-/* Navigation */
+/* NAVBAR */
 nav{
 position:fixed;
 width:100%;
-background:rgba(0,0,0,0.8);
-padding:15px 50px;
 display:flex;
 justify-content:space-between;
-align-items:center;
+padding:20px 60px;
+background:rgba(0,0,0,0.6);
+backdrop-filter:blur(10px);
 z-index:1000;
 }
 
@@ -38,14 +42,13 @@ color:#00f7ff;
 
 nav ul{
 display:flex;
-list-style:none;
 gap:25px;
+list-style:none;
 }
 
 nav ul li a{
 color:white;
 text-decoration:none;
-font-size:15px;
 transition:0.3s;
 }
 
@@ -53,63 +56,67 @@ nav ul li a:hover{
 color:#00f7ff;
 }
 
-/* Hero Section */
+/* HERO */
 .hero{
 height:100vh;
-background:linear-gradient(to right,#0f172a,#1e293b);
 display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
 text-align:center;
-padding:20px;
+position:relative;
+}
+
+#particles-js{
+position:absolute;
+width:100%;
+height:100%;
+z-index:-1;
 }
 
 .hero h1{
-font-size:55px;
+font-size:60px;
 background:linear-gradient(to right,#00f7ff,#00ff88);
 -webkit-background-clip:text;
 color:transparent;
-animation:slideDown 2s ease;
 }
 
-.hero p{
-max-width:700px;
+.typing{
+font-size:22px;
 margin-top:20px;
-font-size:18px;
-animation:fadeIn 3s ease;
+color:#ccc;
+height:30px;
 }
 
 .btn{
 margin-top:30px;
-padding:15px 30px;
-background:#00f7ff;
-color:black;
-border:none;
+padding:15px 35px;
 border-radius:30px;
-cursor:pointer;
+background:linear-gradient(45deg,#00f7ff,#00ff88);
+border:none;
 font-weight:bold;
+cursor:pointer;
 transition:0.4s;
 }
 
 .btn:hover{
-background:#00ff88;
 transform:scale(1.1);
+box-shadow:0 0 25px #00f7ff;
 }
 
-/* Sections */
+/* SECTION */
 section{
-padding:80px 60px;
+padding:100px 60px;
 }
 
 .section-title{
 text-align:center;
-margin-bottom:50px;
-font-size:35px;
+font-size:40px;
+margin-bottom:60px;
 color:#00f7ff;
 }
 
-/* Cards */
+/* CARDS */
 .grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
@@ -117,37 +124,29 @@ gap:30px;
 }
 
 .card{
-background:#1e293b;
+background:rgba(255,255,255,0.05);
 padding:25px;
-border-radius:15px;
+border-radius:20px;
+backdrop-filter:blur(15px);
 transition:0.5s;
 }
 
 .card:hover{
 transform:translateY(-10px);
-background:#334155;
+box-shadow:0 0 20px #00f7ff;
 }
 
-.card img{
-width:100%;
-border-radius:10px;
-margin-bottom:15px;
+/* COUNTER */
+.counter{
+font-size:45px;
+color:#00ff88;
+font-weight:bold;
 }
 
 footer{
 background:black;
 text-align:center;
 padding:30px;
-}
-
-@keyframes slideDown{
-from{transform:translateY(-50px);opacity:0;}
-to{transform:translateY(0);opacity:1;}
-}
-
-@keyframes fadeIn{
-from{opacity:0;}
-to{opacity:1;}
 }
 </style>
 </head>
@@ -164,67 +163,55 @@ to{opacity:1;}
 </nav>
 
 <div class="hero">
-<h1>Transforming Businesses with AI & IT Excellence</h1>
-<p>Tech1 World is a next-generation IT consulting and software development company delivering enterprise-grade solutions, SDET automation services, and global IT outsourcing at MNC standards.</p>
-<button class="btn">Explore Services</button>
+<div id="particles-js"></div>
+<h1>Tech1 World</h1>
+<div class="typing" id="typing"></div>
+<button class="btn">Explore Solutions</button>
 </div>
 
 <section id="services">
-<h2 class="section-title">Our IT Services</h2>
+<h2 class="section-title">Enterprise IT Services</h2>
 <div class="grid">
-
 <div class="card">
-<img src="https://images.unsplash.com/photo-1581091215367-59ab6b6b2a7a">
 <h3>Software Development</h3>
-<p>Custom enterprise software, web & mobile applications, SaaS platforms, scalable architecture design, and secure cloud-based solutions.</p>
+<p>Enterprise-grade web & mobile apps, cloud-native architecture, SaaS platforms, secure backend systems, scalable APIs.</p>
 </div>
-
 <div class="card">
-<img src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f">
 <h3>SDET & QA Automation</h3>
-<p>End-to-end test automation, CI/CD integration, Selenium, API testing, performance testing, and enterprise-level quality engineering.</p>
+<p>Automation frameworks, Selenium, API automation, CI/CD integration, performance testing & enterprise QA strategy.</p>
 </div>
-
 <div class="card">
-<img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d">
 <h3>IT Consulting</h3>
-<p>Digital transformation strategy, architecture consulting, DevOps implementation, cybersecurity advisory, and cloud migration.</p>
+<p>Digital transformation, DevOps, cloud migration, cybersecurity advisory & scalable architecture planning.</p>
 </div>
-
 <div class="card">
-<img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d">
-<h3>IT Outsourcing</h3>
-<p>Dedicated development teams, offshore outsourcing, enterprise support services, and scalable global IT workforce solutions.</p>
+<h3>Global IT Outsourcing</h3>
+<p>Dedicated offshore teams, enterprise project delivery, long-term MNC-level outsourcing solutions.</p>
 </div>
-
 </div>
 </section>
 
 <section id="projects">
-<h2 class="section-title">Our Startup Projects</h2>
+<h2 class="section-title">Startup Achievements</h2>
 <div class="grid">
-
 <div class="card">
-<h3>AI Business Automation Platform</h3>
-<p>Built AI-driven workflow automation system for startups reducing operational cost by 40%.</p>
+<div class="counter" data-target="50">0</div>
+<p>Completed Projects</p>
 </div>
-
 <div class="card">
-<h3>Enterprise HR Management System</h3>
-<p>Developed secure HR SaaS platform with real-time analytics and cloud scalability.</p>
+<div class="counter" data-target="30">0</div>
+<p>Global Clients</p>
 </div>
-
 <div class="card">
-<h3>Global E-Commerce Platform</h3>
-<p>Designed scalable e-commerce solution handling 1M+ monthly users with optimized performance.</p>
+<div class="counter" data-target="100">0</div>
+<p>Automation Suites Built</p>
 </div>
-
 </div>
 </section>
 
 <section id="contact">
-<h2 class="section-title">Contact Us</h2>
-<p style="text-align:center; max-width:700px; margin:auto;">
+<h2 class="section-title">Contact Tech1 World</h2>
+<p style="text-align:center">
 Tech1 World Pvt Ltd<br>
 IT Park, Sector 62, Noida, Uttar Pradesh, India<br>
 Email: contact@tech1world.com<br>
@@ -233,8 +220,60 @@ Phone: +91 9876543210
 </section>
 
 <footer>
-<p>© 2026 Tech1 World | IT Services & Consulting Company</p>
+© 2026 Tech1 World | AI Powered IT Solutions
 </footer>
+
+<script>
+/* Typing Effect */
+const textArray = ["AI Consulting & Automation", "Enterprise Software Development", "SDET & QA Engineering", "Global IT Outsourcing"];
+let typingElement = document.getElementById("typing");
+let i=0,j=0,currentText="",isDeleting=false;
+
+function type(){
+if(i<textArray.length){
+if(!isDeleting && j<=textArray[i].length){
+currentText=textArray[i].substring(0,j++);
+}
+else if(isDeleting && j>=0){
+currentText=textArray[i].substring(0,j--);
+}
+typingElement.innerHTML=currentText;
+if(j==textArray[i].length) isDeleting=true;
+if(j==0 && isDeleting){isDeleting=false;i++;}
+}
+setTimeout(type,100);
+}
+type();
+
+/* Counter Animation */
+const counters=document.querySelectorAll(".counter");
+counters.forEach(counter=>{
+const update=()=>{
+const target=+counter.getAttribute("data-target");
+const count=+counter.innerText;
+const increment=target/100;
+if(count<target){
+counter.innerText=Math.ceil(count+increment);
+setTimeout(update,30);
+}
+else{
+counter.innerText=target;
+}
+};
+update();
+});
+
+/* Scroll Reveal */
+ScrollReveal().reveal('.card',{delay:200,distance:'50px',origin:'bottom',duration:1000});
+
+/* Particles */
+particlesJS("particles-js",{
+"particles":{"number":{"value":80},"color":{"value":"#00f7ff"},
+"shape":{"type":"circle"},"opacity":{"value":0.5},
+"size":{"value":3},"line_linked":{"enable":true,"color":"#00f7ff"},
+"move":{"enable":true,"speed":2}}
+});
+</script>
 
 </body>
 </html>
