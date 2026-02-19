@@ -3,165 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tech1World — Liquid Identity</title>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@800&family=Inter:wght@400&display=swap" rel="stylesheet">
+    <title>Tech1World — Onchain Intelligence</title>
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/curtainsjs/8.1.5/curtains.min.js"></script>
-    <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script> 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@800&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
 
     <style>
-        :root { --bg: #050505; --text: #ffffff; }
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+        :root {
+            --bg: #0a0a0b;
+            --text: #ffffff;
+            --dim: rgba(255, 255, 255, 0.4);
+            --border: rgba(255, 255, 255, 0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none !important; }
         
         body { 
-            font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); 
+            background-color: var(--bg); 
+            color: var(--text); 
+            font-family: 'Inter', sans-serif; 
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* 1. WEBGL CANVAS (Must cover screen) */
-        #canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 5; }
-
-        /* 2. LAYOUT */
-        #page-wrapper { position: relative; z-index: 10; width: 100%; }
-        
-        section { 
-            height: 100vh; width: 100%; display: flex; align-items: center; 
-            justify-content: center; padding: 10vw; position: relative;
+        /* 3D RENDER LAYER */
+        #canvas-container {
+            position: fixed; top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: 1; 
         }
 
-        .hero-title {
-            font-family: 'Syne'; font-size: 12vw; line-height: 0.85;
-            text-transform: uppercase; letter-spacing: -0.04em; text-align: left;
-            width: 100%;
+        /* UI OVERLAY */
+        .ui-wrapper {
+            position: relative; z-index: 10;
+            width: 100%; min-height: 200vh; /* Allow for scrolling behavior */
+            padding: 50px;
         }
 
-        /* IGLOO IMAGE BLOCKS */
-        .liquid-plane {
-            position: relative; width: 40vw; height: 55vh; 
-            overflow: hidden; visibility: hidden; /* Hidden in HTML, shown in WebGL */
+        /* TOP NAVIGATION & LOGO */
+        .header {
+            display: flex; justify-content: space-between; align-items: flex-start;
+            position: fixed; top: 50px; left: 50px; right: 50px;
         }
-        .liquid-plane img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
 
-        /* CURSOR */
-        #cursor {
-            position: fixed; width: 10px; height: 10px; background: #fff;
+        .brand { display: flex; flex-direction: column; }
+        .brand h1 { font-family: 'Syne'; font-size: 5vw; line-height: 0.8; letter-spacing: -3px; text-transform: uppercase; }
+        .copyright { font-size: 10px; font-family: 'IBM Plex Mono'; color: var(--dim); margin-top: 15px; letter-spacing: 1px; }
+
+        /* MANIFESTO SECTION (Right Side) */
+        .manifesto {
+            max-width: 340px; text-align: right;
+        }
+        .manifesto-label { 
+            font-family: 'IBM Plex Mono'; font-size: 10px; letter-spacing: 5px; 
+            color: var(--dim); margin-bottom: 25px; text-transform: uppercase; 
+        }
+        .manifesto-body { 
+            font-size: 19px; font-weight: 500; line-height: 1.3; 
+            letter-spacing: -0.02em; opacity: 0.85;
+        }
+
+        /* CURSOR FOLLOWERS */
+        #cursor-dot {
+            position: fixed; width: 6px; height: 6px; background: #fff;
             border-radius: 50%; pointer-events: none; z-index: 10000;
-            mix-blend-mode: difference; transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        #cursor-ring {
+            position: fixed; width: 40px; height: 40px; border: 1px solid var(--border);
+            border-radius: 50%; pointer-events: none; z-index: 9999;
+            transition: transform 0.1s ease-out;
         }
 
-        nav {
-            position: fixed; top: 0; width: 100%; padding: 40px;
-            display: flex; justify-content: space-between; z-index: 1000;
-            font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+        /* BOTTOM HUD */
+        .hud-bottom {
+            position: fixed; bottom: 50px; left: 50px; right: 50px;
+            display: flex; justify-content: space-between; align-items: flex-end;
+            font-size: 10px; font-family: 'IBM Plex Mono'; letter-spacing: 2px;
+            color: var(--dim);
         }
 
-        .float-text { position: absolute; bottom: 10%; right: 10%; font-size: 12px; opacity: 0.4; }
+        /* ATMOSPHERIC BACKGROUND */
+        .vignette {
+            position: fixed; inset: 0;
+            background: radial-gradient(circle at 50% 50%, transparent 20%, rgba(0,0,0,0.8) 100%);
+            z-index: 2; pointer-events: none;
+        }
     </style>
 </head>
 <body>
 
-    <div id="canvas"></div>
-    <div id="cursor"></div>
+    <div id="cursor-dot"></div>
+    <div id="cursor-ring"></div>
+    <div class="vignette"></div>
+    <div id="canvas-container"></div>
 
-    <nav>
-        <div style="font-family: 'Syne'; font-weight: 800; font-size: 20px;">T1W.</div>
-        <div>( MENU )</div>
-    </nav>
-
-    <div id="page-wrapper">
-        <section>
-            <h1 class="hero-title">INTELLIGENT<br>DYNAMICS</h1>
-            <div class="float-text">EST // 2026</div>
-        </section>
-
-        <section>
-            <div class="liquid-plane">
-                <img src="https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?auto=format&fit=crop&w=1200" crossorigin="anonymous">
+    <div class="ui-wrapper">
+        <header class="header">
+            <div class="brand">
+                <h1>IGLOO</h1>
+                <p class="copyright">// Copyright © 2026</p>
+                <p style="font-size: 10px; color: var(--dim); margin-top: 5px; font-family: 'IBM Plex Mono';">
+                    Tech1World, Inc.<br>All Rights Reserved.
+                </p>
             </div>
-        </section>
 
-        <section>
-            <h1 class="hero-title" style="text-align: right;">SYSTEMS<br>THAT FLOW</h1>
-        </section>
-
-        <section>
-            <div class="liquid-plane">
-                <img src="https://images.unsplash.com/photo-1614850523296-d8c1af93d400?auto=format&fit=crop&w=1200" crossorigin="anonymous">
+            <div class="manifesto">
+                <p class="manifesto-label">////// Manifesto</p>
+                <p class="manifesto-body">
+                    Our mission is to create the largest onchain community, driving the consumer crypto revolution.
+                </p>
             </div>
-        </section>
+        </header>
+
+        <div class="hud-bottom">
+            <div>[ 40.7128° N, 74.0060° W ]</div>
+            <div style="text-align: right;">VERSION — 1.0.4<br>SCROLL TO NAVIGATE</div>
+        </div>
     </div>
 
-    <script id="plane-vs" type="x-shader/x-vertex">
-        precision mediump float;
-        attribute vec3 aVertexPosition;
-        attribute vec2 aTextureCoord;
-        uniform mat4 uMVMatrix;
-        uniform mat4 uPMatrix;
-        uniform float uVelocity;
-        varying vec2 vTextureCoord;
-        void main() {
-            vec3 pos = aVertexPosition;
-            // The "Liquid" Warp: Offset X based on Y position and scroll velocity
-            pos.x += sin(pos.y * 1.5 + uVelocity * 0.1) * (uVelocity * 0.005);
-            gl_Position = uPMatrix * uMVMatrix * vec4(pos, 1.0);
-            vTextureCoord = aTextureCoord;
-        }
-    </script>
-
-    <script id="plane-fs" type="x-shader/x-fragment">
-        precision mediump float;
-        varying vec2 vTextureCoord;
-        uniform sampler2D uSampler0;
-        void main() {
-            gl_FragColor = texture2D(uSampler0, vTextureCoord);
-        }
-    </script>
-
     <script>
-        // 1. INIT SMOOTH SCROLL
-        const lenis = new Lenis({ duration: 1.5, lerp: 0.05 });
-        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        // 1. ENGINE: THREE.JS 3D SCENE
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        // CREATE GEOMETRY (The 3D Igloo structure)
+        const geometry = new THREE.SphereGeometry(2, 12, 12); // Low poly for that blocky look
+        const material = new THREE.MeshStandardMaterial({ 
+            color: 0xffffff, 
+            wireframe: false,
+            flatShading: true,
+            emissive: 0x444444
+        });
+        const mesh = new THREE.Mesh(geometry, material);
+        scene.add(mesh);
+
+        // LIGHTING
+        const pointLight = new THREE.PointLight(0xffffff, 2);
+        pointLight.position.set(5, 5, 5);
+        scene.add(pointLight);
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+        scene.add(ambientLight);
+
+        camera.position.z = 5;
+
+        // 2. KINETICS: SMOOTH SCROLL (LENIS)
+        const lenis = new Lenis({ duration: 1.5, lerp: 0.1 });
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
         requestAnimationFrame(raf);
 
-        // 2. INIT WEBGL ENGINE
-        const curtains = new Curtains({ container: "canvas", pixelRatio: Math.min(1.5, window.devicePixelRatio) });
-        
-        const params = {
-            vertexShaderID: "plane-vs",
-            fragmentShaderID: "plane-fs",
-            uniforms: {
-                velocity: { name: "uVelocity", type: "1f", value: 0 },
-            },
-        };
+        // 3. INTERACTION: MOUSE TRACKING
+        const cursorDot = document.getElementById('cursor-dot');
+        const cursorRing = document.getElementById('cursor-ring');
 
-        // 3. CAPTURE PLANES
-        const planeElements = document.querySelectorAll(".liquid-plane");
-        planeElements.forEach((el, i) => {
-            const plane = curtains.addPlane(el, params);
-            if(plane) {
-                plane.onRender(() => {
-                    // Feed scroll velocity into the shader
-                    plane.uniforms.velocity.value = lenis.velocity;
-                });
-            }
-        });
-
-        // 4. MOUSE BEHAVIOR
-        const cursor = document.getElementById('cursor');
         window.addEventListener('mousemove', (e) => {
-            gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.5, ease: "power3.out" });
+            const { clientX, clientY } = e;
+            
+            // Cursor UI
+            gsap.to(cursorDot, { x: clientX, y: clientY, duration: 0 });
+            gsap.to(cursorRing, { x: clientX - 17, y: clientY - 17, duration: 0.4 });
+
+            // 3D Model Reaction
+            const x = (clientX / window.innerWidth) - 0.5;
+            const y = (clientY / window.innerHeight) - 0.5;
+            gsap.to(mesh.rotation, { y: x * 1, x: y * 1, duration: 1.5 });
         });
 
-        // Hover effect for planes
-        planeElements.forEach(el => {
-            el.addEventListener('mouseenter', () => gsap.to(cursor, { scale: 8, duration: 0.3 }));
-            el.addEventListener('mouseleave', () => gsap.to(cursor, { scale: 1, duration: 0.3 }));
-        });
+        // 4. ANIMATION LOOP
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            // Rotation based on scroll velocity
+            const scrollVel = lenis.velocity * 0.005;
+            mesh.rotation.y += 0.005 + scrollVel;
+            
+            // Subtle "Breathing" Scale
+            const scale = 1 + Math.sin(Date.now() * 0.001) * 0.05;
+            mesh.scale.set(scale, scale, scale);
 
-        // 5. UPDATE CURTAINS ON SCROLL
-        lenis.on('scroll', () => {
-            curtains.updateScroll(0, lenis.scroll);
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // Resize Fix
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
         });
     </script>
 </body>
