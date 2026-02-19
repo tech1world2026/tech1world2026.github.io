@@ -1,202 +1,240 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TECH1WORLD // Advanced Kinetic Ecosystem</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tech1 World - IT Services & Consulting</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@800&family=Inter:wght@400;600&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
 
-    <style>
-        :root {
-            --bg: #030304;
-            --text: #ffffff;
-            --accent: #00f2ff;
-            --dim: rgba(255, 255, 255, 0.3);
-        }
+body{
+background:#0f172a;
+color:white;
+scroll-behavior:smooth;
+}
 
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none !important; }
-        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; overflow-x: hidden; }
+/* Navigation */
+nav{
+position:fixed;
+width:100%;
+background:rgba(0,0,0,0.8);
+padding:15px 50px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+z-index:1000;
+}
 
-        /* 1. ATMOSPHERIC POST-PRODUCTION */
-        #canvas-container { position: fixed; inset: 0; z-index: 1; }
-        
-        .grain-overlay {
-            position: fixed; inset: 0; z-index: 5; pointer-events: none; opacity: 0.04;
-            background-image: url("https://media.giphy.com/media/oEI9uWUicG5R6/giphy.gif");
-        }
+nav h2{
+color:#00f7ff;
+}
 
-        /* 2. ADVANCED INTERFACE */
-        .interface {
-            position: relative; z-index: 10; width: 100%; height: 100vh;
-            padding: 4vw; display: flex; flex-direction: column; justify-content: space-between;
-            pointer-events: none;
-        }
+nav ul{
+display:flex;
+list-style:none;
+gap:25px;
+}
 
-        .header { display: flex; justify-content: space-between; align-items: flex-start; }
+nav ul li a{
+color:white;
+text-decoration:none;
+font-size:15px;
+transition:0.3s;
+}
 
-        .logo-section h1 {
-            font-family: 'Syne'; font-size: 8vw; line-height: 0.75; letter-spacing: -0.05em;
-            text-transform: uppercase; background: linear-gradient(180deg, #fff 30%, var(--dim) 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
+nav ul li a:hover{
+color:#00f7ff;
+}
 
-        .tagline-block { font-family: 'IBM Plex Mono'; font-size: 11px; margin-top: 2rem; color: var(--dim); letter-spacing: 2px; }
+/* Hero Section */
+.hero{
+height:100vh;
+background:linear-gradient(to right,#0f172a,#1e293b);
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+padding:20px;
+}
 
-        .manifesto { max-width: 380px; text-align: right; pointer-events: auto; }
-        .m-title { font-family: 'IBM Plex Mono'; font-size: 10px; color: var(--accent); margin-bottom: 20px; letter-spacing: 4px; }
-        .m-content { font-size: 20px; font-weight: 500; line-height: 1.2; opacity: 0.8; }
+.hero h1{
+font-size:55px;
+background:linear-gradient(to right,#00f7ff,#00ff88);
+-webkit-background-clip:text;
+color:transparent;
+animation:slideDown 2s ease;
+}
 
-        /* 3. DYNAMIC ELEMENTS */
-        #cursor { position: fixed; width: 8px; height: 8px; background: #fff; border-radius: 50%; z-index: 10000; pointer-events: none; }
-        #cursor-ring { position: fixed; width: 40px; height: 40px; border: 1px solid var(--accent); border-radius: 50%; z-index: 9999; pointer-events: none; }
+.hero p{
+max-width:700px;
+margin-top:20px;
+font-size:18px;
+animation:fadeIn 3s ease;
+}
 
-        .scroll-indicator { font-family: 'IBM Plex Mono'; font-size: 10px; color: var(--dim); display: flex; gap: 40px; }
-        
-        /* 4. CONTENT SECTIONS (SCROLLABLE) */
-        .content-wrap { position: relative; z-index: 20; }
-        section { height: 100vh; padding: 10vw; display: flex; align-items: center; }
-        .reveal-text { font-family: 'Syne'; font-size: 6vw; text-transform: uppercase; opacity: 0; transform: translateY(50px); }
-    </style>
+.btn{
+margin-top:30px;
+padding:15px 30px;
+background:#00f7ff;
+color:black;
+border:none;
+border-radius:30px;
+cursor:pointer;
+font-weight:bold;
+transition:0.4s;
+}
+
+.btn:hover{
+background:#00ff88;
+transform:scale(1.1);
+}
+
+/* Sections */
+section{
+padding:80px 60px;
+}
+
+.section-title{
+text-align:center;
+margin-bottom:50px;
+font-size:35px;
+color:#00f7ff;
+}
+
+/* Cards */
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:30px;
+}
+
+.card{
+background:#1e293b;
+padding:25px;
+border-radius:15px;
+transition:0.5s;
+}
+
+.card:hover{
+transform:translateY(-10px);
+background:#334155;
+}
+
+.card img{
+width:100%;
+border-radius:10px;
+margin-bottom:15px;
+}
+
+footer{
+background:black;
+text-align:center;
+padding:30px;
+}
+
+@keyframes slideDown{
+from{transform:translateY(-50px);opacity:0;}
+to{transform:translateY(0);opacity:1;}
+}
+
+@keyframes fadeIn{
+from{opacity:0;}
+to{opacity:1;}
+}
+</style>
 </head>
+
 <body>
 
-    <div id="cursor"></div>
-    <div id="cursor-ring"></div>
-    <div class="grain-overlay"></div>
-    <div id="canvas-container"></div>
+<nav>
+<h2>Tech1 World</h2>
+<ul>
+<li><a href="#services">Services</a></li>
+<li><a href="#projects">Projects</a></li>
+<li><a href="#contact">Contact</a></li>
+</ul>
+</nav>
 
-    <main class="interface">
-        <div class="header">
-            <div class="logo-section">
-                <h1>TECH1<br>WORLD</h1>
-                <div class="tagline-block">
-                    [ SYSTEMS_ARCHITECTURE ]<br>
-                    NEURAL_NODES // 2026_EDITION
-                </div>
-            </div>
-            <div class="manifesto">
-                <p class="m-title">► CORE_PRINCIPLE</p>
-                <p class="m-content">Transforming static data into kinetic intelligence through decentralized cloud-native protocols.</p>
-            </div>
-        </div>
+<div class="hero">
+<h1>Transforming Businesses with AI & IT Excellence</h1>
+<p>Tech1 World is a next-generation IT consulting and software development company delivering enterprise-grade solutions, SDET automation services, and global IT outsourcing at MNC standards.</p>
+<button class="btn">Explore Services</button>
+</div>
 
-        <div class="footer-hud">
-            <div class="scroll-indicator">
-                <span>SCROLL_VELOCITY: <b id="vel-val">0</b></span>
-                <span>COORD: 28.6139° N, 77.2090° E</span>
-            </div>
-        </div>
-    </main>
+<section id="services">
+<h2 class="section-title">Our IT Services</h2>
+<div class="grid">
 
-    <div class="content-wrap">
-        <section><h2 class="reveal-text">Liquid Computing</h2></section>
-        <section><h2 class="reveal-text">Onchain Security</h2></section>
-        <section><h2 class="reveal-text">Neural Scaling</h2></section>
-    </div>
+<div class="card">
+<img src="https://images.unsplash.com/photo-1581091215367-59ab6b6b2a7a">
+<h3>Software Development</h3>
+<p>Custom enterprise software, web & mobile applications, SaaS platforms, scalable architecture design, and secure cloud-based solutions.</p>
+</div>
 
-    <script>
-        // 1. ADVANCED ENGINE SETUP
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        document.getElementById('canvas-container').appendChild(renderer.domElement);
+<div class="card">
+<img src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f">
+<h3>SDET & QA Automation</h3>
+<p>End-to-end test automation, CI/CD integration, Selenium, API testing, performance testing, and enterprise-level quality engineering.</p>
+</div>
 
-        // 2. DISPLACED GEOMETRY (The Core)
-        const geometry = new THREE.IcosahedronGeometry(2, 64); // High poly for smooth distortion
-        const material = new THREE.MeshPhongMaterial({ 
-            color: 0x000000,
-            emissive: 0x111111,
-            flatShading: false,
-            wireframe: true,
-            transparent: true,
-            opacity: 0.4
-        });
-        const core = new THREE.Mesh(geometry, material);
-        scene.add(core);
+<div class="card">
+<img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d">
+<h3>IT Consulting</h3>
+<p>Digital transformation strategy, architecture consulting, DevOps implementation, cybersecurity advisory, and cloud migration.</p>
+</div>
 
-        // Bright Inner Core
-        const innerGeom = new THREE.IcosahedronGeometry(1.8, 4);
-        const innerMat = new THREE.MeshBasicMaterial({ color: 0x00f2ff, wireframe: true, transparent: true, opacity: 0.1 });
-        const innerCore = new THREE.Mesh(innerGeom, innerMat);
-        core.add(innerCore);
+<div class="card">
+<img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d">
+<h3>IT Outsourcing</h3>
+<p>Dedicated development teams, offshore outsourcing, enterprise support services, and scalable global IT workforce solutions.</p>
+</div>
 
-        // LIGHTING
-        const pLight = new THREE.PointLight(0x00f2ff, 2, 50);
-        pLight.position.set(5, 5, 5);
-        scene.add(pLight);
-        scene.add(new THREE.AmbientLight(0xffffff, 0.1));
+</div>
+</section>
 
-        camera.position.z = 5;
+<section id="projects">
+<h2 class="section-title">Our Startup Projects</h2>
+<div class="grid">
 
-        // 3. MOTION & LIKENESS (LENIS + GSAP)
-        const lenis = new Lenis({ duration: 1.2, lerp: 0.1 });
-        function raf(time) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-        }
-        requestAnimationFrame(raf);
+<div class="card">
+<h3>AI Business Automation Platform</h3>
+<p>Built AI-driven workflow automation system for startups reducing operational cost by 40%.</p>
+</div>
 
-        // Update Velocity HUD
-        lenis.on('scroll', ({ velocity }) => {
-            document.getElementById('vel-val').innerText = Math.abs(Math.round(velocity));
-            // Distort core based on scroll speed
-            gsap.to(core.scale, { x: 1 + Math.abs(velocity) * 0.05, y: 1 - Math.abs(velocity) * 0.05, duration: 0.5 });
-        });
+<div class="card">
+<h3>Enterprise HR Management System</h3>
+<p>Developed secure HR SaaS platform with real-time analytics and cloud scalability.</p>
+</div>
 
-        // Mouse Tracking
-        window.addEventListener('mousemove', (e) => {
-            const { clientX, clientY } = e;
-            gsap.to('#cursor', { x: clientX, y: clientY, duration: 0 });
-            gsap.to('#cursor-ring', { x: clientX - 16, y: clientY - 16, duration: 0.4 });
+<div class="card">
+<h3>Global E-Commerce Platform</h3>
+<p>Designed scalable e-commerce solution handling 1M+ monthly users with optimized performance.</p>
+</div>
 
-            const x = (clientX / window.innerWidth) - 0.5;
-            const y = (clientY / window.innerHeight) - 0.5;
-            gsap.to(core.rotation, { y: x * 3, x: y * 3, duration: 2 });
-        });
+</div>
+</section>
 
-        // 4. TEXT REVEAL LOGIC
-        gsap.utils.toArray(".reveal-text").forEach(text => {
-            gsap.to(text, {
-                scrollTrigger: {
-                    trigger: text,
-                    start: "top 80%",
-                    onEnter: () => gsap.to(text, { opacity: 1, y: 0, duration: 1, ease: "power4.out" })
-                }
-            });
-        });
+<section id="contact">
+<h2 class="section-title">Contact Us</h2>
+<p style="text-align:center; max-width:700px; margin:auto;">
+Tech1 World Pvt Ltd<br>
+IT Park, Sector 62, Noida, Uttar Pradesh, India<br>
+Email: contact@tech1world.com<br>
+Phone: +91 9876543210
+</p>
+</section>
 
-        // 5. THE VERTEX NOISE (Making it "Alive")
-        const originalVertices = geometry.attributes.position.array.slice();
-        function animate() {
-            requestAnimationFrame(animate);
-            const time = Date.now() * 0.001;
-            
-            // Subtle pulse
-            core.rotation.y += 0.001;
-            
-            // Manual vertex manipulation for "Liquid" feel
-            const positions = geometry.attributes.position.array;
-            for (let i = 0; i < positions.length; i += 3) {
-                const x = originalVertices[i];
-                const y = originalVertices[i+1];
-                const z = originalVertices[i+2];
-                
-                // Sin wave distortion
-                positions[i] = x + Math.sin(time + y) * 0.05;
-                positions[i+1] = y + Math.cos(time + x) * 0.05;
-            }
-            geometry.attributes.position.needsUpdate = true;
+<footer>
+<p>© 2026 Tech1 World | IT Services & Consulting Company</p>
+</footer>
 
-            renderer.render(scene, camera);
-        }
-        animate();
-    </script>
 </body>
 </html>
