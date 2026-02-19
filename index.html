@@ -3,209 +3,172 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tech1World | AI Studio</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+<title>AI Neural Engine</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r155/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.155/examples/js/postprocessing/EffectComposer.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.155/examples/js/postprocessing/RenderPass.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.155/examples/js/postprocessing/UnrealBloomPass.js"></script>
+
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
-body{
-background:#020208;
-color:white;
-overflow-x:hidden;
-scroll-behavior:smooth;
-}
-canvas{
-position:fixed;
-top:0;
-left:0;
-z-index:-5;
-}
-nav{
-position:fixed;
-width:100%;
-padding:25px 8%;
-display:flex;
-justify-content:space-between;
-background:rgba(0,0,0,0.3);
-backdrop-filter:blur(25px);
-z-index:1000;
-}
-nav a{
-color:white;
-text-decoration:none;
-margin-left:30px;
-opacity:0.8;
-transition:0.3s;
-}
-nav a:hover{opacity:1;color:#00eaff;}
-.logo{font-weight:800;letter-spacing:2px;}
-
-section{
-min-height:100vh;
-padding:150px 8%;
-display:flex;
-flex-direction:column;
-justify-content:center;
+body {
+    margin: 0;
+    overflow: hidden;
+    font-family: 'Segoe UI', sans-serif;
+    background: radial-gradient(circle at center, #0f0f1a, #000);
 }
 
-.hero h1{
-font-size:90px;
-background:linear-gradient(90deg,#00eaff,#8a2bff);
--webkit-background-clip:text;
-color:transparent;
-line-height:1.05;
+canvas {
+    display: block;
 }
 
-.hero p{
-margin-top:30px;
-max-width:700px;
-color:#aaa;
-line-height:1.8;
+.overlay {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    backdrop-filter: blur(8px);
+    background: rgba(0,0,0,0.35);
 }
 
-.panel{
-margin-top:80px;
-background:rgba(255,255,255,0.05);
-padding:60px;
-border-radius:30px;
-backdrop-filter:blur(30px);
-box-shadow:0 40px 80px rgba(0,0,0,0.8);
-transition:0.4s;
-}
-.panel:hover{
-transform:translateY(-20px);
-background:rgba(0,234,255,0.08);
+h1 {
+    font-size: 4rem;
+    background: linear-gradient(90deg,#00f2ff,#a100ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0;
+    letter-spacing: 4px;
 }
 
-footer{
-text-align:center;
-padding:60px;
-color:#666;
+p {
+    color: #aaa;
+    font-size: 1.2rem;
+    max-width: 600px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+button {
+    margin-top: 40px;
+    padding: 15px 40px;
+    border-radius: 50px;
+    border: none;
+    background: linear-gradient(90deg,#00f2ff,#a100ff);
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.4s ease;
+}
+
+button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 25px #a100ff;
 }
 </style>
 </head>
+
 <body>
 
-<nav>
-<div class="logo">TECH1WORLD</div>
-<div>
-<a href="#home">Home</a>
-<a href="#core">Core</a>
-<a href="#architecture">Architecture</a>
-<a href="#contact">Contact</a>
+<div class="overlay">
+    <h1>NEURAL AI</h1>
+    <p>Next generation AI-powered immersive intelligence platform. Real-time neural visualization with cinematic 3D rendering.</p>
+    <button onclick="boost()">Initialize Core</button>
 </div>
-</nav>
-
-<section id="home" class="hero">
-<h1>Cinematic AI Intelligence Core</h1>
-<p>We build multidimensional artificial intelligence systems with real-time neural visualization, distributed computation, and autonomous adaptive architectures.</p>
-</section>
-
-<section id="core">
-<div class="panel">
-<h2>Neural Simulation Engine</h2>
-<p>Our AI core simulates interconnected neural networks across scalable distributed infrastructure layers.</p>
-</div>
-</section>
-
-<section id="architecture">
-<div class="panel">
-<h2>Higher Dimensional Architecture</h2>
-<p>Multi-layer neural abstraction systems engineered for global enterprise deployment.</p>
-</div>
-</section>
-
-<section id="contact">
-<div class="panel">
-<h2>Collaborate With Us</h2>
-<p>Email: info@tech1world.com</p>
-</div>
-</section>
-
-<footer>
-© 2026 Tech1World | AI Studio Experience
-</footer>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128/examples/js/postprocessing/EffectComposer.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128/examples/js/postprocessing/RenderPass.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128/examples/js/postprocessing/UnrealBloomPass.js"></script>
 
 <script>
-
-// Scene Setup
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,1000);
-const renderer = new THREE.WebGLRenderer({antialias:true,alpha:true});
-renderer.setSize(window.innerWidth,window.innerHeight);
-renderer.setPixelRatio(window.devicePixelRatio);
+let scene = new THREE.Scene();
+let camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+let renderer = new THREE.WebGLRenderer({antialias:true});
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.shadowMap.enabled = true;
 document.body.appendChild(renderer.domElement);
 
-// Bloom
-const composer = new THREE.EffectComposer(renderer);
-const renderPass = new THREE.RenderPass(scene,camera);
+camera.position.z = 6;
+
+// Lights
+let ambient = new THREE.AmbientLight(0xffffff, 0.5);
+scene.add(ambient);
+
+let pointLight = new THREE.PointLight(0x00ffff, 3, 100);
+pointLight.position.set(5,5,5);
+scene.add(pointLight);
+
+// AI Core
+let geometry = new THREE.IcosahedronGeometry(1.5, 2);
+let material = new THREE.MeshStandardMaterial({
+    color: 0x00ffff,
+    metalness: 0.8,
+    roughness: 0.2,
+    emissive: 0x2200ff,
+    emissiveIntensity: 1
+});
+let core = new THREE.Mesh(geometry, material);
+scene.add(core);
+
+// Floating particles
+let particlesGeometry = new THREE.BufferGeometry();
+let count = 1500;
+let positions = new Float32Array(count * 3);
+
+for(let i=0;i<count*3;i++){
+    positions[i] = (Math.random()-0.5)*20;
+}
+
+particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions,3));
+
+let particlesMaterial = new THREE.PointsMaterial({
+    color:0xffffff,
+    size:0.03
+});
+
+let particles = new THREE.Points(particlesGeometry, particlesMaterial);
+scene.add(particles);
+
+// Post Processing
+let composer = new THREE.EffectComposer(renderer);
+let renderPass = new THREE.RenderPass(scene, camera);
 composer.addPass(renderPass);
-const bloomPass = new THREE.UnrealBloomPass(
-new THREE.Vector2(window.innerWidth,window.innerHeight),
-1.5,
-0.4,
-0.85
+
+let bloomPass = new THREE.UnrealBloomPass(
+    new THREE.Vector2(window.innerWidth, window.innerHeight),
+    1.5,
+    0.4,
+    0.85
 );
 composer.addPass(bloomPass);
 
-// AI Core Geometry
-const geometry = new THREE.IcosahedronGeometry(2,5);
-const material = new THREE.MeshBasicMaterial({
-color:0x00eaff,
-wireframe:true
-});
-const core = new THREE.Mesh(geometry,material);
-scene.add(core);
+// Animation
+let clock = new THREE.Clock();
 
-// Neural Particles
-const particleCount = 3000;
-const positions = new Float32Array(particleCount*3);
-for(let i=0;i<particleCount*3;i++){
-positions[i]=(Math.random()-0.5)*30;
-}
-const particleGeometry=new THREE.BufferGeometry();
-particleGeometry.setAttribute('position',new THREE.BufferAttribute(positions,3));
-const particleMaterial=new THREE.PointsMaterial({
-color:0x8a2bff,
-size:0.05,
-transparent:true,
-opacity:0.8
-});
-const particles=new THREE.Points(particleGeometry,particleMaterial);
-scene.add(particles);
-
-camera.position.z=6;
-
-// Mouse interaction
-document.addEventListener("mousemove",(e)=>{
-core.rotation.y=e.clientX*0.0005;
-core.rotation.x=e.clientY*0.0005;
-});
-
-// Scroll Camera Movement
-window.addEventListener("scroll",()=>{
-camera.position.z=6 + window.scrollY*0.002;
-});
-
-// Animate
 function animate(){
-requestAnimationFrame(animate);
-core.rotation.z+=0.003;
-particles.rotation.y+=0.0003;
-composer.render();
+    requestAnimationFrame(animate);
+
+    let t = clock.getElapsedTime();
+
+    core.rotation.x += 0.005;
+    core.rotation.y += 0.01;
+
+    core.position.y = Math.sin(t)*0.3;
+
+    particles.rotation.y += 0.0005;
+
+    camera.position.x = Math.sin(t*0.2)*2;
+    camera.lookAt(scene.position);
+
+    composer.render();
 }
+
 animate();
 
-window.addEventListener("resize",()=>{
-renderer.setSize(window.innerWidth,window.innerHeight);
-camera.aspect=window.innerWidth/window.innerHeight;
-camera.updateProjectionMatrix();
-composer.setSize(window.innerWidth,window.innerHeight);
-});
+function boost(){
+    material.emissiveIntensity = 4;
+    bloomPass.strength = 3;
+}
 </script>
 
 </body>
