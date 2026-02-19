@@ -1,193 +1,218 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TECH1WORLD // Advanced Kinetic Ecosystem</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tech1 World | AI & Enterprise IT Solutions</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@800&family=Inter:wght@400;600&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/scrollreveal"></script>
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 
-    <style>
-        :root {
-            --bg: #030304;
-            --text: #ffffff;
-            --accent: #00f2ff;
-            --dim: rgba(255, 255, 255, 0.2);
-        }
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{background:#0f172a;color:white;scroll-behavior:smooth;overflow-x:hidden;}
 
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none !important; }
-        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; overflow-x: hidden; }
+nav{
+position:fixed;width:100%;padding:20px 80px;
+display:flex;justify-content:space-between;align-items:center;
+background:rgba(0,0,0,0.5);backdrop-filter:blur(15px);z-index:1000;
+}
+nav h2{color:#00f7ff;}
+nav ul{display:flex;gap:25px;list-style:none;}
+nav ul li a{color:white;text-decoration:none;transition:0.3s;}
+nav ul li a:hover{color:#00f7ff;}
 
-        #canvas-container { position: fixed; inset: 0; z-index: 1; }
-        
-        /* 1. KINETIC UI OVERLAY */
-        .interface {
-            position: relative; z-index: 10; width: 100%; height: 100vh;
-            padding: 4vw; display: flex; flex-direction: column; justify-content: space-between;
-            pointer-events: none;
-        }
+.hero{
+position:relative;height:100vh;
+display:flex;justify-content:center;align-items:center;
+text-align:center;overflow:hidden;
+}
 
-        .header { display: flex; justify-content: space-between; align-items: flex-start; }
+#particles-js{
+position:absolute;width:100%;height:100%;z-index:-2;
+}
 
-        .logo-section h1 {
-            font-family: 'Syne'; font-size: 8vw; line-height: 0.75; letter-spacing: -0.05em;
-            text-transform: uppercase; mix-blend-mode: difference;
-        }
+.hero::after{
+content:"";position:absolute;width:100%;height:100%;
+background:linear-gradient(270deg,#00f7ff,#0f172a,#00ff88);
+background-size:600% 600%;
+animation:gradientMove 12s ease infinite;
+opacity:0.4;z-index:-1;
+}
 
-        /* 2. MAGNETIC ELEMENTS (Clickable/Hoverable) */
-        .magnetic-wrap { pointer-events: auto; display: inline-block; }
-        
-        .manifesto { max-width: 380px; text-align: right; }
-        .m-title { font-family: 'IBM Plex Mono'; font-size: 10px; color: var(--accent); margin-bottom: 20px; letter-spacing: 4px; }
-        .m-content { font-size: 20px; font-weight: 500; line-height: 1.2; opacity: 0.8; }
+@keyframes gradientMove{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
 
-        /* 3. NAVIGATION (IGLOO STYLE) */
-        nav { display: flex; gap: 40px; pointer-events: auto; }
-        nav a { 
-            font-family: 'IBM Plex Mono'; font-size: 10px; color: var(--dim); 
-            text-decoration: none; letter-spacing: 2px; transition: color 0.3s;
-        }
-        nav a:hover { color: #fff; }
+.hero h1{
+font-size:70px;
+background:linear-gradient(to right,#00f7ff,#00ff88);
+-webkit-background-clip:text;color:transparent;
+}
 
-        /* 4. CURSOR & HUD */
-        #cursor { position: fixed; width: 8px; height: 8px; background: #fff; border-radius: 50%; z-index: 10000; pointer-events: none; }
-        #cursor-ring { position: fixed; width: 40px; height: 40px; border: 1px solid var(--accent); border-radius: 50%; z-index: 9999; pointer-events: none; }
+.hero p{margin-top:20px;font-size:20px;color:#ddd;max-width:800px;}
 
-        .footer-hud { display: flex; justify-content: space-between; align-items: flex-end; width: 100%; }
-        .hud-left { font-family: 'IBM Plex Mono'; font-size: 10px; color: var(--dim); line-height: 2; }
-        
-        /* 5. SCROLL CONTENT REVEAL */
-        .content-wrap { position: relative; z-index: 15; }
-        section { height: 100vh; padding: 10vw; display: flex; flex-direction: column; justify-content: center; }
-        .reveal-text { font-family: 'Syne'; font-size: 5vw; text-transform: uppercase; color: var(--dim); transition: 1s; }
-        .reveal-text.active { color: #fff; transform: translateX(30px); }
-    </style>
+.btn{
+margin-top:30px;padding:15px 40px;border-radius:50px;
+background:linear-gradient(45deg,#00f7ff,#00ff88);
+border:none;font-weight:bold;cursor:pointer;transition:0.4s;
+}
+.btn:hover{transform:scale(1.1);box-shadow:0 0 30px #00f7ff;}
+
+section{padding:100px 80px;}
+
+.section-title{
+text-align:center;font-size:40px;margin-bottom:60px;color:#00f7ff;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:30px;
+}
+
+.card{
+background:rgba(255,255,255,0.05);
+padding:25px;border-radius:20px;
+backdrop-filter:blur(15px);
+transition:0.4s;
+}
+.card:hover{
+transform:translateY(-10px);
+box-shadow:0 0 20px #00f7ff;
+}
+
+.counter{font-size:45px;color:#00ff88;font-weight:bold;}
+
+.clients img{
+width:150px;margin:20px;filter:grayscale(1);transition:0.3s;
+}
+.clients img:hover{filter:none;transform:scale(1.1);}
+
+.team img{
+width:100%;border-radius:15px;margin-bottom:15px;
+}
+
+form{
+max-width:600px;margin:auto;display:flex;flex-direction:column;gap:20px;
+}
+input,textarea{
+padding:15px;border:none;border-radius:10px;
+}
+textarea{height:120px;}
+
+footer{
+background:black;text-align:center;padding:30px;
+}
+</style>
 </head>
+
 <body>
 
-    <div id="cursor"></div>
-    <div id="cursor-ring"></div>
-    <div id="canvas-container"></div>
+<nav>
+<h2>Tech1 World</h2>
+<ul>
+<li><a href="#services">Services</a></li>
+<li><a href="#projects">Projects</a></li>
+<li><a href="#team">Team</a></li>
+<li><a href="#contact">Contact</a></li>
+</ul>
+</nav>
 
-    <main class="interface">
-        <div class="header">
-            <div class="logo-section magnetic-wrap">
-                <h1>TECH1<br>WORLD</h1>
-            </div>
-            
-            <div class="manifesto magnetic-wrap">
-                <p class="m-title">► CORE_PRINCIPLE</p>
-                <p class="m-content">Architecting the onchain future through neural-mesh protocols and elastic cloud scaling.</p>
-            </div>
-        </div>
+<div class="hero">
+<div id="particles-js"></div>
+<div>
+<h1>AI-Powered Enterprise IT Solutions</h1>
+<p>Tech1 World delivers MNC-level software development, SDET automation, DevOps transformation, and global IT outsourcing services.</p>
+<button class="btn">Start Digital Transformation</button>
+</div>
+</div>
 
-        <nav>
-            <div class="magnetic-wrap"><a href="#">SERVICES</a></div>
-            <div class="magnetic-wrap"><a href="#">SYSTEMS</a></div>
-            <div class="magnetic-wrap"><a href="#">NETWORK</a></div>
-        </nav>
+<section id="services">
+<h2 class="section-title">Enterprise Services</h2>
+<div class="grid">
+<div class="card"><h3>Software Development</h3><p>Full-stack web & mobile apps, SaaS platforms, scalable APIs, microservices architecture.</p></div>
+<div class="card"><h3>SDET & QA Automation</h3><p>Automation frameworks, Selenium, CI/CD pipelines, API testing, performance engineering.</p></div>
+<div class="card"><h3>Cloud & DevOps</h3><p>AWS, Azure migration, containerization, Kubernetes, CI/CD & infrastructure automation.</p></div>
+<div class="card"><h3>IT Outsourcing</h3><p>Dedicated offshore teams delivering enterprise-level project execution globally.</p></div>
+</div>
+</section>
 
-        <div class="footer-hud">
-            <div class="hud-left">
-                [ 28.6139° N, 77.2090° E ]<br>
-                STATUS: ENCRYPTED // VER_2.0.4
-            </div>
-            <div class="magnetic-wrap" style="color: var(--dim); font-size: 10px; font-family: 'IBM Plex Mono';">
-                SCROLL_TO_ENTER
-            </div>
-        </div>
-    </main>
+<section id="projects">
+<h2 class="section-title">Company Achievements</h2>
+<div class="grid">
+<div class="card"><div class="counter" data-target="50">0</div><p>Projects Delivered</p></div>
+<div class="card"><div class="counter" data-target="30">0</div><p>Global Clients</p></div>
+<div class="card"><div class="counter" data-target="100">0</div><p>Automation Suites Built</p></div>
+</div>
+</section>
 
-    <div class="content-wrap">
-        <section><h2 class="reveal-text">01 // NEURAL NODES</h2></section>
-        <section><h2 class="reveal-text">02 // CLOUD MESH</h2></section>
-        <section><h2 class="reveal-text">03 // ONCHAIN DATA</h2></section>
-    </div>
+<section>
+<h2 class="section-title">Our Clients</h2>
+<div class="clients" style="text-align:center;">
+<img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg">
+<img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg">
+<img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg">
+</div>
+</section>
 
-    <script>
-        // 1. ENGINE & GEOMETRY
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.getElementById('canvas-container').appendChild(renderer.domElement);
+<section id="team">
+<h2 class="section-title">Leadership Team</h2>
+<div class="grid team">
+<div class="card">
+<img src="https://randomuser.me/api/portraits/men/32.jpg">
+<h3>Deepanshu Sharma</h3>
+<p>Founder & CEO – AI & Enterprise Architecture Specialist</p>
+</div>
+<div class="card">
+<img src="https://randomuser.me/api/portraits/women/44.jpg">
+<h3>Head of Engineering</h3>
+<p>Cloud & DevOps Expert with 10+ years experience.</p>
+</div>
+</div>
+</section>
 
-        const geometry = new THREE.IcosahedronGeometry(2, 64);
-        const material = new THREE.MeshPhongMaterial({ 
-            color: 0x000000, emissive: 0x111111, wireframe: true, 
-            transparent: true, opacity: 0.3 
-        });
-        const core = new THREE.Mesh(geometry, material);
-        scene.add(core);
+<section id="contact">
+<h2 class="section-title">Contact Us</h2>
+<form>
+<input type="text" placeholder="Your Name">
+<input type="email" placeholder="Your Email">
+<textarea placeholder="Your Message"></textarea>
+<button class="btn">Send Message</button>
+</form>
+</section>
 
-        const light = new THREE.PointLight(0x00f2ff, 2, 50);
-        light.position.set(5, 5, 5);
-        scene.add(light);
-        scene.add(new THREE.AmbientLight(0xffffff, 0.1));
-        camera.position.z = 5;
+<footer>
+© 2026 Tech1 World Pvt Ltd | Noida, India
+</footer>
 
-        // 2. MAGNETIC LOGIC (The "Igloo" Pull)
-        const magnetics = document.querySelectorAll('.magnetic-wrap');
-        magnetics.forEach(m => {
-            m.addEventListener('mousemove', (e) => {
-                const rect = m.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2;
-                const y = e.clientY - rect.top - rect.height / 2;
-                gsap.to(m, { x: x * 0.4, y: y * 0.4, duration: 0.5 });
-                gsap.to('#cursor-ring', { scale: 2, borderColor: '#fff', duration: 0.3 });
-            });
-            m.addEventListener('mouseleave', () => {
-                gsap.to(m, { x: 0, y: 0, duration: 0.5, ease: "elastic.out(1, 0.3)" });
-                gsap.to('#cursor-ring', { scale: 1, borderColor: '#00f2ff', duration: 0.3 });
-            });
-        });
+<script>
+ScrollReveal().reveal('.card',{delay:200,distance:'50px',origin:'bottom',duration:1000});
 
-        // 3. SMOOTH SCROLL (LENIS)
-        const lenis = new Lenis();
-        function raf(time) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-        }
-        requestAnimationFrame(raf);
+const counters=document.querySelectorAll(".counter");
+counters.forEach(counter=>{
+const update=()=>{
+const target=+counter.getAttribute("data-target");
+const count=+counter.innerText;
+const increment=target/100;
+if(count<target){
+counter.innerText=Math.ceil(count+increment);
+setTimeout(update,30);
+}else{counter.innerText=target;}
+};
+update();
+});
 
-        // 4. CURSOR & INTERACTION
-        window.addEventListener('mousemove', (e) => {
-            gsap.to('#cursor', { x: e.clientX, y: e.clientY, duration: 0 });
-            gsap.to('#cursor-ring', { x: e.clientX - 20, y: e.clientY - 20, duration: 0.4 });
-            const x = (e.clientX / window.innerWidth) - 0.5;
-            const y = (e.clientY / window.innerHeight) - 0.5;
-            gsap.to(core.rotation, { y: x * 2, x: y * 2, duration: 2 });
-        });
+particlesJS("particles-js",{
+"particles":{"number":{"value":80},"color":{"value":"#00f7ff"},
+"shape":{"type":"circle"},"opacity":{"value":0.5},
+"size":{"value":3},"line_linked":{"enable":true,"color":"#00f7ff"},
+"move":{"enable":true,"speed":2}}
+});
+</script>
 
-        // 5. ANIMATION LOOP + NOISE
-        const originalPositions = geometry.attributes.position.array.slice();
-        function animate() {
-            requestAnimationFrame(animate);
-            const time = Date.now() * 0.001;
-            const positions = geometry.attributes.position.array;
-            
-            for (let i = 0; i < positions.length; i += 3) {
-                positions[i] = originalPositions[i] + Math.sin(time + originalPositions[i+1]) * 0.1;
-                positions[i+1] = originalPositions[i+1] + Math.cos(time + originalPositions[i]) * 0.1;
-            }
-            geometry.attributes.position.needsUpdate = true;
-            core.rotation.y += 0.002;
-            renderer.render(scene, camera);
-        }
-        animate();
-
-        // 6. SCROLL REVEAL
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if(entry.isIntersecting) entry.target.classList.add('active');
-            });
-        }, { threshold: 0.5 });
-
-        document.querySelectorAll('.reveal-text').forEach(t => observer.observe(t));
-    </script>
 </body>
 </html>
