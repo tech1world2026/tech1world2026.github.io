@@ -1,36 +1,294 @@
-<section id="portfolio">
-    <div class="section-header">
-        <h4 style="font-family: 'IBM Plex Mono'; color: var(--accent); font-size: 10px; letter-spacing: 5px; margin-bottom: 15px;">// CASE STUDIES</h4>
-        <h2>PROVEN <span>ARCHITECTURES</span></h2>
-    </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Tech1World - Global Enterprise IT Solutions, AI Integration, and Cloud Infrastructure.">
+    <title>Tech1World | Engineering the Intelligence Era</title>
 
-    <div class="filter-controls" style="margin-bottom: 50px; display: flex; gap: 20px;">
-        <button class="filter-btn active" data-filter="all">ALL_SYSTEMS</button>
-        <button class="filter-btn" data-filter="web">WEB_APPS</button>
-        <button class="filter-btn" data-filter="mobile">MOBILE_OS</button>
-        <button class="filter-btn" data-filter="cloud">CLOUD_MESH</button>
-    </div>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Syne:wght@700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <div class="portfolio-grid grid-3">
-        <div class="project-card card" data-category="web">
-            <div class="p-category">WEB_DEVELOPMENT</div>
-            <h3>FinTech Dashboard 2.0</h3>
-            <p>High-frequency trading interface with real-time WebSocket integration and secure ledger protocols.</p>
-            <a href="#" class="p-link">VIEW CASE →</a>
+    <style>
+        :root {
+            --brand: #00f2ff;
+            --brand-dark: #008891;
+            --bg: #030304;
+            --surface: #0a0a0c;
+            --text: #ffffff;
+            --text-dim: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
+            --glass: rgba(255, 255, 255, 0.03);
+            --gradient: linear-gradient(135deg, #00f2ff 0%, #7b2ff7 100%);
+            --ease: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Base & Scroll Behavior */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.6; overflow-x: hidden; }
+        
+        /* Typography */
+        h1, h2, h3 { font-family: 'Syne', sans-serif; font-weight: 800; letter-spacing: -0.03em; }
+        .mono { font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; font-size: 11px; letter-spacing: 3px; color: var(--brand); }
+
+        /* Utility */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s var(--ease); }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* Navigation */
+        nav { position: fixed; top: 0; width: 100%; z-index: 1000; padding: 25px 0; transition: 0.4s; border-bottom: 1px solid transparent; }
+        nav.scrolled { background: rgba(3, 3, 4, 0.85); backdrop-filter: blur(20px); padding: 15px 0; border-bottom: 1px solid var(--border); }
+        .nav-content { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: 'Syne'; font-size: 24px; text-decoration: none; color: #fff; }
+        .logo span { color: var(--brand); }
+        .nav-links { display: flex; gap: 40px; }
+        .nav-links a { text-decoration: none; color: var(--text-dim); font-size: 14px; transition: 0.3s; }
+        .nav-links a:hover { color: var(--brand); }
+
+        /* Hero */
+        .hero { height: 100vh; display: flex; align-items: center; position: relative; overflow: hidden; }
+        .hero-bg { position: absolute; inset: 0; background: radial-gradient(circle at 80% 20%, rgba(0, 242, 255, 0.1) 0%, transparent 50%); z-index: -1; }
+        .hero h1 { font-size: clamp(48px, 8vw, 90px); line-height: 0.9; margin: 20px 0; }
+        .hero p { max-width: 600px; color: var(--text-dim); font-size: 18px; margin-bottom: 40px; }
+
+        /* Buttons */
+        .btn { padding: 14px 32px; border-radius: 6px; font-weight: 600; text-decoration: none; display: inline-block; transition: var(--ease); border: none; cursor: pointer; }
+        .btn-primary { background: var(--gradient); color: #000; }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(0, 242, 255, 0.3); }
+
+        /* Sections */
+        section { padding: 120px 0; }
+        .card { background: var(--surface); border: 1px solid var(--border); padding: 40px; border-radius: 12px; transition: 0.4s; }
+        .card:hover { border-color: var(--brand); transform: translateY(-10px); }
+        .card i { font-size: 32px; color: var(--brand); margin-bottom: 25px; }
+
+        /* Portfolio */
+        .filter-nav { display: flex; gap: 20px; margin-bottom: 40px; }
+        .filter-btn { background: none; border: 1px solid var(--border); color: var(--text-dim); padding: 8px 16px; border-radius: 4px; cursor: pointer; }
+        .filter-btn.active { border-color: var(--brand); color: var(--brand); }
+
+        /* Contact Form */
+        .contact-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 80px; }
+        input, textarea { width: 100%; background: var(--surface); border: 1px solid var(--border); padding: 15px; color: #fff; border-radius: 4px; margin-bottom: 20px; font-family: inherit; }
+        input:focus { border-color: var(--brand); outline: none; }
+
+        footer { background: #010101; padding: 80px 0 40px; border-top: 1px solid var(--border); }
+        .footer-bottom { margin-top: 80px; padding-top: 30px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 12px; color: var(--text-dim); }
+
+        /* Page View Handling */
+        .page-view { display: none; }
+        .page-view.active { display: block; }
+
+        /* Loader */
+        #loader { position: fixed; inset: 0; background: var(--bg); z-index: 9999; display: flex; justify-content: center; align-items: center; }
+        .spinner { width: 40px; height: 40px; border: 3px solid var(--border); border-top-color: var(--brand); border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <div id="loader"><div class="spinner"></div></div>
+
+    <nav id="navbar">
+        <div class="container nav-content">
+            <a href="#" onclick="showPage('home')" class="logo">TECH1<span>WORLD</span></a>
+            <div class="nav-links">
+                <a href="#" onclick="showPage('about')">About</a>
+                <a href="#" onclick="showPage('services')">Services</a>
+                <a href="#" onclick="showPage('portfolio')">Case Studies</a>
+                <a href="#" onclick="showPage('blog')">Insights</a>
+                <a href="#" onclick="showPage('contact')" class="btn btn-primary" style="padding: 10px 20px; margin-left: 20px;">Start Project</a>
+            </div>
         </div>
+    </nav>
 
-        <div class="project-card card" data-category="cloud">
-            <div class="p-category">CLOUD_INFRA</div>
-            <h3>Agro-Data Lake</h3>
-            <p>Multi-region AWS architecture handling TBs of agricultural sensor data for predictive harvesting.</p>
-            <a href="#" class="p-link">VIEW CASE →</a>
-        </div>
+    <main id="home" class="page-view active">
+        <section class="hero">
+            <div class="hero-bg"></div>
+            <div class="container">
+                <p class="mono reveal">Enterprise IT Solutions // 2026</p>
+                <h1 class="reveal">Architecting the <br><span style="color:var(--brand)">Digital Frontier.</span></h1>
+                <p class="reveal">Tech1World delivers premium IT outsourcing, high-performance cloud infrastructure, and custom AI ecosystems for global enterprises and funded startups.</p>
+                <div class="reveal">
+                    <a href="#" onclick="showPage('contact')" class="btn btn-primary">Book an Audit</a>
+                    <a href="#" onclick="showPage('services')" style="color: #fff; margin-left: 30px; text-decoration: none; font-weight: 600;">Explore Ecosystem →</a>
+                </div>
+            </div>
+        </section>
 
-        <div class="project-card card" data-category="mobile">
-            <div class="p-category">MOBILE_UX</div>
-            <h3>HealthTrack AI</h3>
-            <p>Native iOS/Android application with on-device machine learning for real-time biometric analysis.</p>
-            <a href="#" class="p-link">VIEW CASE →</a>
+        <section class="container">
+            <div class="grid">
+                <div class="card reveal">
+                    <i class="fas fa-microchip"></i>
+                    <h3>Neural Integration</h3>
+                    <p>Embedding custom LLMs and computer vision into legacy enterprise workflows for predictive intelligence.</p>
+                </div>
+                <div class="card reveal">
+                    <i class="fas fa-cloud-sun"></i>
+                    <h3>Cloud Modernization</h3>
+                    <p>Transitioning from monolithic stacks to resilient, serverless architectures on AWS, Azure, and GCP.</p>
+                </div>
+                <div class="card reveal">
+                    <i class="fas fa-code-branch"></i>
+                    <h3>DevOps Excellence</h3>
+                    <p>Automated CI/CD pipelines ensuring zero-downtime deployments and enterprise-grade security protocols.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <main id="about" class="page-view">
+        <section class="container">
+            <p class="mono">Our Story</p>
+            <h2 style="font-size: 3rem; margin-bottom: 40px;">Global Reach, <br>Local Expertise.</h2>
+            <div class="grid">
+                <div class="card">
+                    <h2 style="color:var(--brand); font-size: 3rem;">15+</h2>
+                    <p>Countries Served</p>
+                </div>
+                <div class="card">
+                    <h2 style="color:var(--brand); font-size: 3rem;">250+</h2>
+                    <p>Engineers Deployed</p>
+                </div>
+                <div class="card">
+                    <h2 style="color:var(--brand); font-size: 3rem;">98%</h2>
+                    <p>Client Retention</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <main id="services" class="page-view">
+        <section class="container">
+            <p class="mono">Solutions Stack</p>
+            <h2 style="font-size: 3rem; margin-bottom: 60px;">Scale Without <br>Compromise.</h2>
+            
+            <div class="grid">
+                <div class="card">
+                    <h3>Web Engineering</h3>
+                    <p>Next-gen React and Node.js ecosystems built for sub-second latency and massive concurrent users.</p>
+                </div>
+                <div class="card">
+                    <h3>Mobile OS</h3>
+                    <p>Native iOS and Android development focusing on fluid UX and high-security biometric integration.</p>
+                </div>
+                <div class="card">
+                    <h3>IT Consulting</h3>
+                    <p>Strategic CTO-level guidance for digital transformation and technical debt reduction.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <main id="contact" class="page-view">
+        <section class="container">
+            <div class="contact-grid">
+                <div>
+                    <p class="mono">Contact Hub</p>
+                    <h2 style="font-size: 3rem; margin: 20px 0;">Let's Build the <br>Future.</h2>
+                    <p style="color: var(--text-dim); margin-bottom: 40px;">JDA Colony Phase 2, Plot 37, Jammu, J&K.<br>Tel: +91 9419281505</p>
+                    <div class="socials" style="font-size: 24px; display: flex; gap: 20px;">
+                        <i class="fab fa-linkedin"></i>
+                        <i class="fab fa-github"></i>
+                        <i class="fab fa-x-twitter"></i>
+                    </div>
+                </div>
+                <form class="card" id="contactForm">
+                    <input type="text" placeholder="Full Name" required>
+                    <input type="email" placeholder="Corporate Email" required>
+                    <select style="width:100%; background:var(--surface); border:1px solid var(--border); padding:15px; color:#fff; margin-bottom:20px;">
+                        <option>Web Engineering</option>
+                        <option>Cloud Infrastructure</option>
+                        <option>AI Solutions</option>
+                    </select>
+                    <textarea rows="5" placeholder="Project Brief"></textarea>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Initialize Consultation</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="grid">
+                <div>
+                    <div class="logo">T1<span>W</span></div>
+                    <p style="color:var(--text-dim); margin-top: 20px;">Premier IT architecture for global enterprises.</p>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 20px;">Navigation</h4>
+                    <p style="color:var(--text-dim); cursor:pointer;" onclick="showPage('services')">Services</p>
+                    <p style="color:var(--text-dim); cursor:pointer;" onclick="showPage('about')">About</p>
+                    <p style="color:var(--text-dim); cursor:pointer;" onclick="showPage('portfolio')">Portfolio</p>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 20px;">Newsletter</h4>
+                    <div style="display:flex; gap:10px;">
+                        <input type="email" placeholder="Email" style="margin-bottom:0;">
+                        <button class="btn btn-primary" style="padding:10px 15px;"><i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Tech1World Pvt. Ltd. | All Systems Operational.</p>
+                <p>[ 32.7266° N, 74.8570° E ]</p>
+            </div>
         </div>
-    </div>
-</section>
+    </footer>
+
+    <script>
+        // Loader handling
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            setTimeout(() => {
+                loader.style.opacity = '0';
+                setTimeout(() => loader.style.display = 'none', 500);
+            }, 1000);
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            nav.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Page Switcher Engine
+        function showPage(pageId) {
+            // Hide all views
+            document.querySelectorAll('.page-view').forEach(view => {
+                view.classList.remove('active');
+            });
+            
+            // Show selected view
+            const activePage = document.getElementById(pageId);
+            activePage.classList.add('active');
+            
+            // Reset scroll & trigger reveal
+            window.scrollTo(0, 0);
+            triggerReveal();
+        }
+
+        // Reveal Animation Logic
+        function triggerReveal() {
+            const reveals = document.querySelectorAll('.reveal');
+            reveals.forEach((el, index) => {
+                setTimeout(() => {
+                    el.classList.add('visible');
+                }, index * 100);
+            });
+        }
+
+        // Initial reveal
+        document.addEventListener('DOMContentLoaded', triggerReveal);
+
+        // Simple Form Validation
+        document.getElementById('contactForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Consultation Initialized. A Technical Lead will contact you shortly.');
+        });
+    </script>
+</body>
+</html>
