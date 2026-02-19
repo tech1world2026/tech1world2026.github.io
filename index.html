@@ -1,287 +1,218 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tech1World | IT Solutions</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TECH 1WORLD // Software Architecture & Data Systems</title>
 
-<!-- Google Font -->
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@800&family=Inter:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
 
-<style>
+    <style>
+        :root {
+            --bg: #020203;
+            --text: #ffffff;
+            --accent: #00f2ff;
+            --dim: rgba(255, 255, 255, 0.2);
+            --glass: rgba(255, 255, 255, 0.03);
+        }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
-    scroll-behavior:smooth;
-}
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none !important; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; overflow-x: hidden; }
 
-body{
-    background:#0f2027;
-    color:white;
-    overflow-x:hidden;
-}
+        #canvas-container { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
+        
+        /* HIGH-END OVERLAY */
+        .interface {
+            position: fixed; inset: 0; z-index: 100;
+            padding: 40px; display: flex; flex-direction: column;
+            justify-content: space-between; pointer-events: none;
+        }
 
-/* NAVBAR */
+        /* TOP NAVIGATION */
+        .top-nav { display: flex; justify-content: space-between; align-items: flex-start; }
+        .logo-block h1 { 
+            font-family: 'Syne'; font-size: 5vw; line-height: 0.8; letter-spacing: -3px; 
+            background: linear-gradient(180deg, #fff 0%, var(--dim) 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
 
-nav{
-    position:fixed;
-    width:100%;
-    padding:20px 10%;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    background:rgba(0,0,0,0.6);
-    backdrop-filter:blur(10px);
-    z-index:1000;
-}
+        .meta-group { font-family: 'IBM Plex Mono'; font-size: 10px; color: var(--dim); margin-top: 20px; letter-spacing: 1px; line-height: 2; }
+        .accent-text { color: var(--accent); opacity: 1; }
 
-nav h2{
-    color:#00f2ff;
-}
+        /* MANIFESTO GLASS BOX */
+        .manifesto-box {
+            max-width: 380px; text-align: right; pointer-events: auto;
+            background: var(--glass); padding: 30px; border-radius: 2px;
+            border-right: 1px solid var(--accent); backdrop-filter: blur(10px);
+        }
+        .m-label { font-family: 'IBM Plex Mono'; font-size: 9px; color: var(--accent); margin-bottom: 15px; letter-spacing: 5px; }
+        .m-text { font-size: 16px; line-height: 1.4; font-weight: 500; color: rgba(255,255,255,0.7); }
 
-nav ul{
-    list-style:none;
-    display:flex;
-    gap:30px;
-}
+        /* HUD ELEMENTS */
+        #cursor { position: fixed; width: 6px; height: 6px; background: #fff; border-radius: 50%; z-index: 10000; pointer-events: none; }
+        #cursor-ring { position: fixed; width: 40px; height: 40px; border: 1px solid var(--accent); border-radius: 50%; z-index: 9999; pointer-events: none; }
 
-nav ul li a{
-    text-decoration:none;
-    color:white;
-    transition:0.3s;
-}
+        .footer-hud { display: flex; justify-content: space-between; align-items: flex-end; }
+        .location-data { font-family: 'IBM Plex Mono'; font-size: 9px; color: var(--dim); letter-spacing: 2px; }
+        
+        /* CONTENT BLOCKS */
+        .main-scroller { position: relative; z-index: 10; }
+        section { height: 100vh; padding: 10vw; display: flex; align-items: center; }
+        
+        .service-card { opacity: 0; transform: translateX(-50px); transition: 1s cubic-bezier(0.19, 1, 0.22, 1); }
+        .service-card.active { opacity: 1; transform: translateX(0); }
+        .service-card h2 { font-family: 'Syne'; font-size: 8vw; text-transform: uppercase; line-height: 0.9; margin-bottom: 20px; }
+        .service-card p { font-family: 'IBM Plex Mono'; color: var(--accent); font-size: 12px; letter-spacing: 4px; }
 
-nav ul li a:hover{
-    color:#00f2ff;
-}
-
-/* HERO */
-
-.hero{
-    height:100vh;
-    position:relative;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    overflow:hidden;
-}
-
-.hero video{
-    position:absolute;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    z-index:-1;
-}
-
-.hero-content{
-    animation:fadeIn 2s ease-in-out;
-}
-
-.hero h1{
-    font-size:60px;
-}
-
-.hero p{
-    margin:20px 0;
-    font-size:20px;
-}
-
-.btn{
-    padding:12px 30px;
-    background:#00f2ff;
-    color:black;
-    border:none;
-    cursor:pointer;
-    font-weight:bold;
-    border-radius:30px;
-    transition:0.3s;
-}
-
-.btn:hover{
-    background:white;
-}
-
-/* SECTIONS */
-
-section{
-    padding:100px 10%;
-    text-align:center;
-}
-
-.services{
-    display:flex;
-    gap:30px;
-    justify-content:center;
-    flex-wrap:wrap;
-}
-
-.card{
-    background:rgba(255,255,255,0.05);
-    padding:30px;
-    border-radius:20px;
-    width:300px;
-    transition:0.4s;
-}
-
-.card:hover{
-    transform:translateY(-10px);
-    background:rgba(0,242,255,0.1);
-}
-
-.card img{
-    width:60px;
-    margin-bottom:20px;
-}
-
-/* ABOUT */
-
-.about{
-    display:flex;
-    align-items:center;
-    gap:40px;
-    flex-wrap:wrap;
-}
-
-.about img{
-    width:400px;
-    border-radius:20px;
-}
-
-/* CONTACT */
-
-.contact form{
-    display:flex;
-    flex-direction:column;
-    gap:15px;
-    max-width:500px;
-    margin:auto;
-}
-
-.contact input,
-.contact textarea{
-    padding:10px;
-    border:none;
-    border-radius:5px;
-}
-
-/* ANIMATION */
-
-@keyframes fadeIn{
-    from{opacity:0; transform:translateY(30px);}
-    to{opacity:1; transform:translateY(0);}
-}
-
-/* FOOTER */
-
-footer{
-    text-align:center;
-    padding:20px;
-    background:black;
-}
-
-/* MOBILE */
-
-@media(max-width:768px){
-    .hero h1{
-        font-size:35px;
-    }
-    .about{
-        flex-direction:column;
-    }
-}
-
-</style>
+        .magnetic-wrap { pointer-events: auto; display: inline-block; }
+    </style>
 </head>
 <body>
 
-<!-- NAVBAR -->
-<nav>
-    <h2>Tech1World</h2>
-    <ul>
-        <li><a href="#home">Home</a></li>
-        <li><a href="#services">Services</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#contact">Contact</a></li>
-    </ul>
-</nav>
+    <div id="cursor"></div>
+    <div id="cursor-ring"></div>
+    <div id="canvas-container"></div>
 
-<!-- HERO -->
-<section class="hero" id="home">
+    <main class="interface">
+        <div class="top-nav">
+            <div class="logo-block magnetic-wrap">
+                <h1>TECH<br>1WORLD</h1>
+                <div class="meta-group">
+                    <span class="accent-text">●</span> SOFTWARE_DEVELOPMENT<br>
+                    <span class="accent-text">●</span> DATA_ENGINEERING<br>
+                    MOB: +91 9419281505
+                </div>
+            </div>
+            
+            <div class="manifesto-box magnetic-wrap">
+                <p class="m-label">► MISSION_LOG</p>
+                <p class="m-text">
+                    Engineering high-performance software and scalable data systems from our base in Jammu to the global stage.
+                </p>
+            </div>
+        </div>
 
-<video autoplay muted loop>
-    <source src="https://cdn.coverr.co/videos/coverr-working-on-laptop-1579/1080p.mp4" type="video/mp4">
-</video>
+        <div class="footer-hud">
+            <div class="location-data">
+                [ 32.7266° N, 74.8570° E ]<br>
+                JDA COLONY PHASE 2, PLOT 37, JAMMU
+            </div>
+            <div class="magnetic-wrap" style="font-family: 'IBM Plex Mono'; font-size: 10px; letter-spacing: 3px; color: var(--accent);">
+                ESTABLISHED_2026 // VERSION_4.0
+            </div>
+        </div>
+    </main>
 
-<div class="hero-content">
-    <h1>Premium IT Solutions</h1>
-    <p>Transforming Businesses With Modern Technology</p>
-    <button class="btn">Get Started</button>
-</div>
+    <div class="main-scroller">
+        <section>
+            <div class="service-card active">
+                <p>01 // SOLUTIONS</p>
+                <h2>ADVANCED<br>SOFTWARE</h2>
+            </div>
+        </section>
+        <section>
+            <div class="service-card">
+                <p>02 // INFRASTRUCTURE</p>
+                <h2>CLOUD<br>SCALING</h2>
+            </div>
+        </section>
+        <section>
+            <div class="service-card">
+                <p>03 // ANALYTICS</p>
+                <h2>DATA<br>INTELLIGENCE</h2>
+            </div>
+        </section>
+    </div>
 
-</section>
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
 
-<!-- SERVICES -->
-<section id="services">
-<h1>Our Services</h1>
-<br><br>
-<div class="services">
+        // 1. ENGINE: THREE.JS LIQUID CORE
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
 
-<div class="card">
-<img src="https://img.icons8.com/fluency/96/source-code.png">
-<h3>Web Development</h3>
-<p>Modern responsive websites with premium UI/UX.</p>
-</div>
+        const geometry = new THREE.IcosahedronGeometry(2, 64);
+        const material = new THREE.MeshPhongMaterial({ 
+            color: 0x000000, emissive: 0x00f2ff, emissiveIntensity: 0.1,
+            wireframe: true, transparent: true, opacity: 0.2 
+        });
+        const core = new THREE.Mesh(geometry, material);
+        scene.add(core);
 
-<div class="card">
-<img src="https://img.icons8.com/fluency/96/cloud.png">
-<h3>Cloud Solutions</h3>
-<p>Secure and scalable cloud infrastructure services.</p>
-</div>
+        const light = new THREE.PointLight(0x00f2ff, 2, 50);
+        light.position.set(5, 5, 5);
+        scene.add(light);
+        camera.position.z = 5.5;
 
-<div class="card">
-<img src="https://img.icons8.com/fluency/96/artificial-intelligence.png">
-<h3>AI Integration</h3>
-<p>Smart AI automation for business growth.</p>
-</div>
+        // 2. MAGNETIC PHYSICS
+        const magnetics = document.querySelectorAll('.magnetic-wrap');
+        magnetics.forEach(m => {
+            m.addEventListener('mousemove', (e) => {
+                const rect = m.getBoundingClientRect();
+                const x = (e.clientX - rect.left - rect.width / 2) * 0.4;
+                const y = (e.clientY - rect.top - rect.height / 2) * 0.4;
+                gsap.to(m, { x: x, y: y, duration: 0.6, ease: "power2.out" });
+                gsap.to('#cursor-ring', { scale: 1.5, borderColor: '#fff' });
+            });
+            m.addEventListener('mouseleave', () => {
+                gsap.to(m, { x: 0, y: 0, duration: 0.6, ease: "elastic.out(1, 0.3)" });
+                gsap.to('#cursor-ring', { scale: 1, borderColor: '#00f2ff' });
+            });
+        });
 
-</div>
-</section>
+        // 3. SCROLL SYSTEM (LENIS)
+        const lenis = new Lenis({ lerp: 0.1 });
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
 
-<!-- ABOUT -->
-<section id="about">
-<h1>About Us</h1>
-<br><br>
-<div class="about">
-<img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c">
-<div>
-<h2>We Are Innovation Driven</h2>
-<p>Tech1World is an IT outsourcing and technology solutions company delivering world-class digital transformation services to global clients.</p>
-</div>
-</div>
-</section>
+        // 4. MOUSE TRACKING
+        window.addEventListener('mousemove', (e) => {
+            gsap.to('#cursor', { x: e.clientX, y: e.clientY, duration: 0 });
+            gsap.to('#cursor-ring', { x: e.clientX - 20, y: e.clientY - 20, duration: 0.4 });
+            const x = (e.clientX / window.innerWidth) - 0.5;
+            const y = (e.clientY / window.innerHeight) - 0.5;
+            gsap.to(core.rotation, { y: x * 2.5, x: y * 2.5, duration: 2 });
+        });
 
-<!-- CONTACT -->
-<section class="contact" id="contact">
-<h1>Contact Us</h1>
-<br>
-<form>
-<input type="text" placeholder="Your Name">
-<input type="email" placeholder="Your Email">
-<textarea rows="4" placeholder="Your Message"></textarea>
-<button class="btn">Send Message</button>
-</form>
-</section>
+        // 5. LIQUID ANIMATION LOOP
+        const originalPositions = geometry.attributes.position.array.slice();
+        function animate() {
+            requestAnimationFrame(animate);
+            const time = Date.now() * 0.001;
+            const positions = geometry.attributes.position.array;
+            
+            for (let i = 0; i < positions.length; i += 3) {
+                const scrollMod = lenis.velocity * 0.005;
+                positions[i] = originalPositions[i] + Math.sin(time + originalPositions[i+1]) * (0.1 + scrollMod);
+                positions[i+1] = originalPositions[i+1] + Math.cos(time + originalPositions[i]) * (0.1 + scrollMod);
+            }
+            geometry.attributes.position.needsUpdate = true;
+            core.rotation.y += 0.003;
+            renderer.render(scene, camera);
+        }
+        animate();
 
-<footer>
-© 2026 Tech1World. All Rights Reserved.
-</footer>
-
+        // 6. SCROLL TRIGGER REVEALS
+        document.querySelectorAll('.service-card').forEach((card, i) => {
+            ScrollTrigger.create({
+                trigger: card,
+                start: "top 80%",
+                onEnter: () => card.classList.add('active'),
+                onEnterBack: () => card.classList.add('active'),
+                onLeave: () => card.classList.remove('active')
+            });
+        });
+    </script>
 </body>
 </html>
