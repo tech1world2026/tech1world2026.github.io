@@ -3,292 +3,361 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Tech1World - Global Enterprise IT Solutions, AI Integration, and Cloud Infrastructure.">
-    <title>Tech1World | Engineering the Intelligence Era</title>
+    <meta name="description" content="Tech1World - Global Enterprise IT Architecture, AI Engineering, and Cloud Infrastructure.">
+    <title>Tech1World | Global Technology Partners</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Syne:wght@700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Syne:wght@800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
 
     <style>
         :root {
             --brand: #00f2ff;
-            --brand-dark: #008891;
+            --brand-alt: #7b2ff7;
             --bg: #030304;
             --surface: #0a0a0c;
             --text: #ffffff;
             --text-dim: #94a3b8;
             --border: rgba(255, 255, 255, 0.08);
-            --glass: rgba(255, 255, 255, 0.03);
-            --gradient: linear-gradient(135deg, #00f2ff 0%, #7b2ff7 100%);
             --ease: cubic-bezier(0.16, 1, 0.3, 1);
+            --grad: linear-gradient(135deg, var(--brand) 0%, var(--brand-alt) 100%);
         }
 
-        /* Base & Scroll Behavior */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.6; overflow-x: hidden; }
+        /* --- GLOBAL ARCHITECTURE --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none !important; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; overflow-x: hidden; line-height: 1.6; }
         
-        /* Typography */
-        h1, h2, h3 { font-family: 'Syne', sans-serif; font-weight: 800; letter-spacing: -0.03em; }
-        .mono { font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; font-size: 11px; letter-spacing: 3px; color: var(--brand); }
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 5vw; }
+        .section-padding { padding: 140px 0; }
+        .syne { font-family: 'Syne', sans-serif; }
+        .mono { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 3px; color: var(--brand); text-transform: uppercase; }
 
-        /* Utility */
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s var(--ease); }
-        .reveal.visible { opacity: 1; transform: translateY(0); }
+        /* --- CUSTOM CURSOR --- */
+        #cursor-dot { position: fixed; width: 6px; height: 6px; background: #fff; border-radius: 50%; z-index: 10001; pointer-events: none; }
+        #cursor-ring { position: fixed; width: 35px; height: 35px; border: 1px solid var(--brand); border-radius: 50%; z-index: 10000; pointer-events: none; transition: transform 0.2s; }
 
-        /* Navigation */
-        nav { position: fixed; top: 0; width: 100%; z-index: 1000; padding: 25px 0; transition: 0.4s; border-bottom: 1px solid transparent; }
-        nav.scrolled { background: rgba(3, 3, 4, 0.85); backdrop-filter: blur(20px); padding: 15px 0; border-bottom: 1px solid var(--border); }
-        .nav-content { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-family: 'Syne'; font-size: 24px; text-decoration: none; color: #fff; }
+        /* --- NAVIGATION HUD --- */
+        nav { position: fixed; top: 0; width: 100%; z-index: 5000; padding: 30px 0; transition: 0.5s var(--ease); border-bottom: 1px solid transparent; }
+        nav.scrolled { background: rgba(3, 3, 4, 0.8); backdrop-filter: blur(20px); padding: 15px 0; border-bottom: 1px solid var(--border); }
+        .nav-flex { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: 'Syne'; font-size: 26px; text-decoration: none; color: #fff; font-weight: 800; }
         .logo span { color: var(--brand); }
-        .nav-links { display: flex; gap: 40px; }
-        .nav-links a { text-decoration: none; color: var(--text-dim); font-size: 14px; transition: 0.3s; }
+        .nav-links { display: flex; gap: 40px; align-items: center; }
+        .nav-links a { text-decoration: none; color: var(--text-dim); font-size: 13px; font-weight: 500; transition: 0.3s; }
         .nav-links a:hover { color: var(--brand); }
+        .btn-nav { background: var(--grad); color: #000 !important; padding: 10px 22px; border-radius: 4px; font-weight: 700; }
 
-        /* Hero */
-        .hero { height: 100vh; display: flex; align-items: center; position: relative; overflow: hidden; }
-        .hero-bg { position: absolute; inset: 0; background: radial-gradient(circle at 80% 20%, rgba(0, 242, 255, 0.1) 0%, transparent 50%); z-index: -1; }
-        .hero h1 { font-size: clamp(48px, 8vw, 90px); line-height: 0.9; margin: 20px 0; }
-        .hero p { max-width: 600px; color: var(--text-dim); font-size: 18px; margin-bottom: 40px; }
+        /* --- BACKGROUND ENGINE --- */
+        #canvas-container { position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0.4; }
 
-        /* Buttons */
-        .btn { padding: 14px 32px; border-radius: 6px; font-weight: 600; text-decoration: none; display: inline-block; transition: var(--ease); border: none; cursor: pointer; }
-        .btn-primary { background: var(--gradient); color: #000; }
-        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(0, 242, 255, 0.3); }
+        /* --- VIEW CONTROLLER --- */
+        .page-view { display: none; opacity: 0; transform: translateY(20px); transition: 0.8s var(--ease); }
+        .page-view.active { display: block; opacity: 1; transform: translateY(0); }
 
-        /* Sections */
-        section { padding: 120px 0; }
-        .card { background: var(--surface); border: 1px solid var(--border); padding: 40px; border-radius: 12px; transition: 0.4s; }
-        .card:hover { border-color: var(--brand); transform: translateY(-10px); }
-        .card i { font-size: 32px; color: var(--brand); margin-bottom: 25px; }
+        /* --- COMPONENTS --- */
+        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; position: relative; }
+        .hero h1 { font-family: 'Syne'; font-size: clamp(48px, 8vw, 110px); line-height: 0.9; margin: 30px 0; letter-spacing: -4px; }
+        .hero p { max-width: 650px; font-size: 19px; color: var(--text-dim); margin-bottom: 40px; }
 
-        /* Portfolio */
-        .filter-nav { display: flex; gap: 20px; margin-bottom: 40px; }
-        .filter-btn { background: none; border: 1px solid var(--border); color: var(--text-dim); padding: 8px 16px; border-radius: 4px; cursor: pointer; }
-        .filter-btn.active { border-color: var(--brand); color: var(--brand); }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
+        .card-ent { background: var(--surface); border: 1px solid var(--border); padding: 60px; border-radius: 12px; transition: 0.4s var(--ease); position: relative; overflow: hidden; }
+        .card-ent:hover { border-color: var(--brand); transform: translateY(-10px); background: rgba(255,255,255,0.03); }
+        .card-ent i { font-size: 40px; color: var(--brand); margin-bottom: 30px; }
+        .card-ent h3 { font-family: 'Syne'; font-size: 28px; margin-bottom: 20px; }
 
-        /* Contact Form */
-        .contact-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 80px; }
-        input, textarea { width: 100%; background: var(--surface); border: 1px solid var(--border); padding: 15px; color: #fff; border-radius: 4px; margin-bottom: 20px; font-family: inherit; }
-        input:focus { border-color: var(--brand); outline: none; }
+        /* --- FOOTER --- */
+        footer { background: #010101; padding: 120px 0 60px; border-top: 1px solid var(--border); }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 50px; }
+        .footer-bottom { margin-top: 100px; padding-top: 40px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 12px; color: var(--text-dim); font-family: 'IBM Plex Mono'; }
 
-        footer { background: #010101; padding: 80px 0 40px; border-top: 1px solid var(--border); }
-        .footer-bottom { margin-top: 80px; padding-top: 30px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 12px; color: var(--text-dim); }
-
-        /* Page View Handling */
-        .page-view { display: none; }
-        .page-view.active { display: block; }
-
-        /* Loader */
+        /* --- LOADER --- */
         #loader { position: fixed; inset: 0; background: var(--bg); z-index: 9999; display: flex; justify-content: center; align-items: center; }
-        .spinner { width: 40px; height: 40px; border: 3px solid var(--border); border-top-color: var(--brand); border-radius: 50%; animation: spin 1s linear infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        .loader-bar { width: 200px; height: 2px; background: var(--border); position: relative; overflow: hidden; }
+        .loader-progress { position: absolute; width: 0%; height: 100%; background: var(--brand); transition: 0.4s; }
     </style>
 </head>
 <body>
 
-    <div id="loader"><div class="spinner"></div></div>
+    <div id="loader"><div class="loader-bar"><div class="loader-progress"></div></div></div>
+    <div id="cursor-dot"></div>
+    <div id="cursor-ring"></div>
+    <div id="canvas-container"></div>
 
     <nav id="navbar">
-        <div class="container nav-content">
-            <a href="#" onclick="showPage('home')" class="logo">TECH1<span>WORLD</span></a>
+        <div class="container nav-flex">
+            <a href="#" onclick="route('home')" class="logo">TECH1<span>WORLD</span></a>
             <div class="nav-links">
-                <a href="#" onclick="showPage('about')">About</a>
-                <a href="#" onclick="showPage('services')">Services</a>
-                <a href="#" onclick="showPage('portfolio')">Case Studies</a>
-                <a href="#" onclick="showPage('blog')">Insights</a>
-                <a href="#" onclick="showPage('contact')" class="btn btn-primary" style="padding: 10px 20px; margin-left: 20px;">Start Project</a>
+                <a href="#" onclick="route('about')">COMPANY</a>
+                <a href="#" onclick="route('services')">SOLUTIONS</a>
+                <a href="#" onclick="route('industries')">INDUSTRIES</a>
+                <a href="#" onclick="route('portfolio')">IMPACT</a>
+                <a href="#" onclick="route('contact')" class="btn-nav">INITIATE AUDIT</a>
             </div>
         </div>
     </nav>
 
-    <main id="home" class="page-view active">
-        <section class="hero">
-            <div class="hero-bg"></div>
-            <div class="container">
-                <p class="mono reveal">Enterprise IT Solutions // 2026</p>
-                <h1 class="reveal">Architecting the <br><span style="color:var(--brand)">Digital Frontier.</span></h1>
-                <p class="reveal">Tech1World delivers premium IT outsourcing, high-performance cloud infrastructure, and custom AI ecosystems for global enterprises and funded startups.</p>
-                <div class="reveal">
-                    <a href="#" onclick="showPage('contact')" class="btn btn-primary">Book an Audit</a>
-                    <a href="#" onclick="showPage('services')" style="color: #fff; margin-left: 30px; text-decoration: none; font-weight: 600;">Explore Ecosystem →</a>
+    <main id="view-home" class="page-view active">
+        <section class="hero container">
+            <p class="mono" data-aos="fade-up">// GLOBAL TECHNOLOGY PARTNER</p>
+            <h1>ARCHITECTING<br>THE <span style="color:var(--brand)" id="type-target"></span><br>FUTURE.</h1>
+            <p>Tech1World delivers premium IT outsourcing, high-performance cloud infrastructure, and custom AI ecosystems for global enterprises and funded startups.</p>
+            <div style="display: flex; gap: 20px;">
+                <a href="#" onclick="route('contact')" class="btn-nav" style="padding: 16px 40px;">GET PROPOSAL</a>
+                <a href="#" onclick="route('services')" style="color: #fff; text-decoration: none; align-self: center; font-weight: 600;">OUR ECOSYSTEM →</a>
+            </div>
+        </section>
+
+        <section class="container" style="border-top: 1px solid var(--border); padding: 40px 0; opacity: 0.5; display: flex; justify-content: space-between; font-family: 'Syne'; font-size: 14px; letter-spacing: 5px;">
+            <span>MICROSOFT PARTNER</span>
+            <span>AWS ADVANCED</span>
+            <span>ISO 27001</span>
+            <span>GOOGLE CLOUD</span>
+        </section>
+
+        <section class="section-padding container">
+            <div class="grid-3" style="text-align: center;">
+                <div class="card-ent">
+                    <h2 class="syne" style="font-size: 60px; color: var(--brand);">$500M+</h2>
+                    <p class="mono">VALUATION ENABLED</p>
+                </div>
+                <div class="card-ent">
+                    <h2 class="syne" style="font-size: 60px; color: var(--brand);">250+</h2>
+                    <p class="mono">ENGINEERS DEPLOYED</p>
+                </div>
+                <div class="card-ent">
+                    <h2 class="syne" style="font-size: 60px; color: var(--brand);">98%</h2>
+                    <p class="mono">CLIENT RETENTION</p>
                 </div>
             </div>
         </section>
 
-        <section class="container">
-            <div class="grid">
-                <div class="card reveal">
-                    <i class="fas fa-microchip"></i>
-                    <h3>Neural Integration</h3>
-                    <p>Embedding custom LLMs and computer vision into legacy enterprise workflows for predictive intelligence.</p>
-                </div>
-                <div class="card reveal">
-                    <i class="fas fa-cloud-sun"></i>
-                    <h3>Cloud Modernization</h3>
-                    <p>Transitioning from monolithic stacks to resilient, serverless architectures on AWS, Azure, and GCP.</p>
-                </div>
-                <div class="card reveal">
-                    <i class="fas fa-code-branch"></i>
-                    <h3>DevOps Excellence</h3>
-                    <p>Automated CI/CD pipelines ensuring zero-downtime deployments and enterprise-grade security protocols.</p>
-                </div>
+        <section class="section-padding container" style="background: var(--surface); border-radius: 40px; margin-bottom: 100px;">
+            <div style="max-width: 800px; margin-bottom: 80px;">
+                <p class="mono">// SOLUTIONS</p>
+                <h2 class="syne" style="font-size: 4rem; margin-top: 20px;">Scale Without <br><span style="color: var(--brand)">Technical Debt.</span></h2>
             </div>
-        </section>
-    </main>
-
-    <main id="about" class="page-view">
-        <section class="container">
-            <p class="mono">Our Story</p>
-            <h2 style="font-size: 3rem; margin-bottom: 40px;">Global Reach, <br>Local Expertise.</h2>
-            <div class="grid">
-                <div class="card">
-                    <h2 style="color:var(--brand); font-size: 3rem;">15+</h2>
-                    <p>Countries Served</p>
+            <div class="grid-3">
+                <div class="card-ent">
+                    <i class="fas fa-brain"></i>
+                    <h3>AI Engineering</h3>
+                    <p>Integrating Large Language Models and computer vision into enterprise workflows for predictive intelligence and automation.</p>
                 </div>
-                <div class="card">
-                    <h2 style="color:var(--brand); font-size: 3rem;">250+</h2>
-                    <p>Engineers Deployed</p>
+                <div class="card-ent">
+                    <i class="fas fa-server"></i>
+                    <h3>Cloud Mesh</h3>
+                    <p>Building resilient, multi-region cloud architectures on AWS, Azure, and GCP using serverless microservices.</p>
                 </div>
-                <div class="card">
-                    <h2 style="color:var(--brand); font-size: 3rem;">98%</h2>
-                    <p>Client Retention</p>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <main id="services" class="page-view">
-        <section class="container">
-            <p class="mono">Solutions Stack</p>
-            <h2 style="font-size: 3rem; margin-bottom: 60px;">Scale Without <br>Compromise.</h2>
-            
-            <div class="grid">
-                <div class="card">
+                <div class="card-ent">
+                    <i class="fas fa-code"></i>
                     <h3>Web Engineering</h3>
-                    <p>Next-gen React and Node.js ecosystems built for sub-second latency and massive concurrent users.</p>
-                </div>
-                <div class="card">
-                    <h3>Mobile OS</h3>
-                    <p>Native iOS and Android development focusing on fluid UX and high-security biometric integration.</p>
-                </div>
-                <div class="card">
-                    <h3>IT Consulting</h3>
-                    <p>Strategic CTO-level guidance for digital transformation and technical debt reduction.</p>
+                    <p>Next-gen React and Node.js ecosystems built for sub-second latency and massive concurrent global users.</p>
                 </div>
             </div>
         </section>
     </main>
 
-    <main id="contact" class="page-view">
-        <section class="container">
-            <div class="contact-grid">
+    <main id="view-about" class="page-view">
+        <section class="section-padding container">
+            <div style="max-width: 900px;">
+                <p class="mono">// COMPANY STORY</p>
+                <h1 class="syne">Bridging the gap between <span style="color:var(--brand)">Vision & Deployment.</span></h1>
+                <p style="font-size: 24px; margin: 40px 0; color: var(--text-dim);">Founded on the principle of engineering excellence, Tech1World has evolved from a boutique software house into a global technology node.</p>
+                <div style="column-count: 2; column-gap: 50px; color: var(--text-dim);">
+                    <p>We understand that enterprise technology is not just about writing code; it is about building resilient systems that drive business value. Our leadership brings decades of experience from Silicon Valley and international tech hubs.</p><br>
+                    <p>Based in Jammu with a global operational reach, we leverage specialized talent to provide high-growth startups and Fortune 500 companies with the architectural depth required in 2026.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <main id="view-services" class="page-view">
+        <section class="section-padding container">
+            <h2 class="syne" style="font-size: 4rem; margin-bottom: 60px;">Technical <span style="color:var(--brand)">Capabilities</span></h2>
+            
+            <div class="grid-3">
+                <div class="card-ent">
+                    <p class="mono">01</p>
+                    <h3>DevOps Sec</h3>
+                    <p>CI/CD automation, Kubernetes orchestration, and SOC2 compliance monitoring built into the deployment pipeline.</p>
+                </div>
+                <div class="card-ent">
+                    <p class="mono">02</p>
+                    <h3>Data Intelligence</h3>
+                    <p>Data lake formation, real-time ETL pipelines, and BigQuery analytics for data-driven decision making.</p>
+                </div>
+                <div class="card-ent">
+                    <p class="mono">03</p>
+                    <h3>Mobile OS</h3>
+                    <p>Native iOS/Android development focusing on high-security biometric integration and fluid UX.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <main id="view-contact" class="page-view">
+        <section class="section-padding container">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 100px;">
                 <div>
-                    <p class="mono">Contact Hub</p>
-                    <h2 style="font-size: 3rem; margin: 20px 0;">Let's Build the <br>Future.</h2>
-                    <p style="color: var(--text-dim); margin-bottom: 40px;">JDA Colony Phase 2, Plot 37, Jammu, J&K.<br>Tel: +91 9419281505</p>
-                    <div class="socials" style="font-size: 24px; display: flex; gap: 20px;">
-                        <i class="fab fa-linkedin"></i>
-                        <i class="fab fa-github"></i>
-                        <i class="fab fa-x-twitter"></i>
+                    <p class="mono">// CONTACT HUB</p>
+                    <h2 class="syne" style="font-size: 3.5rem; margin-top: 20px;">Ready to <br><span style="color:var(--brand)">Accelerate?</span></h2>
+                    <div style="margin-top: 60px;">
+                        <p style="color: var(--text-dim);">HQ: JDA COLONY PHASE 2, PLOT 37, JAMMU, J&K</p>
+                        <p style="font-size: 24px; font-weight: 700; margin: 10px 0;">+91 9419281505</p>
+                        <p style="color: var(--brand);">OPERATIONS@TECH1WORLD.COM</p>
                     </div>
                 </div>
-                <form class="card" id="contactForm">
-                    <input type="text" placeholder="Full Name" required>
-                    <input type="email" placeholder="Corporate Email" required>
-                    <select style="width:100%; background:var(--surface); border:1px solid var(--border); padding:15px; color:#fff; margin-bottom:20px;">
-                        <option>Web Engineering</option>
-                        <option>Cloud Infrastructure</option>
-                        <option>AI Solutions</option>
-                    </select>
-                    <textarea rows="5" placeholder="Project Brief"></textarea>
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">Initialize Consultation</button>
+                <form class="card-ent" onsubmit="event.preventDefault(); alert('Transmission Received.')">
+                    <input type="text" placeholder="FULL NAME" style="width:100%; background:none; border:none; border-bottom:1px solid var(--border); padding:20px 0; color:#fff; margin-bottom:30px;">
+                    <input type="email" placeholder="CORPORATE EMAIL" style="width:100%; background:none; border:none; border-bottom:1px solid var(--border); padding:20px 0; color:#fff; margin-bottom:30px;">
+                    <textarea placeholder="PROJECT SCOPE" rows="4" style="width:100%; background:none; border:none; border-bottom:1px solid var(--border); padding:20px 0; color:#fff; margin-bottom:50px;"></textarea>
+                    <button type="submit" class="btn-nav" style="width: 100%; border: none; padding: 20px;">INITIALIZE CONTACT</button>
                 </form>
             </div>
         </section>
     </main>
 
     <footer>
-        <div class="container">
-            <div class="grid">
-                <div>
-                    <div class="logo">T1<span>W</span></div>
-                    <p style="color:var(--text-dim); margin-top: 20px;">Premier IT architecture for global enterprises.</p>
-                </div>
-                <div>
-                    <h4 style="margin-bottom: 20px;">Navigation</h4>
-                    <p style="color:var(--text-dim); cursor:pointer;" onclick="showPage('services')">Services</p>
-                    <p style="color:var(--text-dim); cursor:pointer;" onclick="showPage('about')">About</p>
-                    <p style="color:var(--text-dim); cursor:pointer;" onclick="showPage('portfolio')">Portfolio</p>
-                </div>
-                <div>
-                    <h4 style="margin-bottom: 20px;">Newsletter</h4>
-                    <div style="display:flex; gap:10px;">
-                        <input type="email" placeholder="Email" style="margin-bottom:0;">
-                        <button class="btn btn-primary" style="padding:10px 15px;"><i class="fas fa-arrow-right"></i></button>
-                    </div>
-                </div>
+        <div class="container footer-grid">
+            <div>
+                <a href="#" class="logo">T1<span>W</span></a>
+                <p style="margin-top: 20px; color: var(--text-dim); font-size: 14px;">Enterprise IT solutions for the autonomous era. From Jammu to the World.</p>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 Tech1World Pvt. Ltd. | All Systems Operational.</p>
-                <p>[ 32.7266° N, 74.8570° E ]</p>
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+                <p class="mono">SYSTEMS</p>
+                <a href="#" style="color:var(--text-dim); text-decoration:none; font-size:13px;">AI Engine</a>
+                <a href="#" style="color:var(--text-dim); text-decoration:none; font-size:13px;">Cloud Mesh</a>
+                <a href="#" style="color:var(--text-dim); text-decoration:none; font-size:13px;">Cyber Security</a>
             </div>
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+                <p class="mono">CORPORATE</p>
+                <a href="#" style="color:var(--text-dim); text-decoration:none; font-size:13px;">Our Story</a>
+                <a href="#" style="color:var(--text-dim); text-decoration:none; font-size:13px;">Careers</a>
+                <a href="#" style="color:var(--text-dim); text-decoration:none; font-size:13px;">Legal</a>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+                <p class="mono">CONNECT</p>
+                <a href="#" style="color:var(--text-dim); text-decoration:none; font-size:13px;">LinkedIn</a>
+                <a href="#" style="color:var(--text-dim); text-decoration:none; font-size:13px;">GitHub</a>
+                <a href="#" style="color:var(--text-dim); text-decoration:none; font-size:13px;">X / Twitter</a>
+            </div>
+        </div>
+        <div class="container footer-bottom">
+            <p>&copy; 2026 TECH1WORLD PRIVATE LIMITED. ALL RIGHTS RESERVED.</p>
+            <p>[ 32.7266° N, 74.8570° E ] // JAMMU_HQ</p>
         </div>
     </footer>
 
     <script>
-        // Loader handling
-        window.addEventListener('load', () => {
-            const loader = document.getElementById('loader');
-            setTimeout(() => {
-                loader.style.opacity = '0';
-                setTimeout(() => loader.style.display = 'none', 500);
-            }, 1000);
+        // 1. ENGINE: THREE.JS BACKGROUND
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        const geometry = new THREE.IcosahedronGeometry(2, 5);
+        const material = new THREE.MeshPhongMaterial({ color: 0x00f2ff, wireframe: true, transparent: true, opacity: 0.1 });
+        const sphere = new THREE.Mesh(geometry, material);
+        scene.add(sphere);
+
+        const light = new THREE.PointLight(0xffffff, 1, 100);
+        light.position.set(10, 10, 10);
+        scene.add(light);
+        camera.position.z = 5;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            sphere.rotation.y += 0.002;
+            sphere.rotation.x += 0.001;
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // 2. INTERACTION: CUSTOM CURSOR
+        const dot = document.getElementById('cursor-dot');
+        const ring = document.getElementById('cursor-ring');
+        window.addEventListener('mousemove', (e) => {
+            gsap.to(dot, { x: e.clientX, y: e.clientY, duration: 0 });
+            gsap.to(ring, { x: e.clientX - 17, y: e.clientY - 17, duration: 0.3 });
+            
+            // Mouse Parallax for Sphere
+            const x = (e.clientX / window.innerWidth) - 0.5;
+            const y = (e.clientY / window.innerHeight) - 0.5;
+            gsap.to(sphere.rotation, { y: x * 2, x: y * 2, duration: 2 });
         });
 
-        // Navbar scroll effect
+        // 3. LOGIC: SPA ROUTER
+        function route(pageId) {
+            // Loader effect on transition
+            const progress = document.querySelector('.loader-progress');
+            const loader = document.getElementById('loader');
+            loader.style.display = 'flex';
+            loader.style.opacity = '1';
+            progress.style.width = '100%';
+
+            setTimeout(() => {
+                // Hide all views
+                document.querySelectorAll('.page-view').forEach(view => {
+                    view.classList.remove('active');
+                });
+                
+                // Show target view
+                const target = document.getElementById('view-' + pageId);
+                target.classList.add('active');
+                
+                // Scroll to top
+                window.scrollTo(0, 0);
+
+                // Hide loader
+                progress.style.width = '0%';
+                gsap.to(loader, { opacity: 0, duration: 0.5, onComplete: () => loader.style.display = 'none' });
+            }, 600);
+        }
+
+        // 4. MOTION: TYPING EFFECT
+        const words = ["INTELLIGENT", "SCALABLE", "ENTERPRISE", "ONCHAIN"];
+        let i = 0; let j = 0; let currentWord = ""; let isDeleting = false;
+        function type() {
+            currentWord = words[i];
+            if (isDeleting) {
+                document.getElementById('type-target').textContent = currentWord.substring(0, j - 1);
+                j--;
+                if (j === 0) { isDeleting = false; i = (i + 1) % words.length; }
+            } else {
+                document.getElementById('type-target').textContent = currentWord.substring(0, j + 1);
+                j++;
+                if (j === currentWord.length) { isDeleting = true; setTimeout(type, 2000); return; }
+            }
+            setTimeout(type, isDeleting ? 50 : 150);
+        }
+        type();
+
+        // 5. NAVIGATION SCROLL
         window.addEventListener('scroll', () => {
             const nav = document.getElementById('navbar');
             nav.classList.toggle('scrolled', window.scrollY > 50);
         });
 
-        // Page Switcher Engine
-        function showPage(pageId) {
-            // Hide all views
-            document.querySelectorAll('.page-view').forEach(view => {
-                view.classList.remove('active');
-            });
-            
-            // Show selected view
-            const activePage = document.getElementById(pageId);
-            activePage.classList.add('active');
-            
-            // Reset scroll & trigger reveal
-            window.scrollTo(0, 0);
-            triggerReveal();
-        }
-
-        // Reveal Animation Logic
-        function triggerReveal() {
-            const reveals = document.querySelectorAll('.reveal');
-            reveals.forEach((el, index) => {
-                setTimeout(() => {
-                    el.classList.add('visible');
-                }, index * 100);
-            });
-        }
-
-        // Initial reveal
-        document.addEventListener('DOMContentLoaded', triggerReveal);
-
-        // Simple Form Validation
-        document.getElementById('contactForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            alert('Consultation Initialized. A Technical Lead will contact you shortly.');
+        // 6. INITIAL LOAD
+        window.addEventListener('load', () => {
+            const progress = document.querySelector('.loader-progress');
+            progress.style.width = '100%';
+            setTimeout(() => {
+                gsap.to('#loader', { opacity: 0, duration: 1, onComplete: () => document.getElementById('loader').style.display = 'none' });
+            }, 800);
         });
+
+        // 7. SMOOTH SCROLL (LENIS)
+        const lenis = new Lenis();
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
     </script>
 </body>
 </html>
