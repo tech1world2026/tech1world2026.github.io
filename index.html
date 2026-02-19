@@ -1,363 +1,424 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Tech1World - Global Enterprise IT Architecture, AI Engineering, and Cloud Infrastructure.">
-    <title>Tech1World | Global Technology Partners</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tech1World | Global Technology Partner</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Syne:wght@800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
-    <style>
-        :root {
-            --brand: #00f2ff;
-            --brand-alt: #7b2ff7;
-            --bg: #030304;
-            --surface: #0a0a0c;
-            --text: #ffffff;
-            --text-dim: #94a3b8;
-            --border: rgba(255, 255, 255, 0.08);
-            --ease: cubic-bezier(0.16, 1, 0.3, 1);
-            --grad: linear-gradient(135deg, var(--brand) 0%, var(--brand-alt) 100%);
-        }
+<style>
 
-        /* --- GLOBAL ARCHITECTURE --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none !important; }
-        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; overflow-x: hidden; line-height: 1.6; }
-        
-        .container { max-width: 1400px; margin: 0 auto; padding: 0 5vw; }
-        .section-padding { padding: 140px 0; }
-        .syne { font-family: 'Syne', sans-serif; }
-        .mono { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 3px; color: var(--brand); text-transform: uppercase; }
+/* ================= GLOBAL ================= */
 
-        /* --- CUSTOM CURSOR --- */
-        #cursor-dot { position: fixed; width: 6px; height: 6px; background: #fff; border-radius: 50%; z-index: 10001; pointer-events: none; }
-        #cursor-ring { position: fixed; width: 35px; height: 35px; border: 1px solid var(--brand); border-radius: 50%; z-index: 10000; pointer-events: none; transition: transform 0.2s; }
+:root{
+    --primary:#00f2ff;
+    --dark:#0f2027;
+    --black:#0b0f14;
+    --white:#ffffff;
+}
 
-        /* --- NAVIGATION HUD --- */
-        nav { position: fixed; top: 0; width: 100%; z-index: 5000; padding: 30px 0; transition: 0.5s var(--ease); border-bottom: 1px solid transparent; }
-        nav.scrolled { background: rgba(3, 3, 4, 0.8); backdrop-filter: blur(20px); padding: 15px 0; border-bottom: 1px solid var(--border); }
-        .nav-flex { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-family: 'Syne'; font-size: 26px; text-decoration: none; color: #fff; font-weight: 800; }
-        .logo span { color: var(--brand); }
-        .nav-links { display: flex; gap: 40px; align-items: center; }
-        .nav-links a { text-decoration: none; color: var(--text-dim); font-size: 13px; font-weight: 500; transition: 0.3s; }
-        .nav-links a:hover { color: var(--brand); }
-        .btn-nav { background: var(--grad); color: #000 !important; padding: 10px 22px; border-radius: 4px; font-weight: 700; }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Inter',sans-serif;
+    scroll-behavior:smooth;
+}
 
-        /* --- BACKGROUND ENGINE --- */
-        #canvas-container { position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0.4; }
+body{
+    background:var(--dark);
+    color:white;
+    line-height:1.6;
+}
 
-        /* --- VIEW CONTROLLER --- */
-        .page-view { display: none; opacity: 0; transform: translateY(20px); transition: 0.8s var(--ease); }
-        .page-view.active { display: block; opacity: 1; transform: translateY(0); }
+section{
+    padding:120px 8%;
+}
 
-        /* --- COMPONENTS --- */
-        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; position: relative; }
-        .hero h1 { font-family: 'Syne'; font-size: clamp(48px, 8vw, 110px); line-height: 0.9; margin: 30px 0; letter-spacing: -4px; }
-        .hero p { max-width: 650px; font-size: 19px; color: var(--text-dim); margin-bottom: 40px; }
+h1,h2,h3{
+    margin-bottom:20px;
+}
 
-        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
-        .card-ent { background: var(--surface); border: 1px solid var(--border); padding: 60px; border-radius: 12px; transition: 0.4s var(--ease); position: relative; overflow: hidden; }
-        .card-ent:hover { border-color: var(--brand); transform: translateY(-10px); background: rgba(255,255,255,0.03); }
-        .card-ent i { font-size: 40px; color: var(--brand); margin-bottom: 30px; }
-        .card-ent h3 { font-family: 'Syne'; font-size: 28px; margin-bottom: 20px; }
+.container{
+    max-width:1200px;
+    margin:auto;
+}
 
-        /* --- FOOTER --- */
-        footer { background: #010101; padding: 120px 0 60px; border-top: 1px solid var(--border); }
-        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 50px; }
-        .footer-bottom { margin-top: 100px; padding-top: 40px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 12px; color: var(--text-dim); font-family: 'IBM Plex Mono'; }
+/* ================= NAVBAR ================= */
 
-        /* --- LOADER --- */
-        #loader { position: fixed; inset: 0; background: var(--bg); z-index: 9999; display: flex; justify-content: center; align-items: center; }
-        .loader-bar { width: 200px; height: 2px; background: var(--border); position: relative; overflow: hidden; }
-        .loader-progress { position: absolute; width: 0%; height: 100%; background: var(--brand); transition: 0.4s; }
-    </style>
+nav{
+    position:fixed;
+    width:100%;
+    top:0;
+    padding:20px 8%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:rgba(0,0,0,0.6);
+    backdrop-filter:blur(10px);
+    z-index:1000;
+}
+
+nav ul{
+    list-style:none;
+    display:flex;
+    gap:25px;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    font-weight:500;
+}
+
+nav a:hover{
+    color:var(--primary);
+}
+
+/* ================= HERO ================= */
+
+.hero{
+    height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+}
+
+.hero h1{
+    font-size:52px;
+    font-weight:800;
+}
+
+.hero span{
+    color:var(--primary);
+}
+
+.btn{
+    padding:12px 28px;
+    margin:10px;
+    border:none;
+    border-radius:30px;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.primary{
+    background:var(--primary);
+    color:black;
+}
+
+.secondary{
+    background:white;
+    color:black;
+}
+
+.btn:hover{
+    transform:translateY(-3px);
+}
+
+/* ================= GRID ================= */
+
+.grid{
+    display:grid;
+    gap:40px;
+}
+
+.grid-3{
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+}
+
+.card{
+    background:rgba(255,255,255,0.05);
+    padding:30px;
+    border-radius:16px;
+    transition:0.4s;
+}
+
+.card:hover{
+    transform:translateY(-10px);
+    background:rgba(0,242,255,0.1);
+}
+
+/* ================= COUNTERS ================= */
+
+.counter{
+    font-size:40px;
+    font-weight:800;
+    color:var(--primary);
+}
+
+/* ================= FOOTER ================= */
+
+footer{
+    background:black;
+    padding:60px 8%;
+}
+
+footer .grid{
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+}
+
+footer a{
+    color:#ccc;
+    display:block;
+    margin-bottom:8px;
+    text-decoration:none;
+}
+
+/* ================= UTILITIES ================= */
+
+.center{
+    text-align:center;
+}
+
+#topBtn{
+    position:fixed;
+    bottom:30px;
+    right:30px;
+    padding:12px 16px;
+    background:var(--primary);
+    color:black;
+    border:none;
+    border-radius:50%;
+    cursor:pointer;
+    display:none;
+}
+
+</style>
 </head>
 <body>
 
-    <div id="loader"><div class="loader-bar"><div class="loader-progress"></div></div></div>
-    <div id="cursor-dot"></div>
-    <div id="cursor-ring"></div>
-    <div id="canvas-container"></div>
+<!-- ================= NAVIGATION ================= -->
 
-    <nav id="navbar">
-        <div class="container nav-flex">
-            <a href="#" onclick="route('home')" class="logo">TECH1<span>WORLD</span></a>
-            <div class="nav-links">
-                <a href="#" onclick="route('about')">COMPANY</a>
-                <a href="#" onclick="route('services')">SOLUTIONS</a>
-                <a href="#" onclick="route('industries')">INDUSTRIES</a>
-                <a href="#" onclick="route('portfolio')">IMPACT</a>
-                <a href="#" onclick="route('contact')" class="btn-nav">INITIATE AUDIT</a>
-            </div>
-        </div>
-    </nav>
+<nav>
+    <h2>Tech1World</h2>
+    <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#industries">Industries</a></li>
+        <li><a href="#cases">Case Studies</a></li>
+        <li><a href="#blog">Blog</a></li>
+        <li><a href="#careers">Careers</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+</nav>
 
-    <main id="view-home" class="page-view active">
-        <section class="hero container">
-            <p class="mono" data-aos="fade-up">// GLOBAL TECHNOLOGY PARTNER</p>
-            <h1>ARCHITECTING<br>THE <span style="color:var(--brand)" id="type-target"></span><br>FUTURE.</h1>
-            <p>Tech1World delivers premium IT outsourcing, high-performance cloud infrastructure, and custom AI ecosystems for global enterprises and funded startups.</p>
-            <div style="display: flex; gap: 20px;">
-                <a href="#" onclick="route('contact')" class="btn-nav" style="padding: 16px 40px;">GET PROPOSAL</a>
-                <a href="#" onclick="route('services')" style="color: #fff; text-decoration: none; align-self: center; font-weight: 600;">OUR ECOSYSTEM →</a>
-            </div>
-        </section>
+<!-- ================= HOME ================= -->
 
-        <section class="container" style="border-top: 1px solid var(--border); padding: 40px 0; opacity: 0.5; display: flex; justify-content: space-between; font-family: 'Syne'; font-size: 14px; letter-spacing: 5px;">
-            <span>MICROSOFT PARTNER</span>
-            <span>AWS ADVANCED</span>
-            <span>ISO 27001</span>
-            <span>GOOGLE CLOUD</span>
-        </section>
+<section class="hero" id="home">
+<div class="container">
+<h1>Engineering <span>Intelligent Digital Infrastructure</span> for Global Enterprises</h1>
+<p>Tech1World partners with startups and enterprises to build scalable, secure, AI-powered systems that drive measurable business growth across industries.</p>
+<button class="btn primary">Schedule Consultation</button>
+<button class="btn secondary">Explore Services</button>
+</div>
+</section>
 
-        <section class="section-padding container">
-            <div class="grid-3" style="text-align: center;">
-                <div class="card-ent">
-                    <h2 class="syne" style="font-size: 60px; color: var(--brand);">$500M+</h2>
-                    <p class="mono">VALUATION ENABLED</p>
-                </div>
-                <div class="card-ent">
-                    <h2 class="syne" style="font-size: 60px; color: var(--brand);">250+</h2>
-                    <p class="mono">ENGINEERS DEPLOYED</p>
-                </div>
-                <div class="card-ent">
-                    <h2 class="syne" style="font-size: 60px; color: var(--brand);">98%</h2>
-                    <p class="mono">CLIENT RETENTION</p>
-                </div>
-            </div>
-        </section>
+<!-- Metrics -->
+<section class="center">
+<div class="container grid grid-3">
+<div>
+<div class="counter" data-target="120">0</div>
+<p>Projects Delivered</p>
+</div>
+<div>
+<div class="counter" data-target="40">0</div>
+<p>Global Clients</p>
+</div>
+<div>
+<div class="counter" data-target="98">0</div>
+<p>% Client Retention</p>
+</div>
+</div>
+</section>
 
-        <section class="section-padding container" style="background: var(--surface); border-radius: 40px; margin-bottom: 100px;">
-            <div style="max-width: 800px; margin-bottom: 80px;">
-                <p class="mono">// SOLUTIONS</p>
-                <h2 class="syne" style="font-size: 4rem; margin-top: 20px;">Scale Without <br><span style="color: var(--brand)">Technical Debt.</span></h2>
-            </div>
-            <div class="grid-3">
-                <div class="card-ent">
-                    <i class="fas fa-brain"></i>
-                    <h3>AI Engineering</h3>
-                    <p>Integrating Large Language Models and computer vision into enterprise workflows for predictive intelligence and automation.</p>
-                </div>
-                <div class="card-ent">
-                    <i class="fas fa-server"></i>
-                    <h3>Cloud Mesh</h3>
-                    <p>Building resilient, multi-region cloud architectures on AWS, Azure, and GCP using serverless microservices.</p>
-                </div>
-                <div class="card-ent">
-                    <i class="fas fa-code"></i>
-                    <h3>Web Engineering</h3>
-                    <p>Next-gen React and Node.js ecosystems built for sub-second latency and massive concurrent global users.</p>
-                </div>
-            </div>
-        </section>
-    </main>
+<!-- ================= ABOUT ================= -->
 
-    <main id="view-about" class="page-view">
-        <section class="section-padding container">
-            <div style="max-width: 900px;">
-                <p class="mono">// COMPANY STORY</p>
-                <h1 class="syne">Bridging the gap between <span style="color:var(--brand)">Vision & Deployment.</span></h1>
-                <p style="font-size: 24px; margin: 40px 0; color: var(--text-dim);">Founded on the principle of engineering excellence, Tech1World has evolved from a boutique software house into a global technology node.</p>
-                <div style="column-count: 2; column-gap: 50px; color: var(--text-dim);">
-                    <p>We understand that enterprise technology is not just about writing code; it is about building resilient systems that drive business value. Our leadership brings decades of experience from Silicon Valley and international tech hubs.</p><br>
-                    <p>Based in Jammu with a global operational reach, we leverage specialized talent to provide high-growth startups and Fortune 500 companies with the architectural depth required in 2026.</p>
-                </div>
-            </div>
-        </section>
-    </main>
+<section id="about">
+<div class="container">
+<h2>About Tech1World</h2>
+<p>Tech1World was established to bridge the gap between enterprise strategy and engineering execution. We specialize in building scalable digital ecosystems combining AI engineering, cloud-native infrastructure, and enterprise software architecture.</p>
+<p>Our team operates globally, delivering solutions across fintech, healthcare, SaaS, logistics, and retail industries.</p>
 
-    <main id="view-services" class="page-view">
-        <section class="section-padding container">
-            <h2 class="syne" style="font-size: 4rem; margin-bottom: 60px;">Technical <span style="color:var(--brand)">Capabilities</span></h2>
-            
-            <div class="grid-3">
-                <div class="card-ent">
-                    <p class="mono">01</p>
-                    <h3>DevOps Sec</h3>
-                    <p>CI/CD automation, Kubernetes orchestration, and SOC2 compliance monitoring built into the deployment pipeline.</p>
-                </div>
-                <div class="card-ent">
-                    <p class="mono">02</p>
-                    <h3>Data Intelligence</h3>
-                    <p>Data lake formation, real-time ETL pipelines, and BigQuery analytics for data-driven decision making.</p>
-                </div>
-                <div class="card-ent">
-                    <p class="mono">03</p>
-                    <h3>Mobile OS</h3>
-                    <p>Native iOS/Android development focusing on high-security biometric integration and fluid UX.</p>
-                </div>
-            </div>
-        </section>
-    </main>
+<h3>Mission</h3>
+<p>Deliver secure, scalable, and future-ready digital systems.</p>
 
-    <main id="view-contact" class="page-view">
-        <section class="section-padding container">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 100px;">
-                <div>
-                    <p class="mono">// CONTACT HUB</p>
-                    <h2 class="syne" style="font-size: 3.5rem; margin-top: 20px;">Ready to <br><span style="color:var(--brand)">Accelerate?</span></h2>
-                    <div style="margin-top: 60px;">
-                        <p style="color: var(--text-dim);">HQ: JDA COLONY PHASE 2, PLOT 37, JAMMU, J&K</p>
-                        <p style="font-size: 24px; font-weight: 700; margin: 10px 0;">+91 9419281505</p>
-                        <p style="color: var(--brand);">OPERATIONS@TECH1WORLD.COM</p>
-                    </div>
-                </div>
-                <form class="card-ent" onsubmit="event.preventDefault(); alert('Transmission Received.')">
-                    <input type="text" placeholder="FULL NAME" style="width:100%; background:none; border:none; border-bottom:1px solid var(--border); padding:20px 0; color:#fff; margin-bottom:30px;">
-                    <input type="email" placeholder="CORPORATE EMAIL" style="width:100%; background:none; border:none; border-bottom:1px solid var(--border); padding:20px 0; color:#fff; margin-bottom:30px;">
-                    <textarea placeholder="PROJECT SCOPE" rows="4" style="width:100%; background:none; border:none; border-bottom:1px solid var(--border); padding:20px 0; color:#fff; margin-bottom:50px;"></textarea>
-                    <button type="submit" class="btn-nav" style="width: 100%; border: none; padding: 20px;">INITIALIZE CONTACT</button>
-                </form>
-            </div>
-        </section>
-    </main>
+<h3>Vision</h3>
+<p>Become a globally trusted innovation partner.</p>
+</div>
+</section>
 
-    <footer>
-        <div class="container footer-grid">
-            <div>
-                <a href="#" class="logo">T1<span>W</span></a>
-                <p style="margin-top: 20px; color: var(--text-dim); font-size: 14px;">Enterprise IT solutions for the autonomous era. From Jammu to the World.</p>
-            </div>
-            <div style="display: flex; flex-direction: column; gap: 15px;">
-                <p class="mono">SYSTEMS</p>
-                <a href="#" style="color:var(--text-dim); text-decoration:none; font-size:13px;">AI Engine</a>
-                <a href="#" style="color:var(--text-dim); text-decoration:none; font-size:13px;">Cloud Mesh</a>
-                <a href="#" style="color:var(--text-dim); text-decoration:none; font-size:13px;">Cyber Security</a>
-            </div>
-            <div style="display: flex; flex-direction: column; gap: 15px;">
-                <p class="mono">CORPORATE</p>
-                <a href="#" style="color:var(--text-dim); text-decoration:none; font-size:13px;">Our Story</a>
-                <a href="#" style="color:var(--text-dim); text-decoration:none; font-size:13px;">Careers</a>
-                <a href="#" style="color:var(--text-dim); text-decoration:none; font-size:13px;">Legal</a>
-            </div>
-            <div style="display: flex; flex-direction: column; gap: 15px;">
-                <p class="mono">CONNECT</p>
-                <a href="#" style="color:var(--text-dim); text-decoration:none; font-size:13px;">LinkedIn</a>
-                <a href="#" style="color:var(--text-dim); text-decoration:none; font-size:13px;">GitHub</a>
-                <a href="#" style="color:var(--text-dim); text-decoration:none; font-size:13px;">X / Twitter</a>
-            </div>
-        </div>
-        <div class="container footer-bottom">
-            <p>&copy; 2026 TECH1WORLD PRIVATE LIMITED. ALL RIGHTS RESERVED.</p>
-            <p>[ 32.7266° N, 74.8570° E ] // JAMMU_HQ</p>
-        </div>
-    </footer>
+<!-- ================= SERVICES ================= -->
 
-    <script>
-        // 1. ENGINE: THREE.JS BACKGROUND
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.getElementById('canvas-container').appendChild(renderer.domElement);
+<section id="services">
+<div class="container">
+<h2 class="center">Enterprise Services</h2>
+<div class="grid grid-3">
 
-        const geometry = new THREE.IcosahedronGeometry(2, 5);
-        const material = new THREE.MeshPhongMaterial({ color: 0x00f2ff, wireframe: true, transparent: true, opacity: 0.1 });
-        const sphere = new THREE.Mesh(geometry, material);
-        scene.add(sphere);
+<div class="card">
+<h3>Web Engineering</h3>
+<p>Enterprise-grade applications with scalable microservices architecture.</p>
+</div>
 
-        const light = new THREE.PointLight(0xffffff, 1, 100);
-        light.position.set(10, 10, 10);
-        scene.add(light);
-        camera.position.z = 5;
+<div class="card">
+<h3>Cloud Architecture</h3>
+<p>Secure, optimized, multi-cloud and hybrid environments.</p>
+</div>
 
-        function animate() {
-            requestAnimationFrame(animate);
-            sphere.rotation.y += 0.002;
-            sphere.rotation.x += 0.001;
-            renderer.render(scene, camera);
+<div class="card">
+<h3>AI & Automation</h3>
+<p>Machine learning pipelines and intelligent automation systems.</p>
+</div>
+
+<div class="card">
+<h3>DevOps & Security</h3>
+<p>CI/CD pipelines and zero-trust infrastructure frameworks.</p>
+</div>
+
+<div class="card">
+<h3>Enterprise Consulting</h3>
+<p>Digital transformation and CTO-level strategic advisory.</p>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- ================= INDUSTRIES ================= -->
+
+<section id="industries">
+<div class="container">
+<h2>Industries We Serve</h2>
+<div class="grid grid-3">
+<div class="card"><h3>FinTech</h3><p>Secure transaction systems & compliance-ready platforms.</p></div>
+<div class="card"><h3>Healthcare</h3><p>Data-secure digital health systems.</p></div>
+<div class="card"><h3>SaaS</h3><p>Multi-tenant cloud-native applications.</p></div>
+<div class="card"><h3>Retail</h3><p>Scalable e-commerce ecosystems.</p></div>
+<div class="card"><h3>Logistics</h3><p>Real-time tracking and automation platforms.</p></div>
+</div>
+</div>
+</section>
+
+<!-- ================= CASE STUDIES ================= -->
+
+<section id="cases">
+<div class="container">
+<h2>Case Studies</h2>
+<div class="card">
+<h3>FinTech Cloud Migration</h3>
+<p>Reduced infrastructure costs by 32% while improving uptime to 99.98% through cloud-native redesign and DevOps automation.</p>
+</div>
+</div>
+</section>
+
+<!-- ================= BLOG ================= -->
+
+<section id="blog">
+<div class="container">
+<h2>Insights & Articles</h2>
+<div class="grid grid-3">
+<div class="card"><h3>AI Governance in 2026</h3></div>
+<div class="card"><h3>Cloud Modernization Strategy</h3></div>
+<div class="card"><h3>DevOps at Enterprise Scale</h3></div>
+</div>
+</div>
+</section>
+
+<!-- ================= CAREERS ================= -->
+
+<section id="careers">
+<div class="container">
+<h2>Careers</h2>
+<p>Join our engineering-first culture and build global-scale systems.</p>
+<ul>
+<li>Full Stack Engineer</li>
+<li>DevOps Engineer</li>
+<li>AI Engineer</li>
+</ul>
+</div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+
+<section id="contact">
+<div class="container">
+<h2>Contact Us</h2>
+<form>
+<input type="text" placeholder="Full Name" required><br><br>
+<input type="email" placeholder="Email" required><br><br>
+<textarea rows="5" placeholder="Your Message"></textarea><br><br>
+<button class="btn primary">Submit Inquiry</button>
+</form>
+</div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+<div class="grid">
+<div>
+<h3>Company</h3>
+<a href="#">About</a>
+<a href="#">Careers</a>
+</div>
+<div>
+<h3>Services</h3>
+<a href="#">Cloud</a>
+<a href="#">AI</a>
+</div>
+<div>
+<h3>Resources</h3>
+<a href="#">Blog</a>
+<a href="#">Case Studies</a>
+</div>
+<div>
+<h3>Contact</h3>
+<p>Global Delivery Model</p>
+</div>
+</div>
+<p style="margin-top:40px;text-align:center;">© 2026 Tech1World. All Rights Reserved.</p>
+</footer>
+
+<button id="topBtn">↑</button>
+
+<script>
+
+// Counter Animation
+const counters = document.querySelectorAll('.counter');
+counters.forEach(counter=>{
+    const update=()=>{
+        const target=+counter.getAttribute('data-target');
+        const count=+counter.innerText;
+        const inc=target/100;
+        if(count<target){
+            counter.innerText=Math.ceil(count+inc);
+            setTimeout(update,30);
+        } else{
+            counter.innerText=target;
         }
-        animate();
+    }
+    update();
+});
 
-        // 2. INTERACTION: CUSTOM CURSOR
-        const dot = document.getElementById('cursor-dot');
-        const ring = document.getElementById('cursor-ring');
-        window.addEventListener('mousemove', (e) => {
-            gsap.to(dot, { x: e.clientX, y: e.clientY, duration: 0 });
-            gsap.to(ring, { x: e.clientX - 17, y: e.clientY - 17, duration: 0.3 });
-            
-            // Mouse Parallax for Sphere
-            const x = (e.clientX / window.innerWidth) - 0.5;
-            const y = (e.clientY / window.innerHeight) - 0.5;
-            gsap.to(sphere.rotation, { y: x * 2, x: y * 2, duration: 2 });
-        });
+// Back to top
+const topBtn=document.getElementById("topBtn");
+window.onscroll=function(){
+    if(document.body.scrollTop>300||document.documentElement.scrollTop>300){
+        topBtn.style.display="block";
+    }else{
+        topBtn.style.display="none";
+    }
+};
+topBtn.onclick=function(){
+    window.scrollTo({top:0,behavior:"smooth"});
+};
 
-        // 3. LOGIC: SPA ROUTER
-        function route(pageId) {
-            // Loader effect on transition
-            const progress = document.querySelector('.loader-progress');
-            const loader = document.getElementById('loader');
-            loader.style.display = 'flex';
-            loader.style.opacity = '1';
-            progress.style.width = '100%';
+</script>
 
-            setTimeout(() => {
-                // Hide all views
-                document.querySelectorAll('.page-view').forEach(view => {
-                    view.classList.remove('active');
-                });
-                
-                // Show target view
-                const target = document.getElementById('view-' + pageId);
-                target.classList.add('active');
-                
-                // Scroll to top
-                window.scrollTo(0, 0);
-
-                // Hide loader
-                progress.style.width = '0%';
-                gsap.to(loader, { opacity: 0, duration: 0.5, onComplete: () => loader.style.display = 'none' });
-            }, 600);
-        }
-
-        // 4. MOTION: TYPING EFFECT
-        const words = ["INTELLIGENT", "SCALABLE", "ENTERPRISE", "ONCHAIN"];
-        let i = 0; let j = 0; let currentWord = ""; let isDeleting = false;
-        function type() {
-            currentWord = words[i];
-            if (isDeleting) {
-                document.getElementById('type-target').textContent = currentWord.substring(0, j - 1);
-                j--;
-                if (j === 0) { isDeleting = false; i = (i + 1) % words.length; }
-            } else {
-                document.getElementById('type-target').textContent = currentWord.substring(0, j + 1);
-                j++;
-                if (j === currentWord.length) { isDeleting = true; setTimeout(type, 2000); return; }
-            }
-            setTimeout(type, isDeleting ? 50 : 150);
-        }
-        type();
-
-        // 5. NAVIGATION SCROLL
-        window.addEventListener('scroll', () => {
-            const nav = document.getElementById('navbar');
-            nav.classList.toggle('scrolled', window.scrollY > 50);
-        });
-
-        // 6. INITIAL LOAD
-        window.addEventListener('load', () => {
-            const progress = document.querySelector('.loader-progress');
-            progress.style.width = '100%';
-            setTimeout(() => {
-                gsap.to('#loader', { opacity: 0, duration: 1, onComplete: () => document.getElementById('loader').style.display = 'none' });
-            }, 800);
-        });
-
-        // 7. SMOOTH SCROLL (LENIS)
-        const lenis = new Lenis();
-        function raf(time) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-        }
-        requestAnimationFrame(raf);
-    </script>
 </body>
 </html>
