@@ -3,280 +3,117 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Neural AI | Next Generation Intelligence</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+<title>Neural AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:'Poppins',sans-serif;
-scroll-behavior:smooth;
+font-family:'Orbitron',sans-serif;
 }
 
 body{
-background:#0a0f1c;
+background:#000;
+overflow:hidden;
 color:white;
-overflow-x:hidden;
 }
 
-/* Animated Gradient Background */
-body::before{
-content:"";
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:linear-gradient(45deg,#0f2027,#203a43,#2c5364);
-background-size:400% 400%;
-animation:gradientMove 10s ease infinite;
-z-index:-2;
-}
-
-@keyframes gradientMove{
-0%{background-position:0% 50%;}
-50%{background-position:100% 50%;}
-100%{background-position:0% 50%;}
-}
-
-/* Navbar */
-nav{
-position:fixed;
-top:0;
-width:100%;
-padding:15px 50px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-background:rgba(255,255,255,0.05);
-backdrop-filter:blur(10px);
-z-index:1000;
-}
-
-nav h2{
-font-weight:700;
-color:#00e0ff;
-}
-
-nav ul{
-display:flex;
-list-style:none;
-gap:30px;
-}
-
-nav ul li a{
-color:white;
-text-decoration:none;
-transition:0.3s;
-}
-
-nav ul li a:hover{
-color:#00e0ff;
-}
-
-/* Hero Section */
-.hero{
-height:100vh;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-text-align:center;
-padding:20px;
-}
-
-.hero h1{
-font-size:60px;
-background:linear-gradient(90deg,#00e0ff,#8f00ff);
--webkit-background-clip:text;
-color:transparent;
-animation:fadeIn 2s ease forwards;
-}
-
-.hero p{
-margin-top:20px;
-font-size:20px;
-max-width:700px;
-opacity:0;
-animation:fadeIn 3s ease forwards;
-}
-
-@keyframes fadeIn{
-from{opacity:0;transform:translateY(30px);}
-to{opacity:1;transform:translateY(0);}
-}
-
-.btn{
-margin-top:30px;
-padding:15px 35px;
-border:none;
-background:linear-gradient(90deg,#00e0ff,#8f00ff);
-color:white;
-border-radius:30px;
-cursor:pointer;
-font-size:18px;
-transition:0.4s;
-}
-
-.btn:hover{
-transform:scale(1.1);
-box-shadow:0 0 25px #00e0ff;
-}
-
-/* Sections */
-section{
-padding:100px 50px;
-text-align:center;
-}
-
-.cards{
-display:flex;
-justify-content:center;
-flex-wrap:wrap;
-gap:40px;
-margin-top:50px;
-}
-
-.card{
-background:rgba(255,255,255,0.05);
-padding:40px;
-border-radius:20px;
-width:300px;
-backdrop-filter:blur(15px);
-transition:0.4s;
-}
-
-.card:hover{
-transform:translateY(-15px);
-box-shadow:0 0 30px #00e0ff;
-}
-
-/* Video */
-.video-container{
-margin-top:50px;
-}
-
-video{
-width:80%;
-border-radius:20px;
-box-shadow:0 0 30px #00e0ff;
-}
-
-/* Footer */
-footer{
-padding:30px;
-background:black;
-text-align:center;
-}
-
-/* Floating particles */
 canvas{
 position:fixed;
 top:0;
 left:0;
 z-index:-1;
 }
+
+.hero{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+text-align:center;
+}
+
+.hero h1{
+font-size:70px;
+letter-spacing:3px;
+background:linear-gradient(90deg,#00f0ff,#ff00ff);
+-webkit-background-clip:text;
+color:transparent;
+}
+
+.hero p{
+margin-top:20px;
+font-size:18px;
+opacity:0.7;
+}
+
+button{
+margin-top:30px;
+padding:15px 40px;
+border:none;
+border-radius:50px;
+background:linear-gradient(90deg,#00f0ff,#ff00ff);
+color:white;
+font-size:16px;
+cursor:pointer;
+transition:0.4s;
+}
+
+button:hover{
+transform:scale(1.1);
+box-shadow:0 0 40px #00f0ff;
+}
 </style>
 </head>
 
 <body>
 
-<canvas id="particles"></canvas>
-
-<nav>
-<h2>Neural AI</h2>
-<ul>
-<li><a href="#about">About</a></li>
-<li><a href="#services">Services</a></li>
-<li><a href="#video">Demo</a></li>
-<li><a href="#contact">Contact</a></li>
-</ul>
-</nav>
-
 <div class="hero">
-<h1>Next Generation AI Intelligence</h1>
-<p>Real-time neural visualization platform powered by advanced machine learning, cinematic 3D rendering, and immersive AI systems.</p>
-<button class="btn">Initialize Core</button>
+<h1>NEURAL AI</h1>
+<p>Immersive Neural Intelligence Engine</p>
+<button>Initialize Core</button>
 </div>
 
-<section id="about">
-<h2>About Neural AI</h2>
-<p>We build immersive AI-powered systems that transform data into intelligence using advanced neural architectures.</p>
-</section>
-
-<section id="services">
-<h2>Our AI Services</h2>
-<div class="cards">
-<div class="card">
-<h3>Machine Learning</h3>
-<p>Predictive analytics and intelligent automation solutions.</p>
-</div>
-<div class="card">
-<h3>AI Visualization</h3>
-<p>Real-time 3D neural network rendering.</p>
-</div>
-<div class="card">
-<h3>AI Automation</h3>
-<p>Smart bots and AI-driven digital transformation.</p>
-</div>
-</div>
-</section>
-
-<section id="video">
-<h2>Platform Demo</h2>
-<div class="video-container">
-<video autoplay muted loop>
-<source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-</video>
-</div>
-</section>
-
-<section id="contact">
-<h2>Contact Us</h2>
-<p>Email: contact@neuralai.com</p>
-<p>Location: Global AI Research Hub</p>
-</section>
-
-<footer>
-© 2026 Neural AI | All Rights Reserved
-</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 <script>
-// Particle Animation
-const canvas = document.getElementById("particles");
-const ctx = canvas.getContext("2d");
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+const renderer = new THREE.WebGLRenderer({alpha:true});
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
 
-let particles = [];
-
-for(let i=0;i<100;i++){
-particles.push({
-x:Math.random()*canvas.width,
-y:Math.random()*canvas.height,
-r:Math.random()*3,
-dx:(Math.random()-0.5),
-dy:(Math.random()-0.5)
+const geometry = new THREE.IcosahedronGeometry(2, 1);
+const material = new THREE.MeshStandardMaterial({
+color:0x00ffff,
+wireframe:true
 });
-}
+
+const sphere = new THREE.Mesh(geometry, material);
+scene.add(sphere);
+
+const light = new THREE.PointLight(0xffffff, 1);
+light.position.set(5,5,5);
+scene.add(light);
+
+camera.position.z = 5;
 
 function animate(){
-ctx.clearRect(0,0,canvas.width,canvas.height);
-particles.forEach(p=>{
-ctx.beginPath();
-ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-ctx.fillStyle="#00e0ff";
-ctx.fill();
-p.x+=p.dx;
-p.y+=p.dy;
-if(p.x<0||p.x>canvas.width)p.dx*=-1;
-if(p.y<0||p.y>canvas.height)p.dy*=-1;
-});
 requestAnimationFrame(animate);
+sphere.rotation.x += 0.005;
+sphere.rotation.y += 0.007;
+renderer.render(scene, camera);
 }
+
 animate();
+
+window.addEventListener("resize", ()=>{
+renderer.setSize(window.innerWidth, window.innerHeight);
+camera.aspect = window.innerWidth/window.innerHeight;
+camera.updateProjectionMatrix();
+});
 </script>
 
 </body>
