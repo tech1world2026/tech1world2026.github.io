@@ -3,66 +3,126 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tech1World - Neural AI</title>
+<title>Tech1World - AI Solutions</title>
 
 <style>
-body{
-    margin:0;
-    font-family:Segoe UI, sans-serif;
-    background:black;
-    color:white;
-    overflow-x:hidden;
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+scroll-behavior:smooth;
 }
 
-/* 3D Background */
+body{
+font-family:Segoe UI, sans-serif;
+background:black;
+color:white;
+overflow-x:hidden;
+}
+
+/* 3D Canvas */
 canvas{
-    position:fixed;
-    top:0;
-    left:0;
-    z-index:-1;
+position:fixed;
+top:0;
+left:0;
+z-index:-1;
+}
+
+/* Navbar */
+nav{
+position:fixed;
+top:0;
+width:100%;
+padding:20px 10%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:rgba(0,0,0,0.4);
+backdrop-filter:blur(10px);
+z-index:10;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+margin-left:20px;
+font-size:0.9rem;
+}
+
+nav a:hover{
+color:#00f2ff;
 }
 
 /* Sections */
 section{
-    min-height:100vh;
-    padding:100px 10%;
-    backdrop-filter:blur(10px);
-    background:rgba(0,0,0,0.5);
+min-height:100vh;
+padding:120px 10%;
+display:flex;
+flex-direction:column;
+justify-content:center;
 }
 
 h1{
-    font-size:4rem;
-    margin:0;
-    background:linear-gradient(90deg,#00f2ff,#a100ff);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
+font-size:4rem;
+background:linear-gradient(90deg,#00f2ff,#a100ff);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
 }
 
 h2{
-    font-size:2.5rem;
-    margin-bottom:20px;
+font-size:2.5rem;
+margin-bottom:20px;
 }
 
 p{
-    color:#ccc;
-    max-width:800px;
+color:#ccc;
+max-width:800px;
+line-height:1.6;
 }
 
+/* Buttons */
 button{
-    padding:15px 40px;
-    border:none;
-    border-radius:40px;
-    background:linear-gradient(90deg,#00f2ff,#a100ff);
-    color:white;
-    font-size:1rem;
-    cursor:pointer;
+margin-top:30px;
+padding:15px 40px;
+border:none;
+border-radius:50px;
+background:linear-gradient(90deg,#00f2ff,#a100ff);
+color:white;
+font-size:1rem;
+cursor:pointer;
+transition:0.3s;
 }
+
+button:hover{
+transform:scale(1.1);
+}
+
+/* Cards */
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:30px;
+margin-top:40px;
+}
+
 .card{
-    background:rgba(255,255,255,0.05);
-    padding:30px;
-    border-radius:20px;
-    margin:20px 0;
-    backdrop-filter:blur(20px);
+background:rgba(255,255,255,0.05);
+padding:30px;
+border-radius:20px;
+backdrop-filter:blur(15px);
+transition:0.4s;
+}
+
+.card:hover{
+transform:translateY(-10px);
+background:rgba(255,255,255,0.1);
+}
+
+/* Footer */
+footer{
+padding:40px 10%;
+text-align:center;
+background:rgba(0,0,0,0.5);
 }
 </style>
 </head>
@@ -71,138 +131,155 @@ button{
 
 <canvas id="gl"></canvas>
 
+<nav>
+<div><strong>Tech1World</strong></div>
+<div>
+<a href="#home">Home</a>
+<a href="#about">About</a>
+<a href="#services">Services</a>
+<a href="#contact">Contact</a>
+</div>
+</nav>
+
 <!-- HERO -->
-<section>
-    <h1>NEURAL AI</h1>
-    <p>Next generation AI-powered immersive intelligence platform with cinematic 3D rendering and advanced intelligent automation.</p>
-    <br>
-    <button onclick="boost()">Initialize Core</button>
+<section id="home">
+<h1>NEURAL AI</h1>
+<p>Advanced AI-powered immersive intelligence platform delivering scalable automation, predictive analytics and real-time 3D visualization engines.</p>
+<button onclick="boost()">Initialize Core</button>
 </section>
 
 <!-- ABOUT -->
-<section>
-    <h2>About Tech1World</h2>
-    <p>
-    Tech1World is an advanced IT outsourcing and AI solutions company delivering scalable software systems, AI integrations, cloud infrastructure, and immersive digital platforms.
-    </p>
+<section id="about">
+<h2>About Us</h2>
+<p>
+Tech1World is a next-generation IT outsourcing and AI innovation company focused on delivering intelligent digital transformation solutions. 
+We design scalable architectures, immersive web platforms and enterprise automation systems.
+</p>
 </section>
 
 <!-- SERVICES -->
-<section>
-    <h2>Our Services</h2>
+<section id="services">
+<h2>Our Services</h2>
+<div class="grid">
 
-    <div class="card">
-        <h3>Artificial Intelligence Development</h3>
-        <p>Custom AI models, automation systems, neural processing engines and predictive analytics solutions.</p>
-    </div>
+<div class="card">
+<h3>AI Development</h3>
+<p>Custom neural systems, automation workflows and predictive data intelligence platforms.</p>
+</div>
 
-    <div class="card">
-        <h3>Web & 3D Engine Development</h3>
-        <p>High-performance WebGL applications, real-time rendering platforms and immersive user experiences.</p>
-    </div>
+<div class="card">
+<h3>WebGL & 3D Systems</h3>
+<p>High-performance immersive platforms with real-time rendering and interactive visual engines.</p>
+</div>
 
-    <div class="card">
-        <h3>Cloud & DevOps</h3>
-        <p>Scalable cloud architecture, CI/CD pipelines and enterprise-grade infrastructure optimization.</p>
-    </div>
+<div class="card">
+<h3>Cloud Infrastructure</h3>
+<p>Enterprise-grade scalable cloud architecture and DevOps implementation strategies.</p>
+</div>
+
+<div class="card">
+<h3>Enterprise Software</h3>
+<p>Secure and scalable enterprise applications for startups and global businesses.</p>
+</div>
+
+</div>
 </section>
 
 <!-- CONTACT -->
-<section>
-    <h2>Contact Us</h2>
-    <p>Email: info@tech1world.com</p>
-    <p>Location: India</p>
+<section id="contact">
+<h2>Contact</h2>
+<p>Email: info@tech1world.com</p>
+<p>Location: India</p>
 </section>
 
-<script>
-const canvas = document.getElementById("gl");
-const gl = canvas.getContext("webgl");
+<footer>
+© 2026 Tech1World. All Rights Reserved.
+</footer>
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+<script>
+const canvas=document.getElementById("gl");
+const gl=canvas.getContext("webgl");
+
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
 gl.viewport(0,0,canvas.width,canvas.height);
 
-const vertexShaderSource = `
+const vertex=`
 attribute vec2 position;
 void main(){
-    gl_Position = vec4(position,0.0,1.0);
-}
-`;
+gl_Position=vec4(position,0.0,1.0);
+}`;
 
-const fragmentShaderSource = `
+const fragment=`
 precision highp float;
 uniform float time;
 uniform vec2 resolution;
 uniform float power;
 
 void main(){
-    vec2 uv = gl_FragCoord.xy / resolution.xy;
-    vec2 p = uv - 0.5;
-    float r = length(p);
+vec2 uv=gl_FragCoord.xy/resolution.xy;
+vec2 p=uv-0.5;
+float r=length(p);
 
-    float glow = 0.02 / r;
-    float wave = sin(15.0*r - time*3.0);
-    float core = smoothstep(0.3,0.0,r);
+float glow=0.02/r;
+float wave=sin(20.0*r-time*3.0);
+float core=smoothstep(0.3,0.0,r);
 
-    vec3 color = vec3(0.0);
-    color += vec3(0.0,0.8,1.0) * glow * power;
-    color += vec3(0.6,0.0,1.0) * wave * 0.3;
-    color += vec3(0.2,0.0,0.4) * core;
+vec3 color=vec3(0.0);
+color+=vec3(0.0,0.8,1.0)*glow*power;
+color+=vec3(0.6,0.0,1.0)*wave*0.3;
+color+=vec3(0.2,0.0,0.4)*core;
 
-    gl_FragColor = vec4(color,1.0);
+gl_FragColor=vec4(color,1.0);
+}`;
+
+function shader(type,src){
+let s=gl.createShader(type);
+gl.shaderSource(s,src);
+gl.compileShader(s);
+return s;
 }
-`;
 
-function createShader(type, source){
-    const shader = gl.createShader(type);
-    gl.shaderSource(shader,source);
-    gl.compileShader(shader);
-    return shader;
-}
-
-const vertexShader = createShader(gl.VERTEX_SHADER, vertexShaderSource);
-const fragmentShader = createShader(gl.FRAGMENT_SHADER, fragmentShaderSource);
-
-const program = gl.createProgram();
-gl.attachShader(program,vertexShader);
-gl.attachShader(program,fragmentShader);
+let program=gl.createProgram();
+gl.attachShader(program,shader(gl.VERTEX_SHADER,vertex));
+gl.attachShader(program,shader(gl.FRAGMENT_SHADER,fragment));
 gl.linkProgram(program);
 gl.useProgram(program);
 
-const vertices = new Float32Array([-1,-1,1,-1,-1,1,1,1]);
-const buffer = gl.createBuffer();
+let vertices=new Float32Array([-1,-1,1,-1,-1,1,1,1]);
+let buffer=gl.createBuffer();
 gl.bindBuffer(gl.ARRAY_BUFFER,buffer);
 gl.bufferData(gl.ARRAY_BUFFER,vertices,gl.STATIC_DRAW);
 
-const position = gl.getAttribLocation(program,"position");
-gl.enableVertexAttribArray(position);
-gl.vertexAttribPointer(position,2,gl.FLOAT,false,0,0);
+let pos=gl.getAttribLocation(program,"position");
+gl.enableVertexAttribArray(pos);
+gl.vertexAttribPointer(pos,2,gl.FLOAT,false,0,0);
 
-const timeLoc = gl.getUniformLocation(program,"time");
-const resolutionLoc = gl.getUniformLocation(program,"resolution");
-const powerLoc = gl.getUniformLocation(program,"power");
+let timeLoc=gl.getUniformLocation(program,"time");
+let resLoc=gl.getUniformLocation(program,"resolution");
+let powerLoc=gl.getUniformLocation(program,"power");
 
-let start = Date.now();
-let intensity = 1.0;
+let start=Date.now();
+let intensity=1.0;
 
 function render(){
-    let t = (Date.now()-start)/1000;
-    gl.uniform1f(timeLoc,t);
-    gl.uniform2f(resolutionLoc,canvas.width,canvas.height);
-    gl.uniform1f(powerLoc,intensity);
-    gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
-    requestAnimationFrame(render);
+let t=(Date.now()-start)/1000;
+gl.uniform1f(timeLoc,t);
+gl.uniform2f(resLoc,canvas.width,canvas.height);
+gl.uniform1f(powerLoc,intensity);
+gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
+requestAnimationFrame(render);
 }
 render();
 
 function boost(){
-    intensity = 3.0;
+intensity=3.0;
 }
 
 window.addEventListener("resize",()=>{
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    gl.viewport(0,0,canvas.width,canvas.height);
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+gl.viewport(0,0,canvas.width,canvas.height);
 });
 </script>
 
