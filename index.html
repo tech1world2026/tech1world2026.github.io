@@ -3,42 +3,47 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tech1 World | IT & Data Consulting</title>
+<title>Tech1 World | AI & IT Consulting</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
 
 body{
-background:#0a0f1a;
-color:white;
+background:#ffffff;
+color:#111;
 overflow-x:hidden;
 }
 
-/* 3D Canvas */
+/* Subtle AI Canvas */
 canvas{
 position:fixed;
 top:0;
 left:0;
 z-index:-1;
+opacity:0.08;
 }
 
-/* Navbar */
+/* Navigation */
 nav{
 position:fixed;
 width:100%;
-padding:20px 10%;
+padding:20px 8%;
 display:flex;
 justify-content:space-between;
 align-items:center;
-background:rgba(0,0,0,0.6);
-backdrop-filter:blur(8px);
+background:rgba(255,255,255,0.8);
+backdrop-filter:blur(10px);
+border-bottom:1px solid #eee;
 z-index:1000;
 }
 
-nav h2{font-weight:700;color:#00c6ff;}
+nav h2{
+font-weight:700;
+letter-spacing:1px;
+}
 
 nav ul{
 display:flex;
@@ -47,19 +52,18 @@ list-style:none;
 }
 
 nav a{
-color:white;
 text-decoration:none;
+color:#333;
 font-size:14px;
-transition:0.3s;
 }
 
-nav a:hover{color:#00c6ff;}
+nav a:hover{opacity:0.6;}
 
 /* Sections */
 section{
-padding:120px 10%;
+padding:140px 8%;
 opacity:0;
-transform:translateY(60px);
+transform:translateY(40px);
 transition:1s ease;
 }
 
@@ -68,9 +72,24 @@ opacity:1;
 transform:translateY(0);
 }
 
-h1{font-size:60px;}
-h2{font-size:38px;margin-bottom:20px;}
-p{line-height:1.7;opacity:0.85;max-width:900px;}
+h1{
+font-size:64px;
+font-weight:700;
+max-width:900px;
+line-height:1.2;
+}
+
+h2{
+font-size:42px;
+margin-bottom:20px;
+}
+
+p{
+font-size:18px;
+line-height:1.7;
+max-width:900px;
+color:#444;
+}
 
 .hero{
 min-height:100vh;
@@ -79,63 +98,64 @@ flex-direction:column;
 justify-content:center;
 }
 
-.hero span{
-background:linear-gradient(90deg,#00c6ff,#7b2ff7);
+.gradient-text{
+background:linear-gradient(90deg,#0052ff,#7b2ff7);
 -webkit-background-clip:text;
 color:transparent;
 }
 
 .btn{
 margin-top:30px;
-padding:14px 28px;
-border-radius:8px;
-background:#7b2ff7;
-border:none;
-color:white;
+padding:14px 30px;
+border-radius:6px;
+border:1px solid #111;
+background:#111;
+color:#fff;
 cursor:pointer;
 transition:0.3s;
 }
 
 .btn:hover{
-background:#00c6ff;
+background:#333;
 }
 
-/* Grid */
+/* Grid Layout */
 .grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
 gap:40px;
-margin-top:50px;
+margin-top:60px;
 }
 
 .card{
-background:#11182b;
 padding:30px;
-border-radius:10px;
+border:1px solid #eee;
+border-radius:8px;
+background:#fafafa;
 transition:0.4s;
 }
 
 .card:hover{
-transform:translateY(-10px);
-background:#18233d;
+transform:translateY(-8px);
+background:#fff;
+box-shadow:0 20px 40px rgba(0,0,0,0.08);
 }
 
 img{
 width:100%;
 border-radius:10px;
-margin-top:20px;
+margin-top:40px;
 }
 
 /* Footer */
 footer{
-background:#070b14;
-padding:60px 10%;
+background:#111;
+color:#aaa;
+padding:80px 8%;
 font-size:14px;
-opacity:0.7;
 }
 </style>
 </head>
-
 <body>
 
 <nav>
@@ -143,84 +163,71 @@ opacity:0.7;
 <ul>
 <li><a href="#about">About</a></li>
 <li><a href="#services">Services</a></li>
-<li><a href="#tech">Technology</a></li>
+<li><a href="#industries">Industries</a></li>
 <li><a href="#contact">Contact</a></li>
 </ul>
 </nav>
 
 <section class="hero">
-<h1>Empowering Business with <span>Advanced IT & Data Solutions</span></h1>
+<h1>
+Building <span class="gradient-text">Intelligent Digital Infrastructure</span> for Modern Enterprises
+</h1>
 <p>
-Tech1 World is a global IT consulting and outsourcing company delivering scalable software solutions, enterprise transformation, cloud modernization, and data intelligence systems.
+Tech1 World is a technology consulting and AI engineering company delivering enterprise software systems, scalable cloud architecture, and data-driven intelligence platforms.
 </p>
-<button class="btn">Start Your Digital Journey</button>
+<button class="btn">Explore Our Solutions</button>
 </section>
 
 <section id="about">
 <h2>About Tech1 World</h2>
 <p>
-Tech1 World provides end-to-end IT services, strategic technology consulting, and data-driven solutions. We partner with startups, SMEs, and enterprises to build secure, scalable, and high-performance digital systems.
-Our mission is to enable digital transformation using modern architecture, AI-driven analytics, and cloud-native infrastructure.
+Founded with a vision to bridge innovation and enterprise reliability, Tech1 World provides strategic IT consulting, AI development, and digital transformation services. 
+We architect secure, scalable, and performance-driven systems for organizations navigating complex technological ecosystems.
 </p>
-<img src="https://images.unsplash.com/photo-1551434678-e076c223a692" alt="IT Company">
+<img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7" alt="Corporate Office">
 </section>
 
 <section id="services">
-<h2>Our Core Services</h2>
-
+<h2>Core Services</h2>
 <div class="grid">
-
 <div class="card">
-<h3>IT Services & Development</h3>
-<p>Custom web applications, enterprise systems, ERP solutions, API integrations, and ongoing infrastructure support.</p>
+<h3>Enterprise Software Development</h3>
+<p>Custom platforms, ERP systems, SaaS applications, and high-performance backend architectures.</p>
 </div>
-
+<div class="card">
+<h3>AI & Data Engineering</h3>
+<p>Machine learning pipelines, predictive analytics, data lakes, and business intelligence dashboards.</p>
+</div>
 <div class="card">
 <h3>Technology Consulting</h3>
-<p>Strategic IT advisory, system audits, digital transformation planning, architecture modernization, and cost optimization.</p>
+<p>IT strategy, system audits, digital transformation roadmaps, modernization initiatives.</p>
 </div>
-
 <div class="card">
-<h3>Data Engineering & AI</h3>
-<p>Data pipelines, analytics dashboards, AI/ML integration, business intelligence reporting, predictive analytics.</p>
+<h3>Cloud & Infrastructure</h3>
+<p>Secure cloud migration, microservices architecture, DevOps automation, scalable deployments.</p>
 </div>
-
-<div class="card">
-<h3>Cloud & DevOps</h3>
-<p>Cloud migration, AWS/Azure deployment, CI/CD pipelines, microservices architecture, and containerized environments.</p>
 </div>
-
-</div>
-
 </section>
 
-<section id="tech">
-<h2>Technology Stack</h2>
+<section id="industries">
+<h2>Industries We Serve</h2>
 <p>
-Backend: Java, Python, Node.js  
-Frontend: React, Angular  
-Cloud: AWS, Azure  
-Database: MySQL, PostgreSQL, MongoDB  
-AI/ML: TensorFlow, PyTorch  
-DevOps: Docker, Kubernetes, GitHub Actions
+Finance • Healthcare • E-Commerce • Government • Startups • Education • Logistics
 </p>
 </section>
 
 <section>
-<h2>Our Process</h2>
+<h2>Our Approach</h2>
 <p>
-1. Requirement Analysis  
-2. Solution Architecture  
-3. Agile Development  
-4. Testing & Deployment  
-5. Continuous Optimization & Support  
+We combine strategic consulting with technical execution. Our delivery model follows:
+Discovery → Architecture → Agile Development → Deployment → Continuous Optimization.
 </p>
 </section>
 
 <section id="contact">
 <h2>Contact Tech1 World</h2>
 <p>
-Registered Office: Tech1 World Pvt. Ltd.  
+Tech1 World Pvt. Ltd.  
 IT Park, Sector XX  
 New Delhi, India  
 PIN: 1100XX  
@@ -228,16 +235,22 @@ PIN: 1100XX
 <p>
 Email: info@tech1world.com  
 Phone: +91-XXXXXXXXXX  
-Business Hours: Mon – Fri | 9:00 AM – 6:00 PM IST  
 </p>
+
+<iframe 
+src="https://www.google.com/maps?q=New+Delhi&output=embed"
+width="100%" height="350" style="border:0;margin-top:40px;" allowfullscreen>
+</iframe>
 </section>
 
 <footer>
-© 2026 Tech1 World Pvt. Ltd. | IT Services | Consulting | Data Solutions
+© 2026 Tech1 World Pvt. Ltd.  
+AI Engineering • Enterprise Software • Technology Consulting  
+All Rights Reserved.
 </footer>
 
 <script>
-// 3D Background Animation
+// Subtle Neural Animation Background
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
 const renderer = new THREE.WebGLRenderer({alpha:true});
@@ -245,16 +258,16 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 const geometry = new THREE.IcosahedronGeometry(3, 1);
-const material = new THREE.MeshBasicMaterial({color:0x00c6ff, wireframe:true});
-const sphere = new THREE.Mesh(geometry, material);
-scene.add(sphere);
+const material = new THREE.MeshBasicMaterial({color:0x0052ff, wireframe:true});
+const mesh = new THREE.Mesh(geometry, material);
+scene.add(mesh);
 
 camera.position.z = 6;
 
 function animate(){
 requestAnimationFrame(animate);
-sphere.rotation.x += 0.002;
-sphere.rotation.y += 0.003;
+mesh.rotation.x += 0.0015;
+mesh.rotation.y += 0.002;
 renderer.render(scene, camera);
 }
 animate();
@@ -268,9 +281,9 @@ camera.updateProjectionMatrix();
 // Scroll reveal
 const sections = document.querySelectorAll("section");
 window.addEventListener("scroll", ()=>{
-sections.forEach(section=>{
-if(section.getBoundingClientRect().top < window.innerHeight - 100){
-section.classList.add("visible");
+sections.forEach(sec=>{
+if(sec.getBoundingClientRect().top < window.innerHeight - 100){
+sec.classList.add("visible");
 }
 });
 });
