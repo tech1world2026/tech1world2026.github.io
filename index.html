@@ -1,25 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tech1 World | IT & Data Solutions</title>
+<title>Tech1 World | IT & Data Consulting</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Inter',sans-serif;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
 
 body{
-background:#0b0f19;
-color:#fff;
+background:#0a0f1a;
+color:white;
 overflow-x:hidden;
 }
 
+/* 3D Canvas */
 canvas{
 position:fixed;
 top:0;
@@ -27,28 +25,53 @@ left:0;
 z-index:-1;
 }
 
-/* Layout */
+/* Navbar */
+nav{
+position:fixed;
+width:100%;
+padding:20px 10%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:rgba(0,0,0,0.6);
+backdrop-filter:blur(8px);
+z-index:1000;
+}
+
+nav h2{font-weight:700;color:#00c6ff;}
+
+nav ul{
+display:flex;
+gap:30px;
+list-style:none;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+font-size:14px;
+transition:0.3s;
+}
+
+nav a:hover{color:#00c6ff;}
+
+/* Sections */
 section{
 padding:120px 10%;
+opacity:0;
+transform:translateY(60px);
+transition:1s ease;
 }
 
-h1{
-font-size:60px;
-font-weight:700;
+section.visible{
+opacity:1;
+transform:translateY(0);
 }
 
-h2{
-font-size:40px;
-margin-bottom:20px;
-}
+h1{font-size:60px;}
+h2{font-size:38px;margin-bottom:20px;}
+p{line-height:1.7;opacity:0.85;max-width:900px;}
 
-p{
-opacity:0.8;
-line-height:1.7;
-max-width:800px;
-}
-
-/* Hero */
 .hero{
 min-height:100vh;
 display:flex;
@@ -64,7 +87,7 @@ color:transparent;
 
 .btn{
 margin-top:30px;
-padding:14px 30px;
+padding:14px 28px;
 border-radius:8px;
 background:#7b2ff7;
 border:none;
@@ -77,30 +100,36 @@ transition:0.3s;
 background:#00c6ff;
 }
 
-/* Services */
+/* Grid */
 .grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
 gap:40px;
 margin-top:50px;
 }
 
 .card{
-background:#121829;
+background:#11182b;
 padding:30px;
-border-radius:12px;
-transition:0.3s;
+border-radius:10px;
+transition:0.4s;
 }
 
 .card:hover{
-transform:translateY(-8px);
-background:#18213a;
+transform:translateY(-10px);
+background:#18233d;
+}
+
+img{
+width:100%;
+border-radius:10px;
+margin-top:20px;
 }
 
 /* Footer */
 footer{
-padding:50px 10%;
 background:#070b14;
+padding:60px 10%;
 font-size:14px;
 opacity:0.7;
 }
@@ -109,77 +138,143 @@ opacity:0.7;
 
 <body>
 
+<nav>
+<h2>Tech1 World</h2>
+<ul>
+<li><a href="#about">About</a></li>
+<li><a href="#services">Services</a></li>
+<li><a href="#tech">Technology</a></li>
+<li><a href="#contact">Contact</a></li>
+</ul>
+</nav>
+
 <section class="hero">
-<h1>Welcome to <span>Tech1 World</span></h1>
+<h1>Empowering Business with <span>Advanced IT & Data Solutions</span></h1>
 <p>
-Tech1 World delivers enterprise-grade IT services, data solutions, and strategic consulting to accelerate digital transformation for modern businesses.
+Tech1 World is a global IT consulting and outsourcing company delivering scalable software solutions, enterprise transformation, cloud modernization, and data intelligence systems.
 </p>
-<button class="btn">Explore Services</button>
+<button class="btn">Start Your Digital Journey</button>
 </section>
 
-<section>
-<h2>About Us</h2>
+<section id="about">
+<h2>About Tech1 World</h2>
 <p>
-Tech1 World is a technology-driven company specializing in IT outsourcing, data engineering, cloud architecture, and business consulting. 
-We help startups and enterprises build scalable digital ecosystems.
+Tech1 World provides end-to-end IT services, strategic technology consulting, and data-driven solutions. We partner with startups, SMEs, and enterprises to build secure, scalable, and high-performance digital systems.
+Our mission is to enable digital transformation using modern architecture, AI-driven analytics, and cloud-native infrastructure.
 </p>
+<img src="https://images.unsplash.com/photo-1551434678-e076c223a692" alt="IT Company">
 </section>
 
-<section>
-<h2>Our Services</h2>
+<section id="services">
+<h2>Our Core Services</h2>
+
 <div class="grid">
 
 <div class="card">
-<h3>IT Services</h3>
-<p>Custom software development, web applications, system integration, and infrastructure support.</p>
+<h3>IT Services & Development</h3>
+<p>Custom web applications, enterprise systems, ERP solutions, API integrations, and ongoing infrastructure support.</p>
 </div>
 
 <div class="card">
 <h3>Technology Consulting</h3>
-<p>Strategic IT planning, digital transformation roadmaps, and enterprise system optimization.</p>
+<p>Strategic IT advisory, system audits, digital transformation planning, architecture modernization, and cost optimization.</p>
 </div>
 
 <div class="card">
-<h3>Data Solutions</h3>
-<p>Data analytics, machine learning integration, business intelligence dashboards, and automation systems.</p>
+<h3>Data Engineering & AI</h3>
+<p>Data pipelines, analytics dashboards, AI/ML integration, business intelligence reporting, predictive analytics.</p>
 </div>
 
 <div class="card">
 <h3>Cloud & DevOps</h3>
-<p>Secure cloud migration, CI/CD pipelines, scalable deployment architectures.</p>
+<p>Cloud migration, AWS/Azure deployment, CI/CD pipelines, microservices architecture, and containerized environments.</p>
 </div>
 
 </div>
+
 </section>
 
-<section>
-<h2>Why Choose Tech1 World</h2>
+<section id="tech">
+<h2>Technology Stack</h2>
 <p>
-• Scalable architecture  
-• Modern technology stack  
-• Security-first approach  
-• Transparent consulting model  
-• Cost-efficient IT outsourcing  
+Backend: Java, Python, Node.js  
+Frontend: React, Angular  
+Cloud: AWS, Azure  
+Database: MySQL, PostgreSQL, MongoDB  
+AI/ML: TensorFlow, PyTorch  
+DevOps: Docker, Kubernetes, GitHub Actions
 </p>
 </section>
 
 <section>
-<h2>Technologies We Work With</h2>
+<h2>Our Process</h2>
 <p>
-Java • Python • React • Node.js • AWS • Azure • MySQL • AI/ML • DevOps • Microservices
+1. Requirement Analysis  
+2. Solution Architecture  
+3. Agile Development  
+4. Testing & Deployment  
+5. Continuous Optimization & Support  
 </p>
 </section>
 
-<section>
-<h2>Contact Us</h2>
-<p>Email: info@tech1world.com</p>
-<p>Phone: +91-XXXXXXXXXX</p>
-<p>Location: India</p>
+<section id="contact">
+<h2>Contact Tech1 World</h2>
+<p>
+Registered Office: Tech1 World Pvt. Ltd.  
+IT Park, Sector XX  
+New Delhi, India  
+PIN: 1100XX  
+</p>
+<p>
+Email: info@tech1world.com  
+Phone: +91-XXXXXXXXXX  
+Business Hours: Mon – Fri | 9:00 AM – 6:00 PM IST  
+</p>
 </section>
 
 <footer>
-© 2026 Tech1 World | IT & Data Consulting Company
+© 2026 Tech1 World Pvt. Ltd. | IT Services | Consulting | Data Solutions
 </footer>
+
+<script>
+// 3D Background Animation
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+const renderer = new THREE.WebGLRenderer({alpha:true});
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+const geometry = new THREE.IcosahedronGeometry(3, 1);
+const material = new THREE.MeshBasicMaterial({color:0x00c6ff, wireframe:true});
+const sphere = new THREE.Mesh(geometry, material);
+scene.add(sphere);
+
+camera.position.z = 6;
+
+function animate(){
+requestAnimationFrame(animate);
+sphere.rotation.x += 0.002;
+sphere.rotation.y += 0.003;
+renderer.render(scene, camera);
+}
+animate();
+
+window.addEventListener("resize", ()=>{
+renderer.setSize(window.innerWidth, window.innerHeight);
+camera.aspect = window.innerWidth/window.innerHeight;
+camera.updateProjectionMatrix();
+});
+
+// Scroll reveal
+const sections = document.querySelectorAll("section");
+window.addEventListener("scroll", ()=>{
+sections.forEach(section=>{
+if(section.getBoundingClientRect().top < window.innerHeight - 100){
+section.classList.add("visible");
+}
+});
+});
+</script>
 
 </body>
 </html>
