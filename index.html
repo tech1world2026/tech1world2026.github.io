@@ -6,118 +6,54 @@
 <title>Tech1World | Enterprise AI & IT Solutions</title>
 
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-scroll-behavior:smooth;
-}
-
-body{
-font-family:Arial, sans-serif;
-color:#111;
-background:#f7f9fc;
-line-height:1.6;
-}
-
+*{margin:0;padding:0;box-sizing:border-box;scroll-behavior:smooth;}
+body{font-family:Arial, sans-serif;color:#111;background:#f7f9fc;line-height:1.6;}
 nav{
-position:fixed;
-top:0;
-width:100%;
-background:white;
-padding:20px 10%;
-display:flex;
-justify-content:space-between;
-align-items:center;
-box-shadow:0 2px 10px rgba(0,0,0,0.05);
-z-index:10;
+position:fixed;top:0;width:100%;background:white;
+padding:20px 10%;display:flex;justify-content:space-between;
+align-items:center;box-shadow:0 2px 10px rgba(0,0,0,0.05);z-index:10;
 }
-
-nav a{
-text-decoration:none;
-color:#333;
-margin-left:25px;
-font-size:0.9rem;
-}
-
-nav a:hover{
-color:#0056ff;
-}
-
-section{
-padding:120px 10%;
-}
-
-.hero{
-background:white;
-padding-top:180px;
-}
-
-.hero h1{
-font-size:3rem;
-max-width:700px;
-}
-
-.hero p{
-margin-top:20px;
-max-width:600px;
-color:#555;
-}
-
+nav a{text-decoration:none;color:#333;margin-left:25px;font-size:0.9rem;}
+nav a:hover{color:#0056ff;}
+section{padding:120px 10%;}
+.hero{background:white;padding-top:180px;}
+.hero h1{font-size:3rem;max-width:700px;}
+.hero p{margin-top:20px;max-width:600px;color:#555;}
 .btn{
-margin-top:30px;
-padding:14px 32px;
-border-radius:4px;
-border:none;
-background:#0056ff;
-color:white;
-font-size:0.9rem;
-cursor:pointer;
+margin-top:30px;padding:14px 32px;border-radius:4px;
+border:none;background:#0056ff;color:white;font-size:0.9rem;cursor:pointer;
 }
-
-.btn:hover{
-background:#003bb5;
-}
-
+.btn:hover{background:#003bb5;}
 .grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:40px;
-margin-top:50px;
+display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:40px;margin-top:50px;
 }
-
 .card{
-background:white;
-padding:40px;
-border-radius:8px;
+background:white;padding:40px;border-radius:8px;
 box-shadow:0 5px 20px rgba(0,0,0,0.05);
 }
-
-.card h3{
-margin-bottom:15px;
+.gray{background:#eef2f7;}
+.metrics{display:flex;gap:60px;margin-top:40px;flex-wrap:wrap;}
+.metric h2{font-size:2.5rem;color:#0056ff;}
+.logos{
+display:flex;flex-wrap:wrap;gap:40px;
+justify-content:center;margin-top:50px;opacity:0.7;
 }
-
-.gray{
-background:#eef2f7;
+.logo{
+background:white;padding:20px 40px;
+border-radius:6px;box-shadow:0 2px 10px rgba(0,0,0,0.05);
+font-weight:bold;
 }
-
-.metrics{
-display:flex;
-gap:60px;
-margin-top:40px;
-flex-wrap:wrap;
+.testimonial{
+background:white;padding:30px;border-radius:8px;
+box-shadow:0 5px 20px rgba(0,0,0,0.05);margin-top:30px;
 }
-
-.metric h2{
-font-size:2.5rem;
-color:#0056ff;
+input,textarea{
+width:100%;padding:12px;margin-top:10px;
+border:1px solid #ccc;border-radius:4px;
 }
-
 footer{
-background:#111;
-color:white;
-padding:50px 10%;
-text-align:center;
+background:#111;color:white;padding:50px 10%;text-align:center;
 }
 </style>
 </head>
@@ -129,7 +65,7 @@ text-align:center;
 <div>
 <a href="#about">About</a>
 <a href="#services">Services</a>
-<a href="#solutions">Solutions</a>
+<a href="#cases">Case Studies</a>
 <a href="#contact">Contact</a>
 </div>
 </nav>
@@ -137,81 +73,98 @@ text-align:center;
 <section class="hero">
 <h1>Enterprise AI & Scalable IT Solutions for Modern Businesses</h1>
 <p>
-Tech1World delivers intelligent automation, cloud-native architectures, and secure enterprise software systems designed to drive operational efficiency and digital transformation.
+We design secure, scalable and intelligent systems that drive digital transformation and operational efficiency.
 </p>
 <button class="btn">Request Consultation</button>
 
 <div class="metrics">
-<div class="metric">
-<h2>50+</h2>
-<p>Projects Delivered</p>
-</div>
-<div class="metric">
-<h2>99.9%</h2>
-<p>System Uptime</p>
-</div>
-<div class="metric">
-<h2>24/7</h2>
-<p>Technical Support</p>
-</div>
+<div class="metric"><h2>50+</h2><p>Projects Delivered</p></div>
+<div class="metric"><h2>99.9%</h2><p>System Uptime</p></div>
+<div class="metric"><h2>24/7</h2><p>Technical Support</p></div>
 </div>
 </section>
 
 <section id="about" class="gray">
 <h2>About Tech1World</h2>
 <p>
-Tech1World is a technology consulting and IT services company specializing in enterprise AI development, scalable infrastructure design, and secure application engineering. We partner with startups and established organizations to modernize legacy systems and implement intelligent automation solutions.
+Tech1World is an enterprise IT consulting and AI engineering company delivering automation systems, cloud-native architectures and scalable enterprise applications.
 </p>
+
+<div class="logos">
+<div class="logo">Global Finance Co.</div>
+<div class="logo">HealthTech Solutions</div>
+<div class="logo">LogisticsPro</div>
+<div class="logo">EduSmart Systems</div>
+</div>
 </section>
 
 <section id="services">
 <h2>Core Services</h2>
 
 <div class="grid">
-
 <div class="card">
 <h3>Artificial Intelligence Engineering</h3>
-<p>
-Custom AI systems, predictive analytics platforms, and intelligent automation frameworks tailored to enterprise workflows.
-</p>
+<p>Custom AI systems, machine learning models and automation frameworks.</p>
 </div>
 
 <div class="card">
 <h3>Cloud & DevOps</h3>
-<p>
-Scalable cloud infrastructure, CI/CD pipeline implementation, and performance-optimized system deployment strategies.
-</p>
+<p>Enterprise cloud architecture, CI/CD implementation and performance optimization.</p>
 </div>
 
 <div class="card">
 <h3>Enterprise Application Development</h3>
+<p>Secure and scalable business software solutions.</p>
+</div>
+
+<div class="card">
+<h3>IT Strategy & Consulting</h3>
+<p>Technology modernization strategies aligned with long-term business goals.</p>
+</div>
+</div>
+</section>
+
+<section id="cases" class="gray">
+<h2>Case Studies</h2>
+
+<div class="card">
+<h3>AI Automation for Financial Institution</h3>
 <p>
-Secure and scalable software solutions engineered for operational resilience and business growth.
+Reduced operational costs by 35% through predictive automation and intelligent workflow systems.
 </p>
 </div>
 
 <div class="card">
-<h3>Digital Transformation Consulting</h3>
+<h3>Cloud Migration for Healthcare Platform</h3>
 <p>
-Strategic IT modernization planning aligned with long-term business objectives.
+Improved scalability and uptime to 99.9% through optimized cloud infrastructure redesign.
 </p>
 </div>
 
-</div>
-</section>
-
-<section id="solutions" class="gray">
-<h2>Industry Solutions</h2>
+<div class="testimonial">
 <p>
-We provide AI and IT solutions across finance, healthcare, logistics, education, and technology sectors, enabling organizations to accelerate innovation and optimize performance.
+“Tech1World transformed our legacy systems into a scalable AI-powered platform. Their expertise and execution were exceptional.”
 </p>
+<strong>- CTO, Enterprise Client</strong>
+</div>
 </section>
 
 <section id="contact">
 <h2>Contact Us</h2>
-<p>Email: info@tech1world.com</p>
-<p>Location: India</p>
-<button class="btn">Schedule a Meeting</button>
+
+<form>
+<label>Name</label>
+<input type="text" placeholder="Your Name">
+
+<label>Email</label>
+<input type="email" placeholder="Your Email">
+
+<label>Message</label>
+<textarea rows="5" placeholder="Your Message"></textarea>
+
+<button class="btn">Submit Inquiry</button>
+</form>
+
 </section>
 
 <footer>
