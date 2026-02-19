@@ -3,186 +3,170 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tech1World - AI Solutions</title>
+<title>Tech1World | AI Engineering & IT Solutions</title>
 
-<!-- Google Font -->
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
-scroll-behavior:smooth;
-}
-
-body{
-background:black;
-color:white;
-overflow-x:hidden;
-}
-
-canvas{
-position:fixed;
-top:0;
-left:0;
-z-index:-1;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;scroll-behavior:smooth;}
+body{background:#000;color:#fff;overflow-x:hidden;}
+canvas{position:fixed;top:0;left:0;z-index:-1;}
 
 nav{
-position:fixed;
-width:100%;
-padding:20px 10%;
-display:flex;
-justify-content:space-between;
-align-items:center;
-background:rgba(0,0,0,0.6);
-backdrop-filter:blur(10px);
-z-index:1000;
+position:fixed;width:100%;padding:20px 8%;
+display:flex;justify-content:space-between;align-items:center;
+background:rgba(0,0,0,0.6);backdrop-filter:blur(15px);z-index:1000;
 }
 
-nav a{
-color:white;
-text-decoration:none;
-margin-left:20px;
-font-weight:500;
-transition:0.3s;
-}
+nav a{color:#fff;text-decoration:none;margin-left:25px;font-weight:500;transition:0.3s;}
+nav a:hover{color:#00ffff;}
 
-nav a:hover{
-color:#00ffff;
-}
+.logo{font-weight:700;font-size:20px;letter-spacing:2px;}
 
 section{
 min-height:100vh;
-padding:120px 10%;
-display:flex;
-flex-direction:column;
-justify-content:center;
+padding:120px 8%;
+display:flex;flex-direction:column;justify-content:center;
 }
 
 h1{
-font-size:60px;
-background:linear-gradient(90deg,#00ffff,#0077ff);
--webkit-background-clip:text;
-color:transparent;
+font-size:65px;
+background:linear-gradient(90deg,#00ffff,#0066ff);
+-webkit-background-clip:text;color:transparent;
 }
 
-h2{
-font-size:40px;
-margin-bottom:20px;
-color:#00ffff;
+h2{font-size:42px;margin-bottom:20px;color:#00ffff;}
+h3{margin-bottom:10px;}
+
+p{max-width:900px;line-height:1.8;color:#ccc;margin-bottom:15px;}
+
+.stats{
+display:flex;gap:60px;margin-top:40px;flex-wrap:wrap;
 }
 
-p{
-max-width:800px;
-line-height:1.8;
-color:#ccc;
+.stat-box{
+font-size:30px;font-weight:700;color:#00ffff;
 }
 
-.btn{
-margin-top:20px;
-display:inline-block;
-padding:12px 30px;
-border-radius:30px;
-background:linear-gradient(90deg,#00ffff,#0077ff);
-color:black;
-text-decoration:none;
-font-weight:600;
-transition:0.3s;
-}
-
-.btn:hover{
-transform:scale(1.1);
-}
-
-.card-container{
+.card-grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:30px;
-margin-top:40px;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:30px;margin-top:40px;
 }
 
 .card{
 background:rgba(255,255,255,0.05);
-padding:30px;
-border-radius:20px;
+padding:30px;border-radius:20px;
 backdrop-filter:blur(10px);
 transition:0.4s;
 }
 
 .card:hover{
 transform:translateY(-10px);
-background:rgba(0,255,255,0.1);
+background:rgba(0,255,255,0.08);
 }
+
+.btn{
+margin-top:20px;
+display:inline-block;
+padding:14px 35px;
+border-radius:40px;
+background:linear-gradient(90deg,#00ffff,#0066ff);
+color:black;font-weight:600;text-decoration:none;
+transition:0.3s;
+}
+
+.btn:hover{transform:scale(1.05);}
 
 footer{
 text-align:center;
-padding:40px;
-background:black;
-color:#777;
+padding:40px;background:#000;color:#777;
 }
-
 </style>
 </head>
 <body>
 
 <nav>
-<div><strong>Tech1World</strong></div>
+<div class="logo">TECH1WORLD</div>
 <div>
 <a href="#home">Home</a>
 <a href="#about">About</a>
-<a href="#services">Services</a>
+<a href="#solutions">Solutions</a>
+<a href="#industries">Industries</a>
+<a href="#process">Process</a>
 <a href="#contact">Contact</a>
 </div>
 </nav>
 
 <section id="home">
-<h1>AI Powered IT Solutions</h1>
-<p>We build futuristic AI systems, enterprise software, automation tools, and 3D web platforms powered by advanced technologies.</p>
-<a href="#services" class="btn">Explore Services</a>
+<h1>Engineering Intelligent Digital Systems</h1>
+<p>Tech1World delivers enterprise-grade Artificial Intelligence, cloud-native platforms, and scalable IT outsourcing solutions for global organizations.</p>
+<div class="stats">
+<div class="stat-box">120+ Clients</div>
+<div class="stat-box">35 AI Projects</div>
+<div class="stat-box">8 Countries Served</div>
+</div>
+<a href="#solutions" class="btn">Explore Capabilities</a>
 </section>
 
 <section id="about">
-<h2>About Us</h2>
-<p>Tech1World is a next-generation IT outsourcing and AI engineering company delivering intelligent solutions globally. We specialize in Artificial Intelligence, Cloud Infrastructure, Full-Stack Development, and Enterprise Automation.</p>
+<h2>Who We Are</h2>
+<p>Founded as a next-generation IT engineering firm, Tech1World focuses on AI transformation, enterprise automation, and cloud modernization. Our team includes AI engineers, data scientists, DevOps architects, and cybersecurity analysts.</p>
+<p>We work with startups, SMEs, and large enterprises to build mission-critical systems using scalable architecture and secure design principles.</p>
 </section>
 
-<section id="services">
-<h2>Our Services</h2>
-<div class="card-container">
+<section id="solutions">
+<h2>Core Solutions</h2>
+<div class="card-grid">
 <div class="card">
-<h3>AI Development</h3>
-<p>Custom AI models, automation, ML systems, predictive analytics.</p>
-</div>
-<div class="card">
-<h3>Web & App</h3>
-<p>Premium enterprise websites and cross-platform applications.</p>
+<h3>Artificial Intelligence</h3>
+<p>Machine Learning pipelines, NLP systems, computer vision, predictive analytics, and AI-driven automation frameworks.</p>
 </div>
 <div class="card">
-<h3>Cloud Solutions</h3>
-<p>Secure AWS, Azure, and scalable infrastructure design.</p>
+<h3>Cloud Infrastructure</h3>
+<p>Multi-cloud architecture, DevOps automation, Kubernetes orchestration, scalable microservices platforms.</p>
 </div>
 <div class="card">
-<h3>Cyber Security</h3>
-<p>Advanced threat detection & enterprise security frameworks.</p>
+<h3>Enterprise Applications</h3>
+<p>ERP systems, CRM platforms, fintech applications, and large-scale SaaS product development.</p>
+</div>
+<div class="card">
+<h3>Cybersecurity</h3>
+<p>Penetration testing, compliance auditing, zero-trust security architecture, and advanced threat detection.</p>
 </div>
 </div>
+</section>
+
+<section id="industries">
+<h2>Industries We Serve</h2>
+<p>We deliver domain-specific digital solutions across:</p>
+<div class="card-grid">
+<div class="card"><h3>FinTech</h3><p>Fraud detection, risk analytics, and digital banking platforms.</p></div>
+<div class="card"><h3>Healthcare</h3><p>AI diagnostics, patient data systems, secure medical platforms.</p></div>
+<div class="card"><h3>E-Commerce</h3><p>Recommendation engines, logistics optimization, scalable marketplaces.</p></div>
+<div class="card"><h3>EdTech</h3><p>Learning automation platforms and AI-powered assessments.</p></div>
+</div>
+</section>
+
+<section id="process">
+<h2>Our Engineering Process</h2>
+<p><strong>1. Discovery & Strategy</strong> – Requirement analysis and solution architecture.</p>
+<p><strong>2. Design & Development</strong> – Agile sprint cycles with CI/CD pipelines.</p>
+<p><strong>3. Deployment</strong> – Secure cloud rollout and load optimization.</p>
+<p><strong>4. Maintenance</strong> – Continuous monitoring and performance tuning.</p>
 </section>
 
 <section id="contact">
 <h2>Contact Us</h2>
 <p>Email: info@tech1world.com</p>
 <p>Phone: +91 XXXXX XXXXX</p>
-<a href="mailto:info@tech1world.com" class="btn">Send Email</a>
+<a href="mailto:info@tech1world.com" class="btn">Schedule Consultation</a>
 </section>
 
 <footer>
-© 2026 Tech1World. All Rights Reserved.
+© 2026 Tech1World | AI Engineering & Enterprise IT Solutions
 </footer>
 
-<!-- Three.js CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 <script>
@@ -192,37 +176,24 @@ const renderer = new THREE.WebGLRenderer({alpha:true});
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-const particlesGeometry = new THREE.BufferGeometry();
-const particlesCount = 2000;
+const geometry = new THREE.SphereGeometry(1.5, 64, 64);
+const material = new THREE.MeshBasicMaterial({color:0x00ffff, wireframe:true});
+const sphere = new THREE.Mesh(geometry, material);
+scene.add(sphere);
 
-const posArray = new Float32Array(particlesCount * 3);
-
-for(let i=0;i<particlesCount*3;i++){
-posArray[i]=(Math.random()-0.5)*5;
-}
-
-particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray,3));
-
-const particlesMaterial = new THREE.PointsMaterial({
-size:0.005,
-color:0x00ffff
-});
-
-const particlesMesh = new THREE.Points(particlesGeometry,particlesMaterial);
-scene.add(particlesMesh);
-
-camera.position.z = 2;
+camera.position.z = 4;
 
 function animate(){
 requestAnimationFrame(animate);
-particlesMesh.rotation.y += 0.001;
-renderer.render(scene,camera);
+sphere.rotation.y += 0.003;
+sphere.rotation.x += 0.001;
+renderer.render(scene, camera);
 }
 animate();
 
 window.addEventListener('resize',()=>{
 renderer.setSize(window.innerWidth,window.innerHeight);
-camera.aspect=window.innerWidth/window.innerHeight;
+camera.aspect = window.innerWidth/window.innerHeight;
 camera.updateProjectionMatrix();
 });
 </script>
