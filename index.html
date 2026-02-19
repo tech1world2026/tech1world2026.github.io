@@ -1,294 +1,202 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tech1 World | Intelligent Infrastructure</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TECH1WORLD // Advanced Kinetic Ecosystem</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@800&family=Inter:wght@400;600&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
 
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
+    <style>
+        :root {
+            --bg: #030304;
+            --text: #ffffff;
+            --accent: #00f2ff;
+            --dim: rgba(255, 255, 255, 0.3);
+        }
 
-body{
-background:#ffffff;
-color:#111;
-overflow-x:hidden;
-}
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none !important; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; overflow-x: hidden; }
 
-/* Neural Canvas */
-#neural{
-position:fixed;
-top:0;
-left:0;
-z-index:-1;
-}
+        /* 1. ATMOSPHERIC POST-PRODUCTION */
+        #canvas-container { position: fixed; inset: 0; z-index: 1; }
+        
+        .grain-overlay {
+            position: fixed; inset: 0; z-index: 5; pointer-events: none; opacity: 0.04;
+            background-image: url("https://media.giphy.com/media/oEI9uWUicG5R6/giphy.gif");
+        }
 
-/* Navigation */
-nav{
-position:fixed;
-width:100%;
-padding:20px 8%;
-display:flex;
-justify-content:space-between;
-align-items:center;
-background:rgba(255,255,255,0.85);
-backdrop-filter:blur(12px);
-border-bottom:1px solid #eee;
-z-index:1000;
-}
+        /* 2. ADVANCED INTERFACE */
+        .interface {
+            position: relative; z-index: 10; width: 100%; height: 100vh;
+            padding: 4vw; display: flex; flex-direction: column; justify-content: space-between;
+            pointer-events: none;
+        }
 
-nav h2{font-weight:700;}
+        .header { display: flex; justify-content: space-between; align-items: flex-start; }
 
-nav ul{
-display:flex;
-gap:30px;
-list-style:none;
-}
+        .logo-section h1 {
+            font-family: 'Syne'; font-size: 8vw; line-height: 0.75; letter-spacing: -0.05em;
+            text-transform: uppercase; background: linear-gradient(180deg, #fff 30%, var(--dim) 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
 
-nav a{
-text-decoration:none;
-color:#333;
-font-size:14px;
-}
+        .tagline-block { font-family: 'IBM Plex Mono'; font-size: 11px; margin-top: 2rem; color: var(--dim); letter-spacing: 2px; }
 
-/* Sections */
-section{
-padding:140px 8%;
-opacity:0;
-transform:translateY(40px);
-transition:1s ease;
-}
+        .manifesto { max-width: 380px; text-align: right; pointer-events: auto; }
+        .m-title { font-family: 'IBM Plex Mono'; font-size: 10px; color: var(--accent); margin-bottom: 20px; letter-spacing: 4px; }
+        .m-content { font-size: 20px; font-weight: 500; line-height: 1.2; opacity: 0.8; }
 
-section.visible{
-opacity:1;
-transform:translateY(0);
-}
+        /* 3. DYNAMIC ELEMENTS */
+        #cursor { position: fixed; width: 8px; height: 8px; background: #fff; border-radius: 50%; z-index: 10000; pointer-events: none; }
+        #cursor-ring { position: fixed; width: 40px; height: 40px; border: 1px solid var(--accent); border-radius: 50%; z-index: 9999; pointer-events: none; }
 
-.hero{
-min-height:100vh;
-display:flex;
-flex-direction:column;
-justify-content:center;
-}
-
-h1{
-font-size:64px;
-max-width:900px;
-line-height:1.2;
-}
-
-.gradient{
-background:linear-gradient(90deg,#0052ff,#7b2ff7);
--webkit-background-clip:text;
-color:transparent;
-}
-
-p{
-font-size:18px;
-line-height:1.7;
-max-width:900px;
-color:#444;
-}
-
-.btn{
-margin-top:30px;
-padding:14px 30px;
-border-radius:6px;
-background:#111;
-color:#fff;
-border:none;
-cursor:pointer;
-transition:0.3s;
-}
-
-.btn:hover{
-background:#333;
-}
-
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-gap:40px;
-margin-top:60px;
-}
-
-.card{
-padding:30px;
-border:1px solid #eee;
-border-radius:8px;
-background:#fafafa;
-transition:0.4s;
-}
-
-.card:hover{
-transform:translateY(-8px);
-box-shadow:0 20px 40px rgba(0,0,0,0.08);
-background:#fff;
-}
-
-footer{
-background:#111;
-color:#aaa;
-padding:80px 8%;
-font-size:14px;
-}
-</style>
+        .scroll-indicator { font-family: 'IBM Plex Mono'; font-size: 10px; color: var(--dim); display: flex; gap: 40px; }
+        
+        /* 4. CONTENT SECTIONS (SCROLLABLE) */
+        .content-wrap { position: relative; z-index: 20; }
+        section { height: 100vh; padding: 10vw; display: flex; align-items: center; }
+        .reveal-text { font-family: 'Syne'; font-size: 6vw; text-transform: uppercase; opacity: 0; transform: translateY(50px); }
+    </style>
 </head>
 <body>
 
-<canvas id="neural"></canvas>
+    <div id="cursor"></div>
+    <div id="cursor-ring"></div>
+    <div class="grain-overlay"></div>
+    <div id="canvas-container"></div>
 
-<nav>
-<h2>Tech1 World</h2>
-<ul>
-<li><a href="#about">About</a></li>
-<li><a href="#services">Services</a></li>
-<li><a href="#contact">Contact</a></li>
-</ul>
-</nav>
+    <main class="interface">
+        <div class="header">
+            <div class="logo-section">
+                <h1>TECH1<br>WORLD</h1>
+                <div class="tagline-block">
+                    [ SYSTEMS_ARCHITECTURE ]<br>
+                    NEURAL_NODES // 2026_EDITION
+                </div>
+            </div>
+            <div class="manifesto">
+                <p class="m-title">► CORE_PRINCIPLE</p>
+                <p class="m-content">Transforming static data into kinetic intelligence through decentralized cloud-native protocols.</p>
+            </div>
+        </div>
 
-<section class="hero">
-<h1>
-Engineering <span class="gradient">AI-Driven Digital Ecosystems</span>
-</h1>
-<p>
-Tech1 World delivers enterprise software, AI engineering, and cloud-native infrastructure designed for modern businesses scaling globally.
-</p>
-<button class="btn">Start Transformation</button>
-</section>
+        <div class="footer-hud">
+            <div class="scroll-indicator">
+                <span>SCROLL_VELOCITY: <b id="vel-val">0</b></span>
+                <span>COORD: 28.6139° N, 77.2090° E</span>
+            </div>
+        </div>
+    </main>
 
-<section id="about">
-<h2>About Tech1 World</h2>
-<p>
-Tech1 World Pvt. Ltd. is an advanced IT consulting and AI engineering company specializing in scalable digital systems, predictive intelligence platforms, and enterprise modernization initiatives.
-We combine strategic advisory with technical excellence to deliver resilient, high-performance architectures.
-</p>
-</section>
+    <div class="content-wrap">
+        <section><h2 class="reveal-text">Liquid Computing</h2></section>
+        <section><h2 class="reveal-text">Onchain Security</h2></section>
+        <section><h2 class="reveal-text">Neural Scaling</h2></section>
+    </div>
 
-<section id="services">
-<h2>Core Capabilities</h2>
-<div class="grid">
-<div class="card">
-<h3>AI & Machine Learning</h3>
-<p>Predictive modeling, NLP systems, data automation, real-time analytics engines.</p>
-</div>
-<div class="card">
-<h3>Enterprise Software</h3>
-<p>High-performance backend systems, SaaS platforms, API ecosystems.</p>
-</div>
-<div class="card">
-<h3>Cloud Architecture</h3>
-<p>AWS & Azure deployments, microservices infrastructure, DevOps automation.</p>
-</div>
-<div class="card">
-<h3>Technology Consulting</h3>
-<p>Digital transformation strategy, system audits, architecture optimization.</p>
-</div>
-</div>
-</section>
+    <script>
+        // 1. ADVANCED ENGINE SETUP
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
 
-<section id="contact">
-<h2>Contact</h2>
-<p>
-Tech1 World Pvt. Ltd.<br>
-New Delhi, India<br>
-Email: info@tech1world.com<br>
-Phone: +91-XXXXXXXXXX
-</p>
-</section>
+        // 2. DISPLACED GEOMETRY (The Core)
+        const geometry = new THREE.IcosahedronGeometry(2, 64); // High poly for smooth distortion
+        const material = new THREE.MeshPhongMaterial({ 
+            color: 0x000000,
+            emissive: 0x111111,
+            flatShading: false,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.4
+        });
+        const core = new THREE.Mesh(geometry, material);
+        scene.add(core);
 
-<footer>
-© 2026 Tech1 World Pvt. Ltd. | AI Engineering & IT Consulting
-</footer>
+        // Bright Inner Core
+        const innerGeom = new THREE.IcosahedronGeometry(1.8, 4);
+        const innerMat = new THREE.MeshBasicMaterial({ color: 0x00f2ff, wireframe: true, transparent: true, opacity: 0.1 });
+        const innerCore = new THREE.Mesh(innerGeom, innerMat);
+        core.add(innerCore);
 
-<script>
-const canvas = document.getElementById("neural");
-const ctx = canvas.getContext("2d");
+        // LIGHTING
+        const pLight = new THREE.PointLight(0x00f2ff, 2, 50);
+        pLight.position.set(5, 5, 5);
+        scene.add(pLight);
+        scene.add(new THREE.AmbientLight(0xffffff, 0.1));
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+        camera.position.z = 5;
 
-let particles = [];
-const mouse = {x:null,y:null};
+        // 3. MOTION & LIKENESS (LENIS + GSAP)
+        const lenis = new Lenis({ duration: 1.2, lerp: 0.1 });
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
 
-window.addEventListener("mousemove", e=>{
-mouse.x = e.x;
-mouse.y = e.y;
-});
+        // Update Velocity HUD
+        lenis.on('scroll', ({ velocity }) => {
+            document.getElementById('vel-val').innerText = Math.abs(Math.round(velocity));
+            // Distort core based on scroll speed
+            gsap.to(core.scale, { x: 1 + Math.abs(velocity) * 0.05, y: 1 - Math.abs(velocity) * 0.05, duration: 0.5 });
+        });
 
-for(let i=0;i<120;i++){
-particles.push({
-x:Math.random()*canvas.width,
-y:Math.random()*canvas.height,
-vx:(Math.random()-0.5)*0.5,
-vy:(Math.random()-0.5)*0.5
-});
-}
+        // Mouse Tracking
+        window.addEventListener('mousemove', (e) => {
+            const { clientX, clientY } = e;
+            gsap.to('#cursor', { x: clientX, y: clientY, duration: 0 });
+            gsap.to('#cursor-ring', { x: clientX - 16, y: clientY - 16, duration: 0.4 });
 
-function animate(){
-ctx.clearRect(0,0,canvas.width,canvas.height);
+            const x = (clientX / window.innerWidth) - 0.5;
+            const y = (clientY / window.innerHeight) - 0.5;
+            gsap.to(core.rotation, { y: x * 3, x: y * 3, duration: 2 });
+        });
 
-particles.forEach(p=>{
-p.x+=p.vx;
-p.y+=p.vy;
+        // 4. TEXT REVEAL LOGIC
+        gsap.utils.toArray(".reveal-text").forEach(text => {
+            gsap.to(text, {
+                scrollTrigger: {
+                    trigger: text,
+                    start: "top 80%",
+                    onEnter: () => gsap.to(text, { opacity: 1, y: 0, duration: 1, ease: "power4.out" })
+                }
+            });
+        });
 
-if(p.x<0||p.x>canvas.width)p.vx*=-1;
-if(p.y<0||p.y>canvas.height)p.vy*=-1;
+        // 5. THE VERTEX NOISE (Making it "Alive")
+        const originalVertices = geometry.attributes.position.array.slice();
+        function animate() {
+            requestAnimationFrame(animate);
+            const time = Date.now() * 0.001;
+            
+            // Subtle pulse
+            core.rotation.y += 0.001;
+            
+            // Manual vertex manipulation for "Liquid" feel
+            const positions = geometry.attributes.position.array;
+            for (let i = 0; i < positions.length; i += 3) {
+                const x = originalVertices[i];
+                const y = originalVertices[i+1];
+                const z = originalVertices[i+2];
+                
+                // Sin wave distortion
+                positions[i] = x + Math.sin(time + y) * 0.05;
+                positions[i+1] = y + Math.cos(time + x) * 0.05;
+            }
+            geometry.attributes.position.needsUpdate = true;
 
-ctx.beginPath();
-ctx.arc(p.x,p.y,2,0,Math.PI*2);
-ctx.fillStyle="#0052ff";
-ctx.fill();
-
-particles.forEach(p2=>{
-const dx=p.x-p2.x;
-const dy=p.y-p2.y;
-const dist=Math.sqrt(dx*dx+dy*dy);
-if(dist<100){
-ctx.beginPath();
-ctx.moveTo(p.x,p.y);
-ctx.lineTo(p2.x,p2.y);
-ctx.strokeStyle="rgba(0,82,255,0.1)";
-ctx.stroke();
-}
-});
-
-if(mouse.x && mouse.y){
-const dx=p.x-mouse.x;
-const dy=p.y-mouse.y;
-const dist=Math.sqrt(dx*dx+dy*dy);
-if(dist<150){
-ctx.beginPath();
-ctx.moveTo(p.x,p.y);
-ctx.lineTo(mouse.x,mouse.y);
-ctx.strokeStyle="rgba(123,47,247,0.3)";
-ctx.stroke();
-}
-}
-});
-
-requestAnimationFrame(animate);
-}
-
-animate();
-
-window.addEventListener("resize",()=>{
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
-});
-</script>
-
-<script>
-const sections=document.querySelectorAll("section");
-window.addEventListener("scroll",()=>{
-sections.forEach(sec=>{
-if(sec.getBoundingClientRect().top<window.innerHeight-100){
-sec.classList.add("visible");
-}
-});
-});
-</script>
-
+            renderer.render(scene, camera);
+        }
+        animate();
+    </script>
 </body>
 </html>
