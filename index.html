@@ -3,42 +3,45 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tech1World | AI Infrastructure Company</title>
+<title>Tech1World | Global AI Infrastructure</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
 body{
-background:radial-gradient(circle at 20% 20%,#0f1b3d,#000);
+background:#050510;
 color:white;
 overflow-x:hidden;
 scroll-behavior:smooth;
 }
 
-/* Loader */
-#loader{
+/* Animated Gradient Background */
+body::before{
+content:"";
+position:fixed;
+width:200%;
+height:200%;
+background:radial-gradient(circle at 20% 30%,#0a1f5c,transparent),
+radial-gradient(circle at 80% 70%,#4b00ff,transparent),
+radial-gradient(circle at 50% 50%,#001933,#000);
+animation:moveBg 15s infinite alternate;
+z-index:-2;
+}
+@keyframes moveBg{
+0%{transform:translate(0,0);}
+100%{transform:translate(-10%,-10%);}
+}
+
+/* Grid Overlay */
+body::after{
+content:"";
 position:fixed;
 width:100%;
 height:100%;
-background:#000;
-display:flex;
-justify-content:center;
-align-items:center;
-z-index:2000;
-font-size:22px;
-letter-spacing:3px;
-animation:fadeOut 1s ease forwards;
-animation-delay:2s;
-}
-@keyframes fadeOut{
-to{opacity:0;visibility:hidden;}
-}
-
-/* Canvas */
-canvas{
-position:fixed;
-top:0;
-left:0;
+background-image:linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+background-size:40px 40px;
 z-index:-1;
 }
 
@@ -46,24 +49,25 @@ z-index:-1;
 nav{
 position:fixed;
 width:100%;
-padding:20px 8%;
+padding:25px 8%;
 display:flex;
 justify-content:space-between;
 align-items:center;
-background:rgba(0,0,0,0.4);
+background:rgba(0,0,0,0.3);
 backdrop-filter:blur(20px);
 z-index:1000;
 }
+
 nav a{
 color:white;
 text-decoration:none;
 margin-left:30px;
-opacity:0.8;
+font-weight:500;
 transition:0.3s;
 }
-nav a:hover{opacity:1;color:#00eaff;}
+nav a:hover{color:#00eaff;}
 
-.logo{font-weight:800;letter-spacing:2px;}
+.logo{font-weight:800;letter-spacing:2px;font-size:18px;}
 
 /* Sections */
 section{
@@ -72,32 +76,36 @@ padding:140px 8%;
 display:flex;
 flex-direction:column;
 justify-content:center;
-opacity:0;
-transform:translateY(60px);
-transition:1s ease;
-}
-section.active{
-opacity:1;
-transform:translateY(0);
 }
 
-/* Hero */
+/* Hero Layout */
+.hero{
+display:flex;
+align-items:center;
+justify-content:space-between;
+flex-wrap:wrap;
+}
+
+.hero-text{
+max-width:600px;
+}
+
 .hero h1{
-font-size:75px;
+font-size:80px;
+line-height:1.1;
 background:linear-gradient(90deg,#00eaff,#7a00ff);
 -webkit-background-clip:text;
 color:transparent;
-max-width:900px;
 }
+
 .hero p{
-margin-top:20px;
-max-width:700px;
+margin-top:25px;
 color:#aaa;
 line-height:1.8;
 }
 
 .btn{
-margin-top:30px;
+margin-top:35px;
 padding:16px 45px;
 border-radius:50px;
 background:linear-gradient(90deg,#00eaff,#7a00ff);
@@ -105,51 +113,43 @@ color:black;
 font-weight:600;
 text-decoration:none;
 display:inline-block;
-transition:0.3s;
-}
-.btn:hover{transform:scale(1.05);}
-
-/* Metrics */
-.metrics{
-display:flex;
-gap:80px;
-margin-top:60px;
-flex-wrap:wrap;
-}
-.metric h2{
-font-size:50px;
-color:#00eaff;
 }
 
 /* Cards */
 .grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-gap:40px;
-margin-top:60px;
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+gap:50px;
+margin-top:80px;
 }
+
 .card{
 background:rgba(255,255,255,0.05);
-padding:40px;
-border-radius:25px;
-backdrop-filter:blur(20px);
+padding:50px;
+border-radius:30px;
+backdrop-filter:blur(30px);
+box-shadow:0 20px 40px rgba(0,0,0,0.6);
 transition:0.4s;
 }
 .card:hover{
-transform:translateY(-10px);
+transform:translateY(-15px);
 background:rgba(0,234,255,0.08);
 }
 
 footer{
 text-align:center;
-padding:50px;
-color:#666;
+padding:60px;
+color:#777;
+}
+canvas{
+position:fixed;
+top:0;
+left:0;
+z-index:-3;
 }
 </style>
 </head>
 <body>
-
-<div id="loader">INITIALIZING AI SYSTEM...</div>
 
 <nav>
 <div class="logo">TECH1WORLD</div>
@@ -157,114 +157,87 @@ color:#666;
 <a href="#home">Home</a>
 <a href="#platform">Platform</a>
 <a href="#solutions">Solutions</a>
-<a href="#impact">Impact</a>
+<a href="#global">Global</a>
 <a href="#contact">Contact</a>
 </div>
 </nav>
 
-<section id="home" class="hero active">
-<h1>AI Infrastructure For Global Enterprises</h1>
-<p>We engineer intelligent systems, scalable cloud-native platforms, and mission-critical AI architectures for fintech, healthcare, and enterprise organizations worldwide.</p>
-<a href="#platform" class="btn">Explore Platform</a>
-
-<div class="metrics">
-<div class="metric"><h2 id="m1">0</h2><p>Enterprise Clients</p></div>
-<div class="metric"><h2 id="m2">0</h2><p>AI Deployments</p></div>
-<div class="metric"><h2 id="m3">0</h2><p>Countries Served</p></div>
+<section id="home" class="hero">
+<div class="hero-text">
+<h1>Global AI Infrastructure</h1>
+<p>We engineer enterprise AI systems, scalable cloud platforms, and intelligent automation frameworks for multinational organizations.</p>
+<a href="#platform" class="btn">Discover Platform</a>
 </div>
 </section>
 
 <section id="platform">
-<h1>Unified AI Operating Layer</h1>
-<p>Our proprietary infrastructure integrates machine learning pipelines, real-time analytics, container orchestration, and zero-trust security into a single scalable ecosystem.</p>
+<h1>Unified Intelligence Layer</h1>
+<p>Our AI operating system integrates data pipelines, predictive analytics, and cloud-native architecture into one scalable ecosystem.</p>
 </section>
 
 <section id="solutions">
-<h1>Enterprise Solutions</h1>
+<h1>Enterprise Capabilities</h1>
 <div class="grid">
 <div class="card">
-<h3>Machine Learning Systems</h3>
-<p>Predictive modeling, NLP engines, and computer vision frameworks.</p>
+<h3>Machine Learning Engineering</h3>
+<p>Advanced modeling, NLP engines, deep learning systems.</p>
 </div>
 <div class="card">
-<h3>Cloud & DevOps</h3>
-<p>Kubernetes orchestration, CI/CD automation, and microservices architecture.</p>
+<h3>Cloud Infrastructure</h3>
+<p>Microservices, Kubernetes orchestration, DevOps automation.</p>
 </div>
 <div class="card">
-<h3>Cybersecurity</h3>
-<p>Zero-trust infrastructure and enterprise-grade compliance systems.</p>
+<h3>Cybersecurity Architecture</h3>
+<p>Zero-trust systems and compliance-ready frameworks.</p>
 </div>
 </div>
 </section>
 
-<section id="impact">
-<h1>Measured Impact</h1>
-<p>Our AI fraud detection platform reduced financial risk exposure by 42% and improved processing latency by 60% for a multinational fintech enterprise within six months.</p>
+<section id="global">
+<h1>Operating Across 12+ Countries</h1>
+<p>We deliver AI solutions across fintech, healthcare, SaaS, and enterprise sectors globally.</p>
 </section>
 
 <section id="contact">
-<h1>Partner With Us</h1>
+<h1>Partner With Tech1World</h1>
 <p>Email: info@tech1world.com</p>
-<a href="mailto:info@tech1world.com" class="btn">Schedule Strategy Call</a>
+<a href="mailto:info@tech1world.com" class="btn">Start Collaboration</a>
 </section>
 
 <footer>
-© 2026 Tech1World | Series A AI Infrastructure Company
+© 2026 Tech1World | Global AI Infrastructure
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
 <script>
-// 3D Interactive Neural Sphere
+// Neural Network Particles
 const scene=new THREE.Scene();
 const camera=new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,1000);
 const renderer=new THREE.WebGLRenderer({alpha:true});
 renderer.setSize(window.innerWidth,window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-const geometry=new THREE.SphereGeometry(2,64,64);
-const material=new THREE.MeshBasicMaterial({color:0x00eaff,wireframe:true});
-const sphere=new THREE.Mesh(geometry,material);
-scene.add(sphere);
-camera.position.z=5;
+const particles=200;
+const geometry=new THREE.BufferGeometry();
+const positions=new Float32Array(particles*3);
 
-document.addEventListener("mousemove",(e)=>{
-sphere.rotation.y=e.clientX*0.0005;
-sphere.rotation.x=e.clientY*0.0005;
-});
+for(let i=0;i<particles*3;i++){
+positions[i]=(Math.random()-0.5)*10;
+}
+
+geometry.setAttribute('position',new THREE.BufferAttribute(positions,3));
+const material=new THREE.PointsMaterial({color:0x00eaff,size:0.05});
+const mesh=new THREE.Points(geometry,material);
+scene.add(mesh);
+
+camera.position.z=5;
 
 function animate(){
 requestAnimationFrame(animate);
+mesh.rotation.y+=0.001;
 renderer.render(scene,camera);
 }
 animate();
-
-// Scroll Reveal
-const sections=document.querySelectorAll("section");
-window.addEventListener("scroll",()=>{
-sections.forEach(sec=>{
-if(sec.getBoundingClientRect().top < window.innerHeight-100){
-sec.classList.add("active");
-}
-});
-});
-
-// Animated Counters
-function counter(id,target){
-let count=0;
-let speed=target/100;
-let interval=setInterval(()=>{
-count+=speed;
-if(count>=target){
-count=target;
-clearInterval(interval);
-}
-document.getElementById(id).innerText=Math.floor(count);
-},20);
-}
-counter("m1",180);
-counter("m2",55);
-counter("m3",12);
 </script>
 
 </body>
