@@ -1,254 +1,193 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tech1 World | AI Driven IT Solutions</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TECH1WORLD // Advanced Kinetic Ecosystem</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-<script src="https://unpkg.com/scrollreveal"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@800&family=Inter:wght@400;600&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
 
-<style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
-}
+    <style>
+        :root {
+            --bg: #030304;
+            --text: #ffffff;
+            --accent: #00f2ff;
+            --dim: rgba(255, 255, 255, 0.2);
+        }
 
-body{
-background:#0f172a;
-color:white;
-overflow-x:hidden;
-}
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none !important; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; overflow-x: hidden; }
 
-/* PREMIUM GLASS NAV */
-nav{
-position:fixed;
-width:100%;
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:20px 80px;
-background:rgba(0,0,0,0.4);
-backdrop-filter:blur(15px);
-z-index:1000;
-}
+        #canvas-container { position: fixed; inset: 0; z-index: 1; }
+        
+        /* 1. KINETIC UI OVERLAY */
+        .interface {
+            position: relative; z-index: 10; width: 100%; height: 100vh;
+            padding: 4vw; display: flex; flex-direction: column; justify-content: space-between;
+            pointer-events: none;
+        }
 
-nav h2{
-color:#00f7ff;
-font-weight:700;
-}
+        .header { display: flex; justify-content: space-between; align-items: flex-start; }
 
-nav ul{
-display:flex;
-gap:30px;
-list-style:none;
-}
+        .logo-section h1 {
+            font-family: 'Syne'; font-size: 8vw; line-height: 0.75; letter-spacing: -0.05em;
+            text-transform: uppercase; mix-blend-mode: difference;
+        }
 
-nav ul li a{
-color:white;
-text-decoration:none;
-font-weight:500;
-transition:0.3s;
-}
+        /* 2. MAGNETIC ELEMENTS (Clickable/Hoverable) */
+        .magnetic-wrap { pointer-events: auto; display: inline-block; }
+        
+        .manifesto { max-width: 380px; text-align: right; }
+        .m-title { font-family: 'IBM Plex Mono'; font-size: 10px; color: var(--accent); margin-bottom: 20px; letter-spacing: 4px; }
+        .m-content { font-size: 20px; font-weight: 500; line-height: 1.2; opacity: 0.8; }
 
-nav ul li a:hover{
-color:#00f7ff;
-}
+        /* 3. NAVIGATION (IGLOO STYLE) */
+        nav { display: flex; gap: 40px; pointer-events: auto; }
+        nav a { 
+            font-family: 'IBM Plex Mono'; font-size: 10px; color: var(--dim); 
+            text-decoration: none; letter-spacing: 2px; transition: color 0.3s;
+        }
+        nav a:hover { color: #fff; }
 
-/* HERO SECTION */
-.hero{
-position:relative;
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-text-align:center;
-overflow:hidden;
-}
+        /* 4. CURSOR & HUD */
+        #cursor { position: fixed; width: 8px; height: 8px; background: #fff; border-radius: 50%; z-index: 10000; pointer-events: none; }
+        #cursor-ring { position: fixed; width: 40px; height: 40px; border: 1px solid var(--accent); border-radius: 50%; z-index: 9999; pointer-events: none; }
 
-/* Background Video */
-.hero video{
-position:absolute;
-width:100%;
-height:100%;
-object-fit:cover;
-z-index:-2;
-}
-
-/* Gradient Overlay Animation */
-.hero::after{
-content:"";
-position:absolute;
-width:100%;
-height:100%;
-background:linear-gradient(270deg,#00f7ff,#0f172a,#00ff88);
-background-size:600% 600%;
-animation:gradientMove 12s ease infinite;
-opacity:0.4;
-z-index:-1;
-}
-
-@keyframes gradientMove{
-0%{background-position:0% 50%;}
-50%{background-position:100% 50%;}
-100%{background-position:0% 50%;}
-}
-
-/* Hero Content */
-.hero-content{
-max-width:900px;
-}
-
-.hero h1{
-font-size:70px;
-background:linear-gradient(to right,#00f7ff,#00ff88);
--webkit-background-clip:text;
-color:transparent;
-}
-
-.hero p{
-margin-top:20px;
-font-size:20px;
-color:#ddd;
-}
-
-.btn{
-margin-top:30px;
-padding:15px 40px;
-border-radius:50px;
-border:none;
-background:linear-gradient(45deg,#00f7ff,#00ff88);
-font-weight:bold;
-cursor:pointer;
-transition:0.4s;
-}
-
-.btn:hover{
-transform:scale(1.1);
-box-shadow:0 0 30px #00f7ff;
-}
-
-/* Floating Images */
-.floating-img{
-position:absolute;
-width:120px;
-animation:float 6s ease-in-out infinite;
-}
-
-.floating1{top:20%;left:10%;}
-.floating2{bottom:20%;right:15%;animation-delay:2s;}
-
-@keyframes float{
-0%{transform:translateY(0);}
-50%{transform:translateY(-20px);}
-100%{transform:translateY(0);}
-}
-
-/* STATS BAR */
-.stats{
-background:#111827;
-padding:60px;
-display:flex;
-justify-content:space-around;
-text-align:center;
-}
-
-.stat h2{
-font-size:45px;
-color:#00ff88;
-}
-
-.stat p{
-margin-top:10px;
-color:#aaa;
-}
-
-section{
-padding:100px 80px;
-}
-
-.section-title{
-text-align:center;
-font-size:40px;
-margin-bottom:60px;
-color:#00f7ff;
-}
-
-footer{
-background:black;
-padding:30px;
-text-align:center;
-}
-</style>
+        .footer-hud { display: flex; justify-content: space-between; align-items: flex-end; width: 100%; }
+        .hud-left { font-family: 'IBM Plex Mono'; font-size: 10px; color: var(--dim); line-height: 2; }
+        
+        /* 5. SCROLL CONTENT REVEAL */
+        .content-wrap { position: relative; z-index: 15; }
+        section { height: 100vh; padding: 10vw; display: flex; flex-direction: column; justify-content: center; }
+        .reveal-text { font-family: 'Syne'; font-size: 5vw; text-transform: uppercase; color: var(--dim); transition: 1s; }
+        .reveal-text.active { color: #fff; transform: translateX(30px); }
+    </style>
 </head>
-
 <body>
 
-<nav>
-<h2>Tech1 World</h2>
-<ul>
-<li><a href="#services">Services</a></li>
-<li><a href="#contact">Contact</a></li>
-</ul>
-</nav>
+    <div id="cursor"></div>
+    <div id="cursor-ring"></div>
+    <div id="canvas-container"></div>
 
-<div class="hero">
-<video autoplay muted loop>
-<source src="https://cdn.coverr.co/videos/coverr-programming-on-a-laptop-1570/1080p.mp4" type="video/mp4">
-</video>
+    <main class="interface">
+        <div class="header">
+            <div class="logo-section magnetic-wrap">
+                <h1>TECH1<br>WORLD</h1>
+            </div>
+            
+            <div class="manifesto magnetic-wrap">
+                <p class="m-title">► CORE_PRINCIPLE</p>
+                <p class="m-content">Architecting the onchain future through neural-mesh protocols and elastic cloud scaling.</p>
+            </div>
+        </div>
 
-<img src="https://cdn-icons-png.flaticon.com/512/906/906324.png" class="floating-img floating1">
-<img src="https://cdn-icons-png.flaticon.com/512/2721/2721292.png" class="floating-img floating2">
+        <nav>
+            <div class="magnetic-wrap"><a href="#">SERVICES</a></div>
+            <div class="magnetic-wrap"><a href="#">SYSTEMS</a></div>
+            <div class="magnetic-wrap"><a href="#">NETWORK</a></div>
+        </nav>
 
-<div class="hero-content">
-<h1>AI-Powered Enterprise IT Solutions</h1>
-<p>Tech1 World delivers MNC-level software engineering, SDET automation, cloud transformation, and global IT outsourcing for startups and enterprises.</p>
-<button class="btn">Start Your Digital Transformation</button>
-</div>
-</div>
+        <div class="footer-hud">
+            <div class="hud-left">
+                [ 28.6139° N, 77.2090° E ]<br>
+                STATUS: ENCRYPTED // VER_2.0.4
+            </div>
+            <div class="magnetic-wrap" style="color: var(--dim); font-size: 10px; font-family: 'IBM Plex Mono';">
+                SCROLL_TO_ENTER
+            </div>
+        </div>
+    </main>
 
-<div class="stats">
-<div class="stat">
-<h2>50+</h2>
-<p>Projects Delivered</p>
-</div>
-<div class="stat">
-<h2>30+</h2>
-<p>Global Clients</p>
-</div>
-<div class="stat">
-<h2>100+</h2>
-<p>Automation Suites</p>
-</div>
-</div>
+    <div class="content-wrap">
+        <section><h2 class="reveal-text">01 // NEURAL NODES</h2></section>
+        <section><h2 class="reveal-text">02 // CLOUD MESH</h2></section>
+        <section><h2 class="reveal-text">03 // ONCHAIN DATA</h2></section>
+    </div>
 
-<section id="services">
-<h2 class="section-title">Enterprise Services</h2>
-<p style="text-align:center;max-width:800px;margin:auto;">
-We specialize in full-cycle software development, QA automation, DevOps, AI consulting, scalable cloud-native applications, and enterprise outsourcing solutions at global standards.
-</p>
-</section>
+    <script>
+        // 1. ENGINE & GEOMETRY
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
 
-<section id="contact">
-<h2 class="section-title">Contact Tech1 World</h2>
-<p style="text-align:center">
-Tech1 World Pvt Ltd<br>
-IT Park, Sector 62, Noida, Uttar Pradesh, India<br>
-Email: contact@tech1world.com<br>
-Phone: +91 9876543210
-</p>
-</section>
+        const geometry = new THREE.IcosahedronGeometry(2, 64);
+        const material = new THREE.MeshPhongMaterial({ 
+            color: 0x000000, emissive: 0x111111, wireframe: true, 
+            transparent: true, opacity: 0.3 
+        });
+        const core = new THREE.Mesh(geometry, material);
+        scene.add(core);
 
-<footer>
-© 2026 Tech1 World | Premium AI & IT Consulting Company
-</footer>
+        const light = new THREE.PointLight(0x00f2ff, 2, 50);
+        light.position.set(5, 5, 5);
+        scene.add(light);
+        scene.add(new THREE.AmbientLight(0xffffff, 0.1));
+        camera.position.z = 5;
 
-<script>
-ScrollReveal().reveal('.hero-content',{delay:400,distance:'50px',origin:'bottom',duration:1500});
-ScrollReveal().reveal('.stat',{interval:200});
-</script>
+        // 2. MAGNETIC LOGIC (The "Igloo" Pull)
+        const magnetics = document.querySelectorAll('.magnetic-wrap');
+        magnetics.forEach(m => {
+            m.addEventListener('mousemove', (e) => {
+                const rect = m.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                gsap.to(m, { x: x * 0.4, y: y * 0.4, duration: 0.5 });
+                gsap.to('#cursor-ring', { scale: 2, borderColor: '#fff', duration: 0.3 });
+            });
+            m.addEventListener('mouseleave', () => {
+                gsap.to(m, { x: 0, y: 0, duration: 0.5, ease: "elastic.out(1, 0.3)" });
+                gsap.to('#cursor-ring', { scale: 1, borderColor: '#00f2ff', duration: 0.3 });
+            });
+        });
 
+        // 3. SMOOTH SCROLL (LENIS)
+        const lenis = new Lenis();
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // 4. CURSOR & INTERACTION
+        window.addEventListener('mousemove', (e) => {
+            gsap.to('#cursor', { x: e.clientX, y: e.clientY, duration: 0 });
+            gsap.to('#cursor-ring', { x: e.clientX - 20, y: e.clientY - 20, duration: 0.4 });
+            const x = (e.clientX / window.innerWidth) - 0.5;
+            const y = (e.clientY / window.innerHeight) - 0.5;
+            gsap.to(core.rotation, { y: x * 2, x: y * 2, duration: 2 });
+        });
+
+        // 5. ANIMATION LOOP + NOISE
+        const originalPositions = geometry.attributes.position.array.slice();
+        function animate() {
+            requestAnimationFrame(animate);
+            const time = Date.now() * 0.001;
+            const positions = geometry.attributes.position.array;
+            
+            for (let i = 0; i < positions.length; i += 3) {
+                positions[i] = originalPositions[i] + Math.sin(time + originalPositions[i+1]) * 0.1;
+                positions[i+1] = originalPositions[i+1] + Math.cos(time + originalPositions[i]) * 0.1;
+            }
+            geometry.attributes.position.needsUpdate = true;
+            core.rotation.y += 0.002;
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // 6. SCROLL REVEAL
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) entry.target.classList.add('active');
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.reveal-text').forEach(t => observer.observe(t));
+    </script>
 </body>
 </html>
