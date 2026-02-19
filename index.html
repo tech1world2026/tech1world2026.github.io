@@ -3,10 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tech1 World | AI & IT Consulting</title>
+<title>Tech1 World | Intelligent Infrastructure</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
@@ -17,13 +16,12 @@ color:#111;
 overflow-x:hidden;
 }
 
-/* Subtle AI Canvas */
-canvas{
+/* Neural Canvas */
+#neural{
 position:fixed;
 top:0;
 left:0;
 z-index:-1;
-opacity:0.08;
 }
 
 /* Navigation */
@@ -34,16 +32,13 @@ padding:20px 8%;
 display:flex;
 justify-content:space-between;
 align-items:center;
-background:rgba(255,255,255,0.8);
-backdrop-filter:blur(10px);
+background:rgba(255,255,255,0.85);
+backdrop-filter:blur(12px);
 border-bottom:1px solid #eee;
 z-index:1000;
 }
 
-nav h2{
-font-weight:700;
-letter-spacing:1px;
-}
+nav h2{font-weight:700;}
 
 nav ul{
 display:flex;
@@ -56,8 +51,6 @@ text-decoration:none;
 color:#333;
 font-size:14px;
 }
-
-nav a:hover{opacity:0.6;}
 
 /* Sections */
 section{
@@ -72,16 +65,23 @@ opacity:1;
 transform:translateY(0);
 }
 
+.hero{
+min-height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+}
+
 h1{
 font-size:64px;
-font-weight:700;
 max-width:900px;
 line-height:1.2;
 }
 
-h2{
-font-size:42px;
-margin-bottom:20px;
+.gradient{
+background:linear-gradient(90deg,#0052ff,#7b2ff7);
+-webkit-background-clip:text;
+color:transparent;
 }
 
 p{
@@ -91,26 +91,13 @@ max-width:900px;
 color:#444;
 }
 
-.hero{
-min-height:100vh;
-display:flex;
-flex-direction:column;
-justify-content:center;
-}
-
-.gradient-text{
-background:linear-gradient(90deg,#0052ff,#7b2ff7);
--webkit-background-clip:text;
-color:transparent;
-}
-
 .btn{
 margin-top:30px;
 padding:14px 30px;
 border-radius:6px;
-border:1px solid #111;
 background:#111;
 color:#fff;
+border:none;
 cursor:pointer;
 transition:0.3s;
 }
@@ -119,7 +106,6 @@ transition:0.3s;
 background:#333;
 }
 
-/* Grid Layout */
 .grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
@@ -137,17 +123,10 @@ transition:0.4s;
 
 .card:hover{
 transform:translateY(-8px);
-background:#fff;
 box-shadow:0 20px 40px rgba(0,0,0,0.08);
+background:#fff;
 }
 
-img{
-width:100%;
-border-radius:10px;
-margin-top:40px;
-}
-
-/* Footer */
 footer{
 background:#111;
 color:#aaa;
@@ -158,131 +137,153 @@ font-size:14px;
 </head>
 <body>
 
+<canvas id="neural"></canvas>
+
 <nav>
 <h2>Tech1 World</h2>
 <ul>
 <li><a href="#about">About</a></li>
 <li><a href="#services">Services</a></li>
-<li><a href="#industries">Industries</a></li>
 <li><a href="#contact">Contact</a></li>
 </ul>
 </nav>
 
 <section class="hero">
 <h1>
-Building <span class="gradient-text">Intelligent Digital Infrastructure</span> for Modern Enterprises
+Engineering <span class="gradient">AI-Driven Digital Ecosystems</span>
 </h1>
 <p>
-Tech1 World is a technology consulting and AI engineering company delivering enterprise software systems, scalable cloud architecture, and data-driven intelligence platforms.
+Tech1 World delivers enterprise software, AI engineering, and cloud-native infrastructure designed for modern businesses scaling globally.
 </p>
-<button class="btn">Explore Our Solutions</button>
+<button class="btn">Start Transformation</button>
 </section>
 
 <section id="about">
 <h2>About Tech1 World</h2>
 <p>
-Founded with a vision to bridge innovation and enterprise reliability, Tech1 World provides strategic IT consulting, AI development, and digital transformation services. 
-We architect secure, scalable, and performance-driven systems for organizations navigating complex technological ecosystems.
+Tech1 World Pvt. Ltd. is an advanced IT consulting and AI engineering company specializing in scalable digital systems, predictive intelligence platforms, and enterprise modernization initiatives.
+We combine strategic advisory with technical excellence to deliver resilient, high-performance architectures.
 </p>
-<img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7" alt="Corporate Office">
 </section>
 
 <section id="services">
-<h2>Core Services</h2>
+<h2>Core Capabilities</h2>
 <div class="grid">
 <div class="card">
-<h3>Enterprise Software Development</h3>
-<p>Custom platforms, ERP systems, SaaS applications, and high-performance backend architectures.</p>
+<h3>AI & Machine Learning</h3>
+<p>Predictive modeling, NLP systems, data automation, real-time analytics engines.</p>
 </div>
 <div class="card">
-<h3>AI & Data Engineering</h3>
-<p>Machine learning pipelines, predictive analytics, data lakes, and business intelligence dashboards.</p>
+<h3>Enterprise Software</h3>
+<p>High-performance backend systems, SaaS platforms, API ecosystems.</p>
+</div>
+<div class="card">
+<h3>Cloud Architecture</h3>
+<p>AWS & Azure deployments, microservices infrastructure, DevOps automation.</p>
 </div>
 <div class="card">
 <h3>Technology Consulting</h3>
-<p>IT strategy, system audits, digital transformation roadmaps, modernization initiatives.</p>
-</div>
-<div class="card">
-<h3>Cloud & Infrastructure</h3>
-<p>Secure cloud migration, microservices architecture, DevOps automation, scalable deployments.</p>
+<p>Digital transformation strategy, system audits, architecture optimization.</p>
 </div>
 </div>
-</section>
-
-<section id="industries">
-<h2>Industries We Serve</h2>
-<p>
-Finance • Healthcare • E-Commerce • Government • Startups • Education • Logistics
-</p>
-</section>
-
-<section>
-<h2>Our Approach</h2>
-<p>
-We combine strategic consulting with technical execution. Our delivery model follows:
-Discovery → Architecture → Agile Development → Deployment → Continuous Optimization.
-</p>
 </section>
 
 <section id="contact">
-<h2>Contact Tech1 World</h2>
+<h2>Contact</h2>
 <p>
-Tech1 World Pvt. Ltd.  
-IT Park, Sector XX  
-New Delhi, India  
-PIN: 1100XX  
+Tech1 World Pvt. Ltd.<br>
+New Delhi, India<br>
+Email: info@tech1world.com<br>
+Phone: +91-XXXXXXXXXX
 </p>
-<p>
-Email: info@tech1world.com  
-Phone: +91-XXXXXXXXXX  
-</p>
-
-<iframe 
-src="https://www.google.com/maps?q=New+Delhi&output=embed"
-width="100%" height="350" style="border:0;margin-top:40px;" allowfullscreen>
-</iframe>
 </section>
 
 <footer>
-© 2026 Tech1 World Pvt. Ltd.  
-AI Engineering • Enterprise Software • Technology Consulting  
-All Rights Reserved.
+© 2026 Tech1 World Pvt. Ltd. | AI Engineering & IT Consulting
 </footer>
 
 <script>
-// Subtle Neural Animation Background
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer({alpha:true});
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
+const canvas = document.getElementById("neural");
+const ctx = canvas.getContext("2d");
 
-const geometry = new THREE.IcosahedronGeometry(3, 1);
-const material = new THREE.MeshBasicMaterial({color:0x0052ff, wireframe:true});
-const mesh = new THREE.Mesh(geometry, material);
-scene.add(mesh);
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-camera.position.z = 6;
+let particles = [];
+const mouse = {x:null,y:null};
 
-function animate(){
-requestAnimationFrame(animate);
-mesh.rotation.x += 0.0015;
-mesh.rotation.y += 0.002;
-renderer.render(scene, camera);
-}
-animate();
-
-window.addEventListener("resize", ()=>{
-renderer.setSize(window.innerWidth, window.innerHeight);
-camera.aspect = window.innerWidth/window.innerHeight;
-camera.updateProjectionMatrix();
+window.addEventListener("mousemove", e=>{
+mouse.x = e.x;
+mouse.y = e.y;
 });
 
-// Scroll reveal
-const sections = document.querySelectorAll("section");
-window.addEventListener("scroll", ()=>{
+for(let i=0;i<120;i++){
+particles.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+vx:(Math.random()-0.5)*0.5,
+vy:(Math.random()-0.5)*0.5
+});
+}
+
+function animate(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+particles.forEach(p=>{
+p.x+=p.vx;
+p.y+=p.vy;
+
+if(p.x<0||p.x>canvas.width)p.vx*=-1;
+if(p.y<0||p.y>canvas.height)p.vy*=-1;
+
+ctx.beginPath();
+ctx.arc(p.x,p.y,2,0,Math.PI*2);
+ctx.fillStyle="#0052ff";
+ctx.fill();
+
+particles.forEach(p2=>{
+const dx=p.x-p2.x;
+const dy=p.y-p2.y;
+const dist=Math.sqrt(dx*dx+dy*dy);
+if(dist<100){
+ctx.beginPath();
+ctx.moveTo(p.x,p.y);
+ctx.lineTo(p2.x,p2.y);
+ctx.strokeStyle="rgba(0,82,255,0.1)";
+ctx.stroke();
+}
+});
+
+if(mouse.x && mouse.y){
+const dx=p.x-mouse.x;
+const dy=p.y-mouse.y;
+const dist=Math.sqrt(dx*dx+dy*dy);
+if(dist<150){
+ctx.beginPath();
+ctx.moveTo(p.x,p.y);
+ctx.lineTo(mouse.x,mouse.y);
+ctx.strokeStyle="rgba(123,47,247,0.3)";
+ctx.stroke();
+}
+}
+});
+
+requestAnimationFrame(animate);
+}
+
+animate();
+
+window.addEventListener("resize",()=>{
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+});
+</script>
+
+<script>
+const sections=document.querySelectorAll("section");
+window.addEventListener("scroll",()=>{
 sections.forEach(sec=>{
-if(sec.getBoundingClientRect().top < window.innerHeight - 100){
+if(sec.getBoundingClientRect().top<window.innerHeight-100){
 sec.classList.add("visible");
 }
 });
