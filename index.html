@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Neural AI</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-
 <style>
+
 *{
 margin:0;
 padding:0;
@@ -16,8 +16,8 @@ font-family:'Orbitron',sans-serif;
 
 body{
 background:#000;
-overflow:hidden;
 color:white;
+overflow-x:hidden;
 }
 
 canvas{
@@ -27,26 +27,40 @@ left:0;
 z-index:-1;
 }
 
-.hero{
-position:absolute;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
+section{
+min-height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
 text-align:center;
+padding:40px;
+opacity:0;
+transform:translateY(60px);
+transition:1s ease;
 }
 
-.hero h1{
+section.visible{
+opacity:1;
+transform:translateY(0);
+}
+
+h1{
 font-size:70px;
-letter-spacing:3px;
 background:linear-gradient(90deg,#00f0ff,#ff00ff);
 -webkit-background-clip:text;
 color:transparent;
 }
 
-.hero p{
-margin-top:20px;
-font-size:18px;
+h2{
+font-size:40px;
+margin-bottom:20px;
+}
+
+p{
+max-width:700px;
 opacity:0.7;
+line-height:1.6;
 }
 
 button{
@@ -65,16 +79,40 @@ button:hover{
 transform:scale(1.1);
 box-shadow:0 0 40px #00f0ff;
 }
+
 </style>
 </head>
-
 <body>
 
-<div class="hero">
+<section>
 <h1>NEURAL AI</h1>
 <p>Immersive Neural Intelligence Engine</p>
 <button>Initialize Core</button>
-</div>
+</section>
+
+<section>
+<h2>About The Engine</h2>
+<p>
+Our neural architecture processes massive datasets in real time using adaptive learning algorithms and distributed AI systems.
+</p>
+</section>
+
+<section>
+<h2>AI Capabilities</h2>
+<p>
+• Real-time predictive modeling  
+• Autonomous decision systems  
+• 3D neural visualization  
+• Enterprise AI automation  
+</p>
+</section>
+
+<section>
+<h2>Deploy Intelligence</h2>
+<p>
+Integrate next-generation AI into your infrastructure with scalable cloud-based architecture.
+</p>
+</section>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
@@ -102,17 +140,28 @@ camera.position.z = 5;
 
 function animate(){
 requestAnimationFrame(animate);
-sphere.rotation.x += 0.005;
-sphere.rotation.y += 0.007;
+sphere.rotation.x += 0.003;
+sphere.rotation.y += 0.004;
 renderer.render(scene, camera);
 }
-
 animate();
 
 window.addEventListener("resize", ()=>{
 renderer.setSize(window.innerWidth, window.innerHeight);
 camera.aspect = window.innerWidth/window.innerHeight;
 camera.updateProjectionMatrix();
+});
+
+/* Scroll reveal */
+const sections = document.querySelectorAll("section");
+
+window.addEventListener("scroll", ()=>{
+sections.forEach(section=>{
+const rect = section.getBoundingClientRect();
+if(rect.top < window.innerHeight - 100){
+section.classList.add("visible");
+}
+});
 });
 </script>
 
