@@ -3,205 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tech1World — Igloo Grade Experience</title>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <title>Tech1World — Liquid Identity</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@800&family=Inter:wght@400&display=swap" rel="stylesheet">
     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/curtainsjs/8.1.5/curtains.min.js"></script>
     <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script> 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
     <style>
-        :root { --bg: #000; --text: #fff; --accent: #4e4feb; }
-        
+        :root { --bg: #050505; --text: #ffffff; }
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+        
         body { 
             font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); 
-            overflow-x: hidden; width: 100%;
+            overflow-x: hidden;
         }
 
-        /* 1. THE PHYSICS CONTAINER (Everything skews inside here) */
-        #main-content { will-change: transform; transition: transform 0.1s linear; }
+        /* 1. WEBGL CANVAS (Must cover screen) */
+        #canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 5; }
 
-        /* CURSOR */
-        #cursor {
-            position: fixed; width: 12px; height: 12px; background: #fff;
-            border-radius: 50%; pointer-events: none; z-index: 9999;
-            mix-blend-mode: difference;
-        }
-
-        /* IGLOO LAYOUT */
-        nav {
-            position: fixed; top: 0; width: 100%; padding: 40px;
-            display: flex; justify-content: space-between; z-index: 100;
-            mix-blend-mode: difference;
-        }
-        .logo { font-family: 'Syne'; font-weight: 800; font-size: 24px; letter-spacing: -2px; }
-
+        /* 2. LAYOUT */
+        #page-wrapper { position: relative; z-index: 10; width: 100%; }
+        
         section { 
             height: 100vh; width: 100%; display: flex; align-items: center; 
-            justify-content: center; padding: 100px; position: relative;
+            justify-content: center; padding: 10vw; position: relative;
         }
 
         .hero-title {
-            font-family: 'Syne'; font-size: 15vw; line-height: 0.8;
-            text-transform: uppercase; letter-spacing: -0.05em; text-align: center;
+            font-family: 'Syne'; font-size: 12vw; line-height: 0.85;
+            text-transform: uppercase; letter-spacing: -0.04em; text-align: left;
+            width: 100%;
         }
 
-        /* THE IMAGE BLOCK - IGLOO STYLE */
-        .image-container {
-            position: relative; width: 600px; height: 400px; overflow: hidden;
-            background: #111; border-radius: 4px;
+        /* IGLOO IMAGE BLOCKS */
+        .liquid-plane {
+            position: relative; width: 40vw; height: 55vh; 
+            overflow: hidden; visibility: hidden; /* Hidden in HTML, shown in WebGL */
         }
-        .image-container img {
-            width: 100%; height: 120%; object-fit: cover;
-            position: absolute; top: -10%; left: 0;
-            transition: transform 0.1s linear;
+        .liquid-plane img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+
+        /* CURSOR */
+        #cursor {
+            position: fixed; width: 10px; height: 10px; background: #fff;
+            border-radius: 50%; pointer-events: none; z-index: 10000;
+            mix-blend-mode: difference; transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .section-label {
-            position: absolute; top: 100px; left: 100px; font-size: 12px;
-            letter-spacing: 5px; opacity: 0.5; text-transform: uppercase;
+        nav {
+            position: fixed; top: 0; width: 100%; padding: 40px;
+            display: flex; justify-content: space-between; z-index: 1000;
+            font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
         }
 
-        .horizontal-wrap { display: flex; width: 300vw; }
-        .h-panel { width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; }
-
-        /* GRID LINES */
-        .grid {
-            position: fixed; inset: 0; pointer-events: none;
-            background-image: linear-gradient(to right, #111 1px, transparent 1px),
-                              linear-gradient(to bottom, #111 1px, transparent 1px);
-            background-size: 10vh 10vh; z-index: -1;
-        }
+        .float-text { position: absolute; bottom: 10%; right: 10%; font-size: 12px; opacity: 0.4; }
     </style>
 </head>
 <body>
 
+    <div id="canvas"></div>
     <div id="cursor"></div>
-    <div class="grid"></div>
 
     <nav>
-        <div class="logo">T1W.</div>
-        <div style="font-size: 10px; display: flex; gap: 40px;">
-            <span>MENU</span>
-            <span>INDEX</span>
-        </div>
+        <div style="font-family: 'Syne'; font-weight: 800; font-size: 20px;">T1W.</div>
+        <div>( MENU )</div>
     </nav>
 
-    <div id="main-content">
+    <div id="page-wrapper">
         <section>
-            <h1 class="hero-title" data-scroll data-scroll-speed="2">
-                TECH<br>1WORLD
-            </h1>
+            <h1 class="hero-title">INTELLIGENT<br>DYNAMICS</h1>
+            <div class="float-text">EST // 2026</div>
         </section>
 
         <section>
-            <div class="section-label">01 // VISUALS</div>
-            <div class="image-container">
-                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200" alt="Distortion Example" class="parallax-img">
+            <div class="liquid-plane">
+                <img src="https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?auto=format&fit=crop&w=1200" crossorigin="anonymous">
             </div>
         </section>
 
-        <div class="horizontal-wrap">
-            <section class="h-panel" style="background: #0a0a0a;">
-                <h2 style="font-size: 8vw; font-family: 'Syne';">SYSTEMS</h2>
-            </section>
-            <section class="h-panel" style="background: #111;">
-                <h2 style="font-size: 8vw; font-family: 'Syne';">KINETICS</h2>
-            </section>
-            <section class="h-panel" style="background: #000;">
-                <h2 style="font-size: 8vw; font-family: 'Syne';">INTELLIGENCE</h2>
-            </section>
-        </div>
+        <section>
+            <h1 class="hero-title" style="text-align: right;">SYSTEMS<br>THAT FLOW</h1>
+        </section>
 
-        <section style="height: 50vh;">
-            <p style="opacity: 0.3;">FOOTER // 2026</p>
+        <section>
+            <div class="liquid-plane">
+                <img src="https://images.unsplash.com/photo-1614850523296-d8c1af93d400?auto=format&fit=crop&w=1200" crossorigin="anonymous">
+            </div>
         </section>
     </div>
 
-    <script>
-        // 1. THE ENGINE: LENIS FOR ELASTIC SCROLL
-        const lenis = new Lenis({
-            duration: 1.5,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            orientation: 'vertical',
-            gestureOrientation: 'vertical',
-            smoothWheel: true,
-            wheelMultiplier: 1,
-            smoothTouch: false,
-            touchMultiplier: 2,
-            infinite: false,
-        })
-
-        // 2. THE SECRET: SKEW BEHAVIOR
-        function scrollLoop(time) {
-            lenis.raf(time)
-            requestAnimationFrame(scrollLoop)
+    <script id="plane-vs" type="x-shader/x-vertex">
+        precision mediump float;
+        attribute vec3 aVertexPosition;
+        attribute vec2 aTextureCoord;
+        uniform mat4 uMVMatrix;
+        uniform mat4 uPMatrix;
+        uniform float uVelocity;
+        varying vec2 vTextureCoord;
+        void main() {
+            vec3 pos = aVertexPosition;
+            // The "Liquid" Warp: Offset X based on Y position and scroll velocity
+            pos.x += sin(pos.y * 1.5 + uVelocity * 0.1) * (uVelocity * 0.005);
+            gl_Position = uPMatrix * uMVMatrix * vec4(pos, 1.0);
+            vTextureCoord = aTextureCoord;
         }
-        requestAnimationFrame(scrollLoop)
+    </script>
 
-        // Sync GSAP with Lenis
-        lenis.on('scroll', ScrollTrigger.update)
+    <script id="plane-fs" type="x-shader/x-fragment">
+        precision mediump float;
+        varying vec2 vTextureCoord;
+        uniform sampler2D uSampler0;
+        void main() {
+            gl_FragColor = texture2D(uSampler0, vTextureCoord);
+        }
+    </script>
 
-        // 3. ACTUAL "IGLOO" SKEW LOGIC
-        let proxy = { skew: 0 },
-            skewSetter = gsap.quickSetter("#main-content", "skewY", "deg"), // fast setter
-            clamp = gsap.utils.clamp(-20, 20); // don't let it skew too much
+    <script>
+        // 1. INIT SMOOTH SCROLL
+        const lenis = new Lenis({ duration: 1.5, lerp: 0.05 });
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
 
-        ScrollTrigger.create({
-            onUpdate: (self) => {
-                let skew = clamp(self.getVelocity() / -300);
-                // only update if it's a significant change
-                if (Math.abs(skew) > Math.abs(proxy.skew)) {
-                    proxy.skew = skew;
-                    gsap.to(proxy, {
-                        skew: 0, 
-                        duration: 0.8, 
-                        ease: "power3", 
-                        overwrite: true, 
-                        onUpdate: () => skewSetter(proxy.skew)
-                    });
-                }
+        // 2. INIT WEBGL ENGINE
+        const curtains = new Curtains({ container: "canvas", pixelRatio: Math.min(1.5, window.devicePixelRatio) });
+        
+        const params = {
+            vertexShaderID: "plane-vs",
+            fragmentShaderID: "plane-fs",
+            uniforms: {
+                velocity: { name: "uVelocity", type: "1f", value: 0 },
+            },
+        };
+
+        // 3. CAPTURE PLANES
+        const planeElements = document.querySelectorAll(".liquid-plane");
+        planeElements.forEach((el, i) => {
+            const plane = curtains.addPlane(el, params);
+            if(plane) {
+                plane.onRender(() => {
+                    // Feed scroll velocity into the shader
+                    plane.uniforms.velocity.value = lenis.velocity;
+                });
             }
         });
 
-        // 4. HORIZONTAL PINNING
-        let hSections = gsap.utils.toArray(".h-panel");
-        gsap.to(hSections, {
-            xPercent: -100 * (hSections.length - 1),
-            ease: "none",
-            scrollTrigger: {
-                trigger: ".horizontal-wrap",
-                pin: true,
-                scrub: 1,
-                end: () => "+=" + document.querySelector(".horizontal-wrap").offsetWidth
-            }
+        // 4. MOUSE BEHAVIOR
+        const cursor = document.getElementById('cursor');
+        window.addEventListener('mousemove', (e) => {
+            gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.5, ease: "power3.out" });
         });
 
-        // 5. MOUSE FOLLOW (IGLOO STYLE)
-        const cursor = document.querySelector('#cursor');
-        window.addEventListener('mousemove', e => {
-            gsap.to(cursor, {
-                x: e.clientX,
-                y: e.clientY,
-                duration: 0.6,
-                ease: "power3.out"
-            });
+        // Hover effect for planes
+        planeElements.forEach(el => {
+            el.addEventListener('mouseenter', () => gsap.to(cursor, { scale: 8, duration: 0.3 }));
+            el.addEventListener('mouseleave', () => gsap.to(cursor, { scale: 1, duration: 0.3 }));
         });
 
-        // 6. IMAGE PARALLAX
-        gsap.utils.toArray(".parallax-img").forEach(img => {
-            gsap.to(img, {
-                y: "20%",
-                ease: "none",
-                scrollTrigger: {
-                    trigger: img.parentElement,
-                    scrub: true,
-                    start: "top bottom"
-                }
-            });
+        // 5. UPDATE CURTAINS ON SCROLL
+        lenis.on('scroll', () => {
+            curtains.updateScroll(0, lenis.scroll);
         });
-
     </script>
 </body>
 </html>
