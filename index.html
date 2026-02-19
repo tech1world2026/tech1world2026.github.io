@@ -3,110 +3,90 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tech1World | Global AI Infrastructure</title>
-
+<title>Tech1World | Advanced AI Systems</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
 body{
-background:#050510;
+background:#03030a;
 color:white;
 overflow-x:hidden;
 scroll-behavior:smooth;
 }
 
-/* Animated Gradient Background */
+/* Animated depth gradient */
 body::before{
 content:"";
 position:fixed;
 width:200%;
 height:200%;
-background:radial-gradient(circle at 20% 30%,#0a1f5c,transparent),
-radial-gradient(circle at 80% 70%,#4b00ff,transparent),
-radial-gradient(circle at 50% 50%,#001933,#000);
-animation:moveBg 15s infinite alternate;
+background:radial-gradient(circle at 30% 40%,#001933,transparent),
+radial-gradient(circle at 70% 60%,#4b00ff,transparent),
+radial-gradient(circle at center,#000010,#000);
+animation:bgMove 20s infinite alternate ease-in-out;
 z-index:-2;
 }
-@keyframes moveBg{
+@keyframes bgMove{
 0%{transform:translate(0,0);}
-100%{transform:translate(-10%,-10%);}
+100%{transform:translate(-8%,-6%);}
 }
 
-/* Grid Overlay */
-body::after{
-content:"";
+canvas{
 position:fixed;
-width:100%;
-height:100%;
-background-image:linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
-linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
-background-size:40px 40px;
-z-index:-1;
+top:0;
+left:0;
+z-index:-3;
 }
 
-/* Navbar */
+/* NAV */
 nav{
 position:fixed;
 width:100%;
 padding:25px 8%;
 display:flex;
 justify-content:space-between;
-align-items:center;
-background:rgba(0,0,0,0.3);
+background:rgba(0,0,0,0.4);
 backdrop-filter:blur(20px);
 z-index:1000;
 }
-
 nav a{
 color:white;
 text-decoration:none;
 margin-left:30px;
-font-weight:500;
+opacity:0.8;
 transition:0.3s;
 }
-nav a:hover{color:#00eaff;}
+nav a:hover{opacity:1;color:#00eaff;}
+.logo{font-weight:800;letter-spacing:2px;}
 
-.logo{font-weight:800;letter-spacing:2px;font-size:18px;}
-
-/* Sections */
+/* HERO */
 section{
 min-height:100vh;
-padding:140px 8%;
+padding:150px 8%;
 display:flex;
 flex-direction:column;
 justify-content:center;
 }
 
-/* Hero Layout */
-.hero{
-display:flex;
-align-items:center;
-justify-content:space-between;
-flex-wrap:wrap;
-}
-
-.hero-text{
-max-width:600px;
-}
-
 .hero h1{
-font-size:80px;
-line-height:1.1;
+font-size:85px;
 background:linear-gradient(90deg,#00eaff,#7a00ff);
 -webkit-background-clip:text;
 color:transparent;
+line-height:1.05;
 }
 
 .hero p{
 margin-top:25px;
 color:#aaa;
+max-width:650px;
 line-height:1.8;
 }
 
 .btn{
-margin-top:35px;
-padding:16px 45px;
+margin-top:40px;
+padding:18px 50px;
 border-radius:50px;
 background:linear-gradient(90deg,#00eaff,#7a00ff);
 color:black;
@@ -115,37 +95,30 @@ text-decoration:none;
 display:inline-block;
 }
 
-/* Cards */
 .grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
 gap:50px;
-margin-top:80px;
+margin-top:100px;
 }
 
 .card{
-background:rgba(255,255,255,0.05);
-padding:50px;
+background:rgba(255,255,255,0.04);
+padding:60px;
 border-radius:30px;
 backdrop-filter:blur(30px);
-box-shadow:0 20px 40px rgba(0,0,0,0.6);
+box-shadow:0 30px 60px rgba(0,0,0,0.7);
 transition:0.4s;
 }
 .card:hover{
-transform:translateY(-15px);
+transform:translateY(-20px);
 background:rgba(0,234,255,0.08);
 }
 
 footer{
 text-align:center;
 padding:60px;
-color:#777;
-}
-canvas{
-position:fixed;
-top:0;
-left:0;
-z-index:-3;
+color:#666;
 }
 </style>
 </head>
@@ -157,87 +130,99 @@ z-index:-3;
 <a href="#home">Home</a>
 <a href="#platform">Platform</a>
 <a href="#solutions">Solutions</a>
-<a href="#global">Global</a>
 <a href="#contact">Contact</a>
 </div>
 </nav>
 
 <section id="home" class="hero">
-<div class="hero-text">
-<h1>Global AI Infrastructure</h1>
-<p>We engineer enterprise AI systems, scalable cloud platforms, and intelligent automation frameworks for multinational organizations.</p>
-<a href="#platform" class="btn">Discover Platform</a>
-</div>
+<h1>Multidimensional AI Systems</h1>
+<p>Engineering advanced artificial intelligence infrastructures, neural simulation environments, and high-performance distributed computing systems.</p>
+<a href="#platform" class="btn">Explore Intelligence</a>
 </section>
 
 <section id="platform">
-<h1>Unified Intelligence Layer</h1>
-<p>Our AI operating system integrates data pipelines, predictive analytics, and cloud-native architecture into one scalable ecosystem.</p>
+<h1>Higher Dimensional Architecture</h1>
+<p>Our platform models complex data interactions through multi-layer neural systems and adaptive learning pipelines operating at enterprise scale.</p>
 </section>
 
 <section id="solutions">
-<h1>Enterprise Capabilities</h1>
+<h1>Core Capabilities</h1>
 <div class="grid">
 <div class="card">
-<h3>Machine Learning Engineering</h3>
-<p>Advanced modeling, NLP engines, deep learning systems.</p>
+<h3>Deep Learning Engineering</h3>
+<p>Large-scale neural networks and adaptive model systems.</p>
 </div>
 <div class="card">
-<h3>Cloud Infrastructure</h3>
-<p>Microservices, Kubernetes orchestration, DevOps automation.</p>
+<h3>Distributed AI Infrastructure</h3>
+<p>High-availability cloud-native orchestration frameworks.</p>
 </div>
 <div class="card">
-<h3>Cybersecurity Architecture</h3>
-<p>Zero-trust systems and compliance-ready frameworks.</p>
+<h3>Advanced Cyber Intelligence</h3>
+<p>Predictive threat modeling and autonomous defense systems.</p>
 </div>
 </div>
-</section>
-
-<section id="global">
-<h1>Operating Across 12+ Countries</h1>
-<p>We deliver AI solutions across fintech, healthcare, SaaS, and enterprise sectors globally.</p>
 </section>
 
 <section id="contact">
-<h1>Partner With Tech1World</h1>
+<h1>Collaborate With Us</h1>
 <p>Email: info@tech1world.com</p>
-<a href="mailto:info@tech1world.com" class="btn">Start Collaboration</a>
+<a href="mailto:info@tech1world.com" class="btn">Initiate Partnership</a>
 </section>
 
 <footer>
-© 2026 Tech1World | Global AI Infrastructure
+© 2026 Tech1World | Advanced AI Infrastructure
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
-// Neural Network Particles
-const scene=new THREE.Scene();
-const camera=new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,1000);
-const renderer=new THREE.WebGLRenderer({alpha:true});
+
+// SCENE
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,1000);
+const renderer = new THREE.WebGLRenderer({alpha:true});
 renderer.setSize(window.innerWidth,window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-const particles=200;
-const geometry=new THREE.BufferGeometry();
-const positions=new Float32Array(particles*3);
+// GLOWING TORUS KNOT (Higher-Dimensional Projection Feel)
+const geometry = new THREE.TorusKnotGeometry(1.5,0.4,300,32);
+const material = new THREE.MeshBasicMaterial({color:0x00eaff,wireframe:true});
+const torus = new THREE.Mesh(geometry,material);
+scene.add(torus);
 
-for(let i=0;i<particles*3;i++){
-positions[i]=(Math.random()-0.5)*10;
+// PARTICLE FIELD
+const particlesCount = 2000;
+const positions = new Float32Array(particlesCount * 3);
+for(let i=0;i<particlesCount*3;i++){
+positions[i] = (Math.random()-0.5)*20;
 }
+const particlesGeometry = new THREE.BufferGeometry();
+particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions,3));
+const particlesMaterial = new THREE.PointsMaterial({color:0x7a00ff,size:0.05});
+const particles = new THREE.Points(particlesGeometry,particlesMaterial);
+scene.add(particles);
 
-geometry.setAttribute('position',new THREE.BufferAttribute(positions,3));
-const material=new THREE.PointsMaterial({color:0x00eaff,size:0.05});
-const mesh=new THREE.Points(geometry,material);
-scene.add(mesh);
+camera.position.z = 6;
 
-camera.position.z=5;
+// Mouse interaction
+document.addEventListener("mousemove",(e)=>{
+torus.rotation.y = e.clientX * 0.001;
+torus.rotation.x = e.clientY * 0.001;
+});
 
+// Animate
 function animate(){
 requestAnimationFrame(animate);
-mesh.rotation.y+=0.001;
+torus.rotation.z += 0.003;
+particles.rotation.y += 0.0005;
 renderer.render(scene,camera);
 }
 animate();
+
+window.addEventListener("resize",()=>{
+renderer.setSize(window.innerWidth,window.innerHeight);
+camera.aspect = window.innerWidth/window.innerHeight;
+camera.updateProjectionMatrix();
+});
 </script>
 
 </body>
