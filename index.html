@@ -1,174 +1,175 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Neural Engine</title>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r155/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.155/examples/js/postprocessing/EffectComposer.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.155/examples/js/postprocessing/RenderPass.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.155/examples/js/postprocessing/UnrealBloomPass.js"></script>
+<title>Neural AI</title>
 
 <style>
-body {
-    margin: 0;
-    overflow: hidden;
-    font-family: 'Segoe UI', sans-serif;
-    background: radial-gradient(circle at center, #0f0f1a, #000);
+body{
+    margin:0;
+    overflow:hidden;
+    background:black;
+    font-family:Segoe UI, sans-serif;
 }
 
-canvas {
-    display: block;
+canvas{
+    position:absolute;
+    top:0;
+    left:0;
 }
 
-.overlay {
-    position: absolute;
-    top: 0;
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    backdrop-filter: blur(8px);
-    background: rgba(0,0,0,0.35);
+.overlay{
+    position:absolute;
+    width:100%;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    pointer-events:none;
 }
 
-h1 {
-    font-size: 4rem;
-    background: linear-gradient(90deg,#00f2ff,#a100ff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin: 0;
-    letter-spacing: 4px;
+h1{
+    font-size:4rem;
+    background:linear-gradient(90deg,#00f2ff,#a100ff);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    margin:0;
 }
 
-p {
-    color: #aaa;
-    font-size: 1.2rem;
-    max-width: 600px;
-    text-align: center;
-    margin-top: 20px;
+p{
+    color:#aaa;
+    max-width:600px;
 }
 
-button {
-    margin-top: 40px;
-    padding: 15px 40px;
-    border-radius: 50px;
-    border: none;
-    background: linear-gradient(90deg,#00f2ff,#a100ff);
-    color: white;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: 0.4s ease;
-}
-
-button:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 25px #a100ff;
+button{
+    margin-top:30px;
+    padding:15px 40px;
+    border-radius:50px;
+    border:none;
+    background:linear-gradient(90deg,#00f2ff,#a100ff);
+    color:white;
+    font-size:1rem;
+    cursor:pointer;
+    pointer-events:auto;
 }
 </style>
 </head>
 
 <body>
 
+<canvas id="gl"></canvas>
+
 <div class="overlay">
-    <h1>NEURAL AI</h1>
-    <p>Next generation AI-powered immersive intelligence platform. Real-time neural visualization with cinematic 3D rendering.</p>
-    <button onclick="boost()">Initialize Core</button>
+<h1>NEURAL AI</h1>
+<p>Next generation AI-powered immersive intelligence platform. Real-time neural visualization with cinematic 3D rendering.</p>
+<button onclick="boost()">Initialize Core</button>
 </div>
 
 <script>
-let scene = new THREE.Scene();
-let camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
-let renderer = new THREE.WebGLRenderer({antialias:true});
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.shadowMap.enabled = true;
-document.body.appendChild(renderer.domElement);
+const canvas = document.getElementById("gl");
+const gl = canvas.getContext("webgl");
 
-camera.position.z = 6;
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+gl.viewport(0,0,canvas.width,canvas.height);
 
-// Lights
-let ambient = new THREE.AmbientLight(0xffffff, 0.5);
-scene.add(ambient);
+const vertexShaderSource = `
+attribute vec2 position;
+void main(){
+    gl_Position = vec4(position,0.0,1.0);
+}
+`;
 
-let pointLight = new THREE.PointLight(0x00ffff, 3, 100);
-pointLight.position.set(5,5,5);
-scene.add(pointLight);
+const fragmentShaderSource = `
+precision highp float;
+uniform float time;
+uniform vec2 resolution;
+uniform float power;
 
-// AI Core
-let geometry = new THREE.IcosahedronGeometry(1.5, 2);
-let material = new THREE.MeshStandardMaterial({
-    color: 0x00ffff,
-    metalness: 0.8,
-    roughness: 0.2,
-    emissive: 0x2200ff,
-    emissiveIntensity: 1
-});
-let core = new THREE.Mesh(geometry, material);
-scene.add(core);
-
-// Floating particles
-let particlesGeometry = new THREE.BufferGeometry();
-let count = 1500;
-let positions = new Float32Array(count * 3);
-
-for(let i=0;i<count*3;i++){
-    positions[i] = (Math.random()-0.5)*20;
+float hash(vec2 p){
+    return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);
 }
 
-particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions,3));
+void main(){
+    vec2 uv = gl_FragCoord.xy / resolution.xy;
+    vec2 p = uv - 0.5;
+    float r = length(p);
 
-let particlesMaterial = new THREE.PointsMaterial({
-    color:0xffffff,
-    size:0.03
-});
+    float glow = 0.02 / r;
+    float wave = sin(10.0*r - time*3.0);
+    float core = smoothstep(0.3,0.0,r);
 
-let particles = new THREE.Points(particlesGeometry, particlesMaterial);
-scene.add(particles);
+    vec3 color = vec3(0.0);
+    color += vec3(0.0,0.8,1.0) * glow * power;
+    color += vec3(0.6,0.0,1.0) * wave * 0.3;
+    color += vec3(0.2,0.0,0.4) * core;
 
-// Post Processing
-let composer = new THREE.EffectComposer(renderer);
-let renderPass = new THREE.RenderPass(scene, camera);
-composer.addPass(renderPass);
+    gl_FragColor = vec4(color,1.0);
+}
+`;
 
-let bloomPass = new THREE.UnrealBloomPass(
-    new THREE.Vector2(window.innerWidth, window.innerHeight),
-    1.5,
-    0.4,
-    0.85
-);
-composer.addPass(bloomPass);
-
-// Animation
-let clock = new THREE.Clock();
-
-function animate(){
-    requestAnimationFrame(animate);
-
-    let t = clock.getElapsedTime();
-
-    core.rotation.x += 0.005;
-    core.rotation.y += 0.01;
-
-    core.position.y = Math.sin(t)*0.3;
-
-    particles.rotation.y += 0.0005;
-
-    camera.position.x = Math.sin(t*0.2)*2;
-    camera.lookAt(scene.position);
-
-    composer.render();
+function createShader(type, source){
+    const shader = gl.createShader(type);
+    gl.shaderSource(shader,source);
+    gl.compileShader(shader);
+    return shader;
 }
 
-animate();
+const vertexShader = createShader(gl.VERTEX_SHADER, vertexShaderSource);
+const fragmentShader = createShader(gl.FRAGMENT_SHADER, fragmentShaderSource);
+
+const program = gl.createProgram();
+gl.attachShader(program,vertexShader);
+gl.attachShader(program,fragmentShader);
+gl.linkProgram(program);
+gl.useProgram(program);
+
+const vertices = new Float32Array([
+    -1,-1,
+     1,-1,
+    -1, 1,
+     1, 1
+]);
+
+const buffer = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER,buffer);
+gl.bufferData(gl.ARRAY_BUFFER,vertices,gl.STATIC_DRAW);
+
+const position = gl.getAttribLocation(program,"position");
+gl.enableVertexAttribArray(position);
+gl.vertexAttribPointer(position,2,gl.FLOAT,false,0,0);
+
+const timeLoc = gl.getUniformLocation(program,"time");
+const resolutionLoc = gl.getUniformLocation(program,"resolution");
+const powerLoc = gl.getUniformLocation(program,"power");
+
+let start = Date.now();
+let intensity = 1.0;
+
+function render(){
+    let t = (Date.now() - start) / 1000;
+    gl.uniform1f(timeLoc,t);
+    gl.uniform2f(resolutionLoc,canvas.width,canvas.height);
+    gl.uniform1f(powerLoc,intensity);
+
+    gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
+    requestAnimationFrame(render);
+}
+
+render();
 
 function boost(){
-    material.emissiveIntensity = 4;
-    bloomPass.strength = 3;
+    intensity = 3.0;
 }
+
+window.addEventListener("resize",()=>{
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    gl.viewport(0,0,canvas.width,canvas.height);
+});
 </script>
 
 </body>
