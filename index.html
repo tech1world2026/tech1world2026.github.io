@@ -3,57 +3,66 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Neural AI</title>
+<title>Tech1World - Neural AI</title>
 
 <style>
 body{
     margin:0;
-    overflow:hidden;
-    background:black;
     font-family:Segoe UI, sans-serif;
+    background:black;
+    color:white;
+    overflow-x:hidden;
 }
 
+/* 3D Background */
 canvas{
-    position:absolute;
+    position:fixed;
     top:0;
     left:0;
+    z-index:-1;
 }
 
-.overlay{
-    position:absolute;
-    width:100%;
-    height:100vh;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
-    pointer-events:none;
+/* Sections */
+section{
+    min-height:100vh;
+    padding:100px 10%;
+    backdrop-filter:blur(10px);
+    background:rgba(0,0,0,0.5);
 }
 
 h1{
     font-size:4rem;
+    margin:0;
     background:linear-gradient(90deg,#00f2ff,#a100ff);
     -webkit-background-clip:text;
     -webkit-text-fill-color:transparent;
-    margin:0;
+}
+
+h2{
+    font-size:2.5rem;
+    margin-bottom:20px;
 }
 
 p{
-    color:#aaa;
-    max-width:600px;
+    color:#ccc;
+    max-width:800px;
 }
 
 button{
-    margin-top:30px;
     padding:15px 40px;
-    border-radius:50px;
     border:none;
+    border-radius:40px;
     background:linear-gradient(90deg,#00f2ff,#a100ff);
     color:white;
     font-size:1rem;
     cursor:pointer;
-    pointer-events:auto;
+}
+.card{
+    background:rgba(255,255,255,0.05);
+    padding:30px;
+    border-radius:20px;
+    margin:20px 0;
+    backdrop-filter:blur(20px);
 }
 </style>
 </head>
@@ -62,11 +71,48 @@ button{
 
 <canvas id="gl"></canvas>
 
-<div class="overlay">
-<h1>NEURAL AI</h1>
-<p>Next generation AI-powered immersive intelligence platform. Real-time neural visualization with cinematic 3D rendering.</p>
-<button onclick="boost()">Initialize Core</button>
-</div>
+<!-- HERO -->
+<section>
+    <h1>NEURAL AI</h1>
+    <p>Next generation AI-powered immersive intelligence platform with cinematic 3D rendering and advanced intelligent automation.</p>
+    <br>
+    <button onclick="boost()">Initialize Core</button>
+</section>
+
+<!-- ABOUT -->
+<section>
+    <h2>About Tech1World</h2>
+    <p>
+    Tech1World is an advanced IT outsourcing and AI solutions company delivering scalable software systems, AI integrations, cloud infrastructure, and immersive digital platforms.
+    </p>
+</section>
+
+<!-- SERVICES -->
+<section>
+    <h2>Our Services</h2>
+
+    <div class="card">
+        <h3>Artificial Intelligence Development</h3>
+        <p>Custom AI models, automation systems, neural processing engines and predictive analytics solutions.</p>
+    </div>
+
+    <div class="card">
+        <h3>Web & 3D Engine Development</h3>
+        <p>High-performance WebGL applications, real-time rendering platforms and immersive user experiences.</p>
+    </div>
+
+    <div class="card">
+        <h3>Cloud & DevOps</h3>
+        <p>Scalable cloud architecture, CI/CD pipelines and enterprise-grade infrastructure optimization.</p>
+    </div>
+</section>
+
+<!-- CONTACT -->
+<section>
+    <h2>Contact Us</h2>
+    <p>Email: info@tech1world.com</p>
+    <p>Location: India</p>
+</section>
 
 <script>
 const canvas = document.getElementById("gl");
@@ -89,17 +135,13 @@ uniform float time;
 uniform vec2 resolution;
 uniform float power;
 
-float hash(vec2 p){
-    return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);
-}
-
 void main(){
     vec2 uv = gl_FragCoord.xy / resolution.xy;
     vec2 p = uv - 0.5;
     float r = length(p);
 
     float glow = 0.02 / r;
-    float wave = sin(10.0*r - time*3.0);
+    float wave = sin(15.0*r - time*3.0);
     float core = smoothstep(0.3,0.0,r);
 
     vec3 color = vec3(0.0);
@@ -127,13 +169,7 @@ gl.attachShader(program,fragmentShader);
 gl.linkProgram(program);
 gl.useProgram(program);
 
-const vertices = new Float32Array([
-    -1,-1,
-     1,-1,
-    -1, 1,
-     1, 1
-]);
-
+const vertices = new Float32Array([-1,-1,1,-1,-1,1,1,1]);
 const buffer = gl.createBuffer();
 gl.bindBuffer(gl.ARRAY_BUFFER,buffer);
 gl.bufferData(gl.ARRAY_BUFFER,vertices,gl.STATIC_DRAW);
@@ -150,15 +186,13 @@ let start = Date.now();
 let intensity = 1.0;
 
 function render(){
-    let t = (Date.now() - start) / 1000;
+    let t = (Date.now()-start)/1000;
     gl.uniform1f(timeLoc,t);
     gl.uniform2f(resolutionLoc,canvas.width,canvas.height);
     gl.uniform1f(powerLoc,intensity);
-
     gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
     requestAnimationFrame(render);
 }
-
 render();
 
 function boost(){
