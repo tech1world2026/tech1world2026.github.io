@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tech1World | Enterprise SDET, QA & Global GDC Systems</title>
+    <title>Tech1World | Enterprise AI, SDET & Global GDC</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Syne:wght@700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Syne:wght@800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
@@ -15,405 +14,264 @@
 
     <style>
         :root {
-            --bg: #050505;
-            --surface: #0e0f14;
+            --bg: #010102;
             --accent: #00f2ff;
-            --accent-alt: #7000ff;
-            --text-high: #ffffff;
-            --text-mid: #a1a1aa;
-            --border: rgba(255, 255, 255, 0.08);
-            --gradient: linear-gradient(90deg, #00f2ff, #7000ff);
-            --ease: cubic-bezier(0.16, 1, 0.3, 1);
+            --accent-purple: #7000ff;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.1);
+            --text: #ffffff;
+            --text-dim: #888899;
         }
 
-        /* --- GLOBAL RESET --- */
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none !important; }
-        body { background: var(--bg); color: var(--text-high); font-family: 'Inter', sans-serif; overflow-x: hidden; line-height: 1.5; }
-        
-        .container { max-width: 1600px; margin: 0 auto; padding: 0 5vw; }
-        .syne { font-family: 'Syne', sans-serif; text-transform: uppercase; letter-spacing: -0.04em; }
-        .mono { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.25em; color: var(--accent); }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; overflow-x: hidden; }
 
-        /* --- CUSTOM CURSOR SYSTEM --- */
-        #cursor { position: fixed; width: 8px; height: 8px; background: #fff; border-radius: 50%; pointer-events: none; z-index: 100000; mix-blend-mode: difference; }
-        #cursor-follower { position: fixed; width: 45px; height: 45px; border: 1px solid var(--accent); border-radius: 50%; pointer-events: none; z-index: 99999; transition: transform 0.2s var(--ease); }
-        .cursor-text { position: fixed; font-family: 'IBM Plex Mono'; font-size: 8px; color: #fff; z-index: 100001; pointer-events: none; opacity: 0; }
+        /* --- 3D CANVAS LAYER --- */
+        #webgl-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: -1; pointer-events: none; }
 
-        /* --- WEBGL BACKGROUND --- */
-        #canvas-wrap { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: -1; opacity: 0.5; filter: blur(50px); }
+        /* --- UI OVERLAY --- */
+        .cursor { position: fixed; width: 10px; height: 10px; background: #fff; border-radius: 50%; pointer-events: none; z-index: 10000; mix-blend-mode: difference; }
+        .cursor-follower { position: fixed; width: 40px; height: 40px; border: 1px solid var(--accent); border-radius: 50%; pointer-events: none; z-index: 9999; transition: transform 0.1s; }
 
-        /* --- NAVIGATION HUD --- */
-        nav { position: fixed; top: 0; width: 100%; height: 100px; z-index: 5000; transition: 0.5s var(--ease); border-bottom: 1px solid transparent; }
-        nav.scrolled { height: 75px; background: rgba(5,5,5,0.7); backdrop-filter: blur(15px); border-bottom: 1px solid var(--border); }
-        .nav-flex { height: 100%; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 28px; font-weight: 800; color: #fff; text-decoration: none; display: flex; align-items: center; gap: 10px; }
-        .logo .dot { width: 10px; height: 10px; background: var(--gradient); border-radius: 50%; }
-        
-        .nav-links { display: flex; gap: 40px; }
-        .nav-links a { text-decoration: none; font-size: 11px; font-family: 'IBM Plex Mono'; color: var(--text-mid); transition: 0.3s; font-weight: 600; position: relative; }
+        nav { position: fixed; top: 0; width: 100%; height: 80px; display: flex; align-items: center; z-index: 1000; border-bottom: 1px solid var(--border); backdrop-filter: blur(10px); }
+        .nav-inner { width: 90%; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: 'Syne'; font-size: 24px; font-weight: 800; color: #fff; text-decoration: none; }
+        .nav-links { display: flex; gap: 30px; list-style: none; }
+        .nav-links a { color: var(--text-dim); text-decoration: none; font-size: 11px; font-family: 'IBM Plex Mono'; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
         .nav-links a:hover { color: var(--accent); }
-        .nav-links a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 1px; background: var(--accent); transition: 0.3s; }
-        .nav-links a:hover::after { width: 100%; }
 
-        /* --- HERO: TITAN EDITION --- */
-        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; }
-        .hero-title { font-size: clamp(60px, 12vw, 180px); line-height: 0.8; font-weight: 800; color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,0.2); position: relative; }
-        .hero-title .filled { color: var(--text-high); -webkit-text-stroke: 0; display: block; }
-        .hero-sub { max-width: 500px; margin: 40px 0; font-size: 18px; color: var(--text-mid); }
+        /* --- PAGE SECTIONS --- */
+        section { min-height: 100vh; width: 100%; display: flex; align-items: center; position: relative; padding: 100px 0; border-bottom: 1px solid var(--border); }
+        .container { width: 85%; max-width: 1400px; margin: 0 auto; position: relative; z-index: 2; }
 
-        /* --- COMPONENTS --- */
-        .glass-card { background: rgba(255,255,255,0.02); border: 1px solid var(--border); backdrop-filter: blur(10px); padding: 60px; border-radius: 2px; transition: 0.5s var(--ease); }
-        .glass-card:hover { background: rgba(255,255,255,0.05); border-color: var(--accent); }
+        /* Prevent Text Overlap */
+        .content-block { max-width: 800px; background: rgba(1, 1, 2, 0.7); padding: 40px; border-left: 2px solid var(--accent); backdrop-filter: blur(5px); }
+        
+        h1 { font-family: 'Syne'; font-size: clamp(40px, 8vw, 100px); line-height: 0.9; margin-bottom: 30px; }
+        .accent-text { background: linear-gradient(90deg, var(--accent), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); margin: 100px 0; }
-        .stat-box { background: var(--bg); padding: 80px 40px; text-align: center; }
-        .stat-num { font-size: 70px; font-weight: 800; display: block; margin-bottom: 10px; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        /* --- BENTO GRID SYSTEM --- */
+        .bento-grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-rows: 300px; gap: 20px; margin-top: 50px; }
+        .bento-item { background: var(--glass); border: 1px solid var(--border); padding: 40px; position: relative; transition: 0.5s; overflow: hidden; }
+        .bento-item:hover { border-color: var(--accent); background: rgba(255,255,255,0.05); transform: translateY(-10px); }
+        .bento-item h3 { font-family: 'Syne'; margin-bottom: 15px; }
+        .bento-item p { font-size: 14px; color: var(--text-dim); }
+        .tall { grid-row: span 2; }
+        .wide { grid-column: span 2; }
 
-        /* --- SDET QA SPECIALIZATION SECTION --- */
-        .qa-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-        .qa-feature { display: flex; gap: 30px; margin-bottom: 60px; }
-        .qa-icon { width: 60px; height: 60px; background: var(--accent-dim); border: 1px solid var(--accent); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--accent); font-size: 24px; }
+        /* --- ANIMATED ELEMENTS --- */
+        .reveal { opacity: 0; transform: translateY(50px); }
+        .btn-ai { padding: 20px 40px; background: transparent; border: 1px solid var(--accent); color: #fff; font-family: 'IBM Plex Mono'; font-weight: 700; text-decoration: none; display: inline-block; position: relative; overflow: hidden; margin-top: 30px; }
+        .btn-ai::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: var(--accent); transition: 0.4s; z-index: -1; }
+        .btn-ai:hover { color: #000; }
+        .btn-ai:hover::before { left: 0; }
 
-        /* --- TRANSITION ENGINE --- */
-        .view { display: none; opacity: 0; }
-        .view.active { display: block; opacity: 1; }
-        #page-loader { position: fixed; inset: 0; background: #000; z-index: 999999; transform: translateY(100%); display: flex; align-items: center; justify-content: center; }
-
-        /* --- BUTTONS --- */
-        .btn-titan { padding: 25px 60px; background: var(--text-high); color: #000; font-family: 'IBM Plex Mono'; font-weight: 700; font-size: 14px; text-decoration: none; position: relative; transition: 0.4s; overflow: hidden; }
-        .btn-titan:hover { color: #fff; background: var(--accent-alt); }
-
-        /* --- SCROLL PROGRESS --- */
-        .progress-hud { position: fixed; right: 50px; top: 50%; transform: translateY(-50%); z-index: 5000; display: flex; flex-direction: column; gap: 20px; align-items: center; }
-        .progress-dot { width: 4px; height: 4px; background: var(--text-mid); border-radius: 50%; transition: 0.3s; }
-        .progress-dot.active { height: 30px; background: var(--accent); border-radius: 10px; }
+        /* --- STAT HUD --- */
+        .stat-hud { display: flex; gap: 50px; margin-top: 50px; }
+        .stat-item { border-left: 1px solid var(--accent); padding-left: 20px; }
+        .stat-val { font-size: 40px; font-weight: 800; font-family: 'Syne'; display: block; }
+        .stat-label { font-size: 10px; font-family: 'IBM Plex Mono'; color: var(--text-dim); }
     </style>
 </head>
 <body>
 
-    <div id="page-loader"><div class="mono" style="font-size: 30px;">[ INITIALIZING_TITAN_V6.3 ]</div></div>
-    <div id="cursor"></div>
-    <div id="cursor-follower"></div>
-    <div id="canvas-wrap"></div>
+    <div id="webgl-bg"></div>
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
 
-    <div class="progress-hud">
-        <div class="progress-dot active"></div>
-        <div class="progress-dot"></div>
-        <div class="progress-dot"></div>
-        <div class="progress-dot"></div>
-        <div class="progress-dot"></div>
-    </div>
-
-    <nav id="navbar">
-        <div class="container nav-flex">
-            <a href="#" class="logo" onclick="app.nav('home')">
-                <div class="dot"></div> TECH1WORLD
-            </a>
-            <div class="nav-links">
-                <a href="#" onclick="app.nav('home')">01_STRATEGY</a>
-                <a href="#" onclick="app.nav('services')">02_OUTSOURCING</a>
-                <a href="#" onclick="app.nav('qa')">03_QA_ENGINEERING</a>
-                <a href="#" onclick="app.nav('portfolio')">04_IMPACT</a>
-                <a href="#" onclick="app.nav('contact')" style="color: #fff;">05_ENGAGE_US</a>
-            </div>
+    <nav>
+        <div class="nav-inner">
+            <a href="#" class="logo">T1W_SINGULARITY</a>
+            <ul class="nav-links">
+                <li><a href="#hero">01_HUB</a></li>
+                <li><a href="#services">02_GDC</a></li>
+                <li><a href="#qa">03_SDET</a></li>
+                <li><a href="#contact">04_ENGAGE</a></li>
+            </ul>
         </div>
     </nav>
 
-    <main class="view active" id="view-home">
-        
-        <section class="hero container">
-            <p class="mono" style="margin-bottom: 20px;">// ELITE IT OUTSOURCING & CONSULTING</p>
-            <h1 class="syne hero-title">
-                <span class="filled">SYSTEMIC</span>
-                GOVERNANCE
-            </h1>
-            <p class="hero-sub">We architect ultra-high performance software delivery pipelines for the world's most demanding enterprises. From Jammu GDC to the global stage.</p>
-            <div style="display: flex; gap: 30px;">
-                <a href="#" class="btn-titan" onclick="app.nav('contact')">START_AUDIT</a>
-                <a href="#" class="mono" style="align-self: center; text-decoration: none;" onclick="app.nav('services')">EXPLORE_STACK →</a>
-            </div>
-        </section>
-
-        <section class="container" style="padding: 100px 0;">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: center;">
-                <div class="glass-card">
-                    <p class="mono">// THE_MISSION</p>
-                    <h2 class="syne" style="font-size: 3rem; margin: 20px 0;">Reliability <br>by Design.</h2>
-                    <p style="color: var(--text-mid);">In the multinational landscape, downtime is not an option. Tech1World provides the technical muscle and the strategic brains to ensure your infrastructure is bulletproof.</p>
-                </div>
-                <div style="height: 500px; border-left: 1px solid var(--border); padding-left: 50px; display: flex; flex-direction: column; justify-content: center;">
-                    <div class="qa-feature">
-                        <div class="qa-icon"><i class="fa-solid fa-microchip"></i></div>
-                        <div>
-                            <h4 class="syne">High-Velocity GDC</h4>
-                            <p style="color:var(--text-mid);">24/7 Follow-the-sun development and support.</p>
-                        </div>
-                    </div>
-                    <div class="qa-feature">
-                        <div class="qa-icon"><i class="fa-solid fa-shield-halved"></i></div>
-                        <div>
-                            <h4 class="syne">SDET QA Specialization</h4>
-                            <p style="color:var(--text-mid);">Automation-first quality assurance gates.</p>
+    <main id="smooth-wrapper">
+        <div id="smooth-content">
+            
+            <section id="hero">
+                <div class="container">
+                    <div class="content-block reveal">
+                        <p class="mono" style="color: var(--accent);">// NEURAL INFRASTRUCTURE V6.4</p>
+                        <h1>Architecting <br><span class="accent-text">The Future.</span></h1>
+                        <p>Tech1World delivers mission-critical IT outsourcing, specialized SDET automation, and AI-driven consulting for the global enterprise.</p>
+                        <a href="#contact" class="btn-ai">INITIALIZE_SYSTEM</a>
+                        <div class="stat-hud">
+                            <div class="stat-item"><span class="stat-val">250+</span><span class="stat-label">ENGINEERS</span></div>
+                            <div class="stat-item"><span class="stat-val">99.9%</span><span class="stat-label">UPTIME</span></div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <section class="stat-grid">
-            <div class="stat-box">
-                <span class="stat-num counter" data-target="250">0</span>
-                <p class="mono">ENGINEERS_DEPLOYED</p>
-            </div>
-            <div class="stat-box">
-                <span class="stat-num counter" data-target="15">0</span>
-                <p class="mono">OFFICE_NODES</p>
-            </div>
-            <div class="stat-box">
-                <span class="stat-num counter" data-target="98">0</span>
-                <p class="mono">RETENTION_RATE_%</p>
-            </div>
-            <div class="stat-box">
-                <span class="stat-num counter" data-target="500">0</span>
-                <p class="mono">QA_PLOTS_DAILY</p>
-            </div>
-        </section>
-
-        <section class="container" style="padding: 150px 0;">
-            <p class="mono" style="text-align: center;">// SPECIALIZED VERTICAL</p>
-            <h2 class="syne" style="font-size: 5rem; text-align: center; margin-bottom: 100px;">SDET QA <span style="color: var(--accent);">ENGINES</span></h2>
-            <div class="qa-grid">
-                <div class="glass-card">
-                    <h3 class="syne">Automation Architectures</h3>
-                    <p style="margin: 20px 0; color:var(--text-mid);">We build custom Python/Java/Node based testing frameworks that integrate with your CI/CD, providing 99.9% regression confidence levels.</p>
-                    <ul class="mono" style="list-style: none;">
-                        <li>[ PLAYWRIGHT_STREAMS ]</li>
-                        <li>[ CYPRESS_ENTERPRISE ]</li>
-                        <li>[ SELENIUM_GRID_SCALING ]</li>
-                    </ul>
-                </div>
-                <div class="glass-card">
-                    <h3 class="syne">Performance Optimization</h3>
-                    <p style="margin: 20px 0; color:var(--text-mid);">Load, Stress, and Endurance testing to simulate millions of concurrent users. We find the breaking point before your customers do.</p>
-                    <ul class="mono" style="list-style: none;">
-                        <li>[ JMETER_DISTRIBUTED ]</li>
-                        <li>[ K6_CLOUD_SCRIPTS ]</li>
-                        <li>[ LOCUST_SCALING ]</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <section style="background: var(--surface); padding: 150px 0;">
-            <div class="container">
-                <h2 class="syne" style="font-size: 3.5rem; margin-bottom: 80px;">The Outsourcing <br>Advantage.</h2>
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px;">
-                    <div style="border-top: 1px solid var(--accent); padding-top: 30px;">
-                        <h4 class="mono">01_STAFF_AUGMENTATION</h4>
-                        <p style="margin-top: 20px; color: var(--text-mid);">Inject senior engineers into your team in under 48 hours. Scalable, high-trust talent delivery.</p>
-                    </div>
-                    <div style="border-top: 1px solid var(--accent-alt); padding-top: 30px;">
-                        <h4 class="mono">02_MANAGED_DELIVERY</h4>
-                        <p style="margin-top: 20px; color: var(--text-mid);">Full-cycle project management where we take accountability for the timeline, quality, and output.</p>
-                    </div>
-                    <div style="border-top: 1px solid #fff; padding-top: 30px;">
-                        <h4 class="mono">03_BOT_MODEL</h4>
-                        <p style="margin-top: 20px; color: var(--text-mid);">Build-Operate-Transfer. We setup your offshore center in Jammu and transition it to you.</p>
+            <section id="services">
+                <div class="container">
+                    <h2 class="syne reveal" style="font-size: 3rem; margin-bottom: 50px;">Global Delivery <span class="accent-text">Verticals</span></h2>
+                    <div class="bento-grid">
+                        <div class="bento-item wide reveal">
+                            <h3 class="syne">Staff Augmentation</h3>
+                            <p>Injecting senior-tier engineering talent into your existing workflows within 48 hours. Scalable, high-trust, and performance-vetted engineers specialized in high-frequency environments.</p>
+                        </div>
+                        <div class="bento-item reveal">
+                            <h3 class="syne">Cloud Mesh</h3>
+                            <p>Architecting resilient AWS/Azure/GCP ecosystems using Kubernetes and serverless protocols.</p>
+                        </div>
+                        <div class="bento-item reveal">
+                            <h3 class="syne">AI Consulting</h3>
+                            <p>Integrating LLMs and predictive analytics into enterprise core systems safely.</p>
+                        </div>
+                        <div class="bento-item wide reveal">
+                            <h3 class="syne">Legacy Modernization</h3>
+                            <p>Refactoring monolithic architectures into modern microservices with zero-downtime migration strategies.</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <section class="container" style="padding: 150px 0;">
-            <div style="display: flex; gap: 50px; overflow-x: auto; padding-bottom: 50px;" id="industry-slider">
-                <div class="glass-card" style="min-width: 400px;">
-                    <h3 class="syne">FINTECH</h3>
-                    <p style="margin-top: 20px; color: var(--text-mid);">Building PCI-compliant payment gateways and low-latency trading engines with robust security protocols.</p>
+            <section id="qa">
+                <div class="container">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;">
+                        <div class="reveal">
+                            <p class="mono">// QUALITY_GOVERNANCE</p>
+                            <h2 class="syne" style="font-size: 4rem;">SDET & QA <br><span class="accent-text">Excellence.</span></h2>
+                            <p style="margin: 30px 0; color: var(--text-dim);">We build the software that tests your software. Our SDET division specializes in building automated testing frameworks that act as CI/CD gatekeepers.</p>
+                            <div class="stat-item" style="margin-bottom: 20px;"><h4 class="syne">Automated Regression</h4><p>Selenium, Playwright, Cypress.</p></div>
+                            <div class="stat-item"><h4 class="syne">Performance Testing</h4><p>JMeter, K6, Locust load simulations.</p></div>
+                        </div>
+                        <div class="glass-card reveal" style="padding: 50px; border: 1px solid var(--accent);">
+                            <h4 class="mono">// TEST_METRICS_REPORT</h4>
+                            <ul class="mono" style="list-style: none; margin-top: 20px; line-height: 2;">
+                                <li>> COVERAGE: 98.4%</li>
+                                <li>> LATENCY: < 200MS</li>
+                                <li>> RELIABILITY: TIER_4</li>
+                                <li>> STATUS: NOMINAL</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-                <div class="glass-card" style="min-width: 400px;">
-                    <h3 class="syne">E-COMMERCE</h3>
-                    <p style="margin-top: 20px; color: var(--text-mid);">Scaling retail platforms to handle 100x traffic spikes during seasonal sales with elastic cloud nodes.</p>
+            </section>
+
+            <section>
+                <div class="container" style="text-align: center;">
+                    <h2 class="syne reveal" style="font-size: 5rem;">Global <span class="accent-text">Nodes.</span></h2>
+                    
+                    <p class="mono" style="margin-top: 50px;">JAMMU (HQ) // LONDON // NEW YORK // SINGAPORE</p>
                 </div>
-                <div class="glass-card" style="min-width: 400px;">
-                    <h3 class="syne">HEALTHCARE</h3>
-                    <p style="margin-top: 20px; color: var(--text-mid);">Implementing HIPAA-compliant data lakes and interoperable patient management systems.</p>
+            </section>
+
+            <section id="contact">
+                <div class="container">
+                    <div class="bento-grid">
+                        <div class="bento-item wide tall reveal">
+                            <h2 class="syne" style="font-size: 3.5rem;">Initialize <br>Consultation.</h2>
+                            <form style="margin-top: 40px;">
+                                <input type="text" placeholder="NAME_ID" style="width:100%; background:none; border:none; border-bottom: 1px solid var(--border); padding: 15px 0; color:#fff; margin-bottom: 30px;">
+                                <input type="email" placeholder="SECURE_MAIL" style="width:100%; background:none; border:none; border-bottom: 1px solid var(--border); padding: 15px 0; color:#fff; margin-bottom: 30px;">
+                                <textarea placeholder="PROJECT_SCOPE" rows="4" style="width:100%; background:none; border:none; border-bottom: 1px solid var(--border); padding: 15px 0; color:#fff; margin-bottom: 30px;"></textarea>
+                                <button type="submit" class="btn-ai" style="width: 100%;">TRANSMIT_DATA</button>
+                            </form>
+                        </div>
+                        <div class="bento-item reveal">
+                            <h4 class="mono">CONTACT_DIRECT</h4>
+                            <p style="margin-top: 20px;">TEL: +91 9419281505</p>
+                            <p>HQ: Plot 37, JDA Phase 2, Jammu.</p>
+                        </div>
+                        <div class="bento-item reveal">
+                            <h4 class="mono">SYSTEM_STATUS</h4>
+                            <p style="margin-top: 20px; color: var(--accent);">● ACTIVE_NODE_JAMMU</p>
+                            <p>● ACTIVE_NODE_GLOBAL</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <section class="container" style="padding: 100px 0; text-align: center;">
-            <p class="mono">// OUR_ENVIRONMENT</p>
-            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; margin-top: 60px;">
-                <span class="syne" style="font-size: 2.5rem; opacity: 0.3;">AWS</span>
-                <span class="syne" style="font-size: 2.5rem; color: var(--accent);">REACT</span>
-                <span class="syne" style="font-size: 2.5rem; opacity: 0.3;">NODE.JS</span>
-                <span class="syne" style="font-size: 2.5rem; color: var(--accent-alt);">KUBERNETES</span>
-                <span class="syne" style="font-size: 2.5rem; opacity: 0.3;">PYTHON</span>
-                <span class="syne" style="font-size: 2.5rem; color: var(--accent);">DOCKER</span>
-            </div>
-        </section>
-
-        <section class="container" style="padding-bottom: 150px;">
-            <div class="glass-card" style="border: 1px solid var(--accent); position: relative;">
-                <div class="mono" style="position: absolute; top: 40px; right: 40px;">[ LOG_ID: 2026_A ]</div>
-                <h2 class="syne" style="font-size: 3rem;">Automating 10,000+ Test Scenarios for a UK FinTech Giant.</h2>
-                <p style="margin: 40px 0; font-size: 1.2rem; color: var(--text-mid); max-width: 800px;">Reduced time-to-market by 60% and eliminated human-error in mission-critical payment processing modules using our proprietary SDET framework.</p>
-                <a href="#" class="btn-titan" onclick="app.nav('portfolio')">READ_THE_WHITE_PAPER</a>
-            </div>
-        </section>
-
-        <section class="container" style="padding-bottom: 150px; text-align: center;">
-            <h2 class="syne" style="font-size: 6rem; margin-bottom: 40px;">REACH_OUT.</h2>
-            <p class="mono" style="margin-bottom: 60px;">// SECURE_LINE_OPEN</p>
-            <a href="#" class="btn-titan" style="font-size: 24px; padding: 40px 100px;" onclick="app.nav('contact')">INITIALIZE_HANDSHAKE</a>
-        </section>
-    </main>
-
-    <main class="view" id="view-services">
-        <section class="container hero">
-            <h1 class="syne">Enterprise <br><span style="color:var(--accent)">Outsourcing.</span></h1>
-            <div class="qa-grid" style="margin-top: 100px;">
-                <div class="glass-card">
-                    <h4 class="mono">APPLICATION_DEVELOPMENT</h4>
-                    <p>Building scalable microservices with a focus on high availability.</p>
-                </div>
-                <div class="glass-card">
-                    <h4 class="mono">STAFF_AUGMENTATION</h4>
-                    <p>Dedicated remote engineers integrated into your corporate culture.</p>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <main class="view" id="view-qa">
-        <section class="container hero">
-            <h1 class="syne">QA & SDET <br><span style="color:var(--accent-alt)">Engineering.</span></h1>
-            <div class="glass-card" style="margin-top: 100px;">
-                <p class="mono">// TOTAL_QUALITY_MANAGEMENT</p>
-                <p style="font-size: 1.5rem; margin-top: 20px;">We specialize in building the software that ensures your software never fails. Our SDETs deliver code-level testing solutions that eliminate manual bottlenecks.</p>
-            </div>
-        </section>
-    </main>
-
-    <main class="view" id="view-contact">
-        <section class="container hero">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 100px;">
-                <div>
-                    <h2 class="syne" style="font-size: 4rem;">Secure <br>Connection.</h2>
-                    <p style="margin-top: 40px; color:var(--text-mid);">HQ: JDA Colony Phase 2, Plot 37, Jammu, J&K.<br>Tel: +91 9419281505<br>Email: operations@tech1world.com</p>
-                </div>
-                <form class="glass-card" onsubmit="event.preventDefault(); alert('Transmission Received.')">
-                    <input type="text" placeholder="FULL_NAME" style="width:100%; background:none; border:none; border-bottom: 1px solid var(--border); padding: 20px 0; color:#fff; margin-bottom: 30px;">
-                    <input type="email" placeholder="CORPORATE_EMAIL" style="width:100%; background:none; border:none; border-bottom: 1px solid var(--border); padding: 20px 0; color:#fff; margin-bottom: 30px;">
-                    <textarea placeholder="PROJECT_SCOPE" rows="4" style="width:100%; background:none; border:none; border-bottom: 1px solid var(--border); padding: 20px 0; color:#fff; margin-bottom: 50px;"></textarea>
-                    <button class="btn-titan" style="width: 100%; border:none; cursor: pointer;">TRANSMIT_REQUEST</button>
-                </form>
-            </div>
-        </section>
-    </main>
-
-    <footer style="padding: 100px 0 50px; border-top: 1px solid var(--border);">
-        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
-            <a href="#" class="logo">T1W.</a>
-            <p class="mono" style="font-size: 10px; opacity: 0.5;">© 2026 TECH1WORLD PRIVATE LIMITED. [ 32.7266° N, 74.8570° E ]</p>
         </div>
-    </footer>
+    </main>
 
     <script>
-        const app = {
-            init() {
-                this.initCursor();
-                this.initThree();
-                this.initScroll();
-                this.initAnims();
-                this.nav('home');
-                
-                // Final Loader Out
-                gsap.to('#page-loader', { y: '-100%', duration: 1.2, ease: 'expo.inOut', delay: 1 });
-            },
+        // --- THREE.JS 3D AI NEURAL MESH ---
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('webgl-bg').appendChild(renderer.domElement);
 
-            nav(viewId) {
-                const loader = document.getElementById('page-loader');
-                gsap.set(loader, { y: '100%' });
-                
-                gsap.to(loader, { y: '0%', duration: 0.6, ease: 'expo.inOut', onComplete: () => {
-                    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-                    document.getElementById('view-' + viewId).classList.add('active');
-                    window.scrollTo(0,0);
-                    
-                    gsap.to(loader, { y: '-100%', duration: 0.6, ease: 'expo.inOut', delay: 0.2 });
-                    this.initScrollAnims();
-                }});
-            },
+        const geometry = new THREE.IcosahedronGeometry(2, 2);
+        const material = new THREE.MeshBasicMaterial({ color: 0x00f2ff, wireframe: true, transparent: true, opacity: 0.3 });
+        const sphere = new THREE.Mesh(geometry, material);
+        scene.add(sphere);
 
-            initThree() {
-                const scene = new THREE.Scene();
-                const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-                const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-                renderer.setSize(window.innerWidth, window.innerHeight);
-                document.getElementById('canvas-wrap').appendChild(renderer.domElement);
+        // Add Floating Particles
+        const partGeom = new THREE.BufferGeometry();
+        const partCount = 1000;
+        const posArray = new Float32Array(partCount * 3);
+        for(let i=0; i<partCount*3; i++) { posArray[i] = (Math.random() - 0.5) * 10; }
+        partGeom.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const partMat = new THREE.PointsMaterial({ size: 0.005, color: 0x7000ff });
+        const particles = new THREE.Points(partGeom, partMat);
+        scene.add(particles);
 
-                const geometry = new THREE.SphereGeometry(5, 32, 32);
-                const material = new THREE.MeshBasicMaterial({ color: 0x00f2ff, wireframe: true });
-                const sphere = new THREE.Mesh(geometry, material);
-                scene.add(sphere);
+        camera.position.z = 5;
 
-                camera.position.z = 10;
+        // Interaction
+        let mouseX = 0; let mouseY = 0;
+        window.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX / window.innerWidth) - 0.5;
+            mouseY = (e.clientY / window.innerHeight) - 0.5;
+        });
 
-                const animate = () => {
-                    requestAnimationFrame(animate);
-                    sphere.rotation.y += 0.003;
-                    sphere.rotation.x += 0.001;
-                    renderer.render(scene, camera);
-                };
-                animate();
-            },
+        const animate = () => {
+            requestAnimationFrame(animate);
+            sphere.rotation.y += 0.002;
+            sphere.rotation.x += 0.001;
+            
+            // Dynamic Camera Movement
+            camera.position.x += (mouseX - camera.position.x) * 0.05;
+            camera.position.y += (-mouseY - camera.position.y) * 0.05;
+            camera.lookAt(scene.position);
 
-            initCursor() {
-                const dot = document.getElementById('cursor');
-                const ring = document.getElementById('cursor-follower');
-                window.addEventListener('mousemove', (e) => {
-                    gsap.to(dot, { x: e.clientX, y: e.clientY, duration: 0 });
-                    gsap.to(ring, { x: e.clientX - 22, y: e.clientY - 22, duration: 0.2 });
-                });
-            },
+            renderer.render(scene, camera);
+        };
+        animate();
 
-            initScroll() {
-                const lenis = new Lenis();
-                function raf(time) {
-                    lenis.raf(time);
-                    requestAnimationFrame(raf);
-                }
-                requestAnimationFrame(raf);
+        // --- GSAP & UI ENGINE ---
+        gsap.registerPlugin(ScrollTrigger);
 
-                window.addEventListener('scroll', () => {
-                    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
-                });
-            },
-
-            initScrollAnims() {
-                gsap.utils.toArray('.glass-card').forEach(card => {
-                    gsap.from(card, {
-                        scrollTrigger: { trigger: card, start: 'top 90%' },
-                        y: 100, opacity: 0, duration: 1, ease: 'power4.out'
-                    });
-                });
-
-                document.querySelectorAll('.counter').forEach(c => {
-                    const target = +c.dataset.target;
-                    gsap.to(c, {
-                        scrollTrigger: { trigger: c, start: 'top 90%' },
-                        innerText: target, duration: 2, snap: { innerText: 1 }
-                    });
-                });
-            },
-
-            initAnims() {
-                gsap.registerPlugin(ScrollTrigger);
-            }
+        // Smooth Scroll
+        const lenis = new Lenis();
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
         }
+        requestAnimationFrame(raf);
 
-        window.onload = () => app.init();
+        // Cursor
+        const cursor = document.querySelector('.cursor');
+        const follower = document.querySelector('.cursor-follower');
+        window.addEventListener('mousemove', (e) => {
+            gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0 });
+            gsap.to(follower, { x: e.clientX - 20, y: e.clientY - 20, duration: 0.1 });
+        });
+
+        // Reveal Animations
+        gsap.utils.toArray('.reveal').forEach(elem => {
+            gsap.to(elem, {
+                scrollTrigger: { trigger: elem, start: 'top 85%', toggleActions: 'play none none reverse' },
+                opacity: 1, y: 0, duration: 1, ease: 'power4.out'
+            });
+        });
+
+        // Handle Resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
     </script>
 </body>
 </html>
