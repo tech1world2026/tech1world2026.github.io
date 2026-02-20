@@ -3,45 +3,66 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tech1World | Award-Winning Interactive</title>
+<title>Tech1World | AI Enterprise Experience 3D</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Syne:wght@700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
 <style>
-:root{
+:root {
   --bg:#030405;
   --accent:#00f2ff;
+  --accent-alt:#7000ff;
   --text:#fff;
   --text-mid:#94a3b8;
   --glass:rgba(255,255,255,0.05);
 }
 body{margin:0;font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;}
-a{text-decoration:none;color:var(--text);}
-section{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;transform:translateY(50px);}
-h1,h2,h3{margin:0 0 20px 0;font-family:'Syne',sans-serif;}
-p{max-width:600px;text-align:center;color:var(--text-mid);}
 nav{position:fixed;top:0;width:100%;height:70px;background:rgba(0,0,0,0.5);display:flex;align-items:center;padding:0 40px;z-index:1000;backdrop-filter:blur(10px);}
-nav a{margin-right:30px;font-weight:600;font-size:14px;}
+nav a{margin-right:30px;font-weight:600;font-size:14px;color:var(--text);}
 #cursor-dot,#cursor-ring{position:fixed;top:0;left:0;border-radius:50%;pointer-events:none;z-index:10000;}
 #cursor-dot{width:10px;height:10px;background:var(--accent);}
-#cursor-ring{width:40px;height:40px;border:2px solid var(--accent);transition:0.15s ease;}
+#cursor-ring{width:50px;height:50px;border:2px solid var(--accent);transition:0.15s ease;}
 #canvas-bg{position:fixed;inset:0;z-index:-1;}
+section{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;transform:translateY(50px);padding:0 20px;position:relative;}
+h1,h2,h3{margin:0 0 20px 0;font-family:'Syne',sans-serif;text-align:center;}
+p{max-width:650px;text-align:center;color:var(--text-mid);}
 .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:40px;margin-top:50px;}
-.kpi-card{background:var(--glass);backdrop-filter:blur(10px);padding:40px;border-radius:12px;text-align:center;}
+.kpi-card{background:var(--glass);backdrop-filter:blur(15px);padding:40px;border-radius:12px;text-align:center;transition:0.6s;}
+.kpi-card:hover{transform:scale(1.05);box-shadow:0 20px 40px rgba(0,242,255,0.4);}
 .kpi-val{font-family:'Syne';font-size:50px;color:var(--accent);}
 .kpi-label{font-family:'IBM Plex Mono';font-size:12px;color:var(--text-mid);}
-.card-service{background:var(--glass);backdrop-filter:blur(10px);padding:40px;border-radius:20px;max-width:600px;margin:20px;transition:0.4s;cursor:pointer;}
-.card-service:hover{transform:translateY(-10px) scale(1.02);}
-.floating-cta{position:fixed;bottom:40px;right:40px;background:linear-gradient(135deg,#00f2ff,#7000ff);padding:20px 30px;border-radius:30px;font-weight:700;color:#000;display:flex;align-items:center;gap:10px;box-shadow:0 10px 40px rgba(0,242,255,0.5);cursor:pointer;}
+.card-service{background:var(--glass);backdrop-filter:blur(15px);padding:40px;border-radius:20px;max-width:600px;margin:20px;transition:0.6s;cursor:pointer;}
+.card-service:hover{transform:translateY(-10px) scale(1.05);box-shadow:0 20px 40px rgba(0,242,255,0.5);}
+.floating-cta{position:fixed;bottom:40px;right:40px;background:linear-gradient(135deg,#00f2ff,#7000ff);padding:20px 30px;border-radius:30px;font-weight:700;color:#000;display:flex;align-items:center;gap:10px;box-shadow:0 10px 50px rgba(0,242,255,0.6);cursor:pointer;animation:floatCTA 2s infinite alternate;}
+@keyframes floatCTA{0%{transform:translateY(0px);}100%{transform:translateY(-15px);}}
+.mega-menu{position:absolute;top:70px;left:0;width:100%;background:var(--bg);display:flex;justify-content:center;gap:60px;padding:40px 0;display:none;}
+nav .has-menu:hover .mega-menu{display:flex;}
+.mega-col a{display:block;color:var(--text);margin:10px 0;transition:0.3s;}
+.mega-col a:hover{color:var(--accent);}
 </style>
 </head>
 <body>
 
 <nav>
   <a href="#home">HOME</a>
-  <a href="#services">SERVICES</a>
+  <div class="has-menu">
+    <a href="#services">SERVICES ▼</a>
+    <div class="mega-menu">
+      <div class="mega-col">
+        <h4>AI & CLOUD</h4>
+        <a href="#services">AI Engineering</a>
+        <a href="#services">Cloud Infrastructure</a>
+        <a href="#services">Cyber Governance</a>
+      </div>
+      <div class="mega-col">
+        <h4>OUTSOURCING</h4>
+        <a href="#services">Enterprise DevOps</a>
+        <a href="#services">IT Consulting</a>
+      </div>
+    </div>
+  </div>
   <a href="#about">ABOUT</a>
   <a href="#contact">CONTACT</a>
 </nav>
@@ -52,7 +73,7 @@ nav a{margin-right:30px;font-weight:600;font-size:14px;}
 
 <section id="home">
   <h1>Empowering Global Enterprise Intelligence</h1>
-  <p>Tech1World architects high-performance cloud infrastructure and AI ecosystems for multinational organizations.</p>
+  <p>Tech1World architects high-performance cloud infrastructure, AI ecosystems, and outsourcing solutions for multinational organizations.</p>
   <div class="floating-cta">Initialize Consultation →</div>
 </section>
 
@@ -71,16 +92,17 @@ nav a{margin-right:30px;font-weight:600;font-size:14px;}
   <div class="card-service">Neural Engineering: Custom AI, LLMs & Predictive Analytics</div>
   <div class="card-service">Cloud Infrastructure: Edge Computing & Sub-Second Latency</div>
   <div class="card-service">Cyber Governance: Secure & Auditable AI Systems</div>
+  <div class="card-service">Enterprise DevOps & IT Outsourcing</div>
 </section>
 
 <section id="about">
   <h2>About Tech1World</h2>
-  <p>We build sovereign enterprise systems with ethical AI alignment and global reach, ensuring performance, compliance, and innovation.</p>
+  <p>We build sovereign enterprise systems with ethical AI alignment, global reach, and outsourcing solutions that ensure performance, compliance, and innovation.</p>
 </section>
 
 <section id="contact">
-  <h2>Contact Us</h2>
-  <p>Reach out for strategic AI & cloud consultations. Our team is available 24/7 for enterprise-scale deployments.</p>
+  <h2>Contact & Headquarters</h2>
+  <p>JDA COLONY PHASE 2, PLOT 37, JAMMU, J&K | TEL: +91 9419281505 | EMAIL: OPERATIONS@TECH1WORLD.COM</p>
 </section>
 
 <script>
@@ -88,53 +110,71 @@ nav a{margin-right:30px;font-weight:600;font-size:14px;}
 const dot=document.getElementById('cursor-dot');
 const ring=document.getElementById('cursor-ring');
 document.addEventListener('mousemove',e=>{
-  dot.style.transform=`translate(${e.clientX-5}px,${e.clientY-5}px)`;
-  ring.style.transform=`translate(${e.clientX-20}px,${e.clientY-20}px)`;
+  gsap.to(dot,{x:e.clientX-5,y:e.clientY-5,duration:0});
+  gsap.to(ring,{x:e.clientX-25,y:e.clientY-25,duration:0.2});
 });
 document.querySelectorAll('a,button,.card-service,.floating-cta').forEach(el=>{
-  el.addEventListener('mouseenter',()=>ring.style.transform+=' scale(1.5)');
-  el.addEventListener('mouseleave',()=>ring.style.transform=ring.style.transform.replace(' scale(1.5)',''));
+  el.addEventListener('mouseenter',()=>gsap.to(ring,{scale:1.8,borderColor:'#fff'}));
+  el.addEventListener('mouseleave',()=>gsap.to(ring,{scale:1,borderColor:'#00f2ff'}));
 });
 
-// Three.js Particle Hero
+// Three.js Particle Neural Network with Glow and Motion
 const canvas=document.getElementById('canvas-bg');
 const scene=new THREE.Scene();
-const camera=new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,2000);
-camera.position.z=600;
-const renderer=new THREE.WebGLRenderer({canvas,alpha:true});
+const camera=new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,4000);
+camera.position.z=800;
+const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
 renderer.setSize(window.innerWidth,window.innerHeight);
-const geometry=new THREE.BufferGeometry();
-const vertices=[];
-for(let i=0;i<4000;i++){vertices.push(Math.random()*2000-1000,Math.random()*2000-1000,Math.random()*2000-1000);}
-geometry.setAttribute('position',new THREE.Float32BufferAttribute(vertices,3));
-const material=new THREE.PointsMaterial({color:0x00f2ff,size:2});
-const points=new THREE.Points(geometry,material);
-scene.add(points);
-function animate3D(){
-  requestAnimationFrame(animate3D);
-  points.rotation.x+=0.0005;
-  points.rotation.y+=0.0005;
-  renderer.render(scene,camera);
-}
-animate3D();
-window.addEventListener('resize',()=>{camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight);});
 
-// Scroll Animations
-gsap.registerPlugin(ScrollTrigger);
-document.querySelectorAll('section').forEach(sec=>{
-  gsap.to(sec,{opacity:1,y:0,duration:1,scrollTrigger:{trigger:sec,start:'top 80%'}});
+const particles=new THREE.BufferGeometry();
+const particleCount=8000;
+const positions=new Float32Array(particleCount*3);
+for(let i=0;i<particleCount*3;i++)positions[i]=(Math.random()-0.5)*3000;
+particles.setAttribute('position',new THREE.BufferAttribute(positions,3));
+
+const pMaterial=new THREE.PointsMaterial({color:0x00f2ff,size:3,transparent:true,opacity:0.7});
+const pSystem=new THREE.Points(particles,pMaterial);
+scene.add(pSystem);
+
+const animate3D=()=>{
+  requestAnimationFrame(animate3D);
+  pSystem.rotation.x+=0.0008;
+  pSystem.rotation.y+=0.001;
+  renderer.render(scene,camera);
+};
+animate3D();
+window.addEventListener('resize',()=>{
+  camera.aspect=window.innerWidth/window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth,window.innerHeight);
 });
 
-// Counters
+// GSAP Scroll Animations
+gsap.registerPlugin(ScrollTrigger);
+document.querySelectorAll('section').forEach(sec=>{
+  gsap.fromTo(sec,{opacity:0,y:50},{opacity:1,y:0,duration:1.2,scrollTrigger:{trigger:sec,start:'top 80%'}});
+});
+
+// KPI Counters
 document.querySelectorAll('.counter').forEach(counter=>{
   const updateCount=()=>{
     const target=+counter.dataset.target;
     let count=+counter.innerText;
     const increment=target/100;
-    if(count<target){counter.innerText=Math.ceil(count+increment);requestAnimationFrame(updateCount);}
-    else counter.innerText=target;
+    if(count<target){counter.innerText=Math.ceil(count+increment);requestAnimationFrame(updateCount);}else counter.innerText=target;
   };
   ScrollTrigger.create({trigger:counter,start:'top 90%',onEnter:updateCount});
+});
+
+// Floating Particles on Hover for Services
+document.querySelectorAll('.card-service').forEach(card=>{
+  const hoverParticles=new THREE.Points(particles,pMaterial.clone());
+  card.addEventListener('mouseenter',()=>{
+    hoverParticles.material.color.set(0xff00ff);
+  });
+  card.addEventListener('mouseleave',()=>{
+    hoverParticles.material.color.set(0x00f2ff);
+  });
 });
 </script>
 </body>
