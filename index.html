@@ -3,269 +3,130 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="author" content="Tech1World Architecture Group">
-<meta name="description" content="Tech1World | Global Strategic Partner for Enterprise AI, Cloud Infrastructure, and Digital Governance.">
-<title>Tech1World | Global Enterprise Technology Systems</title>
-
-<!-- Fonts & Icons -->
-<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Syne:wght@700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-<!-- GSAP & ScrollTrigger -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
-
-<!-- Three.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
+<title>Tech1World | 3D Interactive SPA</title>
 <style>
-:root {
-    --bg-primary: #030405;
-    --bg-secondary: #0a0c0e;
-    --accent: #00f2ff;
-    --accent-alt: #7000ff;
-    --text-high: #ffffff;
-    --text-mid: #94a3b8;
-    --text-low: #475569;
-    --border: rgba(255,255,255,0.08);
-    --glass: rgba(255,255,255,0.02);
-    --gradient: linear-gradient(135deg,#00f2ff 0%,#7000ff 100%);
-    --nav-height: 90px;
-    --ease-standard: cubic-bezier(0.16,1,0.3,1);
-    --container-width: 1440px;
+:root{
+  --bg:#030405;
+  --accent:#00f2ff;
+  --text:#fff;
 }
-
-body { margin:0; padding:0; font-family:'Inter', sans-serif; background:var(--bg-primary); color:var(--text-high); overflow-x:hidden; cursor:none; transition: background 0.5s, color 0.5s; }
-.light-theme { --bg-primary:#f8fafc; --bg-secondary:#ffffff; --text-high:#0f172a; --text-mid:#475569; --border:rgba(0,0,0,0.08); --glass:rgba(0,0,0,0.02); }
-
-.container { max-width: var(--container-width); margin:0 auto; padding:0 4vw; }
-.mono { font-family: 'IBM Plex Mono', monospace; text-transform:uppercase; font-size:11px; letter-spacing:0.2em; color:var(--accent); }
-.syne { font-family: 'Syne', sans-serif; }
-
-/* Cursor */
-#cursor-hud { position:fixed; top:0; left:0; width:10px; height:10px; background:var(--accent); border-radius:50%; pointer-events:none; z-index:99999; }
-#cursor-ring { position:fixed; top:0; left:0; width:40px; height:40px; border:1px solid var(--accent); border-radius:50%; pointer-events:none; z-index:99998; transition: transform 0.15s ease-out; }
-
-/* Scroll Progress */
-.scroll-progress { position:fixed; top:0; left:0; height:3px; background:var(--accent); z-index:10001; width:0%; }
-
-/* Navigation */
-nav { position:fixed; top:0; width:100%; height:var(--nav-height); display:flex; align-items:center; z-index:10000; border-bottom:1px solid transparent; transition:0.4s var(--ease-standard); }
-nav.scrolled { background:rgba(3,4,5,0.8); backdrop-filter:blur(20px); border-bottom:1px solid var(--border); height:75px; }
-.nav-inner { width:100%; display:flex; justify-content:space-between; align-items:center; }
-.logo { font-family: 'Syne'; font-size:24px; font-weight:800; text-decoration:none; color:var(--text-high); }
-.logo span { color:var(--accent); }
-.nav-links { display:flex; gap:40px; list-style:none; }
-.nav-item { position:relative; }
-.nav-item a { text-decoration:none; color:var(--text-mid); font-size:13px; font-weight:500; transition:0.3s; }
-.nav-item:hover > a { color:var(--accent); }
-
-/* Mega Menu */
-.mega-menu { position:absolute; top:100%; left:50%; transform:translateX(-50%); width:600px; background:var(--bg-secondary); border:1px solid var(--border); padding:30px; display:none; grid-template-columns:1fr 1fr; gap:20px; box-shadow:0 20px 40px rgba(0,0,0,0.4); margin-top:20px; }
-.nav-item:hover .mega-menu { display:grid; }
-.mega-col h4 { font-size:11px; color:var(--text-low); margin-bottom:15px; border-bottom:1px solid var(--border); padding-bottom:5px; }
-.mega-col a { display:block; padding:8px 0; color:var(--text-high); font-size:14px; }
-
-.theme-switch { width:40px; height:40px; border:1px solid var(--border); border-radius:50%; display:flex; align-items:center; justify-content:center; background:none; color:var(--text-high); cursor:pointer; }
-
-/* Hero */
-.hero-v6 { height:100vh; display:flex; align-items:center; position:relative; overflow:hidden; }
-#canvas-bg { position:absolute; inset:0; z-index:-1; }
-.hero-v6 h1 { font-family:'Syne'; font-size:clamp(50px,8vw,110px); line-height:0.85; letter-spacing:-0.04em; margin:20px 0; }
-.hero-v6 p { max-width:600px; font-size:20px; color:var(--text-mid); margin-bottom:40px; }
-
-/* Floating CTA */
-.floating-cta { position:fixed; bottom:40px; right:40px; z-index:9000; }
-.cta-inner { background: var(--gradient); color:#000; padding:15px 30px; border-radius:30px; font-weight:700; text-decoration:none; display:flex; align-items:center; gap:10px; box-shadow:0 10px 30px rgba(0,242,255,0.4); }
-
-/* KPI Grid */
-.kpi-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--border); border:1px solid var(--border); }
-.kpi-card { background:var(--bg-primary); padding:50px; text-align:center; }
-.kpi-val { font-family:'Syne'; font-size:50px; color:var(--accent); display:block; }
-.kpi-label { font-family:'IBM Plex Mono'; font-size:10px; color:var(--text-low); }
-
-/* Sections */
-section { padding:160px 0; border-bottom:1px solid var(--border); }
-.section-header { margin-bottom:100px; max-width:800px; }
-.section-header h2 { font-size:clamp(32px,5vw,64px); line-height:1; margin:20px 0; }
-
-/* Form */
-.v6-form { background: var(--bg-secondary); padding:60px; border:1px solid var(--border); border-radius:8px; }
-.input-group { position: relative; margin-bottom:30px; }
-.v6-input { width:100%; background:none; border:none; border-bottom:1px solid var(--border); padding:15px 0; color:#fff; font-family:inherit; font-size:16px; transition:0.3s; }
-.v6-input:focus { outline:none; border-color: var(--accent); }
-.error-msg { position:absolute; bottom:-20px; left:0; color:#ff3e3e; font-size:11px; opacity:0; }
+body{margin:0;font-family:sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;}
+section{min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;opacity:0;}
+nav{position:fixed;top:0;width:100%;height:60px;background:rgba(0,0,0,0.5);display:flex;align-items:center;padding:0 20px;z-index:1000;}
+nav a{color:var(--text);text-decoration:none;margin-right:20px;}
+#cursor-dot,#cursor-ring{position:fixed;top:0;left:0;border-radius:50%;pointer-events:none;z-index:10000;}
+#cursor-dot{width:8px;height:8px;background:var(--accent);}
+#cursor-ring{width:35px;height:35px;border:2px solid var(--accent);transition:0.15s ease;}
+#canvas-bg{position:fixed;inset:0;z-index:-1;}
+.kpi{display:flex;gap:40px;margin-top:50px;}
+.kpi div{font-size:30px;text-align:center;}
 </style>
 </head>
-<body class="dark-theme">
+<body>
 
-<div id="cursor-hud"></div>
-<div id="cursor-ring"></div>
-<div class="scroll-progress" id="sp-bar"></div>
-
-<nav id="v6-nav">
-    <div class="container nav-inner">
-        <a href="#" class="logo" onclick="app.navigate('home')">T1<span>W</span></a>
-        <ul class="nav-links">
-            <li class="nav-item"><a href="#" onclick="app.navigate('home')">SYSTEM_HUB</a></li>
-            <li class="nav-item">
-                <a href="#">STRATEGIC_SOLUTIONS <i class="fa-solid fa-chevron-down" style="font-size:8px;"></i></a>
-                <div class="mega-menu">
-                    <div class="mega-col">
-                        <h4>CORE_CAPABILITIES</h4>
-                        <a href="#" onclick="app.navigate('services')">AI_ENGINEERING</a>
-                        <a href="#" onclick="app.navigate('services')">CLOUD_INFRASTRUCTURE</a>
-                        <a href="#" onclick="app.navigate('services')">CYBER_GOVERNANCE</a>
-                    </div>
-                    <div class="mega-col">
-                        <h4>ADVISORY</h4>
-                        <a href="#" onclick="app.navigate('services')">DIGITAL_STRATEGY</a>
-                        <a href="#" onclick="app.navigate('services')">ENTERPRISE_DEV_OPS</a>
-                    </div>
-                </div>
-            </li>
-            <li class="nav-item"><a href="#" onclick="app.navigate('industries')">INDUSTRIES</a></li>
-            <li class="nav-item"><a href="#" onclick="app.navigate('about')">THE_MANDATE</a></li>
-            <li class="nav-item"><a href="#" onclick="app.navigate('portfolio')">IMPACT_LOG</a></li>
-            <li class="nav-item"><a href="#" onclick="app.navigate('contact')">ENGAGE</a></li>
-        </ul>
-        <div style="display:flex; gap:15px; align-items:center;">
-            <button class="theme-switch" id="theme-btn"><i class="fa-solid fa-moon"></i></button>
-        </div>
-    </div>
+<nav>
+  <a href="#home">HOME</a>
+  <a href="#services">SERVICES</a>
+  <a href="#about">ABOUT</a>
+  <a href="#contact">CONTACT</a>
 </nav>
 
-<div class="floating-cta">
-    <a href="#" class="cta-inner" onclick="app.navigate('contact')">
-        <span class="mono">Initialize Consultation</span>
-        <i class="fa-solid fa-paper-plane"></i>
-    </a>
-</div>
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+<canvas id="canvas-bg"></canvas>
 
-<main class="view active" id="view-home">
-    <section class="hero-v6">
-        <div id="canvas-bg"></div>
-        <div class="container">
-            <p class="mono" data-gsap="reveal-y">// GLOBAL STRATEGIC PARTNER</p>
-            <h1 class="syne" data-gsap="reveal-y">Empowering Global<br><span style="color: var(--accent);">Enterprise Intelligence.</span></h1>
-            <p data-gsap="reveal-y">Tech1World architects high-performance cloud infrastructure and custom neural ecosystems for sovereign enterprises and high-growth multinational organizations.</p>
-            <div style="display:flex; gap:20px;" data-gsap="reveal-y">
-                <a href="#" class="cta-inner" onclick="app.navigate('services')">Explore Ecosystem</a>
-                <a href="#" style="color:#fff; text-decoration:none; border-bottom:1px solid; padding-bottom:5px; font-weight:600; font-size:14px;" onclick="app.navigate('about')">The Mandate →</a>
-            </div>
-        </div>
-    </section>
+<section id="home">
+  <h1>Tech1World Interactive SPA</h1>
+  <p>Scroll down to see animations & 3D particles!</p>
+</section>
 
-    <!-- KPI Grid -->
-    <section class="container" style="padding:0;">
-        <div class="kpi-grid">
-            <div class="kpi-card">
-                <span class="kpi-val counter" data-target="250">0</span>
-                <span class="kpi-label">GLOBAL_ENGINEERS</span>
-            </div>
-            <div class="kpi-card">
-                <span class="kpi-val counter" data-target="15">0</span>
-                <span class="kpi-label">OFFICE_NODES</span>
-            </div>
-            <div class="kpi-card">
-                <span class="kpi-val counter" data-target="98">0</span>
-                <span class="kpi-label">RETENTION_RATE_%</span>
-            </div>
-            <div class="kpi-card">
-                <span class="kpi-val counter" data-target="500">0</span>
-                <span class="kpi-label">AI_MODELS_DEPLOYED</span>
-            </div>
-        </div>
-    </section>
+<section id="services">
+  <h2>Our Services</h2>
+  <div class="kpi">
+    <div><span class="counter" data-target="250">0</span><br>Engineers</div>
+    <div><span class="counter" data-target="15">0</span><br>Offices</div>
+    <div><span class="counter" data-target="98">0</span><br>Retention %</div>
+  </div>
+</section>
 
-    <!-- Architectural Pillars -->
-    <section class="container">
-        <div class="section-header">
-            <p class="mono">// ARCHITECTURAL PILLARS</p>
-            <h2 class="syne">Systems Built for<br>The Next Century.</h2>
-        </div>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:100px;">
-            <div>
-                <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1000" alt="Data" style="width:100%; border-radius:12px; filter:grayscale(1);">
-            </div>
-            <div>
-                <h3 class="syne" style="font-size:28px; margin-bottom:20px;">01. Sovereign Data Governance</h3>
-                <p style="color:var(--text-mid); margin-bottom:40px;">We architect private cloud ecosystems that ensure complete data sovereignty, mitigating cross-border compliance risks and geopolitical instability.</p>
-                <h3 class="syne" style="font-size:28px; margin-bottom:20px;">02. Sub-Second Global Latency</h3>
-                <p style="color:var(--text-mid); margin-bottom:40px;">Utilizing edge computing and specialized network protocols, our platforms deliver uniform performance across 190 countries.</p>
-                <h3 class="syne" style="font-size:28px; margin-bottom:20px;">03. Ethical AI Alignment</h3>
-                <p style="color:var(--text-mid);">Our neural systems are built on transparent, auditable frameworks, ensuring enterprise intelligence remains aligned with institutional governance.</p>
-            </div>
-        </div>
-    </section>
-</main>
+<section id="about">
+  <h2>About Tech1World</h2>
+  <p>We build enterprise AI & cloud systems worldwide.</p>
+</section>
+
+<section id="contact">
+  <h2>Contact Us</h2>
+  <p>Initialize Consultation →</p>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
 <script>
-// --- SPA App Engine ---
-const app = {
-    init() {
-        this.initCursor();
-        this.initThree();
-        this.initScroll();
-        this.initCounters();
-        this.bindEvents();
-        gsap.registerPlugin(ScrollTrigger);
-        this.initScrollAnimations();
-    },
-    navigate(viewId) {
-        const views = document.querySelectorAll('.view');
-        views.forEach(v => v.classList.remove('active'));
-        document.getElementById('view-' + viewId)?.classList.add('active');
-        window.scrollTo(0,0);
-    },
-    initThree() {
-        const container = document.getElementById('canvas-bg');
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight,0.1,4000);
-        const renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
-        renderer.setSize(window.innerWidth,window.innerHeight);
-        container.appendChild(renderer.domElement);
+// --- Custom Cursor ---
+const dot = document.getElementById('cursor-dot');
+const ring = document.getElementById('cursor-ring');
+document.addEventListener('mousemove',e=>{
+  dot.style.transform=`translate(${e.clientX-4}px,${e.clientY-4}px)`;
+  ring.style.transform=`translate(${e.clientX-17.5}px,${e.clientY-17.5}px)`;
+});
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>ring.style.transform+=' scale(1.5)');
+  el.addEventListener('mouseleave',()=>ring.style.transform=ring.style.transform.replace(' scale(1.5)',''));
+});
 
-        const geometry = new THREE.BufferGeometry();
-        const vertices = [];
-        for(let i=0;i<2000;i++){
-            vertices.push(THREE.MathUtils.randFloatSpread(2000),THREE.MathUtils.randFloatSpread(2000),THREE.MathUtils.randFloatSpread(2000));
-        }
-        geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices,3));
-        const material = new THREE.PointsMaterial({color:0x00f2ff, size:2});
-        const points = new THREE.Points(geometry,material);
-        scene.add(points);
-        camera.position.z = 1000;
+// --- 3D Particles ---
+const canvas = document.getElementById('canvas-bg');
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,2000);
+camera.position.z=500;
+const renderer = new THREE.WebGLRenderer({canvas,alpha:true});
+renderer.setSize(window.innerWidth,window.innerHeight);
 
-        const animate = ()=> {
-            requestAnimationFrame(animate);
-            points.rotation.y += 0.0005;
-            points.rotation.x += 0.0002;
-            renderer.render(scene,camera);
-        }
-        animate();
-        window.addEventListener('resize',()=>{camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight)});
-    },
-    initCursor() {
-        const dot=document.getElementById('cursor-hud');
-        const ring=document.getElementById('cursor-ring');
-        window.addEventListener('mousemove',(e)=>{gsap.to(dot,{x:e.clientX,y:e.clientY,duration:0}); gsap.to(ring,{x:e.clientX-20,y:e.clientY-20,duration:0.2});});
-        document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>gsap.to(ring,{scale:1.5,borderColor:'#fff'})); el.addEventListener('mouseleave',()=>gsap.to(ring,{scale:1,borderColor:'#00f2ff'}))});
-    },
-    initScroll() {
-        const lenis = new Lenis();
-        function raf(time){lenis.raf(time); requestAnimationFrame(raf);}
-        requestAnimationFrame(raf);
-        window.addEventListener('scroll',()=>{
-            const progress=(window.scrollY/(document.documentElement.scrollHeight-window.innerHeight))*100;
-            document.getElementById('sp-bar').style.width=progress+'%';
-            document.getElementById('v6-nav').classList.toggle('scrolled',window.scrollY>50);
-        });
-    },
-    initCounters() {
-        const observer = new IntersectionObserver(entries=>{
-            entries.forEach(entry=>{
-                if(entry.isIntersecting){
-                    const target = +entry.target.dataset.target;
-                    gsap.to(entry.target
+const geometry = new THREE.BufferGeometry();
+const vertices = [];
+for(let i=0;i<2000;i++){
+  vertices.push(Math.random()*2000-1000,Math.random()*2000-1000,Math.random()*2000-1000);
+}
+geometry.setAttribute('position',new THREE.Float32BufferAttribute(vertices,3));
+const material = new THREE.PointsMaterial({color:0x00f2ff,size:2});
+const points = new THREE.Points(geometry,material);
+scene.add(points);
+
+function animate3D(){
+  requestAnimationFrame(animate3D);
+  points.rotation.x+=0.0005;
+  points.rotation.y+=0.0005;
+  renderer.render(scene,camera);
+}
+animate3D();
+window.addEventListener('resize',()=>{camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight);});
+
+// --- Scroll Animations ---
+gsap.registerPlugin(ScrollTrigger);
+document.querySelectorAll('section').forEach(sec=>{
+  gsap.to(sec,{opacity:1,y:0,duration:1,scrollTrigger:{trigger:sec,start:'top 80%'}});
+});
+
+// --- Animated Counters ---
+const counters = document.querySelectorAll('.counter');
+counters.forEach(counter=>{
+  const updateCount = ()=>{
+    const target=+counter.dataset.target;
+    const count=+counter.innerText;
+    const increment=target/100;
+    if(count<target){
+      counter.innerText=Math.ceil(count+increment);
+      requestAnimationFrame(updateCount);
+    } else counter.innerText=target;
+  };
+  ScrollTrigger.create({
+    trigger:counter,
+    start:"top 80%",
+    onEnter:updateCount
+  });
+});
+</script>
+</body>
+</html>
