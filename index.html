@@ -3,23 +3,38 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tech1World | 3D Interactive SPA</title>
+<title>Tech1World | Award-Winning Interactive</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Syne:wght@700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
 <style>
 :root{
   --bg:#030405;
   --accent:#00f2ff;
   --text:#fff;
+  --text-mid:#94a3b8;
+  --glass:rgba(255,255,255,0.05);
 }
-body{margin:0;font-family:sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;}
-section{min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;opacity:0;}
-nav{position:fixed;top:0;width:100%;height:60px;background:rgba(0,0,0,0.5);display:flex;align-items:center;padding:0 20px;z-index:1000;}
-nav a{color:var(--text);text-decoration:none;margin-right:20px;}
+body{margin:0;font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;}
+a{text-decoration:none;color:var(--text);}
+section{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;transform:translateY(50px);}
+h1,h2,h3{margin:0 0 20px 0;font-family:'Syne',sans-serif;}
+p{max-width:600px;text-align:center;color:var(--text-mid);}
+nav{position:fixed;top:0;width:100%;height:70px;background:rgba(0,0,0,0.5);display:flex;align-items:center;padding:0 40px;z-index:1000;backdrop-filter:blur(10px);}
+nav a{margin-right:30px;font-weight:600;font-size:14px;}
 #cursor-dot,#cursor-ring{position:fixed;top:0;left:0;border-radius:50%;pointer-events:none;z-index:10000;}
-#cursor-dot{width:8px;height:8px;background:var(--accent);}
-#cursor-ring{width:35px;height:35px;border:2px solid var(--accent);transition:0.15s ease;}
+#cursor-dot{width:10px;height:10px;background:var(--accent);}
+#cursor-ring{width:40px;height:40px;border:2px solid var(--accent);transition:0.15s ease;}
 #canvas-bg{position:fixed;inset:0;z-index:-1;}
-.kpi{display:flex;gap:40px;margin-top:50px;}
-.kpi div{font-size:30px;text-align:center;}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:40px;margin-top:50px;}
+.kpi-card{background:var(--glass);backdrop-filter:blur(10px);padding:40px;border-radius:12px;text-align:center;}
+.kpi-val{font-family:'Syne';font-size:50px;color:var(--accent);}
+.kpi-label{font-family:'IBM Plex Mono';font-size:12px;color:var(--text-mid);}
+.card-service{background:var(--glass);backdrop-filter:blur(10px);padding:40px;border-radius:20px;max-width:600px;margin:20px;transition:0.4s;cursor:pointer;}
+.card-service:hover{transform:translateY(-10px) scale(1.02);}
+.floating-cta{position:fixed;bottom:40px;right:40px;background:linear-gradient(135deg,#00f2ff,#7000ff);padding:20px 30px;border-radius:30px;font-weight:700;color:#000;display:flex;align-items:center;gap:10px;box-shadow:0 10px 40px rgba(0,242,255,0.5);cursor:pointer;}
 </style>
 </head>
 <body>
@@ -36,64 +51,65 @@ nav a{color:var(--text);text-decoration:none;margin-right:20px;}
 <canvas id="canvas-bg"></canvas>
 
 <section id="home">
-  <h1>Tech1World Interactive SPA</h1>
-  <p>Scroll down to see animations & 3D particles!</p>
+  <h1>Empowering Global Enterprise Intelligence</h1>
+  <p>Tech1World architects high-performance cloud infrastructure and AI ecosystems for multinational organizations.</p>
+  <div class="floating-cta">Initialize Consultation →</div>
+</section>
+
+<section id="kpi">
+  <h2>Key Performance Indicators</h2>
+  <div class="kpi-grid">
+    <div class="kpi-card"><div class="kpi-val counter" data-target="250">0</div><div class="kpi-label">GLOBAL ENGINEERS</div></div>
+    <div class="kpi-card"><div class="kpi-val counter" data-target="15">0</div><div class="kpi-label">OFFICE NODES</div></div>
+    <div class="kpi-card"><div class="kpi-val counter" data-target="98">0</div><div class="kpi-label">RETENTION RATE %</div></div>
+    <div class="kpi-card"><div class="kpi-val counter" data-target="500">0</div><div class="kpi-label">AI MODELS DEPLOYED</div></div>
+  </div>
 </section>
 
 <section id="services">
-  <h2>Our Services</h2>
-  <div class="kpi">
-    <div><span class="counter" data-target="250">0</span><br>Engineers</div>
-    <div><span class="counter" data-target="15">0</span><br>Offices</div>
-    <div><span class="counter" data-target="98">0</span><br>Retention %</div>
-  </div>
+  <h2>Our Core Capabilities</h2>
+  <div class="card-service">Neural Engineering: Custom AI, LLMs & Predictive Analytics</div>
+  <div class="card-service">Cloud Infrastructure: Edge Computing & Sub-Second Latency</div>
+  <div class="card-service">Cyber Governance: Secure & Auditable AI Systems</div>
 </section>
 
 <section id="about">
   <h2>About Tech1World</h2>
-  <p>We build enterprise AI & cloud systems worldwide.</p>
+  <p>We build sovereign enterprise systems with ethical AI alignment and global reach, ensuring performance, compliance, and innovation.</p>
 </section>
 
 <section id="contact">
   <h2>Contact Us</h2>
-  <p>Initialize Consultation →</p>
+  <p>Reach out for strategic AI & cloud consultations. Our team is available 24/7 for enterprise-scale deployments.</p>
 </section>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-
 <script>
-// --- Custom Cursor ---
-const dot = document.getElementById('cursor-dot');
-const ring = document.getElementById('cursor-ring');
+// Cursor
+const dot=document.getElementById('cursor-dot');
+const ring=document.getElementById('cursor-ring');
 document.addEventListener('mousemove',e=>{
-  dot.style.transform=`translate(${e.clientX-4}px,${e.clientY-4}px)`;
-  ring.style.transform=`translate(${e.clientX-17.5}px,${e.clientY-17.5}px)`;
+  dot.style.transform=`translate(${e.clientX-5}px,${e.clientY-5}px)`;
+  ring.style.transform=`translate(${e.clientX-20}px,${e.clientY-20}px)`;
 });
-document.querySelectorAll('a,button').forEach(el=>{
+document.querySelectorAll('a,button,.card-service,.floating-cta').forEach(el=>{
   el.addEventListener('mouseenter',()=>ring.style.transform+=' scale(1.5)');
   el.addEventListener('mouseleave',()=>ring.style.transform=ring.style.transform.replace(' scale(1.5)',''));
 });
 
-// --- 3D Particles ---
-const canvas = document.getElementById('canvas-bg');
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,2000);
-camera.position.z=500;
-const renderer = new THREE.WebGLRenderer({canvas,alpha:true});
+// Three.js Particle Hero
+const canvas=document.getElementById('canvas-bg');
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,2000);
+camera.position.z=600;
+const renderer=new THREE.WebGLRenderer({canvas,alpha:true});
 renderer.setSize(window.innerWidth,window.innerHeight);
-
-const geometry = new THREE.BufferGeometry();
-const vertices = [];
-for(let i=0;i<2000;i++){
-  vertices.push(Math.random()*2000-1000,Math.random()*2000-1000,Math.random()*2000-1000);
-}
+const geometry=new THREE.BufferGeometry();
+const vertices=[];
+for(let i=0;i<4000;i++){vertices.push(Math.random()*2000-1000,Math.random()*2000-1000,Math.random()*2000-1000);}
 geometry.setAttribute('position',new THREE.Float32BufferAttribute(vertices,3));
-const material = new THREE.PointsMaterial({color:0x00f2ff,size:2});
-const points = new THREE.Points(geometry,material);
+const material=new THREE.PointsMaterial({color:0x00f2ff,size:2});
+const points=new THREE.Points(geometry,material);
 scene.add(points);
-
 function animate3D(){
   requestAnimationFrame(animate3D);
   points.rotation.x+=0.0005;
@@ -103,29 +119,22 @@ function animate3D(){
 animate3D();
 window.addEventListener('resize',()=>{camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight);});
 
-// --- Scroll Animations ---
+// Scroll Animations
 gsap.registerPlugin(ScrollTrigger);
 document.querySelectorAll('section').forEach(sec=>{
   gsap.to(sec,{opacity:1,y:0,duration:1,scrollTrigger:{trigger:sec,start:'top 80%'}});
 });
 
-// --- Animated Counters ---
-const counters = document.querySelectorAll('.counter');
-counters.forEach(counter=>{
-  const updateCount = ()=>{
+// Counters
+document.querySelectorAll('.counter').forEach(counter=>{
+  const updateCount=()=>{
     const target=+counter.dataset.target;
-    const count=+counter.innerText;
+    let count=+counter.innerText;
     const increment=target/100;
-    if(count<target){
-      counter.innerText=Math.ceil(count+increment);
-      requestAnimationFrame(updateCount);
-    } else counter.innerText=target;
+    if(count<target){counter.innerText=Math.ceil(count+increment);requestAnimationFrame(updateCount);}
+    else counter.innerText=target;
   };
-  ScrollTrigger.create({
-    trigger:counter,
-    start:"top 80%",
-    onEnter:updateCount
-  });
+  ScrollTrigger.create({trigger:counter,start:'top 90%',onEnter:updateCount});
 });
 </script>
 </body>
