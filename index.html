@@ -1,276 +1,271 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tech1World | Global SDET & Enterprise IT Outsourcing</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Syne:wght@800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="Tech1World Architecture Group">
+<meta name="description" content="Tech1World | Global Strategic Partner for Enterprise AI, Cloud Infrastructure, and Digital Governance.">
+<title>Tech1World | Global Enterprise Technology Systems</title>
 
-    <style>
-        :root {
-            --bg: #000000;
-            --accent: #00f2ff;
-            --deep: #0a0a0c;
-            --glass: rgba(255, 255, 255, 0.03);
-            --border: rgba(255, 255, 255, 0.1);
-            --text-dim: #94a3b8;
-        }
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Syne:wght@700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none !important; }
-        body { background: var(--bg); color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+<!-- GSAP & ScrollTrigger -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
 
-        /* --- ADVANCED BACKGROUND STACK --- */
-        #webgl-canvas { position: fixed; inset: 0; z-index: -3; }
-        .video-layer { position: fixed; inset: 0; z-index: -2; opacity: 0.25; mix-blend-mode: screen; pointer-events: none; }
-        .noise-overlay { position: fixed; inset: 0; z-index: -1; background: url('https://grainy-gradients.vercel.app/noise.svg'); opacity: 0.4; pointer-events: none; }
+<!-- Three.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
-        /* --- NAVIGATION HUD --- */
-        nav { position: fixed; top: 0; width: 100%; height: 100px; z-index: 1000; display: flex; align-items: center; border-bottom: 1px solid var(--border); backdrop-filter: blur(30px); }
-        .nav-inner { width: 90%; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-family: 'Syne'; font-size: 26px; font-weight: 800; color: #fff; text-decoration: none; letter-spacing: -1px; }
-        .logo span { color: var(--accent); }
-        .nav-links { display: flex; gap: 40px; }
-        .nav-links a { font-family: 'IBM Plex Mono'; font-size: 10px; text-decoration: none; color: var(--text-dim); letter-spacing: 2px; transition: 0.4s; }
-        .nav-links a:hover { color: var(--accent); text-shadow: 0 0 10px var(--accent); }
+<style>
+:root {
+    --bg-primary: #030405;
+    --bg-secondary: #0a0c0e;
+    --accent: #00f2ff;
+    --accent-alt: #7000ff;
+    --text-high: #ffffff;
+    --text-mid: #94a3b8;
+    --text-low: #475569;
+    --border: rgba(255,255,255,0.08);
+    --glass: rgba(255,255,255,0.02);
+    --gradient: linear-gradient(135deg,#00f2ff 0%,#7000ff 100%);
+    --nav-height: 90px;
+    --ease-standard: cubic-bezier(0.16,1,0.3,1);
+    --container-width: 1440px;
+}
 
-        /* --- CURSOR ENGINE --- */
-        .cursor { position: fixed; width: 6px; height: 6px; background: #fff; border-radius: 50%; pointer-events: none; z-index: 10000; mix-blend-mode: difference; }
-        .cursor-ring { position: fixed; width: 40px; height: 40px; border: 1px solid var(--accent); border-radius: 50%; pointer-events: none; z-index: 9999; transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+body { margin:0; padding:0; font-family:'Inter', sans-serif; background:var(--bg-primary); color:var(--text-high); overflow-x:hidden; cursor:none; transition: background 0.5s, color 0.5s; }
+.light-theme { --bg-primary:#f8fafc; --bg-secondary:#ffffff; --text-high:#0f172a; --text-mid:#475569; --border:rgba(0,0,0,0.08); --glass:rgba(0,0,0,0.02); }
 
-        /* --- SECTION ARCHITECTURE --- */
-        section { min-height: 100vh; width: 100%; display: flex; align-items: center; position: relative; padding: 150px 0; }
-        .container { width: 85%; max-width: 1440px; margin: 0 auto; z-index: 10; }
+.container { max-width: var(--container-width); margin:0 auto; padding:0 4vw; }
+.mono { font-family: 'IBM Plex Mono', monospace; text-transform:uppercase; font-size:11px; letter-spacing:0.2em; color:var(--accent); }
+.syne { font-family: 'Syne', sans-serif; }
 
-        h1 { font-family: 'Syne'; font-size: clamp(60px, 12vw, 150px); line-height: 0.8; margin-bottom: 40px; letter-spacing: -5px; }
-        .mono-tag { font-family: 'IBM Plex Mono'; font-size: 12px; color: var(--accent); letter-spacing: 5px; display: block; margin-bottom: 20px; text-transform: uppercase; }
+/* Cursor */
+#cursor-hud { position:fixed; top:0; left:0; width:10px; height:10px; background:var(--accent); border-radius:50%; pointer-events:none; z-index:99999; }
+#cursor-ring { position:fixed; top:0; left:0; width:40px; height:40px; border:1px solid var(--accent); border-radius:50%; pointer-events:none; z-index:99998; transition: transform 0.15s ease-out; }
 
-        /* --- GLASS-MORPHIC BENTO --- */
-        .bento-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; margin-top: 80px; }
-        .bento-card { background: var(--glass); border: 1px solid var(--border); border-radius: 2px; padding: 50px; backdrop-filter: blur(20px); transition: 0.5s; position: relative; overflow: hidden; }
-        .bento-card:hover { border-color: var(--accent); background: rgba(0, 242, 255, 0.02); }
-        
-        .c-4 { grid-column: span 4; }
-        .c-6 { grid-column: span 6; }
-        .c-8 { grid-column: span 8; }
-        .c-12 { grid-column: span 12; }
+/* Scroll Progress */
+.scroll-progress { position:fixed; top:0; left:0; height:3px; background:var(--accent); z-index:10001; width:0%; }
 
-        /* --- SDET HUD BOX --- */
-        .sdet-hud { border-left: 2px solid var(--accent); padding-left: 30px; margin-top: 40px; }
-        .sdet-line { font-family: 'IBM Plex Mono'; font-size: 14px; color: var(--text-dim); margin-bottom: 10px; display: block; }
-        .sdet-line b { color: #fff; }
+/* Navigation */
+nav { position:fixed; top:0; width:100%; height:var(--nav-height); display:flex; align-items:center; z-index:10000; border-bottom:1px solid transparent; transition:0.4s var(--ease-standard); }
+nav.scrolled { background:rgba(3,4,5,0.8); backdrop-filter:blur(20px); border-bottom:1px solid var(--border); height:75px; }
+.nav-inner { width:100%; display:flex; justify-content:space-between; align-items:center; }
+.logo { font-family: 'Syne'; font-size:24px; font-weight:800; text-decoration:none; color:var(--text-high); }
+.logo span { color:var(--accent); }
+.nav-links { display:flex; gap:40px; list-style:none; }
+.nav-item { position:relative; }
+.nav-item a { text-decoration:none; color:var(--text-mid); font-size:13px; font-weight:500; transition:0.3s; }
+.nav-item:hover > a { color:var(--accent); }
 
-        .btn-advance { padding: 25px 60px; background: #fff; color: #000; font-family: 'IBM Plex Mono'; font-weight: 700; text-decoration: none; display: inline-block; transition: 0.5s; margin-top: 40px; }
-        .btn-advance:hover { background: var(--accent); transform: skewX(-10deg); }
+/* Mega Menu */
+.mega-menu { position:absolute; top:100%; left:50%; transform:translateX(-50%); width:600px; background:var(--bg-secondary); border:1px solid var(--border); padding:30px; display:none; grid-template-columns:1fr 1fr; gap:20px; box-shadow:0 20px 40px rgba(0,0,0,0.4); margin-top:20px; }
+.nav-item:hover .mega-menu { display:grid; }
+.mega-col h4 { font-size:11px; color:var(--text-low); margin-bottom:15px; border-bottom:1px solid var(--border); padding-bottom:5px; }
+.mega-col a { display:block; padding:8px 0; color:var(--text-high); font-size:14px; }
 
-        /* --- PARALLAX VIDEO CONTAINER --- */
-        .vid-frame { width: 100%; height: 500px; border: 1px solid var(--border); overflow: hidden; position: relative; margin: 80px 0; }
-        .vid-frame video { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6) grayscale(1); }
+.theme-switch { width:40px; height:40px; border:1px solid var(--border); border-radius:50%; display:flex; align-items:center; justify-content:center; background:none; color:var(--text-high); cursor:pointer; }
 
-        .reveal { opacity: 0; transform: translateY(80px); }
-    </style>
+/* Hero */
+.hero-v6 { height:100vh; display:flex; align-items:center; position:relative; overflow:hidden; }
+#canvas-bg { position:absolute; inset:0; z-index:-1; }
+.hero-v6 h1 { font-family:'Syne'; font-size:clamp(50px,8vw,110px); line-height:0.85; letter-spacing:-0.04em; margin:20px 0; }
+.hero-v6 p { max-width:600px; font-size:20px; color:var(--text-mid); margin-bottom:40px; }
+
+/* Floating CTA */
+.floating-cta { position:fixed; bottom:40px; right:40px; z-index:9000; }
+.cta-inner { background: var(--gradient); color:#000; padding:15px 30px; border-radius:30px; font-weight:700; text-decoration:none; display:flex; align-items:center; gap:10px; box-shadow:0 10px 30px rgba(0,242,255,0.4); }
+
+/* KPI Grid */
+.kpi-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--border); border:1px solid var(--border); }
+.kpi-card { background:var(--bg-primary); padding:50px; text-align:center; }
+.kpi-val { font-family:'Syne'; font-size:50px; color:var(--accent); display:block; }
+.kpi-label { font-family:'IBM Plex Mono'; font-size:10px; color:var(--text-low); }
+
+/* Sections */
+section { padding:160px 0; border-bottom:1px solid var(--border); }
+.section-header { margin-bottom:100px; max-width:800px; }
+.section-header h2 { font-size:clamp(32px,5vw,64px); line-height:1; margin:20px 0; }
+
+/* Form */
+.v6-form { background: var(--bg-secondary); padding:60px; border:1px solid var(--border); border-radius:8px; }
+.input-group { position: relative; margin-bottom:30px; }
+.v6-input { width:100%; background:none; border:none; border-bottom:1px solid var(--border); padding:15px 0; color:#fff; font-family:inherit; font-size:16px; transition:0.3s; }
+.v6-input:focus { outline:none; border-color: var(--accent); }
+.error-msg { position:absolute; bottom:-20px; left:0; color:#ff3e3e; font-size:11px; opacity:0; }
+</style>
 </head>
-<body>
+<body class="dark-theme">
 
-    <div id="webgl-canvas"></div>
-    <div class="video-layer">
-        <video autoplay muted loop playsinline>
-            <source src="https://assets.mixkit.co/videos/preview/mixkit-circuit-board-running-with-electricity-high-angle-4451-large.mp4" type="video/mp4">
-        </video>
+<div id="cursor-hud"></div>
+<div id="cursor-ring"></div>
+<div class="scroll-progress" id="sp-bar"></div>
+
+<nav id="v6-nav">
+    <div class="container nav-inner">
+        <a href="#" class="logo" onclick="app.navigate('home')">T1<span>W</span></a>
+        <ul class="nav-links">
+            <li class="nav-item"><a href="#" onclick="app.navigate('home')">SYSTEM_HUB</a></li>
+            <li class="nav-item">
+                <a href="#">STRATEGIC_SOLUTIONS <i class="fa-solid fa-chevron-down" style="font-size:8px;"></i></a>
+                <div class="mega-menu">
+                    <div class="mega-col">
+                        <h4>CORE_CAPABILITIES</h4>
+                        <a href="#" onclick="app.navigate('services')">AI_ENGINEERING</a>
+                        <a href="#" onclick="app.navigate('services')">CLOUD_INFRASTRUCTURE</a>
+                        <a href="#" onclick="app.navigate('services')">CYBER_GOVERNANCE</a>
+                    </div>
+                    <div class="mega-col">
+                        <h4>ADVISORY</h4>
+                        <a href="#" onclick="app.navigate('services')">DIGITAL_STRATEGY</a>
+                        <a href="#" onclick="app.navigate('services')">ENTERPRISE_DEV_OPS</a>
+                    </div>
+                </div>
+            </li>
+            <li class="nav-item"><a href="#" onclick="app.navigate('industries')">INDUSTRIES</a></li>
+            <li class="nav-item"><a href="#" onclick="app.navigate('about')">THE_MANDATE</a></li>
+            <li class="nav-item"><a href="#" onclick="app.navigate('portfolio')">IMPACT_LOG</a></li>
+            <li class="nav-item"><a href="#" onclick="app.navigate('contact')">ENGAGE</a></li>
+        </ul>
+        <div style="display:flex; gap:15px; align-items:center;">
+            <button class="theme-switch" id="theme-btn"><i class="fa-solid fa-moon"></i></button>
+        </div>
     </div>
-    <div class="noise-overlay"></div>
+</nav>
 
-    <div class="cursor"></div>
-    <div class="cursor-ring"></div>
+<div class="floating-cta">
+    <a href="#" class="cta-inner" onclick="app.navigate('contact')">
+        <span class="mono">Initialize Consultation</span>
+        <i class="fa-solid fa-paper-plane"></i>
+    </a>
+</div>
 
-    <nav>
-        <div class="nav-inner">
-            <a href="#" class="logo">T1W<span>.CORE</span></a>
-            <div class="nav-links">
-                <a href="#hero">01_STRATEGY</a>
-                <a href="#sdet">02_SDET_QA</a>
-                <a href="#outsourcing">03_MODELS</a>
-                <a href="#contact">04_INITIATE</a>
+<main class="view active" id="view-home">
+    <section class="hero-v6">
+        <div id="canvas-bg"></div>
+        <div class="container">
+            <p class="mono" data-gsap="reveal-y">// GLOBAL STRATEGIC PARTNER</p>
+            <h1 class="syne" data-gsap="reveal-y">Empowering Global<br><span style="color: var(--accent);">Enterprise Intelligence.</span></h1>
+            <p data-gsap="reveal-y">Tech1World architects high-performance cloud infrastructure and custom neural ecosystems for sovereign enterprises and high-growth multinational organizations.</p>
+            <div style="display:flex; gap:20px;" data-gsap="reveal-y">
+                <a href="#" class="cta-inner" onclick="app.navigate('services')">Explore Ecosystem</a>
+                <a href="#" style="color:#fff; text-decoration:none; border-bottom:1px solid; padding-bottom:5px; font-weight:600; font-size:14px;" onclick="app.navigate('about')">The Mandate →</a>
             </div>
         </div>
-    </nav>
+    </section>
 
-    <main>
-        <section id="hero">
-            <div class="container">
-                <span class="mono-tag" data-parallax="0.2">// GLOBAL DELIVERY HUB</span>
-                <h1 data-parallax="0.1">CODE<br><span style="color:var(--accent)">COMMAND.</span></h1>
-                <p style="max-width: 600px; font-size: 20px; color: var(--text-dim);" data-parallax="0.3">
-                    Tech1World is a specialized IT Consulting firm architecting high-frequency 
-                    outsourcing pipelines and SDET-driven quality governance.
-                </p>
-                <div style="display: flex; gap: 20px;">
-                    <a href="#contact" class="btn-advance">BOOK_AUDIT</a>
-                    <div style="align-self: flex-end; padding-bottom: 10px;">
-                        <span class="mono-tag" style="font-size: 10px; letter-spacing: 2px;">STATUS: NOMINAL // NODES: 250+</span>
-                    </div>
-                </div>
+    <!-- KPI Grid -->
+    <section class="container" style="padding:0;">
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <span class="kpi-val counter" data-target="250">0</span>
+                <span class="kpi-label">GLOBAL_ENGINEERS</span>
             </div>
-        </section>
-
-        <section id="sdet" style="background: var(--deep);">
-            <div class="container">
-                <div class="bento-grid">
-                    <div class="bento-card c-8 reveal">
-                        <span class="mono-tag">// QUALITY_ENGINEERING</span>
-                        <h2 class="syne" style="font-size: 4rem;">SDET & Automated <br>Infrastructure.</h2>
-                        <p style="margin-top: 30px; color: var(--text-dim); line-height: 1.8;">
-                            We don't just find bugs; we prevent them. Our SDET framework is built on a 
-                            "Shift-Left" philosophy, integrating automated gates into your 
-                            deployment pipeline from day zero.
-                        </p>
-                        <div class="sdet-hud">
-                            <span class="sdet-line"><b>FRAMEWORKS:</b> Playwright, Cypress, Selenium Grid</span>
-                            <span class="sdet-line"><b>PERFORMANCE:</b> Distributed K6 Load Injection</span>
-                            <span class="sdet-line"><b>GATEKEEPING:</b> CI/CD Jenkins/GitHub Actions Integration</span>
-                        </div>
-                    </div>
-                    <div class="bento-card c-4 reveal">
-                        <h3 class="syne">98.4%</h3>
-                        <p class="mono-tag">REGRESSION_COVERAGE</p>
-                        <div style="margin-top: 40px; height: 100px; border-bottom: 2px solid var(--accent); opacity: 0.3;"></div>
-                        <p style="font-size: 12px; margin-top: 20px; color: var(--text-dim);">Automated verification of 10k+ scenarios per release cycle.</p>
-                    </div>
-                </div>
-                
+            <div class="kpi-card">
+                <span class="kpi-val counter" data-target="15">0</span>
+                <span class="kpi-label">OFFICE_NODES</span>
             </div>
-        </section>
-
-        <section id="outsourcing">
-            <div class="container">
-                <span class="mono-tag">// ENGAGEMENT_ARCHITECTURES</span>
-                <h2 class="syne" style="font-size: 4rem; margin-bottom: 50px;">Bespoke Delivery.</h2>
-                
-                <div class="bento-grid">
-                    <div class="bento-card c-4 reveal">
-                        <h3 class="syne">Staff Augmentation</h3>
-                        <p style="color:var(--text-dim); margin-top: 20px;">Senior engineering talent injected into your team within 48-72 hours.</p>
-                    </div>
-                    <div class="bento-card c-4 reveal">
-                        <h3 class="syne">Managed GDC</h3>
-                        <p style="color:var(--text-dim); margin-top: 20px;">Full accountability delivery model with defined SLAs and KPI reporting.</p>
-                    </div>
-                    <div class="bento-card c-4 reveal">
-                        <h3 class="syne">BOT Model</h3>
-                        <p style="color:var(--text-dim); margin-top: 20px;">Build, Operate, and Transfer. We build your Jammu offshore center for you.</p>
-                    </div>
-                </div>
-
-                <div class="vid-frame reveal">
-                    <video autoplay muted loop playsinline>
-                        <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-technology-digital-interface-background-animation-4444-large.mp4" type="video/mp4">
-                    </video>
-                    <div style="position: absolute; bottom: 40px; left: 40px;">
-                        <span class="mono-tag" style="background: var(--bg); padding: 10px;">LIVE_DATA_FEED // GDC_JAMMU</span>
-                    </div>
-                </div>
+            <div class="kpi-card">
+                <span class="kpi-val counter" data-target="98">0</span>
+                <span class="kpi-label">RETENTION_RATE_%</span>
             </div>
-        </section>
-
-        <section>
-            <div class="container" style="text-align: center;">
-                <h2 class="syne reveal" style="font-size: 6rem; line-height: 0.9;">Reliability <br><span style="color:var(--accent)">Is Not Optimal.</span><br>It is Required.</h2>
-                <div style="max-width: 600px; margin: 40px auto;">
-                    <p style="color: var(--text-dim);">Tech1World ensures that your enterprise systems withstand the pressure of global scale through systemic governance.</p>
-                </div>
+            <div class="kpi-card">
+                <span class="kpi-val counter" data-target="500">0</span>
+                <span class="kpi-label">AI_MODELS_DEPLOYED</span>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="contact">
-            <div class="container">
-                <div class="bento-grid">
-                    <div class="bento-card c-12 reveal" style="border: 1px solid var(--accent);">
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px;">
-                            <div>
-                                <h2 class="syne" style="font-size: 3rem;">Initialize <br>Partnership.</h2>
-                                <p style="margin-top: 30px; color: var(--text-dim);">Secure Communication Gateway:</p>
-                                <p class="mono-tag" style="color: #fff; margin-top: 10px;">operations@tech1world.com<br>+91 9419281505</p>
-                                <p style="margin-top: 20px; font-size: 12px; color: var(--text-dim);">HQ: Plot 37, JDA Phase 2, Jammu, J&K.</p>
-                            </div>
-                            <form onsubmit="event.preventDefault(); alert('Handshake Complete.');">
-                                <input type="text" placeholder="ENTITY_NAME" style="width: 100%; background: none; border: none; border-bottom: 1px solid var(--border); padding: 20px 0; color: #fff; margin-bottom: 30px; font-family: 'IBM Plex Mono';">
-                                <input type="email" placeholder="SECURE_EMAIL" style="width: 100%; background: none; border: none; border-bottom: 1px solid var(--border); padding: 20px 0; color: #fff; margin-bottom: 30px; font-family: 'IBM Plex Mono';">
-                                <textarea placeholder="PROJECT_METADATA" rows="4" style="width: 100%; background: none; border: none; border-bottom: 1px solid var(--border); padding: 20px 0; color: #fff; margin-bottom: 40px; font-family: 'IBM Plex Mono';"></textarea>
-                                <button type="submit" class="btn-advance" style="width: 100%; border: none;">TRANSMIT_REQUEST</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+    <!-- Architectural Pillars -->
+    <section class="container">
+        <div class="section-header">
+            <p class="mono">// ARCHITECTURAL PILLARS</p>
+            <h2 class="syne">Systems Built for<br>The Next Century.</h2>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:100px;">
+            <div>
+                <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1000" alt="Data" style="width:100%; border-radius:12px; filter:grayscale(1);">
             </div>
-        </section>
-    </main>
+            <div>
+                <h3 class="syne" style="font-size:28px; margin-bottom:20px;">01. Sovereign Data Governance</h3>
+                <p style="color:var(--text-mid); margin-bottom:40px;">We architect private cloud ecosystems that ensure complete data sovereignty, mitigating cross-border compliance risks and geopolitical instability.</p>
+                <h3 class="syne" style="font-size:28px; margin-bottom:20px;">02. Sub-Second Global Latency</h3>
+                <p style="color:var(--text-mid); margin-bottom:40px;">Utilizing edge computing and specialized network protocols, our platforms deliver uniform performance across 190 countries.</p>
+                <h3 class="syne" style="font-size:28px; margin-bottom:20px;">03. Ethical AI Alignment</h3>
+                <p style="color:var(--text-mid);">Our neural systems are built on transparent, auditable frameworks, ensuring enterprise intelligence remains aligned with institutional governance.</p>
+            </div>
+        </div>
+    </section>
+</main>
 
-    <script>
-        // --- ADVANCED THREE.JS BACKGROUND ---
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.getElementById('webgl-canvas').appendChild(renderer.domElement);
-
-        // Neural Geometry
-        const geometry = new THREE.SphereGeometry(4, 40, 40);
-        const material = new THREE.MeshBasicMaterial({ color: 0x00f2ff, wireframe: true, transparent: true, opacity: 0.1 });
-        const neuralNet = new THREE.Mesh(geometry, material);
-        scene.add(neuralNet);
-
-        camera.position.z = 8;
-
-        function animate3D() {
-            requestAnimationFrame(animate3D);
-            neuralNet.rotation.y += 0.0015;
-            neuralNet.rotation.x += 0.0005;
-            renderer.render(scene, camera);
-        }
-        animate3D();
-
-        // --- GSAP & INTERACTION ENGINE ---
+<script>
+// --- SPA App Engine ---
+const app = {
+    init() {
+        this.initCursor();
+        this.initThree();
+        this.initScroll();
+        this.initCounters();
+        this.bindEvents();
         gsap.registerPlugin(ScrollTrigger);
+        this.initScrollAnimations();
+    },
+    navigate(viewId) {
+        const views = document.querySelectorAll('.view');
+        views.forEach(v => v.classList.remove('active'));
+        document.getElementById('view-' + viewId)?.classList.add('active');
+        window.scrollTo(0,0);
+    },
+    initThree() {
+        const container = document.getElementById('canvas-bg');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight,0.1,4000);
+        const renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
+        renderer.setSize(window.innerWidth,window.innerHeight);
+        container.appendChild(renderer.domElement);
+
+        const geometry = new THREE.BufferGeometry();
+        const vertices = [];
+        for(let i=0;i<2000;i++){
+            vertices.push(THREE.MathUtils.randFloatSpread(2000),THREE.MathUtils.randFloatSpread(2000),THREE.MathUtils.randFloatSpread(2000));
+        }
+        geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices,3));
+        const material = new THREE.PointsMaterial({color:0x00f2ff, size:2});
+        const points = new THREE.Points(geometry,material);
+        scene.add(points);
+        camera.position.z = 1000;
+
+        const animate = ()=> {
+            requestAnimationFrame(animate);
+            points.rotation.y += 0.0005;
+            points.rotation.x += 0.0002;
+            renderer.render(scene,camera);
+        }
+        animate();
+        window.addEventListener('resize',()=>{camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight)});
+    },
+    initCursor() {
+        const dot=document.getElementById('cursor-hud');
+        const ring=document.getElementById('cursor-ring');
+        window.addEventListener('mousemove',(e)=>{gsap.to(dot,{x:e.clientX,y:e.clientY,duration:0}); gsap.to(ring,{x:e.clientX-20,y:e.clientY-20,duration:0.2});});
+        document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>gsap.to(ring,{scale:1.5,borderColor:'#fff'})); el.addEventListener('mouseleave',()=>gsap.to(ring,{scale:1,borderColor:'#00f2ff'}))});
+    },
+    initScroll() {
         const lenis = new Lenis();
-        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        function raf(time){lenis.raf(time); requestAnimationFrame(raf);}
         requestAnimationFrame(raf);
-
-        // Smooth Parallax Movement
-        window.addEventListener('scroll', () => {
-            const scroll = window.scrollY;
-            document.querySelectorAll('[data-parallax]').forEach(el => {
-                const speed = el.getAttribute('data-parallax');
-                gsap.to(el, { y: scroll * speed, duration: 0.1 });
-            });
+        window.addEventListener('scroll',()=>{
+            const progress=(window.scrollY/(document.documentElement.scrollHeight-window.innerHeight))*100;
+            document.getElementById('sp-bar').style.width=progress+'%';
+            document.getElementById('v6-nav').classList.toggle('scrolled',window.scrollY>50);
         });
-
-        // Entrance Animations
-        gsap.utils.toArray('.reveal').forEach(el => {
-            gsap.to(el, {
-                scrollTrigger: { trigger: el, start: 'top 85%' },
-                opacity: 1, y: 0, duration: 1.5, ease: 'expo.out'
-            });
-        });
-
-        // Advanced Cursor
-        const dot = document.querySelector('.cursor');
-        const ring = document.querySelector('.cursor-ring');
-        window.addEventListener('mousemove', (e) => {
-            gsap.to(dot, { x: e.clientX, y: e.clientY, duration: 0 });
-            gsap.to(ring, { x: e.clientX - 20, y: e.clientY - 20, duration: 0.15 });
-        });
-
-        // Resize
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
-    </script>
-</body>
-</html>
+    },
+    initCounters() {
+        const observer = new IntersectionObserver(entries=>{
+            entries.forEach(entry=>{
+                if(entry.isIntersecting){
+                    const target = +entry.target.dataset.target;
+                    gsap.to(entry.target
