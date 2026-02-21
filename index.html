@@ -1,143 +1,810 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Tech1World | Futuristic AI & Global IT Outsourcing</title>
-<meta name="description" content="Tech1World is a global AI, IT Services, SDET and Outsourcing company delivering enterprise-grade digital systems." />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tech1World — AI-First Enterprises</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#03040a;--neon:#00f2ff;--violet:#7c3aed;--pink:#ff3cac;--text:#fff;--muted:#a1a1aa;--glass:rgba(255,255,255,.08)}
-*{box-sizing:border-box}
-html,body{margin:0;padding:0}
-body{font-family:Inter;background:radial-gradient(1200px 800px at 20% 10%,#0a1b4a,#03040a 60%);color:var(--text);overflow-x:hidden}
-section{min-height:100vh;padding:120px 8vw;display:flex;flex-direction:column;justify-content:center;gap:28px;position:relative}
-h1,h2,h3{font-family:Syne;letter-spacing:-.02em}
-h1{font-size:clamp(44px,6vw,92px)}
-h2{font-size:clamp(34px,4.5vw,64px)}
-h3{font-size:26px}
-p{max-width:1000px;color:var(--muted);line-height:1.7}
-nav{position:fixed;top:0;width:100%;height:76px;display:flex;align-items:center;gap:30px;padding:0 60px;background:rgba(3,4,10,.65);backdrop-filter:blur(18px);z-index:1000;border-bottom:1px solid rgba(255,255,255,.08)}
-nav a{color:#fff;text-decoration:none;font-weight:600;opacity:.85}
-nav a:hover{opacity:1;color:var(--neon)}
-.logo{font-family:Syne;font-size:22px;font-weight:800;color:var(--neon)}
-canvas{position:fixed;inset:0;z-index:-1}
-.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.22;z-index:-2}
-.hero-cta{display:flex;gap:24px;flex-wrap:wrap}
-.btn{padding:18px 36px;border-radius:40px;font-weight:800;border:none;cursor:pointer;background:linear-gradient(135deg,var(--neon),var(--violet));color:#000}
-.btn.alt{background:transparent;color:#fff;border:1px solid var(--neon)}
-.grid{display:grid;gap:40px}
-.grid-4{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
-.card{background:var(--glass);backdrop-filter:blur(20px);border-radius:28px;padding:38px;box-shadow:0 30px 100px rgba(0,242,255,.18);transition:.6s}
-.card:hover{transform:translateY(-20px) scale(1.05);box-shadow:0 50px 160px rgba(124,58,237,.45)}
-.stat{font-size:64px;font-family:Syne;color:var(--neon)}
-.timeline{border-left:2px solid var(--neon);padding-left:40px}
-.timeline div{margin-bottom:40px}
-.logos img{width:160px;filter:grayscale(1) brightness(.7);transition:.4s}
-.logos img:hover{filter:none;transform:scale(1.15)}
-.intern{background:linear-gradient(135deg,#020024,#090979,#00d4ff)}
-.map{width:100%;height:460px;border-radius:30px;overflow:hidden}
-footer{padding:90px 8vw;background:#000;border-top:1px solid rgba(255,255,255,.08)}
-.cursor{position:fixed;top:0;left:0;width:14px;height:14px;border-radius:50%;background:var(--neon);pointer-events:none;z-index:2000}
-.cursor-ring{position:fixed;top:0;left:0;width:44px;height:44px;border-radius:50%;border:2px solid var(--neon);pointer-events:none;z-index:1999}
+  :root {
+    --bg: #020608;
+    --surface: #060d12;
+    --accent: #00f5d4;
+    --accent2: #0066ff;
+    --accent3: #ff3e6c;
+    --text: #e8f4f8;
+    --muted: #4a6a78;
+    --border: rgba(0,245,212,0.12);
+    --glow: rgba(0,245,212,0.25);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    position: fixed; width: 12px; height: 12px;
+    background: var(--accent); border-radius: 50%;
+    pointer-events: none; z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s, width 0.3s, height 0.3s, background 0.3s;
+    mix-blend-mode: difference;
+  }
+  .cursor-ring {
+    position: fixed; width: 40px; height: 40px;
+    border: 1px solid var(--accent); border-radius: 50%;
+    pointer-events: none; z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.15s ease-out, width 0.3s, height 0.3s, opacity 0.3s;
+    opacity: 0.6;
+  }
+  body:hover .cursor { opacity: 1; }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 1000; opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+    padding: 1.2rem 3rem;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(2,6,8,0.7);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    animation: slideDown 0.8s ease forwards;
+  }
+  @keyframes slideDown { from { transform: translateY(-100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+  .logo {
+    font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.4rem;
+    color: var(--accent); letter-spacing: -0.03em;
+    display: flex; align-items: center; gap: 0.4rem;
+  }
+  .logo span { color: var(--text); }
+
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.72rem; color: var(--muted); text-decoration: none;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    position: relative; transition: color 0.3s;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -4px; left: 0; right: 0; height: 1px;
+    background: var(--accent); transform: scaleX(0); transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-links a:hover::after { transform: scaleX(1); }
+
+  .nav-cta {
+    background: transparent; border: 1px solid var(--accent);
+    color: var(--accent); font-family: 'DM Mono', monospace;
+    font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.6rem 1.4rem; cursor: none;
+    transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+  }
+  .nav-cta:hover {
+    background: var(--accent); color: var(--bg);
+    box-shadow: 0 0 30px var(--glow);
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh; display: flex; flex-direction: column;
+    justify-content: center; align-items: flex-start;
+    padding: 8rem 3rem 4rem;
+    position: relative; overflow: hidden;
+  }
+
+  /* Animated grid background */
+  .grid-bg {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,245,212,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,245,212,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: gridMove 20s linear infinite;
+  }
+  @keyframes gridMove {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(60px); }
+  }
+
+  /* Floating orbs */
+  .orb {
+    position: absolute; border-radius: 50%;
+    filter: blur(80px); pointer-events: none; animation: orbFloat 8s ease-in-out infinite;
+  }
+  .orb-1 { width: 500px; height: 500px; background: rgba(0,102,255,0.15); top: -100px; right: -100px; animation-delay: 0s; }
+  .orb-2 { width: 350px; height: 350px; background: rgba(0,245,212,0.1); bottom: 100px; right: 20%; animation-delay: -3s; }
+  .orb-3 { width: 250px; height: 250px; background: rgba(255,62,108,0.08); top: 50%; left: 10%; animation-delay: -6s; }
+  @keyframes orbFloat {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -30px) scale(1.05); }
+    66% { transform: translate(-20px, 20px) scale(0.95); }
+  }
+
+  .hero-tag {
+    font-size: 0.68rem; letter-spacing: 0.2em; color: var(--accent);
+    border: 1px solid var(--border); padding: 0.4rem 1rem;
+    margin-bottom: 2rem; display: inline-flex; align-items: center; gap: 0.6rem;
+    animation: fadeUp 1s ease 0.3s both;
+  }
+  .hero-tag::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent); animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.8); } }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: clamp(3rem, 7vw, 7rem); line-height: 0.95;
+    letter-spacing: -0.04em; max-width: 14ch;
+    animation: fadeUp 1s ease 0.5s both;
+  }
+  .hero h1 em {
+    font-family: 'Instrument Serif', serif; font-style: italic;
+    color: var(--accent); font-weight: 400;
+  }
+
+  .hero-sub {
+    margin-top: 2rem; max-width: 50ch;
+    font-size: 0.9rem; line-height: 1.7; color: var(--muted);
+    animation: fadeUp 1s ease 0.7s both;
+  }
+
+  .hero-btns {
+    margin-top: 3rem; display: flex; gap: 1rem; flex-wrap: wrap;
+    animation: fadeUp 1s ease 0.9s both;
+  }
+
+  .btn-primary {
+    background: var(--accent); color: var(--bg);
+    border: none; padding: 1rem 2.5rem;
+    font-family: 'DM Mono', monospace; font-size: 0.78rem;
+    letter-spacing: 0.1em; text-transform: uppercase; cursor: none;
+    position: relative; overflow: hidden; transition: box-shadow 0.3s;
+    text-decoration: none; display: inline-block;
+  }
+  .btn-primary::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.3) 50%, transparent 70%);
+    transform: translateX(-100%); transition: transform 0.6s;
+  }
+  .btn-primary:hover::before { transform: translateX(100%); }
+  .btn-primary:hover { box-shadow: 0 0 40px var(--glow); }
+
+  .btn-outline {
+    background: transparent; color: var(--text);
+    border: 1px solid var(--border); padding: 1rem 2.5rem;
+    font-family: 'DM Mono', monospace; font-size: 0.78rem;
+    letter-spacing: 0.1em; text-transform: uppercase; cursor: none;
+    text-decoration: none; display: inline-block;
+    transition: border-color 0.3s, color 0.3s, box-shadow 0.3s;
+  }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); box-shadow: 0 0 20px var(--glow); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* STATS TICKER */
+  .stats-ticker {
+    background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    overflow: hidden; padding: 1.2rem 0; position: relative;
+  }
+  .ticker-track {
+    display: flex; gap: 4rem; width: max-content;
+    animation: ticker 30s linear infinite;
+  }
+  .ticker-track:hover { animation-play-state: paused; }
+  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .ticker-item {
+    display: flex; align-items: center; gap: 1rem; white-space: nowrap;
+    font-size: 0.75rem; color: var(--muted); letter-spacing: 0.1em;
+  }
+  .ticker-item strong { font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--accent); }
+  .ticker-sep { width: 4px; height: 4px; border-radius: 50%; background: var(--border); }
+
+  /* SECTIONS */
+  section { padding: 8rem 3rem; position: relative; }
+
+  .section-label {
+    font-size: 0.68rem; letter-spacing: 0.2em; color: var(--accent);
+    text-transform: uppercase; margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .section-label::before { content: ''; flex: 0 0 40px; height: 1px; background: var(--accent); }
+
+  .section-title {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: clamp(2rem, 4vw, 4rem); line-height: 1;
+    letter-spacing: -0.03em; margin-bottom: 1.5rem;
+  }
+  .section-title em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; color: var(--accent); }
+
+  /* WHO WE ARE */
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; margin-top: 4rem;
+  }
+  .about-text { font-size: 1rem; line-height: 1.8; color: var(--muted); }
+  .about-visual {
+    position: relative; height: 400px;
+  }
+  .data-card {
+    position: absolute; background: var(--surface); border: 1px solid var(--border);
+    padding: 1.5rem 2rem;
+    animation: floatCard 6s ease-in-out infinite;
+  }
+  .data-card:nth-child(1) { top: 0; left: 0; animation-delay: 0s; }
+  .data-card:nth-child(2) { top: 30%; right: 0; animation-delay: -2s; }
+  .data-card:nth-child(3) { bottom: 0; left: 20%; animation-delay: -4s; }
+  @keyframes floatCard {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+  .data-card .num {
+    font-family: 'Syne', sans-serif; font-size: 2.5rem; font-weight: 800; color: var(--accent);
+    line-height: 1;
+  }
+  .data-card .label { font-size: 0.7rem; color: var(--muted); letter-spacing: 0.1em; margin-top: 0.3rem; }
+
+  /* SERVICES */
+  #services { background: var(--surface); }
+  .services-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; margin-top: 4rem; background: var(--border); }
+  .service-card {
+    background: var(--surface); padding: 2.5rem 2rem;
+    position: relative; overflow: hidden;
+    transition: background 0.4s;
+    cursor: none;
+  }
+  .service-card::before {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+    background: var(--accent); transform: scaleX(0); transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+  .service-card:hover { background: rgba(0,245,212,0.04); }
+  .service-card:hover::before { transform: scaleX(1); }
+  .service-icon {
+    width: 48px; height: 48px; border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; margin-bottom: 1.5rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .service-card:hover .service-icon { border-color: var(--accent); box-shadow: 0 0 20px var(--glow); }
+  .service-card h3 { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 0.8rem; }
+  .service-card p { font-size: 0.78rem; color: var(--muted); line-height: 1.7; }
+
+  /* SDET */
+  .sdet-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-top: 4rem; }
+  .sdet-item {
+    border-left: 2px solid var(--border); padding-left: 2rem;
+    transition: border-color 0.3s;
+    position: relative;
+  }
+  .sdet-item::before {
+    content: ''; position: absolute; left: -5px; top: 0; width: 8px; height: 8px;
+    border-radius: 50%; background: var(--bg); border: 2px solid var(--border);
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .sdet-item:hover { border-color: var(--accent); }
+  .sdet-item:hover::before { background: var(--accent); border-color: var(--accent); }
+  .sdet-item h3 { font-family: 'Syne', sans-serif; font-size: 0.9rem; font-weight: 700; margin-bottom: 0.6rem; color: var(--accent); }
+  .sdet-item p { font-size: 0.78rem; color: var(--muted); line-height: 1.7; }
+  .sdet-tags { margin-top: 0.8rem; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .tag {
+    font-size: 0.62rem; letter-spacing: 0.1em; padding: 0.25rem 0.6rem;
+    border: 1px solid var(--border); color: var(--muted);
+    text-transform: uppercase; transition: border-color 0.3s, color 0.3s;
+  }
+  .sdet-item:hover .tag { border-color: rgba(0,245,212,0.3); color: var(--accent); }
+
+  /* OUTSOURCING */
+  #outsourcing { background: var(--surface); }
+  .model-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-top: 4rem; }
+  .model-card {
+    border: 1px solid var(--border); padding: 2rem 1.5rem;
+    position: relative; overflow: hidden; transition: transform 0.4s, box-shadow 0.4s;
+    cursor: none;
+  }
+  .model-card:hover { transform: translateY(-8px); box-shadow: 0 20px 60px rgba(0,245,212,0.1); border-color: var(--accent); }
+  .model-num { font-family: 'Syne', sans-serif; font-size: 3rem; font-weight: 800; color: var(--border); line-height: 1; margin-bottom: 1rem; }
+  .model-card h3 { font-family: 'Syne', sans-serif; font-size: 0.9rem; font-weight: 700; margin-bottom: 0.6rem; }
+  .model-card p { font-size: 0.75rem; color: var(--muted); line-height: 1.6; }
+
+  /* PROJECTS */
+  .projects-list { margin-top: 4rem; }
+  .project-item {
+    display: grid; grid-template-columns: 60px 1fr auto;
+    align-items: center; gap: 2rem;
+    padding: 2rem 0; border-bottom: 1px solid var(--border);
+    transition: padding-left 0.4s; cursor: none; position: relative; overflow: hidden;
+  }
+  .project-item::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(90deg, rgba(0,245,212,0.05), transparent);
+    transform: translateX(-100%); transition: transform 0.4s;
+  }
+  .project-item:hover::before { transform: translateX(0); }
+  .project-item:hover { padding-left: 1rem; }
+  .project-num { font-family: 'Syne', sans-serif; font-size: 0.7rem; color: var(--muted); font-weight: 700; }
+  .project-item h3 { font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 700; }
+  .project-item p { font-size: 0.75rem; color: var(--muted); margin-top: 0.3rem; }
+  .project-arrow { color: var(--accent); font-size: 1.4rem; transition: transform 0.3s; }
+  .project-item:hover .project-arrow { transform: translate(6px, -6px); }
+
+  /* INTERNSHIPS */
+  #internships { background: var(--surface); }
+  .intern-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-top: 4rem; }
+  .intern-card {
+    border: 1px solid var(--border); padding: 2rem; position: relative;
+    overflow: hidden; transition: box-shadow 0.4s; cursor: none;
+  }
+  .intern-card::after {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transform: scaleX(0); transform-origin: left; transition: transform 0.4s;
+  }
+  .intern-card:hover::after { transform: scaleX(1); }
+  .intern-card:hover { box-shadow: 0 0 40px rgba(0,245,212,0.08); }
+  .intern-card h3 { font-family: 'Syne', sans-serif; font-size: 0.9rem; font-weight: 700; margin-bottom: 0.6rem; }
+  .intern-badge { font-size: 0.65rem; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1rem; }
+
+  /* CONTACT */
+  .contact-inner {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; margin-top: 4rem;
+  }
+  .contact-info p { font-size: 0.85rem; color: var(--muted); line-height: 1.8; }
+  .contact-detail {
+    display: flex; align-items: center; gap: 1rem; margin-top: 1.5rem;
+    font-size: 0.78rem; color: var(--text);
+  }
+  .contact-detail span:first-child { color: var(--accent); font-size: 1rem; }
+  .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+  .form-field {
+    display: flex; flex-direction: column; gap: 0.4rem;
+  }
+  .form-field label { font-size: 0.65rem; letter-spacing: 0.15em; color: var(--muted); text-transform: uppercase; }
+  .form-field input, .form-field textarea {
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--text); font-family: 'DM Mono', monospace; font-size: 0.8rem;
+    padding: 0.8rem 1rem; outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    cursor: none;
+  }
+  .form-field input:focus, .form-field textarea:focus {
+    border-color: var(--accent); box-shadow: 0 0 20px var(--glow);
+  }
+  .form-field textarea { resize: none; height: 100px; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border); padding: 3rem;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.2rem; color: var(--accent); }
+  footer p { font-size: 0.7rem; color: var(--muted); }
+
+  /* SCROLL REVEAL */
+  .reveal { opacity: 0; transform: translateY(50px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* SCANNING LINE */
+  .scan-line {
+    position: fixed; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0.15; pointer-events: none; z-index: 999;
+    animation: scan 8s linear infinite;
+  }
+  @keyframes scan { from { top: 0; } to { top: 100vh; } }
+
+  /* GLOBAL PRESENCE */
+  #global { text-align: center; }
+  .global-map {
+    margin-top: 4rem; font-family: 'DM Mono', monospace; font-size: 0.65rem;
+    color: var(--muted); line-height: 2; letter-spacing: 0.15em;
+    border: 1px solid var(--border); padding: 3rem;
+    position: relative; overflow: hidden;
+  }
+  .global-map::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, rgba(0,245,212,0.03) 0%, transparent 70%);
+  }
+  .coords { font-size: 1rem; color: var(--accent); margin-top: 1rem; font-weight: 400; }
+  .contact-links { margin-top: 1rem; display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; }
+  .contact-links a { color: var(--text); text-decoration: none; font-size: 0.78rem; transition: color 0.3s; }
+  .contact-links a:hover { color: var(--accent); }
+
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    section { padding: 5rem 1.5rem; }
+    .about-grid, .sdet-grid, .contact-inner { grid-template-columns: 1fr; }
+    .services-grid, .model-cards, .intern-grid { grid-template-columns: 1fr 1fr; }
+    .project-item { grid-template-columns: 40px 1fr auto; }
+  }
 </style>
 </head>
 <body>
+
+<!-- Custom cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="scan-line"></div>
+
+<!-- NAV -->
 <nav>
-<div class="logo">Tech1World</div>
-<a href="#home">Home</a><a href="#about">About</a><a href="#services">Services</a><a href="#outsourcing">Outsourcing</a><a href="#sdet">SDET</a><a href="#projects">Projects</a><a href="#intern">Internships</a><a href="#contact">Contact</a>
+  <div class="logo">Tech<span>1</span>World</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#outsourcing">Outsourcing</a></li>
+    <li><a href="#sdet">SDET</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#internships">Internships</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-cta">Get Started</button>
 </nav>
 
-<div class="cursor"></div><div class="cursor-ring"></div>
-<canvas id="ai-bg"></canvas>
+<!-- HERO -->
+<section class="hero">
+  <div class="grid-bg"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
 
-<section id="home">
-<video class="hero-video" autoplay muted loop playsinline src="https://cdn.coverr.co/videos/coverr-artificial-intelligence-network-7986/1080p.mp4"></video>
-<h1>Building AI-First Enterprises<br>for a Digital-Native World</h1>
-<p>Tech1World is a global AI, IT services, SDET and outsourcing company engineering intelligent platforms, secure cloud systems, and enterprise-scale software for organizations worldwide.</p>
-<div class="hero-cta"><button class="btn">Start Your Transformation</button><button class="btn alt">Explore Capabilities</button></div>
+  <div class="hero-tag">AI-First Enterprise Engineering</div>
+  <h1>Building <em>Intelligent</em> Platforms for a Digital-Native World</h1>
+  <p class="hero-sub">Tech1World partners with startups, scaleups, and multinationals to design, build, test, and operate mission-critical digital systems — powered by AI, secured by design.</p>
+  <div class="hero-btns">
+    <a href="#services" class="btn-primary">Explore Capabilities</a>
+    <a href="#contact" class="btn-outline">Start Transformation →</a>
+  </div>
 </section>
 
+<!-- STATS TICKER -->
+<div class="stats-ticker">
+  <div class="ticker-track" id="ticker">
+    <div class="ticker-item"><strong>350+</strong> Engineers & SDETs</div>
+    <div class="ticker-sep"></div>
+    <div class="ticker-item"><strong>18+</strong> Countries Served</div>
+    <div class="ticker-sep"></div>
+    <div class="ticker-item"><strong>120+</strong> Enterprise Programs</div>
+    <div class="ticker-sep"></div>
+    <div class="ticker-item"><strong>99.8%</strong> Delivery Reliability</div>
+    <div class="ticker-sep"></div>
+    <div class="ticker-item">⬡ <strong>AI-First</strong> Engineering</div>
+    <div class="ticker-sep"></div>
+    <div class="ticker-item"><strong>24×7</strong> Managed Operations</div>
+    <div class="ticker-sep"></div>
+    <!-- Duplicate for seamless loop -->
+    <div class="ticker-item"><strong>350+</strong> Engineers & SDETs</div>
+    <div class="ticker-sep"></div>
+    <div class="ticker-item"><strong>18+</strong> Countries Served</div>
+    <div class="ticker-sep"></div>
+    <div class="ticker-item"><strong>120+</strong> Enterprise Programs</div>
+    <div class="ticker-sep"></div>
+    <div class="ticker-item"><strong>99.8%</strong> Delivery Reliability</div>
+    <div class="ticker-sep"></div>
+    <div class="ticker-item">⬡ <strong>AI-First</strong> Engineering</div>
+    <div class="ticker-sep"></div>
+    <div class="ticker-item"><strong>24×7</strong> Managed Operations</div>
+  </div>
+</div>
+
+<!-- ABOUT -->
 <section id="about">
-<h2>Who We Are</h2>
-<p>Founded with a mission to redefine how enterprises adopt artificial intelligence, Tech1World partners with startups, scaleups, and multinational organizations to design, build, test, and operate mission-critical digital systems.</p>
-<div class="grid grid-4">
-<div class="card"><div class="stat">350+</div><p>Engineers & SDETs</p></div>
-<div class="card"><div class="stat">18+</div><p>Countries Served</p></div>
-<div class="card"><div class="stat">120+</div><p>Enterprise Programs</p></div>
-<div class="card"><div class="stat">99.8%</div><p>Delivery Reliability</p></div>
-</div>
+  <div class="section-label reveal">Who We Are</div>
+  <div class="section-title reveal">Redefining Enterprise <em>AI Adoption</em></div>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>Founded with a mission to redefine how enterprises adopt artificial intelligence, Tech1World partners with startups, scaleups, and multinational organizations to design, build, test, and operate mission-critical digital systems.</p>
+      <br>
+      <p>Our global network of engineers, architects, and AI specialists work in concert to deliver outcomes — not just outputs. From LLM integrations to zero-trust infrastructure, we own the entire technology stack.</p>
+    </div>
+    <div class="about-visual reveal">
+      <div class="data-card">
+        <div class="num">350+</div>
+        <div class="label">Global Engineers & SDETs</div>
+      </div>
+      <div class="data-card">
+        <div class="num">18+</div>
+        <div class="label">Countries Served Worldwide</div>
+      </div>
+      <div class="data-card">
+        <div class="num">99.8%</div>
+        <div class="label">Delivery Reliability Rate</div>
+      </div>
+    </div>
+  </div>
 </section>
 
+<!-- SERVICES -->
 <section id="services">
-<h2>AI & IT Services</h2>
-<div class="grid grid-4">
-<div class="card"><h3>AI Engineering</h3><p>LLMs, MLOps, computer vision, predictive analytics, and private AI systems.</p></div>
-<div class="card"><h3>Cloud & DevOps</h3><p>Cloud migration, platform modernization, CI/CD, Kubernetes.</p></div>
-<div class="card"><h3>Cyber Security</h3><p>Zero-trust security, compliance, data protection.</p></div>
-<div class="card"><h3>Managed IT</h3><p>24×7 operations, support, and optimization.</p></div>
-</div>
+  <div class="section-label reveal">What We Build</div>
+  <div class="section-title reveal">AI & <em>IT Services</em></div>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-icon">⬡</div>
+      <h3>AI Engineering</h3>
+      <p>LLMs, MLOps, computer vision, predictive analytics, and private AI systems tailored for enterprise scale.</p>
+    </div>
+    <div class="service-card reveal reveal-delay-1">
+      <div class="service-icon">☁</div>
+      <h3>Cloud & DevOps</h3>
+      <p>Cloud migration, platform modernization, CI/CD pipelines, and Kubernetes orchestration.</p>
+    </div>
+    <div class="service-card reveal reveal-delay-2">
+      <div class="service-icon">⛨</div>
+      <h3>Cyber Security</h3>
+      <p>Zero-trust security architecture, compliance frameworks, and enterprise data protection.</p>
+    </div>
+    <div class="service-card reveal reveal-delay-3">
+      <div class="service-icon">⚙</div>
+      <h3>Managed IT</h3>
+      <p>24×7 operations, proactive support, and continuous system optimization at global scale.</p>
+    </div>
+  </div>
 </section>
 
+<!-- OUTSOURCING -->
 <section id="outsourcing">
-<h2>Global IT Outsourcing Model</h2>
-<p>Our outsourcing model blends onshore leadership with offshore engineering excellence, ensuring cost efficiency, quality, and speed.</p>
-<div class="grid grid-4">
-<div class="card">Dedicated Teams</div>
-<div class="card">Build-Operate-Transfer</div>
-<div class="card">Staff Augmentation</div>
-<div class="card">Managed Delivery</div>
-</div>
+  <div class="section-label reveal">Global Delivery</div>
+  <div class="section-title reveal">Our <em>Outsourcing</em> Model</div>
+  <p class="reveal" style="color:var(--muted);font-size:0.9rem;max-width:60ch;margin-top:1rem">Our model blends onshore leadership with offshore engineering excellence — ensuring cost efficiency, quality, and speed without compromise.</p>
+  <div class="model-cards">
+    <div class="model-card reveal">
+      <div class="model-num">01</div>
+      <h3>Dedicated Teams</h3>
+      <p>Fully integrated engineering teams that become an extension of your organization.</p>
+    </div>
+    <div class="model-card reveal reveal-delay-1">
+      <div class="model-num">02</div>
+      <h3>Build-Operate-Transfer</h3>
+      <p>We build and operate your capability, then transfer full ownership to your team.</p>
+    </div>
+    <div class="model-card reveal reveal-delay-2">
+      <div class="model-num">03</div>
+      <h3>Staff Augmentation</h3>
+      <p>On-demand access to elite engineers, SDETs, and AI specialists as you scale.</p>
+    </div>
+    <div class="model-card reveal reveal-delay-3">
+      <div class="model-num">04</div>
+      <h3>Managed Delivery</h3>
+      <p>Outcome-driven delivery with full accountability, SLAs, and transparent reporting.</p>
+    </div>
+  </div>
 </section>
 
+<!-- SDET -->
 <section id="sdet">
-<h2>SDET & Quality Engineering</h2>
-<p>We deliver elite SDET teams specializing in automation-first quality strategies and AI-driven testing.</p>
-<div class="timeline">
-<div><h3>Automation Frameworks</h3><p>Selenium, Cypress, Playwright, Appium</p></div>
-<div><h3>AI Test Intelligence</h3><p>Self-healing tests, predictive defect analytics</p></div>
-<div><h3>CI/CD Quality Gates</h3><p>Shift-left testing integrated with DevOps</p></div>
-</div>
+  <div class="section-label reveal">Quality Engineering</div>
+  <div class="section-title reveal">SDET & <em>Test Intelligence</em></div>
+  <div class="sdet-grid">
+    <div class="sdet-item reveal">
+      <h3>Automation Frameworks</h3>
+      <p>Elite automation-first quality strategies using best-in-class tooling to accelerate delivery.</p>
+      <div class="sdet-tags">
+        <span class="tag">Selenium</span>
+        <span class="tag">Cypress</span>
+        <span class="tag">Playwright</span>
+        <span class="tag">Appium</span>
+      </div>
+    </div>
+    <div class="sdet-item reveal reveal-delay-1">
+      <h3>AI Test Intelligence</h3>
+      <p>Self-healing test suites and predictive defect analytics powered by machine learning.</p>
+      <div class="sdet-tags">
+        <span class="tag">Self-Healing</span>
+        <span class="tag">ML Defect Prediction</span>
+      </div>
+    </div>
+    <div class="sdet-item reveal reveal-delay-2">
+      <h3>CI/CD Quality Gates</h3>
+      <p>Shift-left testing embedded into your DevOps pipeline — quality at every commit.</p>
+      <div class="sdet-tags">
+        <span class="tag">Shift-Left</span>
+        <span class="tag">GitOps</span>
+        <span class="tag">Jenkins</span>
+      </div>
+    </div>
+    <div class="sdet-item reveal reveal-delay-3">
+      <h3>Performance Engineering</h3>
+      <p>Load testing, chaos engineering, and resilience validation at enterprise scale.</p>
+      <div class="sdet-tags">
+        <span class="tag">k6</span>
+        <span class="tag">Chaos Testing</span>
+        <span class="tag">Resilience</span>
+      </div>
+    </div>
+  </div>
 </section>
 
+<!-- PROJECTS -->
 <section id="projects">
-<h2>Projects & Case Studies</h2>
-<div class="grid grid-4">
-<div class="card">AI Retail Demand Forecasting Platform</div>
-<div class="card">Banking Cloud Transformation</div>
-<div class="card">Healthcare Data Security System</div>
-<div class="card">Global DevOps Automation Suite</div>
-</div>
+  <div class="section-label reveal">Case Studies</div>
+  <div class="section-title reveal">Projects & <em>Impact</em></div>
+  <div class="projects-list">
+    <div class="project-item reveal">
+      <div class="project-num">01</div>
+      <div>
+        <h3>AI Retail Demand Forecasting Platform</h3>
+        <p>Predictive analytics reducing overstock by 34% across 12 global markets.</p>
+      </div>
+      <div class="project-arrow">↗</div>
+    </div>
+    <div class="project-item reveal">
+      <div class="project-num">02</div>
+      <div>
+        <h3>Banking Cloud Transformation</h3>
+        <p>Core banking migration to cloud-native architecture with zero downtime.</p>
+      </div>
+      <div class="project-arrow">↗</div>
+    </div>
+    <div class="project-item reveal">
+      <div class="project-num">03</div>
+      <div>
+        <h3>Healthcare Data Security System</h3>
+        <p>HIPAA-compliant zero-trust infrastructure protecting 2M+ patient records.</p>
+      </div>
+      <div class="project-arrow">↗</div>
+    </div>
+    <div class="project-item reveal">
+      <div class="project-num">04</div>
+      <div>
+        <h3>Global DevOps Automation Suite</h3>
+        <p>End-to-end CI/CD automation cutting deployment time by 60% enterprise-wide.</p>
+      </div>
+      <div class="project-arrow">↗</div>
+    </div>
+  </div>
 </section>
 
-<section id="intern" class="intern">
-<h2>Internships & Early-Career Programs</h2>
-<p>Industry-mentored internships in AI, SDET, Cloud and Full-Stack Engineering.</p>
-<div class="grid grid-4">
-<div class="card">AI & ML Internship</div>
-<div class="card">SDET Automation Program</div>
-<div class="card">Cloud & DevOps Internship</div>
-<div class="card">Full-Stack Engineering</div>
-</div>
+<!-- INTERNSHIPS -->
+<section id="internships">
+  <div class="section-label reveal">Early Career</div>
+  <div class="section-title reveal">Internship <em>Programs</em></div>
+  <p class="reveal" style="color:var(--muted);font-size:0.9rem;max-width:60ch;margin-top:1rem">Industry-mentored internships in AI, SDET, Cloud and Full-Stack Engineering — building the next generation of digital leaders.</p>
+  <div class="intern-grid">
+    <div class="intern-card reveal">
+      <div class="intern-badge">● Open Now</div>
+      <h3>AI & ML Internship</h3>
+      <p style="font-size:0.75rem;color:var(--muted);margin-top:0.5rem;line-height:1.6">Work on real LLM pipelines, computer vision, and MLOps with senior AI engineers.</p>
+    </div>
+    <div class="intern-card reveal reveal-delay-1">
+      <div class="intern-badge">● Open Now</div>
+      <h3>SDET Automation Program</h3>
+      <p style="font-size:0.75rem;color:var(--muted);margin-top:0.5rem;line-height:1.6">Master automation frameworks and AI-driven testing methodologies.</p>
+    </div>
+    <div class="intern-card reveal reveal-delay-2">
+      <div class="intern-badge">● Open Now</div>
+      <h3>Cloud & DevOps Internship</h3>
+      <p style="font-size:0.75rem;color:var(--muted);margin-top:0.5rem;line-height:1.6">Hands-on cloud architecture, Kubernetes, and infrastructure-as-code.</p>
+    </div>
+    <div class="intern-card reveal reveal-delay-3">
+      <div class="intern-badge">● Open Now</div>
+      <h3>Full-Stack Engineering</h3>
+      <p style="font-size:0.75rem;color:var(--muted);margin-top:0.5rem;line-height:1.6">Build production-grade features end to end on live enterprise projects.</p>
+    </div>
+  </div>
 </section>
 
+<!-- CONTACT -->
 <section id="contact">
-<h2>Global Presence</h2>
-<p>JDA Colony Phase-2, Plot-37, Jammu, J&K, India · +91-9419281505 · operations@tech1world.com</p>
-<div class="map"><iframe width="100%" height="100%" style="border:0" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=JDA%20Colony%20Phase%202%20Jammu&t=&z=15&ie=UTF8&iwloc=&output=embed"></iframe></div>
+  <div class="section-label reveal">Get In Touch</div>
+  <div class="section-title reveal">Start Your <em>Transformation</em></div>
+  <div class="contact-inner">
+    <div class="contact-info reveal">
+      <p>Ready to build AI-first systems that scale? Let's talk about your vision and how Tech1World can engineer the platform that gets you there.</p>
+      <div class="contact-detail"><span>📍</span> JDA Colony Phase-2, Plot-37, Jammu, J&K, India</div>
+      <div class="contact-detail"><span>📞</span> +91-9419281505</div>
+      <div class="contact-detail"><span>✉</span> operations@tech1world.com</div>
+    </div>
+    <div class="contact-form reveal">
+      <div class="form-field">
+        <label>Your Name</label>
+        <input type="text" placeholder="Jane Smith">
+      </div>
+      <div class="form-field">
+        <label>Email Address</label>
+        <input type="email" placeholder="jane@company.com">
+      </div>
+      <div class="form-field">
+        <label>Message</label>
+        <textarea placeholder="Tell us about your project..."></textarea>
+      </div>
+      <button class="btn-primary" style="width:100%;text-align:center;border:none">Send Message</button>
+    </div>
+  </div>
+</section>
+
+<!-- GLOBAL / FOOTER -->
+<section id="global" style="padding:4rem 3rem">
+  <div class="section-label reveal" style="justify-content:center">Global Presence</div>
+  <div class="global-map reveal">
+    <div>TECH1WORLD · GLOBAL OPERATIONS · EST. 2020</div>
+    <div class="coords">28.6692° N, 77.4538° E — Jammu, India HQ</div>
+    <div class="contact-links">
+      <a href="tel:+919419281505">+91-9419281505</a>
+      <a href="mailto:operations@tech1world.com">operations@tech1world.com</a>
+    </div>
+  </div>
 </section>
 
 <footer>
-<p>© 2026 Tech1World · Global AI · IT Services · SDET · Outsourcing</p>
+  <div class="footer-logo">Tech1World</div>
+  <p>© 2026 Tech1World · Global AI · IT Services · SDET · Outsourcing</p>
+  <p style="color:var(--accent);font-size:0.65rem">18+ Countries · 350+ Engineers</p>
 </footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r152/three.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <script>
-const c=document.querySelector('.cursor'),r=document.querySelector('.cursor-ring');window.addEventListener('mousemove',e=>{c.style.transform=`translate(${e.clientX}px,${e.clientY}px)`;r.style.transform=`translate(${e.clientX-22}px,${e.clientY-22}px)`});
-if(typeof THREE!=='undefined'){const canvas=document.getElementById('ai-bg'),scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(75,innerWidth/innerHeight,.1,3000);camera.position.z=900;const renderer=new THREE.WebGLRenderer({canvas,alpha:true});renderer.setSize(innerWidth,innerHeight);const g=new THREE.BufferGeometry(),v=[];for(let i=0;i<16000;i++){v.push((Math.random()-.5)*3200,(Math.random()-.5)*3200,(Math.random()-.5)*3200)}g.setAttribute('position',new THREE.Float32BufferAttribute(v,3));const p=new THREE.Points(g,new THREE.PointsMaterial({color:0x00f2ff,size:2}));scene.add(p);(function anim(){requestAnimationFrame(anim);p.rotation.y+=.0006;p.rotation.x+=.0003;renderer.render(scene,camera)})();window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)})}
-if(typeof gsap!=='undefined'){gsap.registerPlugin(ScrollTrigger);document.querySelectorAll('section').forEach(s=>gsap.fromTo(s,{opacity:0,y:80},{opacity:1,y:0,duration:1.2,scrollTrigger:{trigger:s,start:'top 85%'}}))}
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  function animateCursor() {
+    cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+    rx += (mx - rx) * 0.15; ry += (my - ry) * 0.15;
+    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+
+  document.querySelectorAll('a, button, .service-card, .model-card, .intern-card, .project-item').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.width = '20px'; cursor.style.height = '20px';
+      ring.style.width = '60px'; ring.style.height = '60px'; ring.style.opacity = '0.3';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.width = '12px'; cursor.style.height = '12px';
+      ring.style.width = '40px'; ring.style.height = '40px'; ring.style.opacity = '0.6';
+    });
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.15 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Counter animation
+  function animateCounter(el, target, suffix) {
+    let start = 0;
+    const step = target / 60;
+    const timer = setInterval(() => {
+      start = Math.min(start + step, target);
+      el.textContent = Math.floor(start) + suffix;
+      if (start >= target) clearInterval(timer);
+    }, 16);
+  }
+
+  // Glitch effect on logo
+  const logo = document.querySelector('.logo');
+  setInterval(() => {
+    logo.style.textShadow = `${Math.random()*4-2}px 0 var(--accent3), ${Math.random()*-4+2}px 0 var(--accent2)`;
+    setTimeout(() => logo.style.textShadow = 'none', 100);
+  }, 4000);
 </script>
 </body>
 </html>
