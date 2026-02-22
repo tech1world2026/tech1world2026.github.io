@@ -1503,3 +1503,96 @@ document.querySelectorAll('.btn-acid,.btn-border').forEach(btn=>{
 </script>
 </body>
 </html>
+<div class="ms"><div class="ms-v">15min</div><div class="ms-l">Recovery Time</div></div></div>
+<p>Architecting resilient, secure, and cost-optimized cloud infrastructure on AWS, Azure, and GCP. We implement "Infrastructure as Code" (IaC) to ensure your environment is version-controlled and reproducible.</p>
+<div class="mtech"><span class="mt">Terraform</span><span class="mt">Kubernetes</span><span class="mt">Docker</span><span class="mt">AWS</span><span class="mt">CI/CD</span><span class="mt">Security Gates</span></div></div>
+<div class="mf"><a href="#contact" class="btn btn-acid" onclick="closeMod('mod-svc-cloud')"><span class="btn-span">Get a Proposal ↗</span></a><button class="btn btn-border" onclick="closeMod('mod-svc-cloud')">Close</button></div></div></div>
+
+<canvas id="BG_GRID"></canvas>
+
+<script>
+// 1. GLOBAL MODAL CONTROLLER
+function openMod(id) {
+    const m = document.getElementById(id) || document.getElementById('mod-' + id);
+    if(m) { m.classList.add('on'); document.body.style.overflow = 'hidden'; }
+}
+function closeMod(id) {
+    const m = document.getElementById(id) || document.getElementById('mod-' + id);
+    if(m) { m.classList.remove('on'); document.body.style.overflow = 'auto'; }
+}
+
+// 2. THE AWARD-WINNING BACKGROUND ENGINE
+const bg = document.getElementById('BG_GRID');
+const bctx = bg.getContext('2d');
+function resize() { bg.width = window.innerWidth; bg.height = window.innerHeight; }
+window.onresize = resize; resize();
+
+function animate() {
+    bctx.clearRect(0, 0, bg.width, bg.height);
+    bctx.strokeStyle = 'rgba(0, 255, 157, 0.04)';
+    bctx.lineWidth = 1;
+    for(let i = 0; i < bg.width; i += 50) {
+        bctx.beginPath(); bctx.moveTo(i, 0); bctx.lineTo(i, bg.height); bctx.stroke();
+    }
+    for(let i = 0; i < bg.height; i += 50) {
+        bctx.beginPath(); bctx.moveTo(0, i); bctx.lineTo(bg.width, i); bctx.stroke();
+    }
+    requestAnimationFrame(animate);
+}
+animate();
+
+// 3. CURSOR & HOVER LOGIC
+const cur = document.getElementById('CUR');
+document.addEventListener('mousemove', (e) => {
+    cur.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+});
+
+// 4. PRELOADER TERMINATOR
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        const pre = document.getElementById('PRE');
+        pre.style.opacity = '0';
+        setTimeout(() => { 
+            pre.style.display = 'none'; 
+            document.getElementById('NAV').classList.add('in');
+        }, 600);
+    }, 2000);
+});
+
+// 5. 3D GLOBE RENDERER
+const gCanv = document.getElementById('GC');
+const gCtx = gCanv.getContext('2d');
+let rot = 0;
+function drawGlobe() {
+    gCtx.clearRect(0,0,1000,440);
+    gCtx.strokeStyle = 'rgba(0, 255, 157, 0.15)';
+    rot += 0.003;
+    for(let i=0; i<12; i++) {
+        let x = 500 + Math.cos(rot + (i*Math.PI/6)) * 180;
+        gCtx.beginPath();
+        gCtx.arc(500, 220, Math.abs(x-500), 0, Math.PI*2);
+        gCtx.stroke();
+    }
+    requestAnimationFrame(drawGlobe);
+}
+drawGlobe();
+</script>
+
+<style>
+#BG_GRID { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+.mover { position: fixed; inset: 0; background: rgba(2,5,9,0.9); backdrop-filter: blur(15px); z-index: 2000; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.4s; }
+.mover.on { display: flex; opacity: 1; }
+.modal { background: var(--surface); border: 1px solid var(--b2); width: 90%; max-width: 700px; padding: 3rem; max-height: 90vh; overflow-y: auto; box-shadow: var(--shadow); }
+.mh { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem; }
+.mcat { font-size: 0.55rem; letter-spacing: 0.2em; color: var(--muted); text-transform: uppercase; }
+.mtitle { font-family: var(--ff-display); font-size: 1.5rem; color: var(--acid); margin-top: 0.5rem; }
+.mcl { background: transparent; border: none; color: var(--muted); font-size: 1.2rem; cursor: pointer; }
+.mstats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2rem; border-bottom: 1px solid var(--b1); padding-bottom: 2rem; }
+.ms-v { font-family: var(--ff-display); font-size: 1.5rem; color: var(--acid); }
+.ms-l { font-size: 0.5rem; letter-spacing: 0.1em; color: var(--muted); text-transform: uppercase; }
+.mtech { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 2rem; }
+.mt { font-size: 0.6rem; padding: 0.3rem 0.7rem; border: 1px solid var(--b1); color: var(--muted); }
+.mf { margin-top: 3rem; display: flex; gap: 1rem; }
+</style>
+</body>
+</html>
