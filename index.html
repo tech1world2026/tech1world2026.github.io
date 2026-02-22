@@ -1,6 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+  <style>
+/* ════════ THEME: HOLOGRAPHIC LIQUID GLASS ════════ */
+:root {
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-glow: rgba(255, 255, 255, 0.2);
+  --text-main: #ffffff;
+  --text-muted: rgba(255, 255, 255, 0.6);
+}
+
+/* 1. THE LIQUID BACKGROUND ENGINE */
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  color: var(--text-main) !important;
+  /* Mesmerizing fluid gradient animation */
+  background: linear-gradient(-45deg, #090a0f, #1a1025, #41103f, #101935, #0a1f24);
+  background-size: 400% 400%;
+  animation: LiquidAurora 18s ease infinite;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+@keyframes LiquidAurora {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* 2. THE FROSTED GLASS CARDS */
+.pc, .ig, .globe-card, .modal {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(24px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(150%) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4) !important;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+}
+
+.pc:hover, .ig:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid var(--glass-glow) !important;
+  transform: translateY(-8px) scale(1.02);
+}
+
+/* 3. TYPOGRAPHY & ACCENTS */
+h1, h2, h3, .H, .mtitle, .ms-v {
+  color: #ffffff !important;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+.mcat, .ms-l, .eyebrow {
+  color: #00ffcc !important; /* Striking Cyan */
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+/* 4. KILL THE CURSOR LAG */
+#CUR { display: none !important; }
+* { cursor: auto !important; }
+button, a, .pc, .ig-apply { cursor: pointer !important; }
+</style>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tech1World — SDET & Outsourcing Excellence</title>
