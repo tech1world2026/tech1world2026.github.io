@@ -7,6 +7,191 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Syne+Mono&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
+    /* ===== RESET ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    /* ===== NAVBAR ===== */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 40px;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(10px);
+    }
+
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+
+    .navbar a {
+      text-decoration: none;
+      color: #000;
+      font-weight: 600;
+    }
+
+    /* ===== LOGO TEXT ===== */
+    .logo-text {
+      font-size: 28px;
+      font-weight: bold;
+      background: linear-gradient(90deg, #00c6ff, #0072ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: glow 2s infinite alternate;
+    }
+
+    @keyframes glow {
+      from { filter: drop-shadow(0 0 5px #00c6ff); }
+      to { filter: drop-shadow(0 0 15px #0072ff); }
+    }
+
+    /* ===== HERO ===== */
+    .animated-bg {
+      min-height: 100vh;
+      background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #00c6ff);
+      background-size: 400% 400%;
+      animation: gradientMove 12s ease infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .hero-content {
+      text-align: center;
+      background: rgba(0,0,0,0.35);
+      padding: 40px;
+      border-radius: 12px;
+      max-width: 800px;
+    }
+
+    .hero-content h1 {
+      font-size: 42px;
+      margin-bottom: 15px;
+    }
+
+    .hero-content p {
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      padding: 12px 25px;
+      margin: 8px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .primary {
+      background: #00c6ff;
+      color: #000;
+    }
+
+    .secondary {
+      border: 2px solid #00c6ff;
+      color: #00c6ff;
+    }
+
+    /* ===== AWARD ===== */
+    .award {
+      padding: 50px 20px;
+      text-align: center;
+      background: #f4f6f8;
+    }
+
+    /* ===== COURSES ===== */
+    .courses {
+      padding: 70px 20px;
+      background: #ffffff;
+      text-align: center;
+    }
+
+    .course-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .course-card {
+      padding: 30px;
+      background: #f4f6f8;
+      border-radius: 12px;
+      transition: 0.3s;
+    }
+
+    .course-card:hover {
+      transform: translateY(-10px);
+    }
+
+    /* ===== ABOUT ===== */
+    .about {
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      background: #0f2027;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="logo-text">Tech1World</div>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Courses</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="animated-bg">
+    <div class="hero-content">
+      <h1>Learn Technology the Right Way</h1>
+      <p>Simple. Practical. Student-Focused.</p>
+      <p>
+        Tech1World helps students understand programming and IT concepts
+        clearly, practically, and in an interview-ready way.
+      </p>
+      <a href="#" class="btn primary">Start Learning</a>
+      <a href="#" class="btn secondary">Explore Topics</a>
+    </div>
+  </section>
+
+  <!-- AWARD -->
+  <section class="award">
+    <h2>🏆 Award Recognition</h2>
+    <p><strong>Best Emerging Tech Education Platform</strong></p>
+  </section>
+
 /* ═══════════════ TOKENS ═══════════════ */
 :root {
   --void: #03050A;
