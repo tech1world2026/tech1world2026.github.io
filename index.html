@@ -1606,63 +1606,59 @@ setInterval(() => {
 </body>
 </html>
 <style>
-  /* 1. Reveal animation: Content starts invisible and moves up */
-  .rv {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  
-  /* 2. The "In" class: Triggered by JavaScript when you scroll */
-  .rv.in {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* ════════ FORCE THEME VARIABLES ════════ */
+:root {
+  --void: #020509;   /* Deep Black Background */
+  --deep: #050a12;   /* Dark Surface */
+  --acid: #00ff9d;   /* Neon Green Accent */
+  --plasma: #0062ff; /* Electric Blue Accent */
+  --text: #e0e6ed;   /* Light Grey Text */
+  --muted: #64748b;  /* Dimmed Text */
+  --b1: rgba(255,255,255,0.05);
+}
 
-  /* 3. Smooth Card Hover */
-  .pc {
-    transition: all 0.4s ease;
-    cursor: pointer;
-  }
-  .pc:hover {
-    border-color: var(--acid) !important;
-    box-shadow: 0 10px 40px rgba(0, 255, 157, 0.15);
-    transform: translateY(-8px) scale(1.02);
-  }
+/* ════════ CORE DESIGN OVERRIDE ════════ */
+body {
+  background-color: var(--void) !important;
+  color: var(--text) !important;
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+}
 
-  /* 4. Improve Form Focus */
-  .cf-in:focus, .cf-sel:focus, .cf-ta:focus {
-    outline: none;
-    border-color: var(--acid);
-    background: rgba(0, 255, 157, 0.05);
-  }
+section {
+  padding: 80px 0;
+  border-bottom: 1px solid var(--b1);
+}
+
+.wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* ════════ AWARD-WINNING GRID BACKGROUND ════════ */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: 
+    linear-gradient(var(--b1) 1px, transparent 1px),
+    linear-gradient(90deg, var(--b1) 1px, transparent 1px);
+  background-size: 40px 40px;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Project Card Styling */
+.pc {
+  background: var(--deep);
+  border: 1px solid var(--b1);
+  padding: 1.5rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+.pc:hover {
+  border-color: var(--acid);
+  transform: translateY(-5px);
+}
 </style>
-
-<script>
-  // SCROLL OBSERVER: This watches the page as you scroll
-  // When an element with class "rv" appears, it adds the "in" class
-  const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('in');
-      }
-    });
-  }, { 
-    threshold: 0.15 // Triggers when 15% of the element is visible
-  });
-
-  // Apply the observer to every element with the "rv" class
-  document.querySelectorAll('.rv, .pc, .ig, .ci-row').forEach(el => {
-    revealObserver.observe(el);
-  });
-
-  // Add a "Button Pulse" effect for the Apply buttons
-  document.querySelectorAll('.ig-apply').forEach(btn => {
-    btn.addEventListener('mouseenter', () => {
-      btn.style.letterSpacing = '2px';
-    });
-    btn.addEventListener('mouseleave', () => {
-      btn.style.letterSpacing = 'normal';
-    });
-  });
-</script>
