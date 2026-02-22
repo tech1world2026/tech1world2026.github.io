@@ -1503,3 +1503,133 @@ document.querySelectorAll('.btn-acid,.btn-border').forEach(btn=>{
 </script>
 </body>
 </html>
+<style>
+/* High-End Global Background */
+body {
+    background-attachment: fixed;
+    background-image: 
+        radial-gradient(circle at 50% 50%, rgba(0, 255, 157, 0.02) 0%, transparent 80%),
+        linear-gradient(var(--void), var(--deep));
+}
+
+/* Glassmorphism for Modals */
+.mover {
+    background: rgba(2, 5, 9, 0.8) !important;
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    border: 1px solid rgba(0, 255, 157, 0.1);
+}
+
+/* Section Glows */
+section::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    width: 100vw; height: 100%;
+    background: radial-gradient(circle at center, rgba(0, 62, 255, 0.03), transparent 70%);
+    transform: translateX(-50%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+#BG_GRID {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    opacity: 0.6;
+}
+</style>
+
+<canvas id="BG_GRID"></canvas>
+
+<script>
+// 1. DYNAMIC GRID ENGINE (The "Award-Winning" Look)
+const canvas = document.getElementById('BG_GRID');
+const ctx = canvas.getContext('2d');
+let w, h;
+
+function resize() {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resize);
+resize();
+
+let mouseX = 0, mouseY = 0;
+document.addEventListener('mousemove', (e) => {
+    mouseX = (e.clientX - w / 2) / 50;
+    mouseY = (e.clientY - h / 2) / 50;
+});
+
+function draw() {
+    ctx.clearRect(0, 0, w, h);
+    ctx.strokeStyle = 'rgba(0, 255, 157, 0.07)';
+    ctx.lineWidth = 1;
+
+    const spacing = 60;
+    ctx.save();
+    // This creates the perspective shift
+    ctx.translate(mouseX, mouseY);
+
+    for (let x = -spacing; x < w + spacing; x += spacing) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, h);
+        ctx.stroke();
+    }
+    for (let y = -spacing; y < h + spacing; y += spacing) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(w, y);
+        ctx.stroke();
+    }
+    ctx.restore();
+    requestAnimationFrame(draw);
+}
+draw();
+
+// 2. MODAL AUTO-FIXER (Forces your buttons to work)
+function openMod(id) {
+    // If the ID passed is 'p1', look for 'mod-p1'
+    let targetId = id.startsWith('mod-') ? id : 'mod-' + id;
+    const modal = document.getElementById(targetId);
+    if (modal) {
+        modal.classList.add('on');
+        modal.style.display = 'flex';
+        modal.style.opacity = '1';
+        document.body.style.overflow = 'hidden';
+    } else {
+        console.error("Modal not found: " + targetId);
+    }
+}
+
+function closeMod(id) {
+    const modal = document.getElementById(id);
+    if (modal) {
+        modal.classList.remove('on');
+        modal.style.display = 'none';
+        modal.style.opacity = '0';
+        document.body.style.overflow = 'auto';
+    }
+}
+
+// 3. CURSOR TRAIL (Matches your .c1 style)
+const cur = document.getElementById('CUR');
+if(cur) {
+    document.addEventListener('mousemove', (e) => {
+        cur.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+    });
+}
+
+// 4. PRELOADER KILLER
+window.onload = () => {
+    const pre = document.getElementById('PRE');
+    if(pre) {
+        setTimeout(() => {
+            pre.style.opacity = '0';
+            setTimeout(() => pre.style.display = 'none', 600);
+        }, 1500);
+    }
+};
+</script>
+</body>
+</html>
