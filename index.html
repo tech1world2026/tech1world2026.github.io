@@ -1726,3 +1726,40 @@ body::before {
   transform: translateY(-5px);
 }
 </style>
+<style>
+/* This part kills all old backgrounds */
+html, body {
+  background: linear-gradient(-45deg, #090a0f, #1a1025, #41103f, #101935, #0a1f24) !important;
+  background-size: 400% 400% !important;
+  animation: LiquidAurora 15s ease infinite !important;
+  min-height: 100vh !important;
+  margin: 0 !important;
+}
+
+@keyframes LiquidAurora {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* This turns your cards into Mesmerizing Frosted Glass */
+div[class*="pc"], div[class*="ig"], .modal, .mover > div {
+  background: rgba(255, 255, 255, 0.03) !important;
+  backdrop-filter: blur(25px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(25px) saturate(160%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* This makes your text "Glow" */
+h1, h2, h3, .H, [class*="title"] {
+  color: #ffffff !important;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.3) !important;
+}
+
+/* This fixes the cursor lag immediately */
+#CUR, .cursor { display: none !important; }
+* { cursor: default !important; }
+a, button, [onclick] { cursor: pointer !important; }
+</style>
