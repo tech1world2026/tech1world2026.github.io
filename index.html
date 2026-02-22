@@ -1888,3 +1888,69 @@ div[class*="pc"], .modal {
   box-shadow: 0 25px 50px rgba(0,0,0,0.5) !important;
 }
 </style>
+<style>
+/* 1. THE 3D PERSPECTIVE CONTAINER */
+body {
+  perspective: 1200px; /* This creates the 3D 'room' */
+}
+
+/* 2. THE REFRACTIVE GLASS CARDS */
+div[class*="pc"], .modal, .ig {
+  position: relative;
+  background: linear-gradient(
+    135deg, 
+    rgba(255, 255, 255, 0.1), 
+    rgba(255, 255, 255, 0.03)
+  ) !important;
+  
+  /* The Secret Sauce: Double Blur + Saturation */
+  backdrop-filter: blur(35px) saturate(200%) brightness(1.1) !important;
+  -webkit-backdrop-filter: blur(35px) saturate(200%) brightness(1.1) !important;
+  
+  /* Refractive Border (Top and Left glow) */
+  border-top: 1px solid rgba(255, 255, 255, 0.4) !important;
+  border-left: 1px solid rgba(255, 255, 255, 0.4) !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  
+  border-radius: 30px !important;
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.7),
+    inset 0 0 15px rgba(255, 255, 255, 0.05) !important;
+  
+  transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.6s ease !important;
+  transform-style: preserve-3d;
+}
+
+/* 3. THE 3D TILT HOVER */
+div[class*="pc"]:hover {
+  /* This tilts the card slightly toward the viewer */
+  transform: rotateX(7deg) rotateY(-7deg) translateZ(30px) !important;
+  box-shadow: 
+    -20px 40px 60px rgba(0, 0, 0, 0.8),
+    0 0 20px rgba(255, 255, 255, 0.1) !important;
+  z-index: 100;
+}
+
+/* 4. SHINE EFFECT (The glint on the glass) */
+div[class*="pc"]::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(
+    115deg, 
+    transparent 0%, 
+    transparent 40%, 
+    rgba(255, 255, 255, 0.15) 50%, 
+    transparent 60%
+  );
+  border-radius: 30px;
+  pointer-events: none;
+  transition: transform 0.8s ease;
+  transform: translateX(-100%);
+}
+
+div[class*="pc"]:hover::before {
+  transform: translateX(100%);
+}
+</style>
