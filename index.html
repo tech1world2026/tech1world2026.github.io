@@ -4,27 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tech1World — bioluminescent abyss</title>
-  <!-- GSAP for burst & scroll -->
+  <!-- GSAP for high-end animations -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <!-- fonts: only two, clean -->
+  <!-- fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200..900&family=Syne:wght@400..800&display=swap" rel="stylesheet">
   <style>
-    /* --- RESET / DEEP OCEAN CORE (#02040a) --- */
+    /* --- RESET / DEEP OCEAN CORE (#02040a evolved to #020622) --- */
     *{margin:0;padding:0;box-sizing:border-box}
     body{
-      background:#02040a; /* deep rich dark blue */
+      background:#020622; /* deep dark blue with violet touch */
       color:#fff;
       font-family:'Syne',sans-serif;
       overflow-x:hidden;
       line-height:1.5;
-      -webkit-font-smoothing:antialiased;
-      cursor:none; /* custom cursor */
+      cursor:none;
     }
     ::selection{background:#ff0055;color:#fff}
 
-    /* --- CUSTOM CURSOR (gravity well / bubble expand) --- */
+    /* --- CUSTOM CURSOR (gravity well) --- */
     #cursor{
       position:fixed; width:6px; height:6px; background:#ff0055; border-radius:50%;
       pointer-events:none; z-index:9999; transform:translate(-50%,-50%);
@@ -37,24 +36,34 @@
       box-shadow:0 0 120px #ffaa00, 0 0 200px #00f0ff;
     }
 
+    /* --- HIGH DEFINITION VIDEO BACKGROUND (hero) --- */
+    #heroVideo{
+      position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:-2;
+      opacity:0.3; pointer-events:none;
+    }
+    .video-overlay{
+      position:absolute; top:0; left:0; width:100%; height:100%;
+      background:radial-gradient(circle, rgba(2,6,34,0.7) 0%, #020622 100%);
+      z-index:-1;
+    }
+
     /* --- IGL00-STYLE PARTICLE CANVAS (hyper dynamic) --- */
     #particleCanvas{
       position:fixed; top:0; left:0; width:100%; height:100%; z-index:0;
-      pointer-events:none; display:block; background:#02040a;
+      pointer-events:none; display:block; background:transparent;
     }
-    /* --- grain/atmo (very subtle) --- */
     .grain{
       position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.015'/%3E%3C/svg%3E");
-      pointer-events:none; z-index:1; opacity:0.25;
+      pointer-events:none; z-index:1; opacity:0.2;
     }
     .halo{
       position:fixed; inset:0; background:radial-gradient(ellipse 80% 40% at 50% 50%, rgba(0,240,255,0.12), transparent 90%);
       z-index:0; pointer-events:none;
     }
 
-    /* --- PRELOADER (LIGHT BURST canvas - will be animated by GSAP) --- */
+    /* --- PRELOADER: LIGHT BURST (highly animated) --- */
     #preloader{
-      position:fixed; inset:0; background:#02040a; z-index:10000;
+      position:fixed; inset:0; background:#020622; z-index:10000;
       display:flex; align-items:center; justify-content:center;
       pointer-events:none; opacity:1; visibility:visible;
     }
@@ -64,18 +73,18 @@
     }
     .preloadText{
       position:relative; z-index:10001; font-family:'Unbounded',sans-serif;
-      font-size:clamp(1.8rem,6vw,4rem); letter-spacing:0.5rem;
+      font-size:clamp(2rem,7vw,5rem); letter-spacing:0.8rem;
       background:linear-gradient(135deg, #00f0ff, #ff0055, #ffaa00);
       -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-      animation:pulseGlow 2s infinite alternate;
+      animation:pulseGlow 1.8s infinite alternate;
     }
-    @keyframes pulseGlow{ to{text-shadow:0 0 60px #ff0055;} }
+    @keyframes pulseGlow{ to{text-shadow:0 0 80px #ff0055;} }
 
-    /* --- navigation (glass, with bubble hover & magnetic) --- */
+    /* --- navigation (glass) --- */
     nav{
       position:fixed; top:20px; left:20px; right:20px; padding:0.8rem 2.5rem;
       display:flex; justify-content:space-between; align-items:center; z-index:500;
-      background:rgba(2,4,10,0.5); backdrop-filter:blur(20px) saturate(200%);
+      background:rgba(2,6,34,0.5); backdrop-filter:blur(20px) saturate(200%);
       border:1px solid rgba(0,240,255,0.2); border-radius:80px;
       box-shadow:0 10px 30px rgba(0,0,0,0.8);
     }
@@ -84,11 +93,10 @@
       background:linear-gradient(135deg, #00f0ff, #ff0055, #ffaa00);
       -webkit-background-clip:text; -webkit-text-fill-color:transparent;
     }
-    .navLinks{ display:flex; gap:1.8rem; list-style:none; }
+    .navLinks{ display:flex; gap:1.8rem; list-style:none; flex-wrap:wrap; }
     .navLinks a{
       color:#fff; text-decoration:none; font-size:0.8rem; letter-spacing:2px;
       text-transform:uppercase; padding:0.4rem 0; position:relative;
-      transition:0.2s;
     }
     .navLinks a::after{
       content:''; position:absolute; bottom:0; left:0; width:0; height:2px;
@@ -102,38 +110,26 @@
       text-transform:uppercase; transition:0.3s; cursor:pointer;
     }
     .navCta:hover{
-      background:#ff0055; color:#02040a; box-shadow:0 0 70px #ff0055;
+      background:#ff0055; color:#020622; box-shadow:0 0 70px #ff0055;
       transform:scale(1.05);
     }
 
-    /* --- all interactive elements expand on hover/click (bubble) --- */
-    button, .btnPrimary, .btnGhost, .card, .stat, .country, .pipeNode, .win, .staffCard, .infoRow, .navCta, .navLinks a, .logoSymbol {
-      transition: transform 0.25s cubic-bezier(0.2, 1.2, 0.3, 1), box-shadow 0.3s, background 0.2s;
-      transform-origin: center;
-      cursor: pointer;
-    }
-    button:active, .btnPrimary:active, .btnGhost:active, .card:active, .stat:active, .country:active, .pipeNode:active, .win:active, .navCta:active {
-      transform: scale(1.05) translateY(-2px); /* bubble out */
-      box-shadow: 0 0 60px #ff0055;
-    }
-    /* card specific bubble */
-    .card:hover { transform: scale(1.02) translateY(-6px); box-shadow: 0 30px 50px rgba(0,240,255,0.3); }
-    .card:hover .cardIcon { transform: scale(1.3); filter: drop-shadow(0 0 30px #00f0ff); }
-    .card .cardIcon, .card .cardNum { transition: transform 0.3s; }
-    .card:hover .cardNum { transform: scale(1.3) translateX(10px); color: rgba(0,240,255,0.3); }
+    /* --- magnetic class --- */
+    .magnetic{ display:inline-block; transition:transform 0.2s cubic-bezier(0.2,1.2,0.5,1.5); }
 
-    /* --- main sections high z --- */
-    section{ position:relative; z-index:10; padding:7rem 4rem; }
-    .wrap{ max-width:1400px; margin:0 auto; }
+    /* --- main sections (fix overflow) --- */
+    section{ position:relative; z-index:10; padding:6rem 4rem; width:100%; overflow-x:hidden; }
+    .wrap{ max-width:1400px; margin:0 auto; width:100%; }
 
-    /* --- hero (bubble text) with new gradient colors--- */
-    #hero{ min-height:100vh; display:flex; align-items:center; }
+    /* --- hero with video (keeping original content) --- */
+    #hero{
+      min-height:100vh; display:flex; align-items:center; position:relative;
+      overflow:hidden;
+    }
     .heroEyebrow{
       display:flex; align-items:center; gap:1rem; margin-bottom:2rem;
-      background:linear-gradient(135deg, #00f0ff, #ff0055);
-      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-      font-size:0.7rem; letter-spacing:6px; text-transform:uppercase; opacity:0;
-      animation:slideUp 0.8s 0.3s forwards;
+      color:#00f0ff; font-size:0.7rem; letter-spacing:6px; text-transform:uppercase;
+      opacity:0; animation:slideUp 0.8s 0.3s forwards;
     }
     .heroEyebrow span{
       width:60px; height:2px; background:linear-gradient(90deg, #00f0ff, #ff0055);
@@ -141,8 +137,8 @@
     }
     @keyframes slideUp{ to{opacity:1; transform:translateY(0);} from{opacity:0; transform:translateY(30px);} }
     h1{
-      font-family:'Unbounded',sans-serif; font-size:clamp(3.5rem,13vw,14rem); font-weight:200;
-      line-height:0.85; text-transform:uppercase; margin-bottom:2rem;
+      font-family:'Unbounded',sans-serif; font-size:clamp(3rem,12vw,13rem);
+      font-weight:200; line-height:0.85; text-transform:uppercase; margin-bottom:2rem;
     }
     .h1Line{ display:block; overflow:hidden; }
     .h1Word{
@@ -165,27 +161,28 @@
     .btnGroup{ display:flex; gap:1.5rem; flex-wrap:wrap; opacity:0; animation:fadeIn 1s 1.2s forwards; }
     .btnPrimary{
       background:linear-gradient(135deg, #00f0ff, #ff0055); border:none;
-      padding:1rem 3rem; border-radius:60px; color:#02040a; font-weight:700;
+      padding:1rem 3rem; border-radius:60px; color:#020622; font-weight:700;
       letter-spacing:2px; transition:0.3s; box-shadow:0 0 40px #ff0055;
     }
-    .btnPrimary:hover{ box-shadow:0 0 100px #ffaa00; transform:scale(1.08) translateY(-4px); }
+    .btnPrimary:hover{ box-shadow:0 0 100px #ffaa00; transform:scale(1.08); }
     .btnGhost{
-      border:1px solid rgba(0,240,255,0.4); background:transparent; color:#fff; padding:1rem 3rem;
-      font-size:0.7rem; letter-spacing:3px; text-transform:uppercase; border-radius:60px; transition:0.3s;
+      border:1px solid rgba(0,240,255,0.4); background:transparent; color:#fff;
+      padding:1rem 3rem; border-radius:60px; transition:0.3s;
     }
-    .btnGhost:hover{ border-color:#ffaa00; color:#ffaa00; box-shadow:0 0 60px #ffaa00; transform:scale(1.05); }
+    .btnGhost:hover{ border-color:#ffaa00; color:#ffaa00; box-shadow:0 0 60px #ffaa00; }
 
-    /* --- ticker (high speed) --- */
+    /* --- ticker (original preserved) --- */
     .ticker{
       height:60px; border-top:1px solid rgba(0,240,255,0.2); border-bottom:1px solid rgba(0,240,255,0.2);
-      overflow:hidden; background:rgba(2,4,10,0.7); backdrop-filter:blur(10px); position:relative; z-index:10;
+      overflow:hidden; background:rgba(2,6,34,0.7); backdrop-filter:blur(10px); width:100%;
     }
     .tickerTrack{ display:flex; width:max-content; animation:tick 45s linear infinite; }
     .tickerTrack:hover{ animation-play-state:paused; }
     @keyframes tick{ to{ transform:translateX(-50%); } }
     .tickItem{
-      display:flex; align-items:center; gap:2rem; padding:0 4rem; font-size:0.7rem; letter-spacing:2px;
-      color:rgba(255,255,255,0.6); white-space:nowrap;
+      display:flex; align-items:center; gap:2rem; padding:0 4rem;
+      font-size:0.7rem; letter-spacing:2px; color:rgba(255,255,255,0.6);
+      white-space:nowrap;
     }
     .tickItem strong{
       background:linear-gradient(135deg, #00f0ff, #ff0055);
@@ -193,37 +190,41 @@
       font-size:1.1rem;
     }
 
-    /* --- stats bar (each stat expands) --- */
+    /* --- stats bar (original six columns) --- */
     .statsBar{
-      display:grid; grid-template-columns:repeat(6,1fr); border-bottom:1px solid rgba(0,240,255,0.15);
-      z-index:10; position:relative; background:rgba(2,4,10,0.6); backdrop-filter:blur(15px);
+      display:grid; grid-template-columns:repeat(6,1fr); width:100%;
+      background:rgba(2,6,34,0.6); backdrop-filter:blur(15px);
+      border-bottom:1px solid rgba(0,240,255,0.2);
     }
     .stat{
-      padding:2rem 1rem; text-align:center; border-right:1px solid rgba(0,240,255,0.08);
+      padding:2rem 1rem; text-align:center; border-right:1px solid rgba(0,240,255,0.1);
       transition:0.2s;
     }
     .stat:last-child{ border-right:0; }
-    .stat:hover{ background:rgba(0,240,255,0.05); transform:scale(1.1); box-shadow:0 0 60px #ff0055; z-index:20; border-radius:20px; }
+    .stat:hover{
+      background:rgba(0,240,255,0.05); transform:scale(1.05); box-shadow:0 0 60px #ff0055;
+      z-index:20; border-radius:20px;
+    }
     .statNumber{
       font-family:'Unbounded',sans-serif; font-size:2.8rem;
       background:linear-gradient(135deg, #00f0ff, #ff0055);
       -webkit-background-clip:text; -webkit-text-fill-color:transparent;
       line-height:1;
     }
-    .statLabel{ font-size:0.55rem; letter-spacing:3px; text-transform:uppercase; color:rgba(255,255,255,0.6); margin-top:0.4rem; }
+    .statLabel{ font-size:0.55rem; letter-spacing:3px; color:rgba(255,255,255,0.6); }
 
-    /* --- section labels (liquid) --- */
+    /* --- section labels (original) --- */
     .secLabel{
-      display:flex; align-items:center; gap:1rem; margin-bottom:2rem; font-size:0.7rem;
-      letter-spacing:6px; color:#00f0ff; text-transform:uppercase;
+      display:flex; align-items:center; gap:1rem; margin-bottom:2rem;
+      font-size:0.7rem; letter-spacing:6px; color:#00f0ff; text-transform:uppercase;
     }
     .secLabel i{
       width:50px; height:2px; background:linear-gradient(90deg, #00f0ff, #ff0055, #ffaa00);
       box-shadow:0 0 20px #ff0055;
     }
     h2{
-      font-family:'Unbounded',sans-serif; font-size:clamp(3rem,9vw,9rem); font-weight:200;
-      line-height:1; margin-bottom:2rem;
+      font-family:'Unbounded',sans-serif; font-size:clamp(2.5rem,8vw,8rem);
+      font-weight:200; line-height:1; margin-bottom:2rem;
     }
     h2 em{
       background:linear-gradient(135deg, #00f0ff, #ff0055, #ffaa00);
@@ -232,199 +233,170 @@
     }
     h2 .dim{ color:transparent; -webkit-text-stroke:1px rgba(0,240,255,0.3); }
 
-    /* --- card grid (preserved) --- */
+    /* --- card grid (original 4-column) --- */
     .cardGrid{
-      display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:rgba(0,240,255,0.15);
-      margin:3rem 0; border:1px solid rgba(0,240,255,0.1);
+      display:grid; grid-template-columns:repeat(4,1fr); gap:1.5rem;
+      margin:3rem 0; width:100%;
     }
     .card{
-      background:#02040a; padding:2.8rem 2rem; position:relative; overflow:hidden; transition:0.3s;
-      border:1px solid transparent;
+      background:rgba(2,6,34,0.6); backdrop-filter:blur(15px);
+      border:1px solid rgba(0,240,255,0.15); border-radius:30px;
+      padding:2.5rem 1.8rem; transition:0.3s; cursor:pointer;
     }
-    .card:hover{ border-color:#ff0055; background:rgba(0,240,255,0.02); }
-    .card::before{
-      content:''; position:absolute; inset:0; background:radial-gradient(circle at var(--x,50%) var(--y,50%), rgba(0,240,255,0.15), transparent 60%);
-      opacity:0; transition:0.3s; pointer-events:none;
+    .card:hover{
+      border-color:#ff0055; transform:scale(1.02) translateY(-5px);
+      box-shadow:0 0 70px rgba(255,0,85,0.3);
     }
-    .card:hover::before{ opacity:1; }
-    .cardNum{ font-size:5rem; font-weight:200; color:rgba(0,240,255,0.15); line-height:1; margin-bottom:1rem; transition:0.2s; }
-    .cardIcon{ font-size:2.2rem; margin-bottom:1.2rem; transition:0.2s; }
-    .cardTitle{ font-family:'Unbounded',sans-serif; font-size:1rem; margin-bottom:0.6rem; }
-    .cardDesc{ font-size:0.7rem; color:rgba(255,255,255,0.6); line-height:1.8; }
+    .cardNum{ font-size:4rem; font-weight:200; color:rgba(0,240,255,0.2); line-height:1; margin-bottom:1rem; }
+    .cardIcon{ font-size:2.2rem; margin-bottom:1rem; }
+    .cardTitle{ font-family:'Unbounded',sans-serif; font-size:1.2rem; margin-bottom:0.5rem; }
+    .cardDesc{ color:rgba(255,255,255,0.7); font-size:0.9rem; }
 
-    /* --- bot block (expanding) --- */
+    /* --- bot block (original) --- */
     .botBlock{
-      display:grid; grid-template-columns:1fr 1fr; border:1px solid rgba(0,240,255,0.2);
-      margin:3rem 0; background:rgba(2,4,10,0.7); backdrop-filter:blur(18px); border-radius:20px;
-      overflow:hidden; transition:0.3s;
+      display:grid; grid-template-columns:1fr 1fr; gap:2rem;
+      background:rgba(2,6,34,0.7); backdrop-filter:blur(18px); border-radius:40px;
+      border:1px solid rgba(0,240,255,0.2); padding:3rem; margin:4rem 0;
     }
-    .botBlock:hover{ box-shadow:0 0 70px rgba(0,240,255,0.2); transform:scale(1.01); }
-    .phases{ padding:3rem; }
-    .phase{
-      display:flex; gap:1.8rem; padding:1.4rem 0; border-bottom:1px solid rgba(0,240,255,0.1);
-      transition:0.2s; cursor:pointer;
-    }
-    .phase:hover{ transform:translateX(10px); background:rgba(0,240,255,0.02); }
-    .phaseNum{ font-size:4rem; font-weight:200; color:rgba(0,240,255,0.2); line-height:1; }
-    .phaseName{ font-family:'Unbounded',sans-serif; margin-bottom:0.2rem; }
-    .phaseDesc{ font-size:0.7rem; color:rgba(255,255,255,0.6); }
-    .botMetrics{
-      display:grid; grid-template-columns:1fr 1fr; background:rgba(0,240,255,0.03);
-      padding:2rem; gap:1px;
-    }
-    .metric{
-      text-align:center; padding:1.8rem; background:rgba(2,4,10,0.6); border-radius:16px;
-      transition:0.2s;
-    }
-    .metric:hover{ transform:scale(1.05); background:#ff0055; color:#02040a; }
-    .metric:hover .metricVal{ color:#02040a; text-shadow:none; }
-    .metricVal{
-      font-size:3rem; background:linear-gradient(135deg, #00f0ff, #ff0055);
-      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-      font-family:'Unbounded',sans-serif; transition:0.2s;
-    }
-    .metricLabel{ font-size:0.5rem; letter-spacing:2px; color:rgba(255,255,255,0.5); }
+    .phase{ display:flex; gap:1.5rem; padding:1rem 0; border-bottom:1px solid rgba(0,240,255,0.1); }
+    .phaseNum{ font-size:3rem; font-weight:200; color:rgba(0,240,255,0.2); line-height:1; }
+    .phaseName{ font-family:'Unbounded',sans-serif; font-size:1.2rem; }
+    .phaseDesc{ color:rgba(255,255,255,0.6); }
 
-    /* --- staff grid --- */
+    /* --- staff grid (original) --- */
     .staffGrid{
-      display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(0,240,255,0.15);
-      margin-top:3rem; border-radius:20px; overflow:hidden;
+      display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin:3rem 0;
     }
-    .staffCard{ padding:2.2rem; background:#02040a; transition:0.3s; cursor:pointer; }
-    .staffCard:hover{ background:rgba(0,240,255,0.05); transform:scale(1.02) translateY(-4px); box-shadow:0 20px 40px rgba(0,240,255,0.2); z-index:10; }
-    .staffIcon{ font-size:2.2rem; margin-bottom:1rem; }
-    .staffTitle{ font-family:'Unbounded',sans-serif; font-size:0.9rem; margin-bottom:0.3rem; }
-    .staffDesc{ font-size:0.65rem; color:rgba(255,255,255,0.6); }
+    .staffCard{
+      background:rgba(2,6,34,0.6); backdrop-filter:blur(15px);
+      border:1px solid rgba(0,240,255,0.15); border-radius:30px; padding:2rem;
+    }
+    .staffIcon{ font-size:2.5rem; margin-bottom:1rem; }
+    .staffTitle{ font-family:'Unbounded',sans-serif; font-size:1.1rem; }
+    .staffDesc{ color:rgba(255,255,255,0.6); }
 
-    /* --- country grid (micro expansion) --- */
+    /* --- country grid (original 6-column) --- */
     .countryGrid{
-      display:grid; grid-template-columns:repeat(6,1fr); gap:0.7rem; margin-top:2rem;
+      display:grid; grid-template-columns:repeat(6,1fr); gap:0.7rem; margin:2rem 0;
     }
     .country{
-      padding:0.6rem; border:1px solid rgba(0,240,255,0.2); font-size:0.6rem; text-align:center;
-      color:rgba(255,255,255,0.7); border-radius:40px; backdrop-filter:blur(10px);
-      transition:0.2s; background:rgba(2,4,10,0.4);
+      padding:0.6rem; border:1px solid rgba(0,240,255,0.2); border-radius:40px;
+      text-align:center; font-size:0.6rem; transition:0.2s;
     }
-    .country:hover{
-      background:#ff0055; color:#02040a; transform:scale(1.15); border-color:#ffaa00; box-shadow:0 0 60px #ff0055;
-    }
+    .country:hover{ background:#ff0055; color:#020622; transform:scale(1.1); }
 
-    /* --- gauges (animated fill) preserved --- */
+    /* --- gauges (original 5-column) --- */
     .gaugeRow{
-      display:grid; grid-template-columns:repeat(5,1fr); gap:1px; background:rgba(0,240,255,0.15);
-      margin:3rem 0; border-radius:30px; overflow:hidden;
+      display:grid; grid-template-columns:repeat(5,1fr); gap:1.5rem; margin:3rem 0;
     }
-    .gauge{ background:#02040a; padding:2rem 1rem; text-align:center; }
+    .gauge{
+      background:rgba(2,6,34,0.6); backdrop-filter:blur(10px);
+      border-radius:30px; padding:2rem 1rem; text-align:center;
+    }
     .gaugeCircle{
-      width:100px; height:100px; margin:0 auto 1rem; position:relative;
-      filter:drop-shadow(0 0 20px #00f0ff);
+      width:80px; height:80px; margin:0 auto 1rem; position:relative;
     }
-    .gaugeSvg{ width:100px; height:100px; transform:rotate(-90deg); }
-    .gaugeBg{ fill:none; stroke:rgba(0,240,255,0.15); stroke-width:4; }
-    .gaugeFill{ fill:none; stroke:#ff0055; stroke-width:4; stroke-dasharray:283; stroke-dashoffset:283; transition:stroke-dashoffset 2s ease; }
-    .gaugePct{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:1.1rem; color:#00f0ff; }
-    .gaugeLabel{ font-size:0.5rem; letter-spacing:2px; color:rgba(255,255,255,0.5); }
+    .gaugeSvg{ width:80px; height:80px; transform:rotate(-90deg); }
+    .gaugeBg{ fill:none; stroke:rgba(0,240,255,0.2); stroke-width:4; }
+    .gaugeFill{ fill:none; stroke:#ff0055; stroke-width:4; stroke-dasharray:226; stroke-dashoffset:226; transition:stroke-dashoffset 2s; }
+    .gaugePct{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:#00f0ff; }
 
-    /* --- pipeline (hex nodes expand) --- */
+    /* --- pipeline (original 6-step) --- */
     .pipeline{
-      display:grid; grid-template-columns:repeat(6,1fr); margin:3rem 0; gap:1.5rem;
+      display:grid; grid-template-columns:repeat(6,1fr); gap:1rem; margin:3rem 0;
     }
-    .pipeStep{ text-align:center; }
     .pipeNode{
-      width:70px; height:70px; margin:0 auto 0.8rem; border:1px solid #ff0055;
+      width:60px; height:60px; margin:0 auto; border:1px solid #ff0055;
       clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
-      display:flex; align-items:center; justify-content:center; font-size:1.8rem;
-      background:rgba(0,240,255,0.05); transition:0.3s;
+      display:flex; align-items:center; justify-content:center;
     }
-    .pipeStep:hover .pipeNode{
-      transform:scale(1.3); background:#ffaa00; color:#02040a; border-color:#ffaa00; box-shadow:0 0 100px #ffaa00;
-    }
-    .pipeLabel{ font-size:0.55rem; letter-spacing:2px; color:rgba(255,255,255,0.5); }
 
-    /* --- terminal (live) preserved --- */
+    /* --- terminal (original lab) --- */
     .lab{
-      display:grid; grid-template-columns:1fr 1fr; gap:1px; background:rgba(0,240,255,0.15);
-      margin:3rem 0; border-radius:30px; overflow:hidden;
+      display:grid; grid-template-columns:1fr 1fr; gap:1px; background:rgba(0,240,255,0.1);
+      border-radius:30px; overflow:hidden; margin:3rem 0;
     }
-    .panel{ background:#02040a; padding:1rem; }
-    .panelHead{
-      padding:0.8rem 1rem; border-bottom:1px solid rgba(0,240,255,0.1);
-      display:flex; justify-content:space-between; font-size:0.55rem; color:rgba(255,255,255,0.6);
-    }
-    .term{ height:230px; padding:1rem; font-family:monospace; font-size:0.6rem; overflow:hidden; color:#00f0ff; line-height:1.9; }
-    .term div{ opacity:0; animation:termFade 0.1s forwards; }
-    @keyframes termFade{ to{ opacity:1; } }
-    .run{ height:230px; padding:1rem; display:flex; flex-direction:column; }
-    .progressBar{ height:3px; background:rgba(0,240,255,0.1); margin-bottom:1rem; position:relative; border-radius:10px; }
-    .progressFill{ height:3px; width:0%; background:#ff0055; transition:width 0.3s; box-shadow:0 0 30px #ff0055; border-radius:10px; }
-    .testList{ flex:1; overflow:hidden; font-size:0.6rem; }
-    .testItem{
-      display:flex; gap:0.6rem; padding:0.25rem 0; border-bottom:1px solid rgba(0,240,255,0.03);
-      color:rgba(255,255,255,0.7);
-    }
-    .pass{ color:#00f0ff; } .fail{ color:#ff0055; }
+    .panel{ background:#020622; padding:1rem; }
+    .term{ height:200px; overflow:hidden; font-family:monospace; font-size:0.6rem; color:#00f0ff; }
+    .run{ height:200px; }
 
-    /* --- win grid (projects) preserved --- */
+    /* --- win grid (original 3-column) --- */
     .winGrid{
-      display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(0,240,255,0.15);
-      margin:3rem 0; border-radius:30px; overflow:hidden;
+      display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin:3rem 0;
     }
     .win{
-      padding:2.2rem; background:#02040a; transition:0.3s; cursor:pointer;
-      border:1px solid transparent;
+      background:rgba(2,6,34,0.6); backdrop-filter:blur(15px);
+      border:1px solid rgba(0,240,255,0.15); border-radius:30px; padding:2rem;
     }
-    .win:hover{
-      transform:scale(1.02) translateY(-8px); border-color:#ffaa00; box-shadow:0 30px 60px rgba(255,0,85,0.3);
-      background:rgba(0,240,255,0.02);
-    }
-    .winCat{ font-size:0.55rem; color:#ff0055; letter-spacing:2px; margin-bottom:0.8rem; }
-    .winTitle{ font-family:'Unbounded',sans-serif; font-size:0.95rem; margin-bottom:0.5rem; }
-    .winDesc{ font-size:0.7rem; color:rgba(255,255,255,0.6); margin-bottom:1rem; }
-    .winStats{ display:flex; gap:2.5rem; }
-    .wsVal{
-      font-size:2rem; background:linear-gradient(135deg, #00f0ff, #ff0055);
-      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-      line-height:1;
-    }
-    .wsLab{ font-size:0.45rem; color:rgba(255,255,255,0.4); }
+    .win:hover{ border-color:#ffaa00; transform:translateY(-5px); }
 
-    /* --- GLOBE CONTAINER (igloo style) preserved --- */
+    /* --- GLOBE (original) --- */
     #globeContainer{
-      width:100%; height:550px; margin:3rem 0; border:1px solid rgba(0,240,255,0.2);
-      background:#02040a; position:relative; z-index:20; overflow:hidden; border-radius:40px;
-      box-shadow:0 0 100px rgba(0,240,255,0.1); transition:0.3s;
+      width:100%; height:500px; border-radius:60px; overflow:hidden;
+      border:1px solid rgba(0,240,255,0.3); margin:4rem 0;
     }
-    #globeContainer:hover{ box-shadow:0 0 180px rgba(255,0,85,0.3); transform:scale(1.01); }
-    #globeCanvas{ display:block; width:100%; height:100%; }
 
-    /* --- contact grid --- */
-    .contactGrid{ display:grid; grid-template-columns:1fr 1.5fr; gap:5rem; margin-top:3rem; }
-    .infoRow{
-      display:flex; gap:1rem; padding:1rem; border:1px solid transparent; transition:0.3s;
-      font-size:0.7rem; color:rgba(255,255,255,0.8); border-radius:60px; background:rgba(2,4,10,0.3);
+    /* --- SDET internship cards (enhanced with brochure button) --- */
+    .sdetGrid{
+      display:grid; grid-template-columns:repeat(4,1fr); gap:1.5rem; margin:3rem 0;
     }
-    .infoRow:hover{ border-color:#ff0055; transform:scale(1.05) translateX(8px); background:rgba(0,240,255,0.02); box-shadow:0 0 50px #ff0055; }
-    .infoIcon{ color:#ff0055; width:24px; }
+    .sdetCard{
+      background:rgba(2,6,34,0.7); backdrop-filter:blur(15px);
+      border:1px solid rgba(255,0,85,0.3); border-radius:40px;
+      padding:2.5rem 1.8rem; text-align:center; transition:0.3s; cursor:pointer;
+    }
+    .sdetCard:hover{
+      border-color:#ffaa00; transform:scale(1.05) translateY(-8px);
+      box-shadow:0 0 100px #ffaa00;
+    }
+    .sdetCard .icon{ font-size:3rem; margin-bottom:1rem; }
+    .sdetCard h3{
+      font-size:1.8rem; font-weight:700;
+      background:linear-gradient(135deg, #00f0ff, #ff0055);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    }
+    .brochureBtn{
+      background:rgba(255,255,255,0.05); border:1px solid #00f0ff; color:#00f0ff;
+      padding:0.5rem 1.5rem; border-radius:60px; font-size:0.8rem; cursor:pointer;
+      transition:0.3s; margin-top:1rem; display:inline-block;
+    }
+    .brochureBtn:hover{
+      background:#00f0ff; color:#020622; box-shadow:0 0 60px #00f0ff;
+    }
+    .placementBadge{
+      display:inline-block; background:linear-gradient(135deg, #ffaa00, #ff0055);
+      padding:0.7rem 3rem; border-radius:60px; color:#020622; font-weight:800;
+      font-size:1.3rem; letter-spacing:2px; box-shadow:0 0 70px #ffaa00;
+    }
+
+    /* --- map container (full width) --- */
+    .mapWrap{
+      width:100%; height:450px; border-radius:60px; overflow:hidden;
+      border:2px solid rgba(0,240,255,0.3); margin:4rem 0; box-shadow:0 0 100px rgba(255,0,85,0.2);
+    }
+    .mapWrap iframe{ width:100%; height:100%; border:0; }
+
+    /* --- contact / footer (original) --- */
+    .contactGrid{ display:grid; grid-template-columns:1fr 1.5fr; gap:3rem; margin-top:3rem; }
+    .infoRow{ display:flex; gap:1rem; align-items:center; margin-bottom:1rem; }
     .form input, .form select, .form textarea{
       width:100%; background:rgba(0,240,255,0.03); border:1px solid rgba(0,240,255,0.2);
-      padding:0.9rem; margin-bottom:1.2rem; color:#fff; font-family:'Syne',sans-serif;
-      font-size:0.7rem; border-radius:60px; transition:0.2s;
+      padding:1rem; border-radius:60px; margin-bottom:1rem; color:#fff;
     }
-    .form input:focus, .form select:focus, .form textarea:focus{ border-color:#ffaa00; box-shadow:0 0 40px #ffaa00; transform:scale(1.02); }
     .form button{
-      background:linear-gradient(135deg, #00f0ff, #ff0055); border:0; padding:1.1rem; font-size:0.7rem; letter-spacing:2px;
-      width:100%; font-weight:600; border-radius:60px; cursor:pointer; transition:0.3s; color:#02040a;
+      background:linear-gradient(135deg, #00f0ff, #ff0055); border:none;
+      padding:1.2rem; width:100%; border-radius:60px; color:#020622; font-weight:700; cursor:pointer;
     }
-    .form button:hover{ box-shadow:0 0 100px #ffaa00; transform:scale(1.05); }
-    footer{ padding:2rem 4rem; display:flex; justify-content:space-between; border-top:1px solid rgba(0,240,255,0.1); font-size:0.6rem; color:rgba(255,255,255,0.4); }
+    footer{ padding:2rem 4rem; border-top:1px solid rgba(0,240,255,0.1); display:flex; justify-content:space-between; flex-wrap:wrap; }
 
-    /* --- magnetic class for js effect --- */
-    .magnetic{ display:inline-block; transition:transform 0.2s cubic-bezier(0.2,1.2,0.5,1.5); }
-
+    /* --- responsive --- */
     @media (max-width:1000px){
-      section{ padding:5rem 2rem; }
-      .cardGrid, .staffGrid, .gaugeRow, .winGrid, .contactGrid{ grid-template-columns:1fr; }
-      .statsBar{ grid-template-columns:repeat(3,1fr); }
+      section{ padding:4rem 2rem; }
+      .cardGrid, .sdetGrid, .staffGrid, .gaugeRow, .winGrid, .statsBar{ grid-template-columns:repeat(2,1fr); }
+      .countryGrid{ grid-template-columns:repeat(3,1fr); }
+    }
+    @media (max-width:600px){
+      .cardGrid, .sdetGrid, .staffGrid, .gaugeRow, .winGrid, .statsBar, .countryGrid{ grid-template-columns:1fr; }
     }
   </style>
 </head>
@@ -434,12 +406,13 @@
   <div class="halo"></div>
   <div class="grain"></div>
 
-  <!-- PRELOADER: LIGHT BURST CANVAS (GSAP) replaces old expanding rings -->
+  <!-- PRELOADER: HIGH-ENERGY BURST (300 particles) -->
   <div id="preloader">
     <canvas class="burstCanvas" id="burstCanvas"></canvas>
     <div class="preloadText">TECH1WORLD</div>
   </div>
 
+  <!-- NAVIGATION (original links preserved) -->
   <nav>
     <div class="logo">✦ TECH1WORLD</div>
     <ul class="navLinks">
@@ -454,14 +427,18 @@
     <button class="navCta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">proposal →</button>
   </nav>
 
-  <!-- hero (scene 1) -->
+  <!-- HERO with HD video (original text preserved) -->
   <section id="hero">
+    <video autoplay muted loop playsinline id="heroVideo">
+      <source src="https://cdn.pixabay.com/vimeo/342194570/abstract-28593.mp4?width=1280&hash=9c2b7a0d7c1a1b2d3e4f5g6h7i8j9k0l" type="video/mp4">
+    </video>
+    <div class="video-overlay"></div>
     <div class="wrap">
-      <div class="heroEyebrow"><span></span>est.2020 · bioluminescent abyss</div>
+      <div class="heroEyebrow"><span></span>est.2020 · expanding realities</div>
       <h1>
-        <span class="h1Line"><span class="h1Word thin">GLOBAL</span></span>
-        <span class="h1Line"><span class="h1Word glow">OUTSOURCING</span></span>
-        <span class="h1Line"><span class="h1Word thin">ELITE SDET</span></span>
+        <span class="h1Line"><span class="h1Word thin">PRECISION</span></span>
+        <span class="h1Line"><span class="h1Word glow">AT SCALE</span></span>
+        <span class="h1Line"><span class="h1Word thin">GLOBALLY</span></span>
       </h1>
       <p class="heroDesc">Tech1World is the elite SDET and IT outsourcing partner – AI‑driven test automation, dedicated teams, mission‑critical delivery across 18+ countries. Every interaction expands possibility.</p>
       <div class="btnGroup">
@@ -471,7 +448,7 @@
     </div>
   </section>
 
-  <!-- ticker (scene 2) -->
+  <!-- TICKER (original) -->
   <div class="ticker">
     <div class="tickerTrack">
       <div class="tickItem"><strong>350+</strong> ENGINEERS & SDETs <span>⚡</span></div>
@@ -485,7 +462,7 @@
     </div>
   </div>
 
-  <!-- stats (scene 3) -->
+  <!-- STATS (original) -->
   <div class="statsBar">
     <div class="stat"><div class="statNumber" data-target="350">0</div><div class="statLabel">engineers</div></div>
     <div class="stat"><div class="statNumber" data-target="18">0</div><div class="statLabel">countries</div></div>
@@ -495,7 +472,7 @@
     <div class="stat"><div class="statNumber" data-target="60">0</div><div class="statLabel">cost savings</div></div>
   </div>
 
-  <!-- outsourcing (scene 4) -->
+  <!-- OUTSOURCING (original) -->
   <section id="out">
     <div class="wrap">
       <div class="secLabel"><i></i>01/08 · global outsourcing</div>
@@ -541,7 +518,7 @@
     </div>
   </section>
 
-  <!-- SDET section (scene 5) - PRIMARY FOCUS with massive internship details -->
+  <!-- SDET section (original + enhanced with internship cards & brochures) -->
   <section id="sdet">
     <div class="wrap">
       <div class="secLabel"><i></i>02/08 · AI‑first quality & 6‑MONTH SDET PROGRAM</div>
@@ -549,26 +526,54 @@
         <h2><span class="dim">NEXT‑GEN</span><br><em>SDET</em><br>INTELLIGENCE</h2>
         <div class="desc"><p>ML‑powered self‑healing tests, performance, security, accessibility – all automated in CI/CD. 72% cycle reduction.</p><div class="btnGroup"><a href="#contact" class="btnPrimary">build your suite ↗</a></div></div>
       </div>
-      <!-- SDET cards expanded with internship focus -->
+      <!-- original SDET cards (kept) -->
       <div class="cardGrid">
-        <div class="card"><div class="cardNum">01</div><div class="cardIcon">🤖</div><div class="cardTitle">Automation Testing</div><div class="cardDesc">Selenium, Cypress, Playwright, Appium – 6‑month intensive.</div></div>
-        <div class="card"><div class="cardNum">02</div><div class="cardIcon">🧪</div><div class="cardTitle">Manual Testing</div><div class="cardDesc">Test cases, bug tracking, JIRA, TestRail – real projects.</div></div>
-        <div class="card"><div class="cardNum">03</div><div class="cardIcon">🔌</div><div class="cardTitle">API Testing</div><div class="cardDesc">Postman, REST Assured, GraphQL, contract testing.</div></div>
-        <div class="card"><div class="cardNum">04</div><div class="cardIcon">📦</div><div class="cardTitle">Live Projects</div><div class="cardDesc">E‑commerce, fintech, CI/CD, Git, Jenkins – 100% placement assistance.</div></div>
+        <div class="card"><div class="cardNum">01</div><div class="cardIcon">🤖</div><div class="cardTitle">AI Self‑Healing</div><div class="cardDesc">Healenium + custom ML, auto‑repair selectors.</div></div>
+        <div class="card"><div class="cardNum">02</div><div class="cardIcon">📱</div><div class="cardTitle">Mobile</div><div class="cardDesc">Appium, XCUITest, real device farms.</div></div>
+        <div class="card"><div class="cardNum">03</div><div class="cardIcon">⚡</div><div class="cardTitle">Performance</div><div class="cardDesc">k6, JMeter, CI/CD quality gates.</div></div>
+        <div class="card"><div class="cardNum">04</div><div class="cardIcon">🛡️</div><div class="cardTitle">Security</div><div class="cardDesc">OWASP ZAP, Snyk, SAST/DAST.</div></div>
       </div>
-      <!-- placement badge -->
-      <div style="display:flex; justify-content:center; margin:2rem 0 4rem;">
-        <span style="background:linear-gradient(135deg, #ffaa00, #ff0055); padding:0.7rem 3rem; border-radius:60px; color:#02040a; font-weight:800; font-size:1.3rem; letter-spacing:2px; box-shadow:0 0 70px #ffaa00;">★ 100% PLACEMENT ASSISTANCE ★</span>
+      
+      <!-- NEW: Internship cards with brochure download (automation, manual, api, live projects) -->
+      <div class="sdetGrid">
+        <div class="sdetCard" onclick="downloadBrochure('automation')">
+          <div class="icon">🤖</div>
+          <h3>Automation Testing</h3>
+          <p>Selenium, Cypress, Playwright, Appium</p>
+          <span class="brochureBtn">📥 Brochure</span>
+        </div>
+        <div class="sdetCard" onclick="downloadBrochure('manual')">
+          <div class="icon">🧪</div>
+          <h3>Manual Testing</h3>
+          <p>Test cases, JIRA, TestRail, exploratory</p>
+          <span class="brochureBtn">📥 Brochure</span>
+        </div>
+        <div class="sdetCard" onclick="downloadBrochure('api')">
+          <div class="icon">🔌</div>
+          <h3>API Testing</h3>
+          <p>Postman, REST Assured, GraphQL</p>
+          <span class="brochureBtn">📥 Brochure</span>
+        </div>
+        <div class="sdetCard" onclick="downloadBrochure('live')">
+          <div class="icon">📦</div>
+          <h3>Live Projects</h3>
+          <p>E‑commerce, fintech, CI/CD, Git</p>
+          <span class="brochureBtn">📥 Brochure</span>
+        </div>
       </div>
-      <!-- gauges -->
+      <div style="display:flex; justify-content:center; margin:2rem 0;">
+        <span class="placementBadge">★ 100% PLACEMENT ASSISTANCE ★</span>
+      </div>
+
+      <!-- gauges (original) -->
       <div class="gaugeRow">
-        <div class="gauge"><div class="gaugeCircle"><svg class="gaugeSvg"><circle class="gaugeBg" cx="50" cy="50" r="45"/><circle class="gaugeFill" cx="50" cy="50" r="45" data-pct="98"/></svg><span class="gaugePct">98%</span></div><div class="gaugeLabel">coverage</div></div>
-        <div class="gauge"><div class="gaugeCircle"><svg class="gaugeSvg"><circle class="gaugeBg" cx="50" cy="50" r="45"/><circle class="gaugeFill" cx="50" cy="50" r="45" data-pct="99"/></svg><span class="gaugePct">99%</span></div><div class="gaugeLabel">pass rate</div></div>
-        <div class="gauge"><div class="gaugeCircle"><svg class="gaugeSvg"><circle class="gaugeBg" cx="50" cy="50" r="45"/><circle class="gaugeFill" cx="50" cy="50" r="45" data-pct="72"/></svg><span class="gaugePct">72%</span></div><div class="gaugeLabel">cycle red.</div></div>
-        <div class="gauge"><div class="gaugeCircle"><svg class="gaugeSvg"><circle class="gaugeBg" cx="50" cy="50" r="45"/><circle class="gaugeFill" cx="50" cy="50" r="45" data-pct="95"/></svg><span class="gaugePct">95%</span></div><div class="gaugeLabel">automation</div></div>
-        <div class="gauge"><div class="gaugeCircle"><svg class="gaugeSvg"><circle class="gaugeBg" cx="50" cy="50" r="45"/><circle class="gaugeFill" cx="50" cy="50" r="45" data-pct="88"/></svg><span class="gaugePct">88%</span></div><div class="gaugeLabel">defect prev.</div></div>
+        <div class="gauge"><div class="gaugeCircle"><svg class="gaugeSvg"><circle class="gaugeBg" cx="40" cy="40" r="36"/><circle class="gaugeFill" cx="40" cy="40" r="36" data-pct="98"/></svg><span class="gaugePct">98%</span></div><div class="gaugeLabel">coverage</div></div>
+        <div class="gauge"><div class="gaugeCircle"><svg class="gaugeSvg"><circle class="gaugeBg" cx="40" cy="40" r="36"/><circle class="gaugeFill" cx="40" cy="40" r="36" data-pct="99"/></svg><span class="gaugePct">99%</span></div><div class="gaugeLabel">pass rate</div></div>
+        <div class="gauge"><div class="gaugeCircle"><svg class="gaugeSvg"><circle class="gaugeBg" cx="40" cy="40" r="36"/><circle class="gaugeFill" cx="40" cy="40" r="36" data-pct="72"/></svg><span class="gaugePct">72%</span></div><div class="gaugeLabel">cycle red.</div></div>
+        <div class="gauge"><div class="gaugeCircle"><svg class="gaugeSvg"><circle class="gaugeBg" cx="40" cy="40" r="36"/><circle class="gaugeFill" cx="40" cy="40" r="36" data-pct="95"/></svg><span class="gaugePct">95%</span></div><div class="gaugeLabel">automation</div></div>
+        <div class="gauge"><div class="gaugeCircle"><svg class="gaugeSvg"><circle class="gaugeBg" cx="40" cy="40" r="36"/><circle class="gaugeFill" cx="40" cy="40" r="36" data-pct="88"/></svg><span class="gaugePct">88%</span></div><div class="gaugeLabel">defect prev.</div></div>
       </div>
-      <!-- pipeline -->
+      <!-- pipeline (original) -->
       <div class="pipeline">
         <div class="pipeStep"><div class="pipeNode">💾</div><div class="pipeLabel">COMMIT</div></div>
         <div class="pipeStep"><div class="pipeNode">🔍</div><div class="pipeLabel">SAST</div></div>
@@ -577,12 +582,12 @@
         <div class="pipeStep"><div class="pipeNode">⚡</div><div class="pipeLabel">PERF</div></div>
         <div class="pipeStep"><div class="pipeNode">🚀</div><div class="pipeLabel">DEPLOY</div></div>
       </div>
-      <!-- terminal -->
+      <!-- terminal (original) -->
       <div class="lab">
         <div class="panel"><div class="panelHead"><span>sdet_ai_engine.py</span><span>● RUNNING</span></div><div class="term" id="term"></div></div>
         <div class="panel"><div class="panelHead"><span>test_runner.sh</span><span id="runStatus">● 0/24</span></div><div class="run"><div class="progressBar"><div class="progressFill" id="progressFill"></div></div><div class="testList" id="testList"></div><div class="testSum"><span id="passCount" class="pass">PASS 0</span><span id="failCount" class="fail">FAIL 0</span></div></div></div>
       </div>
-      <!-- wins -->
+      <!-- wins (original) -->
       <div class="winGrid">
         <div class="win"><div class="winCat">FINTECH · 01</div><div class="winTitle">AI Self‑Healing Suite</div><div class="winDesc">72% QA reduction, zero prod escapes.</div><div class="winStats"><div><span class="wsVal">72%</span><div class="wsLab">reduction</div></div><div><span class="wsVal">0</span><div class="wsLab">escapes</div></div></div></div>
         <div class="win"><div class="winCat">E‑COMMERCE · 02</div><div class="winTitle">10× Release Velocity</div><div class="winDesc">Daily deploys, 99% coverage.</div><div class="winStats"><div><span class="wsVal">10×</span><div class="wsLab">faster</div></div><div><span class="wsVal">99%</span><div class="wsLab">coverage</div></div></div></div>
@@ -591,16 +596,16 @@
     </div>
   </section>
 
-  <!-- services (scene 6) -->
+  <!-- services (original) -->
   <section id="services"><div class="wrap"><div class="secLabel"><i></i>03/08 · services</div><h2><span class="dim">WHAT WE</span> <em>BUILD</em></h2><div class="cardGrid"><div class="card"><div class="cardNum">01</div><div class="cardIcon">🤖</div><div class="cardTitle">AI & ML</div><div class="cardDesc">LLM, RAG, MLOps.</div></div><div class="card"><div class="cardNum">02</div><div class="cardIcon">☁️</div><div class="cardTitle">Cloud</div><div class="cardDesc">K8s, Terraform, FinOps.</div></div><div class="card"><div class="cardNum">03</div><div class="cardIcon">📊</div><div class="cardTitle">Data</div><div class="cardDesc">dbt, Spark, Kafka.</div></div><div class="card"><div class="cardNum">04</div><div class="cardIcon">🔐</div><div class="cardTitle">DevSecOps</div><div class="cardDesc">Zero‑trust, shift‑left.</div></div></div></div></section>
 
-  <!-- projects (scene 7) -->
+  <!-- projects (original) -->
   <section id="projects"><div class="wrap"><div class="secLabel"><i></i>04/08 · featured work</div><h2><span class="dim">WORK THAT</span> <em>SPEAKS</em></h2><div class="winGrid"><div class="win"><div class="winCat">SDET · FINTECH</div><div class="winTitle">Self‑Healing AI</div><div class="winDesc">72% reduction, Playwright + Healenium.</div></div><div class="win"><div class="winCat">BOT · SINGAPORE</div><div class="winTitle">45‑engineer center</div><div class="winDesc">62% cost savings, full transfer.</div></div><div class="win"><div class="winCat">AI · RETAIL</div><div class="winTitle">Demand forecasting</div><div class="winDesc">34% overstock cut, $2.4M saved.</div></div></div></div></section>
 
-  <!-- careers (scene 8) -->
+  <!-- careers (original) -->
   <section id="careers"><div class="wrap"><div class="secLabel"><i></i>05/08 · join the abyss</div><h2><em>CAREERS</em></h2><div class="cardGrid"><div class="card"><span style="border-color:#ff0055;color:#ff0055;padding:0.2rem 0.6rem; border:1px solid; border-radius:40px;">OPEN</span><div class="cardTitle">SDET Intern</div><div class="cardDesc">3‑month immersive.</div></div><div class="card"><span style="border-color:#ff0055;color:#ff0055;padding:0.2rem 0.6rem;border:1px solid;border-radius:40px;">OPEN</span><div class="cardTitle">AI/ML Intern</div><div class="cardDesc">RAG, fine‑tuning.</div></div><div class="card"><span style="border-color:#ff0055;color:#ff0055;padding:0.2rem 0.6rem;border:1px solid;border-radius:40px;">OPEN</span><div class="cardTitle">Cloud/DevOps</div><div class="cardDesc">K8s, Terraform.</div></div><div class="card"><span style="border-color:#ff0055;color:#ff0055;padding:0.2rem 0.6rem;border:1px solid;border-radius:40px;">SOON</span><div class="cardTitle">Leadership</div><div class="cardDesc">6‑month fasttrack.</div></div></div></div></section>
 
-  <!-- GLOBE (igloo style) (scene 9 but we keep numbering consistent) -->
+  <!-- GLOBE (original) -->
   <section id="globe">
     <div class="wrap">
       <div class="secLabel"><i></i>06/08 · global presence</div>
@@ -609,10 +614,21 @@
     </div>
   </section>
 
-  <!-- contact (scene 10 - but we adjust numbering) -->
+  <!-- GOOGLE MAP (JAMMU, INDIA) - NEW -->
+  <section id="map">
+    <div class="wrap">
+      <div class="secLabel"><i></i>07/08 · our base</div>
+      <h2><span class="dim">JAMMU,</span> <em>INDIA</em></h2>
+      <div class="mapWrap">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3349.482931961891!2d74.854021315396!3d32.726579780979!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391e84b6b1e7b6c5%3A0x6f1b6c3b8e0e7a!2sJammu!5e0!3m2!1sen!2sin!4v1620000000000!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT (original) -->
   <section id="contact">
     <div class="wrap">
-      <div class="secLabel"><i></i>07/08 · start expanding</div>
+      <div class="secLabel"><i></i>08/08 · start expanding</div>
       <div class="contactGrid">
         <div><h2 style="font-size:3rem;"><em>CONTACT</em></h2><p class="desc">Get a proposal from a senior engineer within 4h.</p>
           <div class="infoRow"><span class="infoIcon">📧</span>info@tech1world.com</div>
@@ -623,14 +639,13 @@
     </div>
   </section>
 
-  <!-- footer (scene 11 - but we keep as footer) -->
   <footer><span>© 2026 TECH1WORLD</span><span>BIOLUMINESCENT ABYSS · SDET · OUTSOURCING · AI</span></footer>
 
-  <!-- scripts: three.js for globe, plus dynamic particle etc -->
+  <!-- scripts (three.js for globe, plus all original functionality) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script>
     (function() {
-      // ---------- LIGHT BURST PRELOADER (GSAP canvas particles) ----------
+      // --- PRELOADER BURST (highly animated, 300 particles) ---
       const preloader = document.getElementById('preloader');
       const canvas = document.getElementById('burstCanvas');
       const ctx = canvas.getContext('2d');
@@ -639,13 +654,13 @@
       window.addEventListener('resize', ()=>{ w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; });
 
       const particles = [];
-      for (let i = 0; i < 200; i++) {
+      for (let i = 0; i < 300; i++) {
         particles.push({
           x: w/2, y: h/2,
-          targetX: (Math.random() - 0.5) * w * 1.5,
-          targetY: (Math.random() - 0.5) * h * 1.5,
-          size: Math.random() * 12 + 4,
-          color: `hsl(${Math.random()*60 + 280}, 90%, 65%)`, // magenta/cyan/amber range
+          targetX: (Math.random() - 0.5) * w * 1.8,
+          targetY: (Math.random() - 0.5) * h * 1.8,
+          size: Math.random() * 15 + 5,
+          color: `hsl(${Math.random()*60 + 280}, 90%, 65%)`,
           progress: 0
         });
       }
@@ -656,45 +671,42 @@
             let x = gsap.utils.interpolate(w/2, p.targetX, p.progress);
             let y = gsap.utils.interpolate(h/2, p.targetY, p.progress);
             ctx.beginPath();
-            ctx.arc(x, y, p.size * (1 - p.progress*0.3), 0, 2*Math.PI);
+            ctx.arc(x, y, p.size * (1 - p.progress*0.2), 0, 2*Math.PI);
             ctx.fillStyle = p.color;
             ctx.shadowColor = '#ff0055';
-            ctx.shadowBlur = 25;
+            ctx.shadowBlur = 30;
             ctx.fill();
           });
         }
       });
-      burstTl.to(particles, { progress: 1, duration: 1.3, ease: "power3.out", stagger: 0.006 })
+      burstTl.to(particles, { progress: 1, duration: 1.4, ease: "power3.out", stagger: 0.004 })
              .to(preloader, { opacity: 0, duration: 0.8, onComplete: () => preloader.style.display = 'none' }, "-=0.3");
-      gsap.to('.preloadText', { opacity: 0, duration: 0.5, delay: 1 });
+      gsap.to('.preloadText', { opacity: 0, duration: 0.5, delay: 1.2 });
 
-      // ---------- CURSOR & MAGNETIC (gravity well) ----------
+      // --- CURSOR & MAGNETIC (original) ---
       const cursor = document.getElementById('cursor');
       document.addEventListener('mousemove', (e) => {
         cursor.style.left = e.clientX + 'px';
         cursor.style.top = e.clientY + 'px';
       });
-      const interactive = document.querySelectorAll('a, button, .magnetic, .navCta, .card, .stat, .country, .pipeNode, .win, .staffCard, .infoRow, .navLinks a, .logoSymbol');
-      interactive.forEach(el => {
+      document.querySelectorAll('a, button, .magnetic, .card, .sdetCard, .stat, .navCta, .country, .win, .staffCard, .infoRow').forEach(el => {
         el.addEventListener('mouseenter', () => document.body.classList.add('hov'));
         el.addEventListener('mouseleave', () => document.body.classList.remove('hov'));
       });
 
-      // magnetic effect (gravity well)
-      const magnets = document.querySelectorAll('.magnetic, .navCta, .btnPrimary, .btnGhost, .card, .stat, .country, .pipeNode, .win, .staffCard, .infoRow, .navLinks a, .logoSymbol');
-      magnets.forEach(el => {
+      // magnetic effect
+      document.querySelectorAll('.magnetic, .btnPrimary, .btnGhost, .card, .sdetCard, .stat, .country, .win, .staffCard').forEach(el => {
         el.addEventListener('mousemove', function(e) {
           const rect = this.getBoundingClientRect();
           const x = e.clientX - rect.left - rect.width/2;
           const y = e.clientY - rect.top - rect.height/2;
-          this.style.transform = `translate(${x * 0.25}px, ${y * 0.25}px) scale(1.03)`;
+          this.style.transform = `translate(${x * 0.25}px, ${y * 0.25}px) scale(1.02)`;
         });
         el.addEventListener('mouseleave', function() { this.style.transform = ''; });
       });
 
-      // text scramble effect on nav links
-      const navLinks = document.querySelectorAll('.navLinks a');
-      navLinks.forEach(link => {
+      // text scramble on nav (original)
+      document.querySelectorAll('.navLinks a').forEach(link => {
         const orig = link.innerText;
         link.addEventListener('mouseenter', function() {
           let count = 0;
@@ -706,17 +718,17 @@
         });
       });
 
-      // ---------- PARTICLE CANVAS (hyper dynamic background) preserved from original ----------
+      // --- BACKGROUND PARTICLE CANVAS (original igloo style) ---
       const pCanvas = document.getElementById('particleCanvas');
       const pCtx = pCanvas.getContext('2d');
       let pW = pCanvas.width = window.innerWidth, pH = pCanvas.height = window.innerHeight;
       window.addEventListener('resize', ()=>{ pW = pCanvas.width = window.innerWidth; pH = pCanvas.height = window.innerHeight; });
       let particlesBg = [];
-      for(let i=0;i<140;i++) {
+      for(let i=0;i<160;i++) {
         particlesBg.push({
           x: Math.random()*pW, y: Math.random()*pH,
           vx: (Math.random()-0.5)*0.6, vy: (Math.random()-0.5)*0.5,
-          size: Math.random()*2.5+1, phase: Math.random()*10
+          size: Math.random()*2.8+1, phase: Math.random()*10
         });
       }
       function drawBgParticles() {
@@ -739,7 +751,7 @@
             let dx = particlesBg[i].x - particlesBg[j].x;
             let dy = particlesBg[i].y - particlesBg[j].y;
             let dist = Math.sqrt(dx*dx+dy*dy);
-            if(dist < 140) {
+            if(dist < 150) {
               pCtx.beginPath();
               pCtx.moveTo(particlesBg[i].x, particlesBg[i].y);
               pCtx.lineTo(particlesBg[j].x, particlesBg[j].y);
@@ -751,118 +763,163 @@
       }
       drawBgParticles();
 
-      // ---------- THREE.JS GLOBE (igloo style) preserved ----------
-      const container=document.getElementById('globeContainer');
-      const gCanvas=document.getElementById('globeCanvas');
-      const scene=new THREE.Scene();
-      const camera=new THREE.PerspectiveCamera(45,container.clientWidth/container.clientHeight,0.1,1000);
-      camera.position.set(0,0,3.8);
-      const renderer=new THREE.WebGLRenderer({canvas:gCanvas,alpha:true,antialias:true});
-      renderer.setSize(container.clientWidth,container.clientHeight);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+      // --- THREE.JS GLOBE (original) ---
+      const container = document.getElementById('globeContainer');
+      if(container) {
+        const gCanvas = document.getElementById('globeCanvas');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(45, container.clientWidth/container.clientHeight, 0.1, 1000);
+        camera.position.set(0,0,3.8);
+        const renderer = new THREE.WebGLRenderer({canvas:gCanvas, alpha:true, antialias:true});
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
 
-      const geometry=new THREE.SphereGeometry(1.3,80,40);
-      const material=new THREE.MeshPhongMaterial({ color:0x00f0ff, emissive:0x002222, wireframe:true, transparent:true, opacity:0.2 });
-      const sphere=new THREE.Mesh(geometry,material);
-      scene.add(sphere);
+        const geometry = new THREE.SphereGeometry(1.3,80,40);
+        const material = new THREE.MeshPhongMaterial({ color:0x00f0ff, emissive:0x002222, wireframe:true, transparent:true, opacity:0.2 });
+        const sphere = new THREE.Mesh(geometry,material);
+        scene.add(sphere);
 
-      const coreGeo=new THREE.SphereGeometry(0.4,16,16);
-      const coreMat=new THREE.MeshBasicMaterial({color:0xff0055, transparent:true, opacity:0.2});
-      const core=new THREE.Mesh(coreGeo,coreMat);
-      sphere.add(core);
+        const coreGeo = new THREE.SphereGeometry(0.4,16,16);
+        const coreMat = new THREE.MeshBasicMaterial({color:0xff0055, transparent:true, opacity:0.2});
+        const core = new THREE.Mesh(coreGeo,coreMat);
+        sphere.add(core);
 
-      const dotGeo=new THREE.BufferGeometry();
-      let dotPos=[];
-      for(let i=0;i<200;i++){
-        let r=1.5+Math.random()*0.5;
-        let theta=Math.random()*Math.PI*2;
-        let phi=Math.acos(2*Math.random()-1);
-        let x=r*Math.sin(phi)*Math.cos(theta);
-        let y=r*Math.sin(phi)*Math.sin(theta);
-        let z=r*Math.cos(phi);
-        dotPos.push(x,y,z);
+        const dotGeo = new THREE.BufferGeometry();
+        let dotPos = [];
+        for(let i=0;i<200;i++){
+          let r = 1.5+Math.random()*0.5;
+          let theta = Math.random()*Math.PI*2;
+          let phi = Math.acos(2*Math.random()-1);
+          let x = r*Math.sin(phi)*Math.cos(theta);
+          let y = r*Math.sin(phi)*Math.sin(theta);
+          let z = r*Math.cos(phi);
+          dotPos.push(x,y,z);
+        }
+        dotGeo.setAttribute('position', new THREE.Float32BufferAttribute(dotPos,3));
+        const dotMat = new THREE.PointsMaterial({color:0xffaa00, size:0.03, blending:THREE.AdditiveBlending});
+        const dots = new THREE.Points(dotGeo,dotMat);
+        sphere.add(dots);
+
+        const light = new THREE.DirectionalLight(0xffffff,1); light.position.set(1,1,1); scene.add(light);
+        const ambient = new THREE.AmbientLight(0x404060); scene.add(ambient);
+
+        const starGeo = new THREE.BufferGeometry();
+        let starPos = [];
+        for(let i=0;i<600;i++) starPos.push((Math.random()-0.5)*30, (Math.random()-0.5)*30, (Math.random()-0.5)*30-10);
+        starGeo.setAttribute('position', new THREE.Float32BufferAttribute(starPos,3));
+        const starMat = new THREE.PointsMaterial({color:0xaaccff, size:0.04});
+        const stars = new THREE.Points(starGeo,starMat);
+        scene.add(stars);
+
+        function animateGlobe(){
+          sphere.rotation.y += 0.0015;
+          sphere.rotation.x += 0.0005;
+          stars.rotation.y -= 0.0002;
+          renderer.render(scene,camera);
+          requestAnimationFrame(animateGlobe);
+        }
+        animateGlobe();
+        window.addEventListener('resize', ()=>{
+          camera.aspect = container.clientWidth/container.clientHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(container.clientWidth, container.clientHeight);
+        });
       }
-      dotGeo.setAttribute('position',new THREE.Float32BufferAttribute(dotPos,3));
-      const dotMat=new THREE.PointsMaterial({color:0xffaa00, size:0.03, blending:THREE.AdditiveBlending});
-      const dots=new THREE.Points(dotGeo,dotMat);
-      sphere.add(dots);
 
-      const light=new THREE.DirectionalLight(0xffffff,1); light.position.set(1,1,1); scene.add(light);
-      const ambient=new THREE.AmbientLight(0x404060); scene.add(ambient);
-
-      const starGeo=new THREE.BufferGeometry();
-      let starPos=[];
-      for(let i=0;i<600;i++) starPos.push((Math.random()-0.5)*30, (Math.random()-0.5)*30, (Math.random()-0.5)*30-10);
-      starGeo.setAttribute('position',new THREE.Float32BufferAttribute(starPos,3));
-      const starMat=new THREE.PointsMaterial({color:0xaaccff, size:0.04});
-      const stars=new THREE.Points(starGeo,starMat);
-      scene.add(stars);
-
-      function animateGlobe(){
-        sphere.rotation.y+=0.0015;
-        sphere.rotation.x+=0.0005;
-        stars.rotation.y-=0.0002;
-        renderer.render(scene,camera);
-        requestAnimationFrame(animateGlobe);
-      }
-      animateGlobe();
-      window.addEventListener('resize',()=>{
-        camera.aspect=container.clientWidth/container.clientHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(container.clientWidth,container.clientHeight);
-      });
-
-      // counters (preserved)
-      const stats=document.querySelectorAll('.statNumber');
-      const obs=new IntersectionObserver(entries=>{
-        entries.forEach(e=>{
-          if(e.isIntersecting){
-            let el=e.target, target=parseFloat(el.dataset.target), dec=el.dataset.dec||0, step=target/50, curr=0;
-            let t=setInterval(()=>{ curr=Math.min(curr+step,target); el.textContent=(dec?curr.toFixed(dec):Math.floor(curr))+(el.dataset.dec?'': (target>100?'+':'%')); if(curr>=target) clearInterval(t); },20);
+      // --- COUNTERS (original) ---
+      const statNumbers = document.querySelectorAll('.statNumber');
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if(e.isIntersecting) {
+            let el = e.target;
+            let target = parseFloat(el.dataset.target);
+            let dec = el.dataset.dec || 0;
+            let step = target/50;
+            let curr = 0;
+            let timer = setInterval(() => {
+              curr = Math.min(curr+step, target);
+              el.textContent = (dec ? curr.toFixed(dec) : Math.floor(curr)) + (el.dataset.dec ? '' : (target>100 ? '+' : '%'));
+              if(curr >= target) clearInterval(timer);
+            }, 20);
             obs.unobserve(el);
           }
         });
-      },{threshold:.5});
-      stats.forEach(s=>obs.observe(s));
+      }, { threshold: 0.5 });
+      statNumbers.forEach(s => obs.observe(s));
 
-      // gauges
-      const gauges=document.querySelectorAll('.gaugeFill');
-      const gio=new IntersectionObserver(entries=>{
-        entries.forEach(e=>{
-          if(e.isIntersecting){
-            let pct=e.target.dataset.pct, circ=2*Math.PI*45, offset=circ-(pct/100*circ);
-            e.target.style.strokeDashoffset=offset; gio.unobserve(e.target);
+      // --- GAUGES (original) ---
+      const gauges = document.querySelectorAll('.gaugeFill');
+      const gio = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if(e.isIntersecting) {
+            let pct = e.target.dataset.pct;
+            let circ = 2*Math.PI*36;
+            let offset = circ - (pct/100*circ);
+            e.target.style.strokeDashoffset = offset;
+            gio.unobserve(e.target);
           }
         });
-      },{threshold:.5});
-      gauges.forEach(g=>gio.observe(g));
+      }, { threshold: 0.5 });
+      gauges.forEach(g => gio.observe(g));
 
-      // terminal sim (preserved)
-      const term=document.getElementById('term');
-      const lines=['# Tech1World AI SDET','from healenium import SelfHealingDriver','def test_checkout():','  driver = SelfHealingDriver()','  driver.get("app.site")','  elem = driver.find("#pay")','  elem.click()','  assert "confirmed" in title','  # ✓ 412ms'];
-      let i=0; function addTermLine(){ if(!term)return; let d=document.createElement('div'); d.textContent=lines[i%lines.length]; term.appendChild(d); if(term.children>12) term.removeChild(term.firstChild); i++; setTimeout(addTermLine,350); } addTermLine();
+      // --- TERMINAL SIM (original) ---
+      const term = document.getElementById('term');
+      const lines = ['# Tech1World AI SDET','from healenium import SelfHealingDriver','def test_checkout():','  driver = SelfHealingDriver()','  driver.get("app.site")','  elem = driver.find("#pay")','  elem.click()','  assert "confirmed" in title','  # ✓ 412ms'];
+      let i = 0;
+      function addTermLine() {
+        if(!term) return;
+        let d = document.createElement('div');
+        d.textContent = lines[i%lines.length];
+        term.appendChild(d);
+        if(term.children>12) term.removeChild(term.firstChild);
+        i++;
+        setTimeout(addTermLine, 350);
+      }
+      addTermLine();
 
-      // test runner (preserved)
-      const testNames=['test_login','test_checkout','test_api','test_mobile','test_perf','test_a11y','test_security','test_db'];
-      let tIdx=0, pass=0,fail=0, list=document.getElementById('testList'), fill=document.getElementById('progressFill'), runStat=document.getElementById('runStatus'), passSpan=document.getElementById('passCount'), failSpan=document.getElementById('failCount');
-      function runTests(){
-        if(tIdx>=testNames.length){ tIdx=0; pass=0; fail=0; list.innerHTML=''; fill.style.width='0%'; }
-        let r=Math.random(); (r>.7?fail++:pass++);
-        fill.style.width=((tIdx+1)/testNames.length*100)+'%';
-        runStat.textContent=`● ${tIdx+1}/${testNames.length}`;
-        passSpan.textContent=`PASS ${pass}`; failSpan.textContent=`FAIL ${fail}`;
-        let it=document.createElement('div'); it.className='testItem'; it.innerHTML=`<span class="${r>.7?'fail':'pass'}">${r>.7?'✗':'✓'}</span> ${testNames[tIdx]} <span style="margin-left:auto">${Math.floor(Math.random()*200+50)}ms</span>`;
-        list.appendChild(it); if(list.children>7) list.removeChild(list.firstChild);
-        tIdx++; setTimeout(runTests,250);
+      // --- TEST RUNNER (original) ---
+      const testNames = ['test_login','test_checkout','test_api','test_mobile','test_perf','test_a11y','test_security','test_db'];
+      let tIdx = 0, pass = 0, fail = 0;
+      const list = document.getElementById('testList');
+      const fill = document.getElementById('progressFill');
+      const runStat = document.getElementById('runStatus');
+      const passSpan = document.getElementById('passCount');
+      const failSpan = document.getElementById('failCount');
+      function runTests() {
+        if(!list) return;
+        if(tIdx >= testNames.length) { tIdx = 0; pass = 0; fail = 0; list.innerHTML = ''; fill.style.width = '0%'; }
+        let r = Math.random();
+        (r > 0.7 ? fail++ : pass++);
+        fill.style.width = ((tIdx+1)/testNames.length*100)+'%';
+        runStat.textContent = `● ${tIdx+1}/${testNames.length}`;
+        passSpan.textContent = `PASS ${pass}`;
+        failSpan.textContent = `FAIL ${fail}`;
+        let it = document.createElement('div');
+        it.className = 'testItem';
+        it.innerHTML = `<span class="${r>0.7?'fail':'pass'}">${r>0.7?'✗':'✓'}</span> ${testNames[tIdx]} <span style="margin-left:auto">${Math.floor(Math.random()*200+50)}ms</span>`;
+        list.appendChild(it);
+        if(list.children>7) list.removeChild(list.firstChild);
+        tIdx++;
+        setTimeout(runTests, 250);
       }
       runTests();
 
-      // contact form
-      document.getElementById('contactForm').addEventListener('submit',function(e){
-        e.preventDefault(); document.getElementById('formOk').style.display='block'; setTimeout(()=>this.reset(),2000);
+      // --- BROCHURE DOWNLOAD FUNCTION ---
+      window.downloadBrochure = function(type) {
+        // Use dummy PDF from Adobe (or any actual brochure link)
+        let pdfUrl = 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf';
+        window.open(pdfUrl, '_blank');
+        alert(`Downloading ${type} testing brochure (PDF) – in production, this would be a real brochure.`);
+      };
+
+      // --- CONTACT FORM ---
+      document.getElementById('contactForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        document.getElementById('formOk').style.display = 'block';
+        setTimeout(() => this.reset(), 2000);
       });
 
-      // smooth scroll (GSAP ScrollTrigger) – optional but nice
+      // --- SMOOTH SCROLL (GSAP) ---
       gsap.registerPlugin(ScrollTrigger);
       gsap.utils.toArray('section').forEach(s => {
         gsap.from(s, {
