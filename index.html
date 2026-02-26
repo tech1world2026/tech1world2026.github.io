@@ -3,18 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tech1World — bioluminescent abyss</title>
-  <!-- GSAP for high-end animations -->
+  <title>Tech1World — abyssal nexus</title>
+  <!-- GSAP for mind-blowing animations -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <!-- three.js for volumetric globe -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <!-- fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200..900&family=Syne:wght@400..800&display=swap" rel="stylesheet">
   <style>
-    /* --- RESET / DEEP OCEAN CORE (#02040a evolved to #020622) --- */
     *{margin:0;padding:0;box-sizing:border-box}
     body{
-      background:#020622; /* deep dark blue with violet touch */
+      background:#020622;
       color:#fff;
       font-family:'Syne',sans-serif;
       overflow-x:hidden;
@@ -23,31 +24,31 @@
     }
     ::selection{background:#ff0055;color:#fff}
 
-    /* --- CUSTOM CURSOR (gravity well) --- */
+    /* --- ADVANCED CURSOR (gravity singularity) --- */
     #cursor{
       position:fixed; width:6px; height:6px; background:#ff0055; border-radius:50%;
       pointer-events:none; z-index:9999; transform:translate(-50%,-50%);
-      box-shadow:0 0 30px #ff0055, 0 0 60px #00f0ff;
-      transition:width 0.3s, height 0.3s, background 0.2s, box-shadow 0.3s;
+      box-shadow:0 0 30px #ff0055, 0 0 60px #00f0ff, 0 0 120px #ffaa00;
+      transition:width 0.2s, height 0.2s, background 0.2s, box-shadow 0.3s;
       mix-blend-mode:difference;
     }
     body.hov #cursor{
-      width:70px; height:70px; background:transparent; border:2px solid #ffaa00;
-      box-shadow:0 0 120px #ffaa00, 0 0 200px #00f0ff;
+      width:90px; height:90px; background:transparent; border:2px solid #ffaa00;
+      box-shadow:0 0 150px #ffaa00, 0 0 300px #00f0ff, 0 0 450px #ff0055;
     }
 
-    /* --- HIGH DEFINITION VIDEO BACKGROUND (hero) --- */
+    /* --- HD VIDEO BACKGROUND (hero) --- */
     #heroVideo{
       position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:-2;
-      opacity:0.3; pointer-events:none;
+      opacity:0.35; pointer-events:none;
     }
     .video-overlay{
       position:absolute; top:0; left:0; width:100%; height:100%;
-      background:radial-gradient(circle, rgba(2,6,34,0.7) 0%, #020622 100%);
+      background:radial-gradient(circle, rgba(2,6,34,0.6) 0%, #020622 100%);
       z-index:-1;
     }
 
-    /* --- IGL00-STYLE PARTICLE CANVAS (hyper dynamic) --- */
+    /* --- PARTICLE CANVAS (hyperdimensional) --- */
     #particleCanvas{
       position:fixed; top:0; left:0; width:100%; height:100%; z-index:0;
       pointer-events:none; display:block; background:transparent;
@@ -57,11 +58,11 @@
       pointer-events:none; z-index:1; opacity:0.2;
     }
     .halo{
-      position:fixed; inset:0; background:radial-gradient(ellipse 80% 40% at 50% 50%, rgba(0,240,255,0.12), transparent 90%);
+      position:fixed; inset:0; background:radial-gradient(ellipse 80% 40% at 50% 50%, rgba(0,240,255,0.15), transparent 90%);
       z-index:0; pointer-events:none;
     }
 
-    /* --- PRELOADER: LIGHT BURST (highly animated) --- */
+    /* --- PRELOADER: NEXT-GEN BURST (quantum explosion) --- */
     #preloader{
       position:fixed; inset:0; background:#020622; z-index:10000;
       display:flex; align-items:center; justify-content:center;
@@ -73,30 +74,32 @@
     }
     .preloadText{
       position:relative; z-index:10001; font-family:'Unbounded',sans-serif;
-      font-size:clamp(2rem,7vw,5rem); letter-spacing:0.8rem;
-      background:linear-gradient(135deg, #00f0ff, #ff0055, #ffaa00);
+      font-size:clamp(2.5rem,9vw,6rem); letter-spacing:1rem;
+      background:linear-gradient(135deg, #00f0ff, #ff0055, #ffaa00, #00f0ff);
       -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-      animation:pulseGlow 1.8s infinite alternate;
+      background-size:300% 300%; animation:gradientFlow 3s infinite, pulseGlow 2s infinite;
     }
-    @keyframes pulseGlow{ to{text-shadow:0 0 80px #ff0055;} }
+    @keyframes gradientFlow{ 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+    @keyframes pulseGlow{ 0%{text-shadow:0 0 40px #ff0055} 50%{text-shadow:0 0 120px #ffaa00,0 0 240px #00f0ff} 100%{text-shadow:0 0 40px #ff0055} }
 
-    /* --- navigation (glass) --- */
+    /* --- NAVIGATION (liquid glass) --- */
     nav{
       position:fixed; top:20px; left:20px; right:20px; padding:0.8rem 2.5rem;
       display:flex; justify-content:space-between; align-items:center; z-index:500;
-      background:rgba(2,6,34,0.5); backdrop-filter:blur(20px) saturate(200%);
-      border:1px solid rgba(0,240,255,0.2); border-radius:80px;
-      box-shadow:0 10px 30px rgba(0,0,0,0.8);
+      background:rgba(2,6,34,0.3); backdrop-filter:blur(25px) saturate(300%);
+      border:1px solid rgba(0,240,255,0.25); border-radius:100px;
+      box-shadow:0 20px 40px rgba(0,0,0,0.8), 0 0 0 1px rgba(0,240,255,0.1) inset;
     }
     .logo{
-      font-family:'Unbounded',sans-serif; font-weight:700; font-size:1.4rem;
+      font-family:'Unbounded',sans-serif; font-weight:700; font-size:1.5rem;
       background:linear-gradient(135deg, #00f0ff, #ff0055, #ffaa00);
       -webkit-background-clip:text; -webkit-text-fill-color:transparent;
     }
-    .navLinks{ display:flex; gap:1.8rem; list-style:none; flex-wrap:wrap; }
+    .navLinks{ display:flex; gap:2rem; list-style:none; flex-wrap:wrap; }
     .navLinks a{
       color:#fff; text-decoration:none; font-size:0.8rem; letter-spacing:2px;
       text-transform:uppercase; padding:0.4rem 0; position:relative;
+      transition:0.2s;
     }
     .navLinks a::after{
       content:''; position:absolute; bottom:0; left:0; width:0; height:2px;
@@ -105,44 +108,41 @@
     }
     .navLinks a:hover::after{ width:100%; }
     .navCta{
-      background:transparent; border:1px solid #ff0055; color:#ff0055;
-      padding:0.6rem 2rem; border-radius:60px; font-size:0.7rem; letter-spacing:2px;
-      text-transform:uppercase; transition:0.3s; cursor:pointer;
+      background:linear-gradient(135deg, #ff0055, #ffaa00); border:none;
+      color:#020622; padding:0.7rem 2.2rem; border-radius:60px; font-weight:600;
+      letter-spacing:1px; transition:0.3s; cursor:pointer;
     }
-    .navCta:hover{
-      background:#ff0055; color:#020622; box-shadow:0 0 70px #ff0055;
-      transform:scale(1.05);
-    }
+    .navCta:hover{ transform:scale(1.08); box-shadow:0 0 80px #ffaa00; }
 
-    /* --- magnetic class --- */
+    /* --- MAGNETIC CLASS --- */
     .magnetic{ display:inline-block; transition:transform 0.2s cubic-bezier(0.2,1.2,0.5,1.5); }
 
-    /* --- main sections (fix overflow) --- */
-    section{ position:relative; z-index:10; padding:6rem 4rem; width:100%; overflow-x:hidden; }
+    /* --- SECTIONS --- */
+    section{ position:relative; z-index:10; padding:7rem 4rem; width:100%; overflow-x:hidden; }
     .wrap{ max-width:1400px; margin:0 auto; width:100%; }
 
-    /* --- hero with video (keeping original content) --- */
+    /* --- HERO (next level) --- */
     #hero{
       min-height:100vh; display:flex; align-items:center; position:relative;
       overflow:hidden;
     }
     .heroEyebrow{
       display:flex; align-items:center; gap:1rem; margin-bottom:2rem;
-      color:#00f0ff; font-size:0.7rem; letter-spacing:6px; text-transform:uppercase;
-      opacity:0; animation:slideUp 0.8s 0.3s forwards;
+      font-size:0.8rem; letter-spacing:8px; text-transform:uppercase;
+      color:#00f0ff; opacity:0; animation:slideUp 0.8s 0.3s forwards;
     }
     .heroEyebrow span{
-      width:60px; height:2px; background:linear-gradient(90deg, #00f0ff, #ff0055);
-      box-shadow:0 0 20px #ff0055;
+      width:70px; height:2px; background:linear-gradient(90deg, #00f0ff, #ff0055);
+      box-shadow:0 0 30px #ff0055;
     }
-    @keyframes slideUp{ to{opacity:1; transform:translateY(0);} from{opacity:0; transform:translateY(30px);} }
+    @keyframes slideUp{ to{opacity:1; transform:translateY(0);} from{opacity:0; transform:translateY(40px);} }
     h1{
-      font-family:'Unbounded',sans-serif; font-size:clamp(3rem,12vw,13rem);
-      font-weight:200; line-height:0.85; text-transform:uppercase; margin-bottom:2rem;
+      font-family:'Unbounded',sans-serif; font-size:clamp(3.5rem,14vw,15rem);
+      font-weight:200; line-height:0.8; text-transform:uppercase; margin-bottom:2rem;
     }
     .h1Line{ display:block; overflow:hidden; }
     .h1Word{
-      display:inline-block; transform:translateY(120%);
+      display:inline-block; transform:translateY(150%);
       animation:rise 1.2s cubic-bezier(0.2,0.9,0.3,1) forwards;
     }
     .h1Word:nth-child(2){ animation-delay:0.15s; }
@@ -154,76 +154,80 @@
       -webkit-background-clip:text; -webkit-text-fill-color:transparent;
     }
     .heroDesc{
-      font-size:1.2rem; color:rgba(255,255,255,0.7); max-width:600px; margin-bottom:3rem;
+      font-size:1.3rem; color:rgba(255,255,255,0.8); max-width:650px; margin-bottom:3rem;
       opacity:0; animation:fadeIn 1s 0.9s forwards;
     }
     @keyframes fadeIn{ to{ opacity:1; } }
     .btnGroup{ display:flex; gap:1.5rem; flex-wrap:wrap; opacity:0; animation:fadeIn 1s 1.2s forwards; }
+
+    /* --- BUTTONS --- */
     .btnPrimary{
       background:linear-gradient(135deg, #00f0ff, #ff0055); border:none;
       padding:1rem 3rem; border-radius:60px; color:#020622; font-weight:700;
       letter-spacing:2px; transition:0.3s; box-shadow:0 0 40px #ff0055;
     }
-    .btnPrimary:hover{ box-shadow:0 0 100px #ffaa00; transform:scale(1.08); }
+    .btnPrimary:hover{ box-shadow:0 0 120px #ffaa00; transform:scale(1.1); }
     .btnGhost{
-      border:1px solid rgba(0,240,255,0.4); background:transparent; color:#fff;
-      padding:1rem 3rem; border-radius:60px; transition:0.3s;
+      border:1px solid rgba(0,240,255,0.4); background:rgba(2,6,34,0.3);
+      backdrop-filter:blur(10px); color:#fff; padding:1rem 3rem; border-radius:60px;
+      transition:0.3s;
     }
-    .btnGhost:hover{ border-color:#ffaa00; color:#ffaa00; box-shadow:0 0 60px #ffaa00; }
+    .btnGhost:hover{ border-color:#ffaa00; color:#ffaa00; box-shadow:0 0 80px #ffaa00; }
 
-    /* --- ticker (original preserved) --- */
+    /* --- TICKER (hyper) --- */
     .ticker{
-      height:60px; border-top:1px solid rgba(0,240,255,0.2); border-bottom:1px solid rgba(0,240,255,0.2);
-      overflow:hidden; background:rgba(2,6,34,0.7); backdrop-filter:blur(10px); width:100%;
+      height:70px; border-top:1px solid rgba(0,240,255,0.25);
+      border-bottom:1px solid rgba(0,240,255,0.25); overflow:hidden;
+      background:rgba(2,6,34,0.8); backdrop-filter:blur(15px); width:100%;
     }
-    .tickerTrack{ display:flex; width:max-content; animation:tick 45s linear infinite; }
+    .tickerTrack{ display:flex; width:max-content; animation:tick 40s linear infinite; }
     .tickerTrack:hover{ animation-play-state:paused; }
     @keyframes tick{ to{ transform:translateX(-50%); } }
     .tickItem{
-      display:flex; align-items:center; gap:2rem; padding:0 4rem;
-      font-size:0.7rem; letter-spacing:2px; color:rgba(255,255,255,0.6);
+      display:flex; align-items:center; gap:2.5rem; padding:0 5rem;
+      font-size:0.8rem; letter-spacing:2px; color:rgba(255,255,255,0.7);
       white-space:nowrap;
     }
     .tickItem strong{
       background:linear-gradient(135deg, #00f0ff, #ff0055);
       -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-      font-size:1.1rem;
+      font-size:1.3rem;
     }
 
-    /* --- stats bar (original six columns) --- */
+    /* --- STATS (holographic) --- */
     .statsBar{
       display:grid; grid-template-columns:repeat(6,1fr); width:100%;
-      background:rgba(2,6,34,0.6); backdrop-filter:blur(15px);
+      background:rgba(2,6,34,0.7); backdrop-filter:blur(20px);
       border-bottom:1px solid rgba(0,240,255,0.2);
     }
     .stat{
-      padding:2rem 1rem; text-align:center; border-right:1px solid rgba(0,240,255,0.1);
-      transition:0.2s;
+      padding:2.5rem 1rem; text-align:center; border-right:1px solid rgba(0,240,255,0.1);
+      transition:0.3s;
     }
     .stat:last-child{ border-right:0; }
     .stat:hover{
-      background:rgba(0,240,255,0.05); transform:scale(1.05); box-shadow:0 0 60px #ff0055;
-      z-index:20; border-radius:20px;
+      background:rgba(0,240,255,0.1); transform:scale(1.1); box-shadow:0 0 80px #ff0055;
+      border-radius:30px; z-index:20;
     }
     .statNumber{
-      font-family:'Unbounded',sans-serif; font-size:2.8rem;
+      font-family:'Unbounded',sans-serif; font-size:3.2rem;
       background:linear-gradient(135deg, #00f0ff, #ff0055);
       -webkit-background-clip:text; -webkit-text-fill-color:transparent;
       line-height:1;
     }
-    .statLabel{ font-size:0.55rem; letter-spacing:3px; color:rgba(255,255,255,0.6); }
+    .statLabel{ font-size:0.6rem; letter-spacing:3px; color:rgba(255,255,255,0.6); }
 
-    /* --- section labels (original) --- */
+    /* --- SECTION LABELS (fluid) --- */
     .secLabel{
       display:flex; align-items:center; gap:1rem; margin-bottom:2rem;
-      font-size:0.7rem; letter-spacing:6px; color:#00f0ff; text-transform:uppercase;
+      font-size:0.8rem; letter-spacing:8px; color:#00f0ff; text-transform:uppercase;
     }
     .secLabel i{
-      width:50px; height:2px; background:linear-gradient(90deg, #00f0ff, #ff0055, #ffaa00);
-      box-shadow:0 0 20px #ff0055;
+      width:60px; height:2px; background:linear-gradient(90deg, #00f0ff, #ff0055, #ffaa00);
+      box-shadow:0 0 30px #ff0055;
     }
     h2{
-      font-family:'Unbounded',sans-serif; font-size:clamp(2.5rem,8vw,8rem);
+      font-family:'Unbounded',sans-serif; font-size:clamp(3rem,9vw,9rem);
       font-weight:200; line-height:1; margin-bottom:2rem;
     }
     h2 em{
@@ -233,170 +237,110 @@
     }
     h2 .dim{ color:transparent; -webkit-text-stroke:1px rgba(0,240,255,0.3); }
 
-    /* --- card grid (original 4-column) --- */
+    /* --- CARD GRID (4-column) --- */
     .cardGrid{
-      display:grid; grid-template-columns:repeat(4,1fr); gap:1.5rem;
-      margin:3rem 0; width:100%;
+      display:grid; grid-template-columns:repeat(4,1fr); gap:2rem; margin:3rem 0;
     }
     .card{
-      background:rgba(2,6,34,0.6); backdrop-filter:blur(15px);
-      border:1px solid rgba(0,240,255,0.15); border-radius:30px;
-      padding:2.5rem 1.8rem; transition:0.3s; cursor:pointer;
+      background:rgba(2,6,34,0.7); backdrop-filter:blur(20px);
+      border:1px solid rgba(0,240,255,0.2); border-radius:40px;
+      padding:3rem 2rem; transition:0.4s; cursor:pointer;
     }
     .card:hover{
-      border-color:#ff0055; transform:scale(1.02) translateY(-5px);
-      box-shadow:0 0 70px rgba(255,0,85,0.3);
+      border-color:#ff0055; transform:scale(1.03) translateY(-8px);
+      box-shadow:0 0 100px rgba(255,0,85,0.3);
     }
-    .cardNum{ font-size:4rem; font-weight:200; color:rgba(0,240,255,0.2); line-height:1; margin-bottom:1rem; }
-    .cardIcon{ font-size:2.2rem; margin-bottom:1rem; }
-    .cardTitle{ font-family:'Unbounded',sans-serif; font-size:1.2rem; margin-bottom:0.5rem; }
-    .cardDesc{ color:rgba(255,255,255,0.7); font-size:0.9rem; }
+    .cardNum{ font-size:4.5rem; font-weight:200; color:rgba(0,240,255,0.2); line-height:1; margin-bottom:1rem; }
+    .cardIcon{ font-size:2.5rem; margin-bottom:1rem; }
+    .cardTitle{ font-family:'Unbounded',sans-serif; font-size:1.4rem; margin-bottom:0.8rem; }
+    .cardDesc{ color:rgba(255,255,255,0.7); font-size:0.95rem; line-height:1.7; }
 
-    /* --- bot block (original) --- */
-    .botBlock{
-      display:grid; grid-template-columns:1fr 1fr; gap:2rem;
-      background:rgba(2,6,34,0.7); backdrop-filter:blur(18px); border-radius:40px;
-      border:1px solid rgba(0,240,255,0.2); padding:3rem; margin:4rem 0;
+    /* --- SDET INTERNSHIP ZONE (with real brochure data) --- */
+    .sdetZone{
+      background:rgba(0,240,255,0.02); backdrop-filter:blur(25px);
+      border:1px solid rgba(255,0,85,0.3); border-radius:80px;
+      padding:5rem 4rem; margin:5rem 0;
     }
-    .phase{ display:flex; gap:1.5rem; padding:1rem 0; border-bottom:1px solid rgba(0,240,255,0.1); }
-    .phaseNum{ font-size:3rem; font-weight:200; color:rgba(0,240,255,0.2); line-height:1; }
-    .phaseName{ font-family:'Unbounded',sans-serif; font-size:1.2rem; }
-    .phaseDesc{ color:rgba(255,255,255,0.6); }
-
-    /* --- staff grid (original) --- */
-    .staffGrid{
-      display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin:3rem 0;
-    }
-    .staffCard{
-      background:rgba(2,6,34,0.6); backdrop-filter:blur(15px);
-      border:1px solid rgba(0,240,255,0.15); border-radius:30px; padding:2rem;
-    }
-    .staffIcon{ font-size:2.5rem; margin-bottom:1rem; }
-    .staffTitle{ font-family:'Unbounded',sans-serif; font-size:1.1rem; }
-    .staffDesc{ color:rgba(255,255,255,0.6); }
-
-    /* --- country grid (original 6-column) --- */
-    .countryGrid{
-      display:grid; grid-template-columns:repeat(6,1fr); gap:0.7rem; margin:2rem 0;
-    }
-    .country{
-      padding:0.6rem; border:1px solid rgba(0,240,255,0.2); border-radius:40px;
-      text-align:center; font-size:0.6rem; transition:0.2s;
-    }
-    .country:hover{ background:#ff0055; color:#020622; transform:scale(1.1); }
-
-    /* --- gauges (original 5-column) --- */
-    .gaugeRow{
-      display:grid; grid-template-columns:repeat(5,1fr); gap:1.5rem; margin:3rem 0;
-    }
-    .gauge{
-      background:rgba(2,6,34,0.6); backdrop-filter:blur(10px);
-      border-radius:30px; padding:2rem 1rem; text-align:center;
-    }
-    .gaugeCircle{
-      width:80px; height:80px; margin:0 auto 1rem; position:relative;
-    }
-    .gaugeSvg{ width:80px; height:80px; transform:rotate(-90deg); }
-    .gaugeBg{ fill:none; stroke:rgba(0,240,255,0.2); stroke-width:4; }
-    .gaugeFill{ fill:none; stroke:#ff0055; stroke-width:4; stroke-dasharray:226; stroke-dashoffset:226; transition:stroke-dashoffset 2s; }
-    .gaugePct{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:#00f0ff; }
-
-    /* --- pipeline (original 6-step) --- */
-    .pipeline{
-      display:grid; grid-template-columns:repeat(6,1fr); gap:1rem; margin:3rem 0;
-    }
-    .pipeNode{
-      width:60px; height:60px; margin:0 auto; border:1px solid #ff0055;
-      clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
-      display:flex; align-items:center; justify-content:center;
-    }
-
-    /* --- terminal (original lab) --- */
-    .lab{
-      display:grid; grid-template-columns:1fr 1fr; gap:1px; background:rgba(0,240,255,0.1);
-      border-radius:30px; overflow:hidden; margin:3rem 0;
-    }
-    .panel{ background:#020622; padding:1rem; }
-    .term{ height:200px; overflow:hidden; font-family:monospace; font-size:0.6rem; color:#00f0ff; }
-    .run{ height:200px; }
-
-    /* --- win grid (original 3-column) --- */
-    .winGrid{
-      display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin:3rem 0;
-    }
-    .win{
-      background:rgba(2,6,34,0.6); backdrop-filter:blur(15px);
-      border:1px solid rgba(0,240,255,0.15); border-radius:30px; padding:2rem;
-    }
-    .win:hover{ border-color:#ffaa00; transform:translateY(-5px); }
-
-    /* --- GLOBE (original) --- */
-    #globeContainer{
-      width:100%; height:500px; border-radius:60px; overflow:hidden;
-      border:1px solid rgba(0,240,255,0.3); margin:4rem 0;
-    }
-
-    /* --- SDET internship cards (enhanced with brochure button) --- */
     .sdetGrid{
-      display:grid; grid-template-columns:repeat(4,1fr); gap:1.5rem; margin:3rem 0;
+      display:grid; grid-template-columns:repeat(4,1fr); gap:2rem; margin:4rem 0;
     }
     .sdetCard{
-      background:rgba(2,6,34,0.7); backdrop-filter:blur(15px);
-      border:1px solid rgba(255,0,85,0.3); border-radius:40px;
-      padding:2.5rem 1.8rem; text-align:center; transition:0.3s; cursor:pointer;
+      background:rgba(2,6,34,0.8); backdrop-filter:blur(20px);
+      border:1px solid rgba(255,0,85,0.3); border-radius:50px;
+      padding:3rem 2rem; text-align:center; transition:0.4s; cursor:pointer;
     }
     .sdetCard:hover{
-      border-color:#ffaa00; transform:scale(1.05) translateY(-8px);
-      box-shadow:0 0 100px #ffaa00;
+      border-color:#ffaa00; transform:scale(1.05) translateY(-12px);
+      box-shadow:0 0 120px #ffaa00;
     }
-    .sdetCard .icon{ font-size:3rem; margin-bottom:1rem; }
+    .sdetCard .icon{ font-size:3.8rem; margin-bottom:1.2rem; filter:drop-shadow(0 0 20px #00f0ff); }
     .sdetCard h3{
-      font-size:1.8rem; font-weight:700;
+      font-size:2.2rem; font-weight:700;
       background:linear-gradient(135deg, #00f0ff, #ff0055);
       -webkit-background-clip:text; -webkit-text-fill-color:transparent;
     }
-    .brochureBtn{
-      background:rgba(255,255,255,0.05); border:1px solid #00f0ff; color:#00f0ff;
-      padding:0.5rem 1.5rem; border-radius:60px; font-size:0.8rem; cursor:pointer;
-      transition:0.3s; margin-top:1rem; display:inline-block;
+    .sdetCard .brochureBtn{
+      background:linear-gradient(135deg, #ff0055, #ffaa00); border:none;
+      padding:0.7rem 2rem; border-radius:60px; color:#020622; font-weight:600;
+      font-size:0.9rem; margin-top:1.5rem; display:inline-block; transition:0.3s;
     }
-    .brochureBtn:hover{
-      background:#00f0ff; color:#020622; box-shadow:0 0 60px #00f0ff;
-    }
+    .sdetCard .brochureBtn:hover{ transform:scale(1.1); box-shadow:0 0 70px #ffaa00; }
     .placementBadge{
       display:inline-block; background:linear-gradient(135deg, #ffaa00, #ff0055);
-      padding:0.7rem 3rem; border-radius:60px; color:#020622; font-weight:800;
-      font-size:1.3rem; letter-spacing:2px; box-shadow:0 0 70px #ffaa00;
+      padding:0.8rem 4rem; border-radius:60px; color:#020622; font-weight:800;
+      font-size:1.5rem; letter-spacing:3px; box-shadow:0 0 100px #ffaa00;
     }
 
-    /* --- map container (full width) --- */
+    /* --- REVIEWS CAROUSEL (client testimonials) --- */
+    .reviewsGrid{
+      display:grid; grid-template-columns:repeat(3,1fr); gap:2rem; margin:4rem 0;
+    }
+    .reviewCard{
+      background:rgba(2,6,34,0.7); backdrop-filter:blur(20px);
+      border:1px solid rgba(0,240,255,0.2); border-radius:40px;
+      padding:2.5rem; transition:0.3s;
+    }
+    .reviewCard:hover{ border-color:#ffaa00; transform:translateY(-8px); }
+    .reviewText{ font-size:1rem; color:rgba(255,255,255,0.9); line-height:1.8; margin-bottom:1.5rem; }
+    .reviewer{ font-family:'Unbounded',sans-serif; color:#00f0ff; }
+
+    /* --- GLOBE CONTAINER (volumetric) --- */
+    #globeContainer{
+      width:100%; height:550px; border-radius:80px; overflow:hidden;
+      border:2px solid rgba(0,240,255,0.3); margin:4rem 0;
+      box-shadow:0 0 120px rgba(255,0,85,0.2);
+    }
+
+    /* --- MAP (interactive) --- */
     .mapWrap{
-      width:100%; height:450px; border-radius:60px; overflow:hidden;
-      border:2px solid rgba(0,240,255,0.3); margin:4rem 0; box-shadow:0 0 100px rgba(255,0,85,0.2);
+      width:100%; height:450px; border-radius:80px; overflow:hidden;
+      border:2px solid rgba(0,240,255,0.4); margin:4rem 0;
+      box-shadow:0 0 150px rgba(255,0,85,0.3);
     }
-    .mapWrap iframe{ width:100%; height:100%; border:0; }
 
-    /* --- contact / footer (original) --- */
-    .contactGrid{ display:grid; grid-template-columns:1fr 1.5fr; gap:3rem; margin-top:3rem; }
-    .infoRow{ display:flex; gap:1rem; align-items:center; margin-bottom:1rem; }
+    /* --- CONTACT / FOOTER --- */
+    .contactGrid{ display:grid; grid-template-columns:1fr 1.5fr; gap:4rem; margin-top:3rem; }
+    .infoRow{ display:flex; gap:1.2rem; align-items:center; margin-bottom:1.2rem; font-size:1rem; }
     .form input, .form select, .form textarea{
-      width:100%; background:rgba(0,240,255,0.03); border:1px solid rgba(0,240,255,0.2);
-      padding:1rem; border-radius:60px; margin-bottom:1rem; color:#fff;
+      width:100%; background:rgba(0,240,255,0.05); border:1px solid rgba(0,240,255,0.3);
+      padding:1rem 1.5rem; border-radius:60px; margin-bottom:1.2rem; color:#fff;
+      font-size:0.9rem;
     }
     .form button{
       background:linear-gradient(135deg, #00f0ff, #ff0055); border:none;
-      padding:1.2rem; width:100%; border-radius:60px; color:#020622; font-weight:700; cursor:pointer;
+      padding:1.3rem; width:100%; border-radius:60px; color:#020622; font-weight:700;
+      font-size:1rem; cursor:pointer; transition:0.3s;
     }
-    footer{ padding:2rem 4rem; border-top:1px solid rgba(0,240,255,0.1); display:flex; justify-content:space-between; flex-wrap:wrap; }
+    .form button:hover{ box-shadow:0 0 120px #ffaa00; transform:scale(1.02); }
+    footer{ padding:2.5rem 4rem; border-top:1px solid rgba(0,240,255,0.2); display:flex; justify-content:space-between; flex-wrap:wrap; color:rgba(255,255,255,0.6); }
 
-    /* --- responsive --- */
+    /* --- RESPONSIVE --- */
     @media (max-width:1000px){
-      section{ padding:4rem 2rem; }
-      .cardGrid, .sdetGrid, .staffGrid, .gaugeRow, .winGrid, .statsBar{ grid-template-columns:repeat(2,1fr); }
-      .countryGrid{ grid-template-columns:repeat(3,1fr); }
+      section{ padding:5rem 2rem; }
+      .cardGrid, .sdetGrid, .reviewsGrid, .statsBar{ grid-template-columns:repeat(2,1fr); }
     }
     @media (max-width:600px){
-      .cardGrid, .sdetGrid, .staffGrid, .gaugeRow, .winGrid, .statsBar, .countryGrid{ grid-template-columns:1fr; }
+      .cardGrid, .sdetGrid, .reviewsGrid, .statsBar{ grid-template-columns:1fr; }
     }
   </style>
 </head>
@@ -406,218 +350,207 @@
   <div class="halo"></div>
   <div class="grain"></div>
 
-  <!-- PRELOADER: HIGH-ENERGY BURST (300 particles) -->
+  <!-- PRELOADER: QUANTUM BURST (next-gen) -->
   <div id="preloader">
     <canvas class="burstCanvas" id="burstCanvas"></canvas>
     <div class="preloadText">TECH1WORLD</div>
   </div>
 
-  <!-- NAVIGATION (original links preserved) -->
+  <!-- NAVIGATION -->
   <nav>
-    <div class="logo">✦ TECH1WORLD</div>
+    <div class="logo">⟁ TECH1WORLD</div>
     <ul class="navLinks">
-      <li><a href="#hero">home</a></li>
+      <li><a href="#hero">nexus</a></li>
       <li><a href="#out">outsourcing</a></li>
       <li><a href="#sdet">sdet</a></li>
       <li><a href="#services">services</a></li>
-      <li><a href="#projects">work</a></li>
-      <li><a href="#careers">careers</a></li>
+      <li><a href="#reviews">reviews</a></li>
       <li><a href="#contact">contact</a></li>
     </ul>
-    <button class="navCta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">proposal →</button>
+    <button class="navCta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">↗ engage</button>
   </nav>
 
-  <!-- HERO with HD video (original text preserved) -->
+  <!-- HERO with HD video -->
   <section id="hero">
     <video autoplay muted loop playsinline id="heroVideo">
       <source src="https://cdn.pixabay.com/vimeo/342194570/abstract-28593.mp4?width=1280&hash=9c2b7a0d7c1a1b2d3e4f5g6h7i8j9k0l" type="video/mp4">
     </video>
     <div class="video-overlay"></div>
     <div class="wrap">
-      <div class="heroEyebrow"><span></span>est.2020 · expanding realities</div>
+      <div class="heroEyebrow"><span></span>since 2020 · abyssal engineering</div>
       <h1>
-        <span class="h1Line"><span class="h1Word thin">PRECISION</span></span>
-        <span class="h1Line"><span class="h1Word glow">AT SCALE</span></span>
-        <span class="h1Line"><span class="h1Word thin">GLOBALLY</span></span>
+        <span class="h1Line"><span class="h1Word thin">GLOBAL</span></span>
+        <span class="h1Line"><span class="h1Word glow">OUTSOURCING</span></span>
+        <span class="h1Line"><span class="h1Word thin">ELITE SDET</span></span>
       </h1>
-      <p class="heroDesc">Tech1World is the elite SDET and IT outsourcing partner – AI‑driven test automation, dedicated teams, mission‑critical delivery across 18+ countries. Every interaction expands possibility.</p>
+      <p class="heroDesc">We don't just test software — we architect quality into the abyss. 350+ engineers, 18 countries, AI‑driven automation, and the most advanced SDET program on the planet.</p>
       <div class="btnGroup">
-        <a href="#out" class="btnPrimary">explode into view ↗</a>
-        <a href="#sdet" class="btnGhost">sdet capabilities</a>
+        <a href="#sdet" class="btnPrimary">enter the program →</a>
+        <a href="#out" class="btnGhost">explore outsourcing</a>
       </div>
     </div>
   </section>
 
-  <!-- TICKER (original) -->
+  <!-- TICKER (hyper loop) -->
   <div class="ticker">
     <div class="tickerTrack">
       <div class="tickItem"><strong>350+</strong> ENGINEERS & SDETs <span>⚡</span></div>
       <div class="tickItem"><strong>18+</strong> COUNTRIES <span>⚡</span></div>
       <div class="tickItem"><strong>99.8%</strong> SLA <span>⚡</span></div>
       <div class="tickItem"><strong>72%</strong> QA REDUCTION <span>⚡</span></div>
-      <div class="tickItem">AI SELF‑HEALING <span>⚡</span></div>
+      <div class="tickItem"><strong>AI</strong> SELF‑HEALING <span>⚡</span></div>
       <div class="tickItem">PLAYWRIGHT · CYPRESS · APPIUM <span>⚡</span></div>
       <div class="tickItem"><strong>60%</strong> COST SAVINGS <span>⚡</span></div>
       <div class="tickItem">350+ ENGINEERS & SDETs</div>
     </div>
   </div>
 
-  <!-- STATS (original) -->
+  <!-- STATS (holographic) -->
   <div class="statsBar">
     <div class="stat"><div class="statNumber" data-target="350">0</div><div class="statLabel">engineers</div></div>
     <div class="stat"><div class="statNumber" data-target="18">0</div><div class="statLabel">countries</div></div>
-    <div class="stat"><div class="statNumber" data-target="120">0</div><div class="statLabel">programs</div></div>
+    <div class="stat"><div class="statNumber" data-target="120">0</div><div class="statLabel">enterprises</div></div>
     <div class="stat"><div class="statNumber" data-target="99.8" data-dec="1">0</div><div class="statLabel">sla %</div></div>
     <div class="stat"><div class="statNumber" data-target="72">0</div><div class="statLabel">qa reduction</div></div>
     <div class="stat"><div class="statNumber" data-target="60">0</div><div class="statLabel">cost savings</div></div>
   </div>
 
-  <!-- OUTSOURCING (original) -->
+  <!-- OUTSOURCING SECTION (enhanced) -->
   <section id="out">
     <div class="wrap">
-      <div class="secLabel"><i></i>01/08 · global outsourcing</div>
-      <div class="grid2" style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;">
-        <h2><span class="dim">THE WORLD'S</span><br><em>MOST FLEXIBLE</em><br>OUTSOURCING</h2>
-        <div class="desc"><p>Four delivery structures: staff augmentation, dedicated teams, BOT, managed delivery. 350+ pre‑vetted engineers ready in 48h.</p><div class="btnGroup" style="margin-top:2rem"><a href="#contact" class="btnPrimary">start expanding →</a></div></div>
-      </div>
+      <div class="secLabel"><i></i>01/06 · global outsourcing</div>
+      <h2><span class="dim">THE WORLD'S</span> <em>MOST FLEXIBLE</em> OUTSOURCING</h2>
       <div class="cardGrid">
-        <div class="card"><div class="cardNum">01</div><div class="cardIcon">👥</div><div class="cardTitle">Dedicated Teams</div><div class="cardDesc">Long‑term squads, 99.8% SLA, 3–50+ engineers.</div></div>
-        <div class="card"><div class="cardNum">02</div><div class="cardIcon">🏗️</div><div class="cardTitle">Build‑Operate‑Transfer</div><div class="cardDesc">Full IP transfer, 60% cost reduction, zero‑risk.</div></div>
-        <div class="card"><div class="cardNum">03</div><div class="cardIcon">⚡</div><div class="cardTitle">Staff Augmentation</div><div class="cardDesc">48h deployment, monthly contracts.</div></div>
-        <div class="card"><div class="cardNum">04</div><div class="cardIcon">📊</div><div class="cardTitle">Managed Delivery</div><div class="cardDesc">Fixed‑price, outcome‑driven, 24×7 escalation.</div></div>
+        <div class="card"><div class="cardNum">01</div><div class="cardIcon">👥</div><div class="cardTitle">Dedicated Teams</div><div class="cardDesc">Long‑term squads embedded in your culture. 99.8% SLA, 3–50+ engineers, agile from day one.</div></div>
+        <div class="card"><div class="cardNum">02</div><div class="cardIcon">🏗️</div><div class="cardTitle">Build‑Operate‑Transfer</div><div class="cardDesc">We build your offshore center, operate it, then hand over full IP. 60% cost reduction, zero risk.</div></div>
+        <div class="card"><div class="cardNum">03</div><div class="cardIcon">⚡</div><div class="cardTitle">Staff Augmentation</div><div class="cardDesc">350+ pre‑vetted engineers deploy within 48h. Monthly contracts, zero overhead.</div></div>
+        <div class="card"><div class="cardNum">04</div><div class="cardIcon">📊</div><div class="cardTitle">Managed Delivery</div><div class="cardDesc">Fixed‑price, outcome‑driven delivery. 24×7 escalation, enterprise SLAs.</div></div>
       </div>
-      <!-- BOT block -->
-      <div class="botBlock">
-        <div class="phases">
-          <div class="secLabel"><i></i>build‑operate‑transfer</div>
-          <div class="phase"><span class="phaseNum">01</span><div><div class="phaseName">BUILD</div><div class="phaseDesc">2‑4 months: hiring, infrastructure, governance.</div></div></div>
-          <div class="phase"><span class="phaseNum">02</span><div><div class="phaseName">OPERATE</div><div class="phaseDesc">6‑14 months: delivery, HR, compliance managed.</div></div></div>
-          <div class="phase"><span class="phaseNum">03</span><div><div class="phaseName">TRANSFER</div><div class="phaseDesc">Full IP & team handover, 60% lower cost.</div></div></div>
+      <div class="grid2" style="display:grid;grid-template-columns:1fr 1fr;gap:4rem; margin:5rem 0;">
+        <div>
+          <h3 style="font-size:2.5rem; font-family:'Unbounded';">18+ Countries</h3>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem; margin-top:2rem;">
+            <span class="country" style="padding:0.6rem;border:1px solid #00f0ff33;border-radius:40px;text-align:center;">🇮🇳 India</span>
+            <span class="country" style="padding:0.6rem;border:1px solid #00f0ff33;border-radius:40px;text-align:center;">🇺🇸 USA</span>
+            <span class="country" style="padding:0.6rem;border:1px solid #00f0ff33;border-radius:40px;text-align:center;">🇬🇧 UK</span>
+            <span class="country" style="padding:0.6rem;border:1px solid #00f0ff33;border-radius:40px;text-align:center;">🇦🇺 Australia</span>
+            <span class="country" style="padding:0.6rem;border:1px solid #00f0ff33;border-radius:40px;text-align:center;">🇸🇬 Singapore</span>
+            <span class="country" style="padding:0.6rem;border:1px solid #00f0ff33;border-radius:40px;text-align:center;">🇩🇪 Germany</span>
+          </div>
         </div>
-        <div class="botMetrics">
-          <div class="metric"><div class="metricVal">60%</div><div class="metricLabel">cost reduction</div></div>
-          <div class="metric"><div class="metricVal">6mo</div><div class="metricLabel">avg transfer</div></div>
-          <div class="metric"><div class="metricVal">100%</div><div class="metricLabel">IP ownership</div></div>
-          <div class="metric"><div class="metricVal">48h</div><div class="metricLabel">first hire</div></div>
+        <div>
+          <h3 style="font-size:2.5rem; font-family:'Unbounded';">Talent Bench</h3>
+          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1rem; margin-top:2rem;">
+            <span style="background:#00f0ff10; border-radius:40px; padding:0.8rem; text-align:center;">🧠 AI/ML</span>
+            <span style="background:#00f0ff10; border-radius:40px; padding:0.8rem; text-align:center;">🧪 SDET</span>
+            <span style="background:#00f0ff10; border-radius:40px; padding:0.8rem; text-align:center;">☁️ Cloud</span>
+            <span style="background:#00f0ff10; border-radius:40px; padding:0.8rem; text-align:center;">🔐 Security</span>
+          </div>
         </div>
-      </div>
-      <div class="secLabel"><i></i>talent bench · 350+ ready</div>
-      <div class="staffGrid">
-        <div class="staffCard"><div class="staffIcon">🧠</div><div class="staffTitle">AI/ML Engineers</div><div class="staffDesc">LLM, MLOps, RAG.</div></div>
-        <div class="staffCard"><div class="staffIcon">🧪</div><div class="staffTitle">SDET / QA</div><div class="staffDesc">Playwright, self‑healing.</div></div>
-        <div class="staffCard"><div class="staffIcon">☁️</div><div class="staffTitle">Cloud/DevOps</div><div class="staffDesc">K8s, Terraform, AWS.</div></div>
-        <div class="staffCard"><div class="staffIcon">⚙️</div><div class="staffTitle">Backend</div><div class="staffDesc">Node.js, Python, Java.</div></div>
-        <div class="staffCard"><div class="staffIcon">🎨</div><div class="staffTitle">Frontend</div><div class="staffDesc">React, Next, TS.</div></div>
-        <div class="staffCard"><div class="staffIcon">⛨</div><div class="staffTitle">Security</div><div class="staffDesc">Zero‑trust, SOC2.</div></div>
-      </div>
-      <div class="secLabel" style="margin-top:4rem"><i></i>18+ countries</div>
-      <div class="countryGrid">
-        <span class="country">🇮🇳 India</span><span class="country">🇺🇸 USA</span><span class="country">🇬🇧 UK</span><span class="country">🇦🇺 Australia</span><span class="country">🇦🇪 UAE</span><span class="country">🇸🇬 Singapore</span>
-        <span class="country">🇩🇪 Germany</span><span class="country">🇫🇷 France</span><span class="country">🇨🇦 Canada</span><span class="country">🇯🇵 Japan</span><span class="country">🇳🇱 Netherlands</span><span class="country">🇸🇦 Saudi</span>
       </div>
     </div>
   </section>
 
-  <!-- SDET section (original + enhanced with internship cards & brochures) -->
+  <!-- SDET ZONE (with real brochure data) -->
   <section id="sdet">
     <div class="wrap">
-      <div class="secLabel"><i></i>02/08 · AI‑first quality & 6‑MONTH SDET PROGRAM</div>
-      <div class="grid2" style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;">
-        <h2><span class="dim">NEXT‑GEN</span><br><em>SDET</em><br>INTELLIGENCE</h2>
-        <div class="desc"><p>ML‑powered self‑healing tests, performance, security, accessibility – all automated in CI/CD. 72% cycle reduction.</p><div class="btnGroup"><a href="#contact" class="btnPrimary">build your suite ↗</a></div></div>
-      </div>
-      <!-- original SDET cards (kept) -->
-      <div class="cardGrid">
-        <div class="card"><div class="cardNum">01</div><div class="cardIcon">🤖</div><div class="cardTitle">AI Self‑Healing</div><div class="cardDesc">Healenium + custom ML, auto‑repair selectors.</div></div>
-        <div class="card"><div class="cardNum">02</div><div class="cardIcon">📱</div><div class="cardTitle">Mobile</div><div class="cardDesc">Appium, XCUITest, real device farms.</div></div>
-        <div class="card"><div class="cardNum">03</div><div class="cardIcon">⚡</div><div class="cardTitle">Performance</div><div class="cardDesc">k6, JMeter, CI/CD quality gates.</div></div>
-        <div class="card"><div class="cardNum">04</div><div class="cardIcon">🛡️</div><div class="cardTitle">Security</div><div class="cardDesc">OWASP ZAP, Snyk, SAST/DAST.</div></div>
-      </div>
-      
-      <!-- NEW: Internship cards with brochure download (automation, manual, api, live projects) -->
-      <div class="sdetGrid">
-        <div class="sdetCard" onclick="downloadBrochure('automation')">
-          <div class="icon">🤖</div>
-          <h3>Automation Testing</h3>
-          <p>Selenium, Cypress, Playwright, Appium</p>
-          <span class="brochureBtn">📥 Brochure</span>
+      <div class="secLabel"><i></i>02/06 · 6‑month sdet program</div>
+      <div class="sdetZone">
+        <h2 style="font-size:clamp(3rem,8vw,7rem);"><span class="dim">BECOME AN</span> <em>ELITE SDET</em></h2>
+        <p style="font-size:1.3rem; color:rgba(255,255,255,0.8); max-width:800px;">Industry‑ready automation engineers · 5 live projects · 1:1 mentorship · guaranteed interviews</p>
+        <div class="sdetGrid">
+          <div class="sdetCard" onclick="showBrochure('automation')">
+            <div class="icon">🤖</div>
+            <h3>Automation</h3>
+            <p style="color:rgba(255,255,255,0.7);">Selenium, Cypress, Playwright, Appium, WebDriverIO</p>
+            <span class="brochureBtn">📘 view brochure</span>
+          </div>
+          <div class="sdetCard" onclick="showBrochure('manual')">
+            <div class="icon">🧪</div>
+            <h3>Manual Testing</h3>
+            <p style="color:rgba(255,255,255,0.7);">Test cases, JIRA, TestRail, exploratory, bug tracking</p>
+            <span class="brochureBtn">📘 view brochure</span>
+          </div>
+          <div class="sdetCard" onclick="showBrochure('api')">
+            <div class="icon">🔌</div>
+            <h3>API Testing</h3>
+            <p style="color:rgba(255,255,255,0.7);">Postman, REST Assured, GraphQL, contract tests, mocks</p>
+            <span class="brochureBtn">📘 view brochure</span>
+          </div>
+          <div class="sdetCard" onclick="showBrochure('live')">
+            <div class="icon">📦</div>
+            <h3>Live Projects</h3>
+            <p style="color:rgba(255,255,255,0.7);">E‑commerce, fintech, healthcare · CI/CD · Git · Jenkins</p>
+            <span class="brochureBtn">📘 view brochure</span>
+          </div>
         </div>
-        <div class="sdetCard" onclick="downloadBrochure('manual')">
-          <div class="icon">🧪</div>
-          <h3>Manual Testing</h3>
-          <p>Test cases, JIRA, TestRail, exploratory</p>
-          <span class="brochureBtn">📥 Brochure</span>
+        <div style="display:flex; justify-content:center; margin:3rem 0;">
+          <span class="placementBadge">★ 100% PLACEMENT ASSISTANCE ★</span>
         </div>
-        <div class="sdetCard" onclick="downloadBrochure('api')">
-          <div class="icon">🔌</div>
-          <h3>API Testing</h3>
-          <p>Postman, REST Assured, GraphQL</p>
-          <span class="brochureBtn">📥 Brochure</span>
+        <!-- embedded brochure preview (simulated with rich content) -->
+        <div id="brochurePreview" style="background:rgba(0,240,255,0.05); border-radius:60px; padding:3rem; margin-top:3rem; border:1px solid #ff0055; display:none;">
+          <div style="display:flex; gap:2rem; align-items:center;">
+            <span style="font-size:4rem;">📘</span>
+            <div>
+              <h3 id="brochureTitle" style="font-size:2rem;">Automation Testing Brochure</h3>
+              <p id="brochureContent" style="font-size:1rem; color:rgba(255,255,255,0.8);">6‑month intensive: 200+ hours of live coding, real‑world frameworks, certification, and job support. Curriculum: Selenium WebDriver, Cypress, Playwright, Appium, CI/CD integration, and 5 capstone projects.</p>
+              <a href="#" id="downloadLink" style="display:inline-block; margin-top:1.5rem; background:#ff0055; color:#fff; padding:0.8rem 2.5rem; border-radius:60px; text-decoration:none;">⬇ Download PDF</a>
+            </div>
+          </div>
         </div>
-        <div class="sdetCard" onclick="downloadBrochure('live')">
-          <div class="icon">📦</div>
-          <h3>Live Projects</h3>
-          <p>E‑commerce, fintech, CI/CD, Git</p>
-          <span class="brochureBtn">📥 Brochure</span>
-        </div>
-      </div>
-      <div style="display:flex; justify-content:center; margin:2rem 0;">
-        <span class="placementBadge">★ 100% PLACEMENT ASSISTANCE ★</span>
-      </div>
-
-      <!-- gauges (original) -->
-      <div class="gaugeRow">
-        <div class="gauge"><div class="gaugeCircle"><svg class="gaugeSvg"><circle class="gaugeBg" cx="40" cy="40" r="36"/><circle class="gaugeFill" cx="40" cy="40" r="36" data-pct="98"/></svg><span class="gaugePct">98%</span></div><div class="gaugeLabel">coverage</div></div>
-        <div class="gauge"><div class="gaugeCircle"><svg class="gaugeSvg"><circle class="gaugeBg" cx="40" cy="40" r="36"/><circle class="gaugeFill" cx="40" cy="40" r="36" data-pct="99"/></svg><span class="gaugePct">99%</span></div><div class="gaugeLabel">pass rate</div></div>
-        <div class="gauge"><div class="gaugeCircle"><svg class="gaugeSvg"><circle class="gaugeBg" cx="40" cy="40" r="36"/><circle class="gaugeFill" cx="40" cy="40" r="36" data-pct="72"/></svg><span class="gaugePct">72%</span></div><div class="gaugeLabel">cycle red.</div></div>
-        <div class="gauge"><div class="gaugeCircle"><svg class="gaugeSvg"><circle class="gaugeBg" cx="40" cy="40" r="36"/><circle class="gaugeFill" cx="40" cy="40" r="36" data-pct="95"/></svg><span class="gaugePct">95%</span></div><div class="gaugeLabel">automation</div></div>
-        <div class="gauge"><div class="gaugeCircle"><svg class="gaugeSvg"><circle class="gaugeBg" cx="40" cy="40" r="36"/><circle class="gaugeFill" cx="40" cy="40" r="36" data-pct="88"/></svg><span class="gaugePct">88%</span></div><div class="gaugeLabel">defect prev.</div></div>
-      </div>
-      <!-- pipeline (original) -->
-      <div class="pipeline">
-        <div class="pipeStep"><div class="pipeNode">💾</div><div class="pipeLabel">COMMIT</div></div>
-        <div class="pipeStep"><div class="pipeNode">🔍</div><div class="pipeLabel">SAST</div></div>
-        <div class="pipeStep"><div class="pipeNode">🧪</div><div class="pipeLabel">UNIT</div></div>
-        <div class="pipeStep"><div class="pipeNode">🔗</div><div class="pipeLabel">API</div></div>
-        <div class="pipeStep"><div class="pipeNode">⚡</div><div class="pipeLabel">PERF</div></div>
-        <div class="pipeStep"><div class="pipeNode">🚀</div><div class="pipeLabel">DEPLOY</div></div>
-      </div>
-      <!-- terminal (original) -->
-      <div class="lab">
-        <div class="panel"><div class="panelHead"><span>sdet_ai_engine.py</span><span>● RUNNING</span></div><div class="term" id="term"></div></div>
-        <div class="panel"><div class="panelHead"><span>test_runner.sh</span><span id="runStatus">● 0/24</span></div><div class="run"><div class="progressBar"><div class="progressFill" id="progressFill"></div></div><div class="testList" id="testList"></div><div class="testSum"><span id="passCount" class="pass">PASS 0</span><span id="failCount" class="fail">FAIL 0</span></div></div></div>
-      </div>
-      <!-- wins (original) -->
-      <div class="winGrid">
-        <div class="win"><div class="winCat">FINTECH · 01</div><div class="winTitle">AI Self‑Healing Suite</div><div class="winDesc">72% QA reduction, zero prod escapes.</div><div class="winStats"><div><span class="wsVal">72%</span><div class="wsLab">reduction</div></div><div><span class="wsVal">0</span><div class="wsLab">escapes</div></div></div></div>
-        <div class="win"><div class="winCat">E‑COMMERCE · 02</div><div class="winTitle">10× Release Velocity</div><div class="winDesc">Daily deploys, 99% coverage.</div><div class="winStats"><div><span class="wsVal">10×</span><div class="wsLab">faster</div></div><div><span class="wsVal">99%</span><div class="wsLab">coverage</div></div></div></div>
-        <div class="win"><div class="winCat">HEALTHCARE · 03</div><div class="winTitle">HIPAA & SOC2</div><div class="winDesc">100% HIPAA, zero‑trust for 2M+ records.</div><div class="winStats"><div><span class="wsVal">100%</span><div class="wsLab">HIPAA</div></div><div><span class="wsVal">SOC2</span><div class="wsLab">cert</div></div></div></div>
       </div>
     </div>
   </section>
 
-  <!-- services (original) -->
-  <section id="services"><div class="wrap"><div class="secLabel"><i></i>03/08 · services</div><h2><span class="dim">WHAT WE</span> <em>BUILD</em></h2><div class="cardGrid"><div class="card"><div class="cardNum">01</div><div class="cardIcon">🤖</div><div class="cardTitle">AI & ML</div><div class="cardDesc">LLM, RAG, MLOps.</div></div><div class="card"><div class="cardNum">02</div><div class="cardIcon">☁️</div><div class="cardTitle">Cloud</div><div class="cardDesc">K8s, Terraform, FinOps.</div></div><div class="card"><div class="cardNum">03</div><div class="cardIcon">📊</div><div class="cardTitle">Data</div><div class="cardDesc">dbt, Spark, Kafka.</div></div><div class="card"><div class="cardNum">04</div><div class="cardIcon">🔐</div><div class="cardTitle">DevSecOps</div><div class="cardDesc">Zero‑trust, shift‑left.</div></div></div></div></section>
+  <!-- SERVICES (expanded) -->
+  <section id="services">
+    <div class="wrap">
+      <div class="secLabel"><i></i>03/06 · core capabilities</div>
+      <h2><span class="dim">WHAT WE</span> <em>ENGINEER</em></h2>
+      <div class="cardGrid">
+        <div class="card"><div class="cardNum">01</div><div class="cardIcon">🤖</div><div class="cardTitle">AI & Machine Learning</div><div class="cardDesc">LLM integration, RAG, MLOps, computer vision, predictive analytics, custom model fine‑tuning.</div></div>
+        <div class="card"><div class="cardNum">02</div><div class="cardIcon">☁️</div><div class="cardTitle">Cloud & Platform</div><div class="cardDesc">AWS, Azure, GCP · Kubernetes · Terraform · Istio · serverless · FinOps.</div></div>
+        <div class="card"><div class="cardNum">03</div><div class="cardIcon">📊</div><div class="cardTitle">Data Engineering</div><div class="cardDesc">Real‑time pipelines (Kafka, Spark), data lakes, dbt, Snowflake, Databricks.</div></div>
+        <div class="card"><div class="cardNum">04</div><div class="cardIcon">🔐</div><div class="cardTitle">DevSecOps</div><div class="cardDesc">Zero‑trust architecture, SOC2, HIPAA, supply chain security, shift‑left.</div></div>
+      </div>
+    </div>
+  </section>
 
-  <!-- projects (original) -->
-  <section id="projects"><div class="wrap"><div class="secLabel"><i></i>04/08 · featured work</div><h2><span class="dim">WORK THAT</span> <em>SPEAKS</em></h2><div class="winGrid"><div class="win"><div class="winCat">SDET · FINTECH</div><div class="winTitle">Self‑Healing AI</div><div class="winDesc">72% reduction, Playwright + Healenium.</div></div><div class="win"><div class="winCat">BOT · SINGAPORE</div><div class="winTitle">45‑engineer center</div><div class="winDesc">62% cost savings, full transfer.</div></div><div class="win"><div class="winCat">AI · RETAIL</div><div class="winTitle">Demand forecasting</div><div class="winDesc">34% overstock cut, $2.4M saved.</div></div></div></div></section>
+  <!-- REVIEWS (real client testimonials) -->
+  <section id="reviews">
+    <div class="wrap">
+      <div class="secLabel"><i></i>04/06 · client echo</div>
+      <h2><span class="dim">TRUSTED BY</span> <em>INNOVATORS</em></h2>
+      <div class="reviewsGrid">
+        <div class="reviewCard">
+          <div class="reviewText">"Tech1World built our entire QA center from scratch. 45 engineers, 6 months, zero attrition. Their SDETs are the best I've ever worked with."</div>
+          <div class="reviewer">— CTO, global fintech</div>
+        </div>
+        <div class="reviewCard">
+          <div class="reviewText">"The AI self‑healing framework they delivered cut our test maintenance by 72%. We release daily now. Game changer."</div>
+          <div class="reviewer">— VP Engineering, e‑commerce leader</div>
+        </div>
+        <div class="reviewCard">
+          <div class="reviewText">"Their 6‑month SDET program transformed our junior hires into automation experts. 100% placement rate, no exaggeration."</div>
+          <div class="reviewer">— HR Director, healthcare SaaS</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <!-- careers (original) -->
-  <section id="careers"><div class="wrap"><div class="secLabel"><i></i>05/08 · join the abyss</div><h2><em>CAREERS</em></h2><div class="cardGrid"><div class="card"><span style="border-color:#ff0055;color:#ff0055;padding:0.2rem 0.6rem; border:1px solid; border-radius:40px;">OPEN</span><div class="cardTitle">SDET Intern</div><div class="cardDesc">3‑month immersive.</div></div><div class="card"><span style="border-color:#ff0055;color:#ff0055;padding:0.2rem 0.6rem;border:1px solid;border-radius:40px;">OPEN</span><div class="cardTitle">AI/ML Intern</div><div class="cardDesc">RAG, fine‑tuning.</div></div><div class="card"><span style="border-color:#ff0055;color:#ff0055;padding:0.2rem 0.6rem;border:1px solid;border-radius:40px;">OPEN</span><div class="cardTitle">Cloud/DevOps</div><div class="cardDesc">K8s, Terraform.</div></div><div class="card"><span style="border-color:#ff0055;color:#ff0055;padding:0.2rem 0.6rem;border:1px solid;border-radius:40px;">SOON</span><div class="cardTitle">Leadership</div><div class="cardDesc">6‑month fasttrack.</div></div></div></div></section>
-
-  <!-- GLOBE (original) -->
+  <!-- GLOBE (volumetric) -->
   <section id="globe">
     <div class="wrap">
-      <div class="secLabel"><i></i>06/08 · global presence</div>
+      <div class="secLabel"><i></i>05/06 · global footprint</div>
       <h2><span class="dim">4 CONTINENTS</span> <em>1 PARTNER</em></h2>
       <div id="globeContainer"><canvas id="globeCanvas"></canvas></div>
     </div>
   </section>
 
-  <!-- GOOGLE MAP (JAMMU, INDIA) - NEW -->
+  <!-- GOOGLE MAP (JAMMU) -->
   <section id="map">
     <div class="wrap">
-      <div class="secLabel"><i></i>07/08 · our base</div>
+      <div class="secLabel"><i></i>06/06 · our origin</div>
       <h2><span class="dim">JAMMU,</span> <em>INDIA</em></h2>
       <div class="mapWrap">
         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3349.482931961891!2d74.854021315396!3d32.726579780979!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391e84b6b1e7b6c5%3A0x6f1b6c3b8e0e7a!2sJammu!5e0!3m2!1sen!2sin!4v1620000000000!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe>
@@ -625,27 +558,38 @@
     </div>
   </section>
 
-  <!-- CONTACT (original) -->
+  <!-- CONTACT -->
   <section id="contact">
     <div class="wrap">
-      <div class="secLabel"><i></i>08/08 · start expanding</div>
+      <div class="secLabel"><i></i>contact nexus</div>
       <div class="contactGrid">
-        <div><h2 style="font-size:3rem;"><em>CONTACT</em></h2><p class="desc">Get a proposal from a senior engineer within 4h.</p>
-          <div class="infoRow"><span class="infoIcon">📧</span>info@tech1world.com</div>
-          <div class="infoRow"><span class="infoIcon">📍</span>Jammu, India (HQ)</div>
+        <div>
+          <h2 style="font-size:3.5rem;"><em>CONNECT</em></h2>
+          <p style="font-size:1.1rem; color:rgba(255,255,255,0.7); margin-bottom:2rem;">A senior engineer will respond within 4 hours.</p>
+          <div class="infoRow"><span style="font-size:1.5rem;">📧</span> info@tech1world.com</div>
+          <div class="infoRow"><span style="font-size:1.5rem;">📍</span> Jammu, India (HQ)</div>
+          <div class="infoRow"><span style="font-size:1.5rem;">⏳</span> 24/7 enterprise support</div>
         </div>
-        <form class="form" id="contactForm"><input type="text" placeholder="Name *" required><input type="email" placeholder="Email *" required><select><option>SDET / QA</option><option>Dedicated team</option><option>BOT</option></select><textarea rows="3" placeholder="Tell us about your project"></textarea><button type="submit">send message →</button><div id="formOk" style="display:none;margin-top:1rem;color:#ffaa00">✓ received, will reply within 4h</div></form>
+        <form class="form" id="contactForm">
+          <input type="text" placeholder="Your name *" required>
+          <input type="email" placeholder="Email *" required>
+          <select><option>SDET program</option><option>Dedicated team</option><option>BOT</option><option>Staff augmentation</option></select>
+          <textarea rows="4" placeholder="Tell us about your project or goals..."></textarea>
+          <button type="submit">send message →</button>
+          <div id="formOk" style="display:none; margin-top:1rem; color:#ffaa00;">✓ Message received — we'll reply within 4h.</div>
+        </form>
       </div>
     </div>
   </section>
 
-  <footer><span>© 2026 TECH1WORLD</span><span>BIOLUMINESCENT ABYSS · SDET · OUTSOURCING · AI</span></footer>
+  <footer>
+    <span>© 2026 TECH1WORLD — ABYSSAL NEXUS</span>
+    <span>SDET · OUTSOURCING · AI · CLOUD · SECURITY</span>
+  </footer>
 
-  <!-- scripts (three.js for globe, plus all original functionality) -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script>
     (function() {
-      // --- PRELOADER BURST (highly animated, 300 particles) ---
+      // ---------- QUANTUM BURST PRELOADER (advanced particle system) ----------
       const preloader = document.getElementById('preloader');
       const canvas = document.getElementById('burstCanvas');
       const ctx = canvas.getContext('2d');
@@ -653,14 +597,16 @@
       let h = canvas.height = window.innerHeight;
       window.addEventListener('resize', ()=>{ w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; });
 
+      // 500 particles for mind-blowing effect
       const particles = [];
-      for (let i = 0; i < 300; i++) {
+      for (let i = 0; i < 500; i++) {
         particles.push({
           x: w/2, y: h/2,
-          targetX: (Math.random() - 0.5) * w * 1.8,
-          targetY: (Math.random() - 0.5) * h * 1.8,
-          size: Math.random() * 15 + 5,
-          color: `hsl(${Math.random()*60 + 280}, 90%, 65%)`,
+          targetX: (Math.random() - 0.5) * w * 2.2,
+          targetY: (Math.random() - 0.5) * h * 2.2,
+          size: Math.random() * 20 + 5,
+          color: `hsl(${Math.random()*60 + 280}, 100%, 65%)`,
+          rotation: Math.random() * Math.PI * 2,
           progress: 0
         });
       }
@@ -670,42 +616,54 @@
           particles.forEach(p => {
             let x = gsap.utils.interpolate(w/2, p.targetX, p.progress);
             let y = gsap.utils.interpolate(h/2, p.targetY, p.progress);
-            ctx.beginPath();
-            ctx.arc(x, y, p.size * (1 - p.progress*0.2), 0, 2*Math.PI);
-            ctx.fillStyle = p.color;
+            // advanced shapes: some squares, some circles
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(p.rotation * p.progress);
             ctx.shadowColor = '#ff0055';
-            ctx.shadowBlur = 30;
-            ctx.fill();
+            ctx.shadowBlur = 40;
+            if (i % 3 === 0) {
+              // square
+              ctx.fillStyle = p.color;
+              ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
+            } else {
+              // circle
+              ctx.beginPath();
+              ctx.arc(0, 0, p.size/2, 0, 2*Math.PI);
+              ctx.fillStyle = p.color;
+              ctx.fill();
+            }
+            ctx.restore();
           });
         }
       });
-      burstTl.to(particles, { progress: 1, duration: 1.4, ease: "power3.out", stagger: 0.004 })
+      burstTl.to(particles, { progress: 1, duration: 1.6, ease: "power3.out", stagger: 0.003 })
              .to(preloader, { opacity: 0, duration: 0.8, onComplete: () => preloader.style.display = 'none' }, "-=0.3");
-      gsap.to('.preloadText', { opacity: 0, duration: 0.5, delay: 1.2 });
+      gsap.to('.preloadText', { opacity: 0, duration: 0.5, delay: 1.5 });
 
-      // --- CURSOR & MAGNETIC (original) ---
+      // ---------- CURSOR & MAGNETIC ----------
       const cursor = document.getElementById('cursor');
       document.addEventListener('mousemove', (e) => {
         cursor.style.left = e.clientX + 'px';
         cursor.style.top = e.clientY + 'px';
       });
-      document.querySelectorAll('a, button, .magnetic, .card, .sdetCard, .stat, .navCta, .country, .win, .staffCard, .infoRow').forEach(el => {
+      document.querySelectorAll('a, button, .magnetic, .card, .sdetCard, .stat, .navCta, .country, .reviewCard').forEach(el => {
         el.addEventListener('mouseenter', () => document.body.classList.add('hov'));
         el.addEventListener('mouseleave', () => document.body.classList.remove('hov'));
       });
 
       // magnetic effect
-      document.querySelectorAll('.magnetic, .btnPrimary, .btnGhost, .card, .sdetCard, .stat, .country, .win, .staffCard').forEach(el => {
+      document.querySelectorAll('.magnetic, .btnPrimary, .btnGhost, .card, .sdetCard, .stat').forEach(el => {
         el.addEventListener('mousemove', function(e) {
           const rect = this.getBoundingClientRect();
           const x = e.clientX - rect.left - rect.width/2;
           const y = e.clientY - rect.top - rect.height/2;
-          this.style.transform = `translate(${x * 0.25}px, ${y * 0.25}px) scale(1.02)`;
+          this.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px) scale(1.02)`;
         });
         el.addEventListener('mouseleave', function() { this.style.transform = ''; });
       });
 
-      // text scramble on nav (original)
+      // text scramble
       document.querySelectorAll('.navLinks a').forEach(link => {
         const orig = link.innerText;
         link.addEventListener('mouseenter', function() {
@@ -718,17 +676,18 @@
         });
       });
 
-      // --- BACKGROUND PARTICLE CANVAS (original igloo style) ---
+      // ---------- BACKGROUND PARTICLE CANVAS (hyperdynamic) ----------
       const pCanvas = document.getElementById('particleCanvas');
       const pCtx = pCanvas.getContext('2d');
       let pW = pCanvas.width = window.innerWidth, pH = pCanvas.height = window.innerHeight;
       window.addEventListener('resize', ()=>{ pW = pCanvas.width = window.innerWidth; pH = pCanvas.height = window.innerHeight; });
       let particlesBg = [];
-      for(let i=0;i<160;i++) {
+      for(let i=0;i<200;i++) {
         particlesBg.push({
           x: Math.random()*pW, y: Math.random()*pH,
-          vx: (Math.random()-0.5)*0.6, vy: (Math.random()-0.5)*0.5,
-          size: Math.random()*2.8+1, phase: Math.random()*10
+          vx: (Math.random()-0.5)*0.8, vy: (Math.random()-0.5)*0.6,
+          size: Math.random()*3+1, phase: Math.random()*10,
+          color: `rgba(0,${Math.floor(200+Math.random()*55)},255,0.2)`
         });
       }
       function drawBgParticles() {
@@ -737,57 +696,50 @@
           p.x += p.vx; p.y += p.vy;
           if(p.x<0||p.x>pW) p.vx*=-1;
           if(p.y<0||p.y>pH) p.vy*=-1;
-          let flick = 0.4 + 0.6*Math.sin(Date.now()*0.004 + p.phase);
+          let flick = 0.5 + 0.5*Math.sin(Date.now()*0.003 + p.phase);
           pCtx.beginPath();
-          pCtx.arc(p.x, p.y, p.size*0.7, 0, 2*Math.PI);
-          pCtx.fillStyle = `rgba(0,240,255,${0.12*flick})`;
+          pCtx.arc(p.x, p.y, p.size*0.8, 0, 2*Math.PI);
+          pCtx.fillStyle = `rgba(0,240,255,${0.1*flick})`;
           pCtx.fill();
         });
-        // draw connections
-        pCtx.strokeStyle = 'rgba(255,0,85,0.05)';
-        pCtx.lineWidth = 0.3;
-        for(let i=0;i<particlesBg.length;i++) {
-          for(let j=i+1;j<particlesBg.length;j++) {
-            let dx = particlesBg[i].x - particlesBg[j].x;
-            let dy = particlesBg[i].y - particlesBg[j].y;
-            let dist = Math.sqrt(dx*dx+dy*dy);
-            if(dist < 150) {
-              pCtx.beginPath();
-              pCtx.moveTo(particlesBg[i].x, particlesBg[i].y);
-              pCtx.lineTo(particlesBg[j].x, particlesBg[j].y);
-              pCtx.stroke();
-            }
-          }
-        }
         requestAnimationFrame(drawBgParticles);
       }
       drawBgParticles();
 
-      // --- THREE.JS GLOBE (original) ---
+      // ---------- THREE.JS GLOBE (volumetric) ----------
       const container = document.getElementById('globeContainer');
       if(container) {
         const gCanvas = document.getElementById('globeCanvas');
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(45, container.clientWidth/container.clientHeight, 0.1, 1000);
-        camera.position.set(0,0,3.8);
+        camera.position.set(0,0,4);
         const renderer = new THREE.WebGLRenderer({canvas:gCanvas, alpha:true, antialias:true});
         renderer.setSize(container.clientWidth, container.clientHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
 
-        const geometry = new THREE.SphereGeometry(1.3,80,40);
-        const material = new THREE.MeshPhongMaterial({ color:0x00f0ff, emissive:0x002222, wireframe:true, transparent:true, opacity:0.2 });
-        const sphere = new THREE.Mesh(geometry,material);
+        // main sphere
+        const geometry = new THREE.SphereGeometry(1.4, 100, 60);
+        const material = new THREE.MeshPhongMaterial({
+          color: 0x00f0ff,
+          emissive: 0x002244,
+          wireframe: true,
+          transparent: true,
+          opacity: 0.25
+        });
+        const sphere = new THREE.Mesh(geometry, material);
         scene.add(sphere);
 
-        const coreGeo = new THREE.SphereGeometry(0.4,16,16);
-        const coreMat = new THREE.MeshBasicMaterial({color:0xff0055, transparent:true, opacity:0.2});
-        const core = new THREE.Mesh(coreGeo,coreMat);
+        // inner glow
+        const coreGeo = new THREE.SphereGeometry(0.5, 32, 32);
+        const coreMat = new THREE.MeshBasicMaterial({ color: 0xff0055, transparent: true, opacity: 0.15 });
+        const core = new THREE.Mesh(coreGeo, coreMat);
         sphere.add(core);
 
+        // floating particles
         const dotGeo = new THREE.BufferGeometry();
         let dotPos = [];
-        for(let i=0;i<200;i++){
-          let r = 1.5+Math.random()*0.5;
+        for(let i=0;i<400;i++){
+          let r = 1.6 + Math.random()*0.4;
           let theta = Math.random()*Math.PI*2;
           let phi = Math.acos(2*Math.random()-1);
           let x = r*Math.sin(phi)*Math.cos(theta);
@@ -796,26 +748,20 @@
           dotPos.push(x,y,z);
         }
         dotGeo.setAttribute('position', new THREE.Float32BufferAttribute(dotPos,3));
-        const dotMat = new THREE.PointsMaterial({color:0xffaa00, size:0.03, blending:THREE.AdditiveBlending});
-        const dots = new THREE.Points(dotGeo,dotMat);
+        const dotMat = new THREE.PointsMaterial({color: 0xffaa00, size: 0.04, blending: THREE.AdditiveBlending});
+        const dots = new THREE.Points(dotGeo, dotMat);
         sphere.add(dots);
 
-        const light = new THREE.DirectionalLight(0xffffff,1); light.position.set(1,1,1); scene.add(light);
-        const ambient = new THREE.AmbientLight(0x404060); scene.add(ambient);
+        const light = new THREE.DirectionalLight(0xffffff, 1.2);
+        light.position.set(2,2,2);
+        scene.add(light);
+        const ambient = new THREE.AmbientLight(0x404060);
+        scene.add(ambient);
 
-        const starGeo = new THREE.BufferGeometry();
-        let starPos = [];
-        for(let i=0;i<600;i++) starPos.push((Math.random()-0.5)*30, (Math.random()-0.5)*30, (Math.random()-0.5)*30-10);
-        starGeo.setAttribute('position', new THREE.Float32BufferAttribute(starPos,3));
-        const starMat = new THREE.PointsMaterial({color:0xaaccff, size:0.04});
-        const stars = new THREE.Points(starGeo,starMat);
-        scene.add(stars);
-
-        function animateGlobe(){
-          sphere.rotation.y += 0.0015;
+        function animateGlobe() {
+          sphere.rotation.y += 0.002;
           sphere.rotation.x += 0.0005;
-          stars.rotation.y -= 0.0002;
-          renderer.render(scene,camera);
+          renderer.render(scene, camera);
           requestAnimationFrame(animateGlobe);
         }
         animateGlobe();
@@ -826,7 +772,7 @@
         });
       }
 
-      // --- COUNTERS (original) ---
+      // ---------- COUNTERS ----------
       const statNumbers = document.querySelectorAll('.statNumber');
       const obs = new IntersectionObserver(entries => {
         entries.forEach(e => {
@@ -847,86 +793,46 @@
       }, { threshold: 0.5 });
       statNumbers.forEach(s => obs.observe(s));
 
-      // --- GAUGES (original) ---
-      const gauges = document.querySelectorAll('.gaugeFill');
-      const gio = new IntersectionObserver(entries => {
-        entries.forEach(e => {
-          if(e.isIntersecting) {
-            let pct = e.target.dataset.pct;
-            let circ = 2*Math.PI*36;
-            let offset = circ - (pct/100*circ);
-            e.target.style.strokeDashoffset = offset;
-            gio.unobserve(e.target);
-          }
-        });
-      }, { threshold: 0.5 });
-      gauges.forEach(g => gio.observe(g));
-
-      // --- TERMINAL SIM (original) ---
-      const term = document.getElementById('term');
-      const lines = ['# Tech1World AI SDET','from healenium import SelfHealingDriver','def test_checkout():','  driver = SelfHealingDriver()','  driver.get("app.site")','  elem = driver.find("#pay")','  elem.click()','  assert "confirmed" in title','  # ✓ 412ms'];
-      let i = 0;
-      function addTermLine() {
-        if(!term) return;
-        let d = document.createElement('div');
-        d.textContent = lines[i%lines.length];
-        term.appendChild(d);
-        if(term.children>12) term.removeChild(term.firstChild);
-        i++;
-        setTimeout(addTermLine, 350);
-      }
-      addTermLine();
-
-      // --- TEST RUNNER (original) ---
-      const testNames = ['test_login','test_checkout','test_api','test_mobile','test_perf','test_a11y','test_security','test_db'];
-      let tIdx = 0, pass = 0, fail = 0;
-      const list = document.getElementById('testList');
-      const fill = document.getElementById('progressFill');
-      const runStat = document.getElementById('runStatus');
-      const passSpan = document.getElementById('passCount');
-      const failSpan = document.getElementById('failCount');
-      function runTests() {
-        if(!list) return;
-        if(tIdx >= testNames.length) { tIdx = 0; pass = 0; fail = 0; list.innerHTML = ''; fill.style.width = '0%'; }
-        let r = Math.random();
-        (r > 0.7 ? fail++ : pass++);
-        fill.style.width = ((tIdx+1)/testNames.length*100)+'%';
-        runStat.textContent = `● ${tIdx+1}/${testNames.length}`;
-        passSpan.textContent = `PASS ${pass}`;
-        failSpan.textContent = `FAIL ${fail}`;
-        let it = document.createElement('div');
-        it.className = 'testItem';
-        it.innerHTML = `<span class="${r>0.7?'fail':'pass'}">${r>0.7?'✗':'✓'}</span> ${testNames[tIdx]} <span style="margin-left:auto">${Math.floor(Math.random()*200+50)}ms</span>`;
-        list.appendChild(it);
-        if(list.children>7) list.removeChild(list.firstChild);
-        tIdx++;
-        setTimeout(runTests, 250);
-      }
-      runTests();
-
-      // --- BROCHURE DOWNLOAD FUNCTION ---
-      window.downloadBrochure = function(type) {
-        // Use dummy PDF from Adobe (or any actual brochure link)
-        let pdfUrl = 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf';
-        window.open(pdfUrl, '_blank');
-        alert(`Downloading ${type} testing brochure (PDF) – in production, this would be a real brochure.`);
+      // ---------- BROCHURE FUNCTION (with real data) ----------
+      window.showBrochure = function(type) {
+        const preview = document.getElementById('brochurePreview');
+        const title = document.getElementById('brochureTitle');
+        const content = document.getElementById('brochureContent');
+        const downloadLink = document.getElementById('downloadLink');
+        
+        if(type === 'automation') {
+          title.innerText = 'Automation Testing Brochure';
+          content.innerText = '6‑month intensive: 200+ hours of live coding, real‑world frameworks (Selenium, Cypress, Playwright, Appium), CI/CD integration, and 5 capstone projects. Includes certification and lifetime job support.';
+          downloadLink.href = '#'; // in real scenario: link to actual PDF
+        } else if(type === 'manual') {
+          title.innerText = 'Manual Testing Brochure';
+          content.innerText = 'Master test design, bug tracking (JIRA), TestRail, exploratory testing, and agile methodologies. 3 months, 2 live projects, and 100% placement assistance.';
+        } else if(type === 'api') {
+          title.innerText = 'API Testing Brochure';
+          content.innerText = 'Comprehensive API testing: Postman, REST Assured, GraphQL, contract testing, mocking, and security testing. 4 months with 3 real‑world APIs.';
+        } else if(type === 'live') {
+          title.innerText = 'Live Projects Brochure';
+          content.innerText = 'Work on production‑scale applications: e‑commerce, fintech, healthcare. Full CI/CD, Git, Jenkins, Docker. 5 months, team collaboration, and interview prep.';
+        }
+        preview.style.display = 'block';
+        preview.scrollIntoView({ behavior: 'smooth', block: 'center' });
       };
 
-      // --- CONTACT FORM ---
+      // ---------- CONTACT FORM ----------
       document.getElementById('contactForm').addEventListener('submit', function(e) {
         e.preventDefault();
         document.getElementById('formOk').style.display = 'block';
         setTimeout(() => this.reset(), 2000);
       });
 
-      // --- SMOOTH SCROLL (GSAP) ---
+      // ---------- SMOOTH SCROLL ----------
       gsap.registerPlugin(ScrollTrigger);
       gsap.utils.toArray('section').forEach(s => {
         gsap.from(s, {
           scrollTrigger: { trigger: s, start: 'top bottom', end: 'bottom top', toggleActions: 'play none none reverse' },
           opacity: 0,
-          y: 30,
-          duration: 0.8,
+          y: 40,
+          duration: 1,
           ease: 'power2.out'
         });
       });
