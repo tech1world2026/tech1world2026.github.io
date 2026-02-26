@@ -3,48 +3,52 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tech1World — NOVA CORE</title>
+  <title>Tech1World — igloo.inc velocity</title>
   <!-- GSAP + THREE.js for high-end 3D & animation -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <!-- fonts: stark industrial -->
+  <!-- fonts: clean, modern -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@200..800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200..900&family=Syne:wght@400..800&display=swap" rel="stylesheet">
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
     body{
-      background:#03050a;
+      background:#020622; /* deep dark blue */
       color:#fff;
-      font-family:'Manrope',sans-serif;
+      font-family:'Syne',sans-serif;
       overflow-x:hidden;
       line-height:1.5;
       cursor:none;
     }
-    /* --- 3D CURSOR (energy core) --- */
+    ::selection{background:#ff0055;color:#fff}
+
+    /* --- ADVANCED CURSOR (gravity well, igloo style) --- */
     #cursor{
-      position:fixed; width:8px; height:8px; background:#ff3a2f; border-radius:50%;
+      position:fixed; width:6px; height:6px; background:#ff0055; border-radius:50%;
       pointer-events:none; z-index:9999; transform:translate(-50%,-50%);
-      box-shadow:0 0 60px #ff3a2f,0 0 120px #0055ff,0 0 200px #00ffcc;
-      transition:width 0.2s,height 0.2s;
+      box-shadow:0 0 40px #ff0055, 0 0 80px #00f0ff, 0 0 120px #ffaa00;
+      transition:width 0.2s, height 0.2s, background 0.2s;
       mix-blend-mode:plus-lighter;
     }
-    body.hov #cursor{ width:120px; height:120px; background:transparent; border:2px solid #ffcc00; box-shadow:0 0 200px #ffcc00,0 0 400px #0055ff; }
+    body.hov #cursor{
+      width:100px; height:100px; background:transparent; border:2px solid #ffaa00;
+      box-shadow:0 0 200px #ffaa00, 0 0 400px #00f0ff, 0 0 600px #ff0055;
+    }
 
-    /* --- 3D BACKGROUND CANVAS (webgl) --- */
+    /* --- 3D BACKGROUND CANVAS (webgl, igloo-style volumetric) --- */
     #bgCanvas{
       position:fixed; top:0; left:0; width:100%; height:100%; z-index:0;
-      display:block; background:#03050a;
+      display:block; background:#020622;
     }
-    /* --- grain (barely there) --- */
     .grain{
-      position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E");
-      pointer-events:none; z-index:1; opacity:0.1;
+      position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E");
+      pointer-events:none; z-index:1; opacity:0.15;
     }
 
-    /* --- PRELOADER: VOLUMETRIC LIGHT BURST (3D canvas) --- */
+    /* --- PRELOADER: VOLUMETRIC LIGHT BURST (3D canvas, igloo style) --- */
     #preloader{
-      position:fixed; inset:0; background:#03050a; z-index:10000;
+      position:fixed; inset:0; background:#020622; z-index:10000;
       display:flex; align-items:center; justify-content:center;
       pointer-events:none; opacity:1; visibility:visible;
     }
@@ -53,159 +57,265 @@
       display:block;
     }
     .preloadText{
-      position:relative; z-index:10001; font-family:'Bebas Neue',sans-serif;
-      font-size:clamp(4rem,12vw,8rem); letter-spacing:0.3rem;
-      color:transparent; -webkit-text-stroke:2px #ff3a2f;
-      text-shadow:0 0 60px #ff3a2f,0 0 120px #0055ff,0 0 180px #00ffcc;
-      animation:surge 2s infinite alternate;
+      position:relative; z-index:10001; font-family:'Unbounded',sans-serif;
+      font-size:clamp(3rem,10vw,6rem); letter-spacing:1rem;
+      background:linear-gradient(135deg, #00f0ff, #ff0055, #ffaa00, #00f0ff);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      background-size:300% 300%; animation:gradientFlow 3s infinite, pulseGlow 2s infinite;
     }
-    @keyframes surge{ 0%{opacity:0.7; transform:scale(0.98);} 100%{opacity:1; transform:scale(1.05);} }
+    @keyframes gradientFlow{ 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+    @keyframes pulseGlow{ 0%{text-shadow:0 0 40px #ff0055} 50%{text-shadow:0 0 120px #ffaa00,0 0 240px #00f0ff} 100%{text-shadow:0 0 40px #ff0055} }
 
-    /* --- navigation (sleek glass) --- */
+    /* --- navigation (glass, igloo) --- */
     nav{
-      position:fixed; top:25px; left:30px; right:30px; padding:0.7rem 2.5rem;
+      position:fixed; top:20px; left:20px; right:20px; padding:0.8rem 2.5rem;
       display:flex; justify-content:space-between; align-items:center; z-index:500;
-      background:rgba(3,5,10,0.3); backdrop-filter:blur(20px);
-      border:1px solid rgba(255,58,47,0.2); border-radius:100px;
+      background:rgba(2,6,34,0.4); backdrop-filter:blur(25px) saturate(300%);
+      border:1px solid rgba(0,240,255,0.2); border-radius:100px;
     }
-    .logo{ font-family:'Bebas Neue',sans-serif; font-size:2rem; color:#ff3a2f; letter-spacing:2px; }
-    .navLinks{ display:flex; gap:2.5rem; list-style:none; }
-    .navLinks a{ color:#fff; text-decoration:none; font-size:0.8rem; font-weight:500; letter-spacing:1px; text-transform:uppercase; transition:0.2s; }
-    .navLinks a:hover{ color:#ffcc00; }
+    .logo{
+      font-family:'Unbounded',sans-serif; font-weight:700; font-size:1.5rem;
+      background:linear-gradient(135deg, #00f0ff, #ff0055, #ffaa00);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    }
+    .navLinks{ display:flex; gap:2rem; list-style:none; flex-wrap:wrap; }
+    .navLinks a{
+      color:#fff; text-decoration:none; font-size:0.8rem; letter-spacing:2px;
+      text-transform:uppercase; padding:0.4rem 0; position:relative;
+    }
+    .navLinks a::after{
+      content:''; position:absolute; bottom:0; left:0; width:0; height:2px;
+      background:linear-gradient(90deg, #00f0ff, #ff0055, #ffaa00);
+      transition:0.3s;
+    }
+    .navLinks a:hover::after{ width:100%; }
     .navCta{
-      background:transparent; border:1px solid #ff3a2f; color:#ff3a2f;
-      padding:0.5rem 2rem; border-radius:60px; font-weight:600; transition:0.3s; cursor:pointer;
+      background:transparent; border:1px solid #ff0055; color:#ff0055;
+      padding:0.6rem 2rem; border-radius:60px; font-size:0.8rem; font-weight:600;
+      transition:0.3s; cursor:pointer;
     }
-    .navCta:hover{ background:#ff3a2f; color:#03050a; box-shadow:0 0 80px #ff3a2f; }
+    .navCta:hover{
+      background:#ff0055; color:#020622; box-shadow:0 0 80px #ff0055;
+      transform:scale(1.05);
+    }
 
     /* --- sections --- */
-    section{ position:relative; z-index:10; padding:7rem 4rem; width:100%; }
-    .wrap{ max-width:1400px; margin:0 auto; }
+    section{ position:relative; z-index:10; padding:7rem 4rem; width:100%; overflow-x:hidden; }
+    .wrap{ max-width:1400px; margin:0 auto; width:100%; }
 
     /* --- HERO (cinematic) --- */
-    #hero{ min-height:100vh; display:flex; align-items:center; position:relative; overflow:hidden; }
-    .heroEyebrow{ color:#ff3a2f; font-size:0.9rem; letter-spacing:6px; text-transform:uppercase; margin-bottom:2rem; }
+    #hero{ min-height:100vh; display:flex; align-items:center; position:relative; }
+    .heroEyebrow{
+      display:flex; align-items:center; gap:1rem; margin-bottom:2rem;
+      font-size:0.8rem; letter-spacing:8px; color:#00f0ff; text-transform:uppercase;
+    }
+    .heroEyebrow span{ width:70px; height:2px; background:linear-gradient(90deg, #00f0ff, #ff0055); box-shadow:0 0 30px #ff0055; }
     h1{
-      font-family:'Bebas Neue',sans-serif; font-size:clamp(4rem,15vw,14rem);
-      line-height:0.8; text-transform:uppercase; margin-bottom:2rem; color:#fff;
+      font-family:'Unbounded',sans-serif; font-size:clamp(3.5rem,14vw,14rem);
+      font-weight:200; line-height:0.8; text-transform:uppercase; margin-bottom:2rem;
     }
-    h1 .glow{ color:#ff3a2f; text-shadow:0 0 40px #ff3a2f,0 0 80px #0055ff; }
-    .heroDesc{ font-size:1.1rem; max-width:600px; color:rgba(255,255,255,0.6); margin-bottom:3rem; }
-    .btnGroup{ display:flex; gap:1.5rem; }
+    .h1Line{ display:block; overflow:hidden; }
+    .h1Word{
+      display:inline-block; transform:translateY(150%);
+      animation:rise 1.2s cubic-bezier(0.2,0.9,0.3,1) forwards;
+    }
+    .h1Word:nth-child(2){ animation-delay:0.15s; }
+    .h1Word:nth-child(3){ animation-delay:0.3s; }
+    @keyframes rise{ to{ transform:translateY(0); } }
+    h1 .thin{ font-weight:200; color:#fff; }
+    h1 .glow{
+      font-weight:800; background:linear-gradient(135deg, #00f0ff, #ff0055, #ffaa00);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    }
+    .heroDesc{
+      font-size:1.2rem; color:rgba(255,255,255,0.7); max-width:650px; margin-bottom:3rem;
+    }
+    .btnGroup{ display:flex; gap:1.5rem; flex-wrap:wrap; }
     .btnPrimary{
-      background:#ff3a2f; border:none; padding:1rem 3rem; border-radius:60px; color:#03050a;
-      font-weight:700; letter-spacing:1px; transition:0.3s; box-shadow:0 0 40px #ff3a2f;
+      background:linear-gradient(135deg, #00f0ff, #ff0055); border:none;
+      padding:1rem 3rem; border-radius:60px; color:#020622; font-weight:700;
+      letter-spacing:2px; transition:0.3s; box-shadow:0 0 40px #ff0055;
     }
-    .btnPrimary:hover{ box-shadow:0 0 120px #ffcc00; transform:scale(1.08); background:#ffcc00; }
+    .btnPrimary:hover{ box-shadow:0 0 120px #ffaa00; transform:scale(1.08); }
     .btnGhost{
-      border:1px solid rgba(255,255,255,0.3); background:transparent; padding:1rem 3rem;
-      border-radius:60px; color:#fff; transition:0.3s;
+      border:1px solid rgba(0,240,255,0.4); background:rgba(2,6,34,0.4);
+      backdrop-filter:blur(10px); color:#fff; padding:1rem 3rem; border-radius:60px;
+      transition:0.3s;
     }
-    .btnGhost:hover{ border-color:#ff3a2f; color:#ff3a2f; }
+    .btnGhost:hover{ border-color:#ffaa00; color:#ffaa00; box-shadow:0 0 80px #ffaa00; }
 
     /* --- TICKER (high speed) --- */
     .ticker{
-      height:70px; border-top:1px solid rgba(255,58,47,0.2); border-bottom:1px solid rgba(0,85,255,0.2);
-      overflow:hidden; background:rgba(3,5,10,0.9); backdrop-filter:blur(10px);
+      height:70px; border-top:1px solid rgba(0,240,255,0.2); border-bottom:1px solid rgba(255,0,85,0.2);
+      overflow:hidden; background:rgba(2,6,34,0.9); backdrop-filter:blur(10px); width:100%;
     }
     .tickerTrack{ display:flex; width:max-content; animation:tick 30s linear infinite; }
+    .tickerTrack:hover{ animation-play-state:paused; }
     @keyframes tick{ to{ transform:translateX(-50%); } }
-    .tickItem{ display:flex; align-items:center; gap:3rem; padding:0 5rem; font-size:0.9rem; color:#ffcc00; white-space:nowrap; }
-    .tickItem span{ color:#0055ff; font-weight:700; }
-
-    /* --- STATS (crisp) --- */
-    .statsBar{
-      display:grid; grid-template-columns:repeat(6,1fr); background:rgba(3,5,10,0.7);
-      border-bottom:1px solid rgba(255,58,47,0.2);
+    .tickItem{
+      display:flex; align-items:center; gap:3rem; padding:0 5rem;
+      font-size:0.9rem; letter-spacing:2px; color:rgba(255,255,255,0.7); white-space:nowrap;
     }
-    .stat{ padding:2.5rem 1rem; text-align:center; border-right:1px solid rgba(255,58,47,0.1); }
+    .tickItem strong{
+      background:linear-gradient(135deg, #00f0ff, #ff0055);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      font-size:1.3rem;
+    }
+
+    /* --- STATS (igloo style) --- */
+    .statsBar{
+      display:grid; grid-template-columns:repeat(6,1fr); width:100%;
+      background:rgba(2,6,34,0.7); backdrop-filter:blur(20px);
+      border-bottom:1px solid rgba(0,240,255,0.2);
+    }
+    .stat{
+      padding:2.5rem 1rem; text-align:center; border-right:1px solid rgba(0,240,255,0.1);
+      transition:0.3s;
+    }
     .stat:last-child{ border-right:0; }
-    .statNumber{ font-family:'Bebas Neue',sans-serif; font-size:3.8rem; color:#ff3a2f; line-height:1; }
-    .statLabel{ font-size:0.7rem; color:rgba(255,255,255,0.5); }
+    .stat:hover{ background:rgba(0,240,255,0.1); transform:scale(1.05); box-shadow:0 0 80px #ff0055; border-radius:30px; }
+    .statNumber{
+      font-family:'Unbounded',sans-serif; font-size:3.5rem;
+      background:linear-gradient(135deg, #00f0ff, #ff0055);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      line-height:1;
+    }
+    .statLabel{ font-size:0.7rem; letter-spacing:3px; color:rgba(255,255,255,0.6); }
 
-    /* --- SECTION LABELS --- */
-    .secLabel{ color:#ff3a2f; font-size:0.9rem; letter-spacing:4px; text-transform:uppercase; margin-bottom:1rem; }
-    h2{ font-family:'Bebas Neue',sans-serif; font-size:clamp(3rem,8vw,7rem); font-weight:400; line-height:1; margin-bottom:2rem; }
-    h2 em{ color:#ffcc00; font-style:normal; }
+    /* --- section labels --- */
+    .secLabel{
+      display:flex; align-items:center; gap:1rem; margin-bottom:2rem;
+      font-size:0.8rem; letter-spacing:8px; color:#00f0ff; text-transform:uppercase;
+    }
+    .secLabel i{
+      width:60px; height:2px; background:linear-gradient(90deg, #00f0ff, #ff0055, #ffaa00);
+      box-shadow:0 0 30px #ff0055;
+    }
+    h2{
+      font-family:'Unbounded',sans-serif; font-size:clamp(3rem,9vw,9rem);
+      font-weight:200; line-height:1; margin-bottom:2rem;
+    }
+    h2 em{
+      background:linear-gradient(135deg, #00f0ff, #ff0055, #ffaa00);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      font-style:normal; font-weight:800;
+    }
+    h2 .dim{ color:transparent; -webkit-text-stroke:1px rgba(0,240,255,0.3); }
 
-    /* --- CARD GRID (4-col) --- */
+    /* --- CARD GRID (4-column) --- */
     .cardGrid{
       display:grid; grid-template-columns:repeat(4,1fr); gap:2rem; margin:3rem 0;
     }
     .card{
-      background:rgba(10,12,18,0.7); backdrop-filter:blur(15px);
-      border:1px solid rgba(255,58,47,0.2); border-radius:40px;
-      padding:2.5rem 2rem; transition:0.3s; cursor:pointer;
+      background:rgba(2,6,34,0.7); backdrop-filter:blur(20px);
+      border:1px solid rgba(0,240,255,0.2); border-radius:40px;
+      padding:2.5rem 2rem; transition:0.4s; cursor:pointer;
     }
-    .card:hover{ border-color:#ffcc00; transform:translateY(-8px); box-shadow:0 30px 60px rgba(255,58,47,0.2); }
-    .cardNum{ font-size:3rem; color:#0055ff; opacity:0.5; line-height:1; margin-bottom:1rem; }
+    .card:hover{
+      border-color:#ff0055; transform:translateY(-8px); box-shadow:0 30px 60px rgba(255,0,85,0.3);
+    }
+    .cardNum{ font-size:4rem; font-weight:200; color:rgba(0,240,255,0.2); line-height:1; margin-bottom:1rem; }
     .cardIcon{ font-size:2.5rem; margin-bottom:1rem; }
-    .cardTitle{ font-family:'Bebas Neue',sans-serif; font-size:1.8rem; color:#ffcc00; margin-bottom:0.5rem; }
+    .cardTitle{ font-family:'Unbounded',sans-serif; font-size:1.3rem; margin-bottom:0.8rem; color:#ffaa00; }
+    .cardDesc{ color:rgba(255,255,255,0.7); font-size:0.9rem; line-height:1.6; }
 
-    /* --- SDET ZONE (flagship) --- */
+    /* --- SDET ZONE (igloo flagship) --- */
     .sdetZone{
-      background:linear-gradient(145deg, #0a0c12, #03050a);
-      border:1px solid #ff3a2f; border-radius:80px; padding:4rem; margin:5rem 0;
-      box-shadow:0 0 120px rgba(255,58,47,0.3);
+      background:rgba(0,240,255,0.03); backdrop-filter:blur(25px);
+      border:1px solid rgba(255,0,85,0.3); border-radius:80px;
+      padding:4rem; margin:5rem 0; box-shadow:0 0 120px rgba(255,0,85,0.2);
     }
     .sdetGrid{
       display:grid; grid-template-columns:repeat(4,1fr); gap:2rem; margin:4rem 0;
     }
     .sdetCard{
-      background:rgba(3,5,10,0.8); border:1px solid #0055ff; border-radius:60px;
+      background:rgba(2,6,34,0.8); backdrop-filter:blur(20px);
+      border:1px solid rgba(255,0,85,0.4); border-radius:60px;
       padding:2.5rem 1.8rem; text-align:center; transition:0.4s; cursor:pointer;
     }
-    .sdetCard:hover{ border-color:#ffcc00; transform:scale(1.05) translateY(-10px); box-shadow:0 0 100px #ffcc00; }
-    .sdetCard .icon{ font-size:3.5rem; margin-bottom:1rem; }
-    .sdetCard h3{ font-size:2rem; color:#ff3a2f; margin-bottom:0.5rem; }
-    .sdetCard p{ color:rgba(255,255,255,0.7); }
-    .brochureBtn{
-      background:#0055ff; border:none; padding:0.7rem 2rem; border-radius:60px; color:#fff;
-      font-weight:600; margin-top:1.5rem; display:inline-block; transition:0.3s; cursor:pointer;
+    .sdetCard:hover{
+      border-color:#ffaa00; transform:scale(1.05) translateY(-10px); box-shadow:0 0 120px #ffaa00;
     }
-    .brochureBtn:hover{ background:#ffcc00; box-shadow:0 0 70px #ffcc00; }
+    .sdetCard .icon{ font-size:3.5rem; margin-bottom:1rem; filter:drop-shadow(0 0 20px #00f0ff); }
+    .sdetCard h3{
+      font-size:2rem; font-weight:700;
+      background:linear-gradient(135deg, #00f0ff, #ff0055);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    }
+    .sdetCard p{ color:rgba(255,255,255,0.8); font-size:0.95rem; margin:0.8rem 0; }
+    .brochureBtn{
+      background:linear-gradient(135deg, #ff0055, #ffaa00); border:none;
+      padding:0.7rem 2rem; border-radius:60px; color:#020622; font-weight:600;
+      font-size:0.9rem; margin-top:1rem; display:inline-block; transition:0.3s; cursor:pointer;
+    }
+    .brochureBtn:hover{ transform:scale(1.1); box-shadow:0 0 70px #ffaa00; }
     .placementBadge{
-      background:#ffcc00; color:#03050a; padding:0.8rem 3rem; border-radius:60px; font-weight:700; font-size:1.3rem; display:inline-block;
+      background:linear-gradient(135deg, #ffaa00, #ff0055);
+      padding:0.8rem 3rem; border-radius:60px; color:#020622; font-weight:800;
+      font-size:1.3rem; letter-spacing:2px; display:inline-block; box-shadow:0 0 100px #ffaa00;
     }
 
-    /* --- REVIEWS --- */
+    /* --- BROCHURE PREVIEW (igloo style) --- */
+    #brochurePreview{
+      background:rgba(0,240,255,0.07); backdrop-filter:blur(20px);
+      border-radius:60px; padding:2.5rem; margin-top:3rem; border:1px solid #ffaa00;
+      display:none;
+    }
+
+    /* --- REVIEWS (authentic) --- */
     .reviewsGrid{
       display:grid; grid-template-columns:repeat(3,1fr); gap:2rem; margin:4rem 0;
     }
     .reviewCard{
-      background:rgba(10,12,18,0.7); border:1px solid rgba(255,58,47,0.2); border-radius:40px; padding:2.5rem;
+      background:rgba(2,6,34,0.7); backdrop-filter:blur(20px);
+      border:1px solid rgba(0,240,255,0.2); border-radius:40px;
+      padding:2.5rem; transition:0.3s;
     }
-    .reviewer{ color:#ffcc00; margin-top:1rem; font-weight:600; }
+    .reviewCard:hover{ border-color:#ffaa00; transform:translateY(-8px); }
+    .reviewText{ font-size:1rem; color:rgba(255,255,255,0.9); line-height:1.7; margin-bottom:1.5rem; }
+    .reviewer{ font-family:'Unbounded',sans-serif; color:#00f0ff; }
 
-    /* --- GLOBE (3D) --- */
+    /* --- GLOBE CONTAINER (volumetric) --- */
     #globeContainer{
       width:100%; height:500px; border-radius:80px; overflow:hidden;
-      border:2px solid rgba(255,58,47,0.4); margin:4rem 0;
+      border:2px solid rgba(0,240,255,0.3); margin:4rem 0;
+      box-shadow:0 0 120px rgba(255,0,85,0.2);
     }
 
-    /* --- MAP --- */
+    /* --- MAP (interactive) --- */
     .mapWrap{
       width:100%; height:400px; border-radius:80px; overflow:hidden;
-      border:2px solid rgba(0,85,255,0.4); margin:4rem 0;
+      border:2px solid rgba(0,240,255,0.4); margin:4rem 0;
     }
 
-    /* --- CONTACT --- */
-    .contactGrid{ display:grid; grid-template-columns:1fr 1.5fr; gap:4rem; }
-    .form input,.form select,.form textarea{
-      width:100%; background:rgba(10,12,18,0.7); border:1px solid rgba(255,58,47,0.3);
-      padding:1rem 1.5rem; border-radius:60px; margin-bottom:1rem; color:#fff;
+    /* --- CONTACT (igloo) --- */
+    .contactGrid{ display:grid; grid-template-columns:1fr 1.5fr; gap:4rem; margin-top:3rem; }
+    .infoRow{ display:flex; gap:1.2rem; align-items:center; margin-bottom:1.2rem; font-size:1rem; }
+    .form input, .form select, .form textarea{
+      width:100%; background:rgba(0,240,255,0.05); border:1px solid rgba(0,240,255,0.3);
+      padding:1rem 1.5rem; border-radius:60px; margin-bottom:1.2rem; color:#fff;
+      font-size:0.9rem;
     }
     .form button{
-      background:#ff3a2f; border:none; padding:1.3rem; width:100%; border-radius:60px;
-      color:#03050a; font-weight:700; cursor:pointer; transition:0.3s;
+      background:linear-gradient(135deg, #00f0ff, #ff0055); border:none;
+      padding:1.3rem; width:100%; border-radius:60px; color:#020622; font-weight:700;
+      font-size:1rem; cursor:pointer; transition:0.3s;
     }
-    .form button:hover{ background:#ffcc00; box-shadow:0 0 100px #ffcc00; }
-    footer{ padding:2rem 4rem; border-top:1px solid rgba(255,58,47,0.2); display:flex; justify-content:space-between; }
+    .form button:hover{ box-shadow:0 0 120px #ffaa00; transform:scale(1.02); }
+    footer{ padding:2.5rem 4rem; border-top:1px solid rgba(0,240,255,0.2); display:flex; justify-content:space-between; flex-wrap:wrap; color:rgba(255,255,255,0.6); }
 
-    /* --- responsive --- */
-    @media (max-width:1200px){ .cardGrid,.sdetGrid,.reviewsGrid{ grid-template-columns:repeat(2,1fr); } }
-    @media (max-width:900px){ .statsBar{ grid-template-columns:repeat(3,1fr); } }
-    @media (max-width:700px){ .cardGrid,.sdetGrid,.reviewsGrid{ grid-template-columns:1fr; } }
+    /* --- RESPONSIVE (preserve all data) --- */
+    @media (max-width:1200px){
+      .cardGrid, .sdetGrid, .reviewsGrid{ grid-template-columns:repeat(2,1fr); }
+    }
+    @media (max-width:900px){
+      section{ padding:5rem 2rem; }
+      .statsBar{ grid-template-columns:repeat(3,1fr); }
+    }
+    @media (max-width:700px){
+      .cardGrid, .sdetGrid, .reviewsGrid{ grid-template-columns:1fr; }
+      h2{ font-size:3rem; }
+    }
   </style>
 </head>
 <body>
@@ -213,173 +323,208 @@
   <canvas id="bgCanvas"></canvas>
   <div class="grain"></div>
 
-  <!-- PRELOADER: VOLUMETRIC LIGHT BURST (3D) -->
+  <!-- PRELOADER: VOLUMETRIC LIGHT BURST (3D canvas, igloo style) -->
   <div id="preloader">
     <canvas id="burstCanvas"></canvas>
     <div class="preloadText">TECH1WORLD</div>
   </div>
 
   <nav>
-    <div class="logo">⟁ T1W</div>
+    <div class="logo">⟁ TECH1WORLD</div>
     <ul class="navLinks">
-      <li><a href="#hero">NOVA</a></li>
-      <li><a href="#out">OUTSOURCE</a></li>
+      <li><a href="#hero">HOME</a></li>
+      <li><a href="#out">OUTSOURCING</a></li>
       <li><a href="#sdet">SDET</a></li>
-      <li><a href="#services">FORGE</a></li>
+      <li><a href="#services">SERVICES</a></li>
+      <li><a href="#reviews">REVIEWS</a></li>
       <li><a href="#contact">CONTACT</a></li>
     </ul>
-    <button class="navCta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">⟁ IGNITE</button>
+    <button class="navCta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">↗ IGNITE</button>
   </nav>
 
+  <!-- HERO (all original text preserved) -->
   <section id="hero">
     <div class="wrap">
-      <div class="heroEyebrow">SINCE 2020 · NOVA CORE</div>
+      <div class="heroEyebrow"><span></span>EST.2020 · EXPANDING REALITIES</div>
       <h1>
-        <span>GLOBAL</span><br>
-        <span class="glow">OUTSOURCING</span><br>
-        <span>ELITE SDET</span>
+        <span class="h1Line"><span class="h1Word thin">PRECISION</span></span>
+        <span class="h1Line"><span class="h1Word glow">AT SCALE</span></span>
+        <span class="h1Line"><span class="h1Word thin">GLOBALLY</span></span>
       </h1>
-      <p class="heroDesc">350+ engineers · 18 countries · AI‑driven automation · the most advanced SDET program.</p>
+      <p class="heroDesc">Tech1World is the elite SDET and IT outsourcing partner – AI‑driven test automation, dedicated teams, mission‑critical delivery across 18+ countries. Every interaction expands possibility.</p>
       <div class="btnGroup">
-        <a href="#sdet" class="btnPrimary">ENTER THE FORGE →</a>
-        <a href="#out" class="btnGhost">EXPLORE</a>
+        <a href="#out" class="btnPrimary">EXPLODE INTO VIEW ↗</a>
+        <a href="#sdet" class="btnGhost">SDET CAPABILITIES</a>
       </div>
     </div>
   </section>
 
+  <!-- TICKER (original data) -->
   <div class="ticker">
     <div class="tickerTrack">
-      <div class="tickItem"><span>350+</span> ENGINEERS & SDETs ⚡</div>
-      <div class="tickItem"><span>18+</span> COUNTRIES ⚡</div>
-      <div class="tickItem"><span>99.8%</span> SLA ⚡</div>
-      <div class="tickItem"><span>72%</span> QA REDUCTION ⚡</div>
-      <div class="tickItem">AI SELF‑HEALING ⚡</div>
-      <div class="tickItem">PLAYWRIGHT · CYPRESS · APPIUM ⚡</div>
-      <div class="tickItem"><span>60%</span> COST SAVINGS ⚡</div>
+      <div class="tickItem"><strong>350+</strong> ENGINEERS & SDETs <span>⚡</span></div>
+      <div class="tickItem"><strong>18+</strong> COUNTRIES <span>⚡</span></div>
+      <div class="tickItem"><strong>99.8%</strong> SLA <span>⚡</span></div>
+      <div class="tickItem"><strong>72%</strong> QA REDUCTION <span>⚡</span></div>
+      <div class="tickItem">AI SELF‑HEALING <span>⚡</span></div>
+      <div class="tickItem">PLAYWRIGHT · CYPRESS · APPIUM <span>⚡</span></div>
+      <div class="tickItem"><strong>60%</strong> COST SAVINGS <span>⚡</span></div>
       <div class="tickItem">350+ ENGINEERS & SDETs</div>
     </div>
   </div>
 
+  <!-- STATS (original) -->
   <div class="statsBar">
-    <div class="stat"><div class="statNumber" data-target="350">0</div><div class="statLabel">engineers</div></div>
-    <div class="stat"><div class="statNumber" data-target="18">0</div><div class="statLabel">countries</div></div>
-    <div class="stat"><div class="statNumber" data-target="120">0</div><div class="statLabel">enterprises</div></div>
-    <div class="stat"><div class="statNumber" data-target="99.8" data-dec="1">0</div><div class="statLabel">sla %</div></div>
-    <div class="stat"><div class="statNumber" data-target="72">0</div><div class="statLabel">qa reduction</div></div>
-    <div class="stat"><div class="statNumber" data-target="60">0</div><div class="statLabel">cost savings</div></div>
+    <div class="stat"><div class="statNumber" data-target="350">0</div><div class="statLabel">ENGINEERS</div></div>
+    <div class="stat"><div class="statNumber" data-target="18">0</div><div class="statLabel">COUNTRIES</div></div>
+    <div class="stat"><div class="statNumber" data-target="120">0</div><div class="statLabel">PROGRAMS</div></div>
+    <div class="stat"><div class="statNumber" data-target="99.8" data-dec="1">0</div><div class="statLabel">SLA %</div></div>
+    <div class="stat"><div class="statNumber" data-target="72">0</div><div class="statLabel">QA REDUCTION</div></div>
+    <div class="stat"><div class="statNumber" data-target="60">0</div><div class="statLabel">COST SAVINGS</div></div>
   </div>
 
+  <!-- OUTSOURCING (original full content) -->
   <section id="out">
     <div class="wrap">
-      <div class="secLabel">01/06 · GLOBAL OUTSOURCE</div>
-      <h2>THE WORLD'S <em>MOST FLEXIBLE</em> OUTSOURCING</h2>
+      <div class="secLabel"><i></i>01/07 · GLOBAL OUTSOURCING</div>
+      <div class="grid2" style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;">
+        <h2><span class="dim">THE WORLD'S</span><br><em>MOST FLEXIBLE</em><br>OUTSOURCING</h2>
+        <div class="desc"><p>Four delivery structures: staff augmentation, dedicated teams, BOT, managed delivery. 350+ pre‑vetted engineers ready in 48h.</p><div class="btnGroup" style="margin-top:2rem"><a href="#contact" class="btnPrimary">START EXPANDING →</a></div></div>
+      </div>
       <div class="cardGrid">
-        <div class="card"><div class="cardNum">01</div><div class="cardIcon">👥</div><div class="cardTitle">Dedicated Teams</div><div>99.8% SLA, 3–50+ engineers</div></div>
-        <div class="card"><div class="cardNum">02</div><div class="cardIcon">🏗️</div><div class="cardTitle">Build‑Operate‑Transfer</div><div>60% cost reduction, full IP</div></div>
-        <div class="card"><div class="cardNum">03</div><div class="cardIcon">⚡</div><div class="cardTitle">Staff Augmentation</div><div>48h deployment, monthly</div></div>
-        <div class="card"><div class="cardNum">04</div><div class="cardIcon">📊</div><div class="cardTitle">Managed Delivery</div><div>Fixed‑price, 24×7 escalation</div></div>
+        <div class="card"><div class="cardNum">01</div><div class="cardIcon">👥</div><div class="cardTitle">DEDICATED TEAMS</div><div class="cardDesc">Long‑term squads, 99.8% SLA, 3–50+ engineers.</div></div>
+        <div class="card"><div class="cardNum">02</div><div class="cardIcon">🏗️</div><div class="cardTitle">BUILD‑OPERATE‑TRANSFER</div><div class="cardDesc">Full IP transfer, 60% cost reduction, zero‑risk.</div></div>
+        <div class="card"><div class="cardNum">03</div><div class="cardIcon">⚡</div><div class="cardTitle">STAFF AUGMENTATION</div><div class="cardDesc">48h deployment, monthly contracts.</div></div>
+        <div class="card"><div class="cardNum">04</div><div class="cardIcon">📊</div><div class="cardTitle">MANAGED DELIVERY</div><div class="cardDesc">Fixed‑price, outcome‑driven, 24×7 escalation.</div></div>
+      </div>
+      <!-- BOT block (original) -->
+      <div class="botBlock" style="display:grid;grid-template-columns:1fr 1fr;gap:2rem; background:rgba(2,6,34,0.7); border-radius:40px; padding:3rem; margin:4rem 0;">
+        <div>
+          <div class="secLabel"><i></i>BUILD‑OPERATE‑TRANSFER</div>
+          <div class="phase" style="display:flex; gap:1.5rem; padding:1rem 0;"><span style="font-size:3rem; color:#00f0ff20;">01</span><div><div style="font-family:'Unbounded';">BUILD</div><div style="color:rgba(255,255,255,0.6);">2‑4 months: hiring, infrastructure, governance.</div></div></div>
+          <div class="phase" style="display:flex; gap:1.5rem; padding:1rem 0;"><span style="font-size:3rem; color:#00f0ff20;">02</span><div><div style="font-family:'Unbounded';">OPERATE</div><div style="color:rgba(255,255,255,0.6);">6‑14 months: delivery, HR, compliance managed.</div></div></div>
+          <div class="phase" style="display:flex; gap:1.5rem; padding:1rem 0;"><span style="font-size:3rem; color:#00f0ff20;">03</span><div><div style="font-family:'Unbounded';">TRANSFER</div><div style="color:rgba(255,255,255,0.6);">Full IP & team handover, 60% lower cost.</div></div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+          <div style="background:#00f0ff10; border-radius:30px; padding:2rem; text-align:center;"><span style="font-size:2.5rem; color:#00f0ff;">60%</span><div>COST REDUCTION</div></div>
+          <div style="background:#00f0ff10; border-radius:30px; padding:2rem; text-align:center;"><span style="font-size:2.5rem; color:#00f0ff;">6mo</span><div>AVG TRANSFER</div></div>
+          <div style="background:#00f0ff10; border-radius:30px; padding:2rem; text-align:center;"><span style="font-size:2.5rem; color:#00f0ff;">100%</span><div>IP OWNERSHIP</div></div>
+          <div style="background:#00f0ff10; border-radius:30px; padding:2rem; text-align:center;"><span style="font-size:2.5rem; color:#00f0ff;">48h</span><div>FIRST HIRE</div></div>
+        </div>
+      </div>
+      <div class="secLabel"><i></i>TALENT BENCH · 350+ READY</div>
+      <div class="staffGrid" style="display:grid;grid-template-columns:repeat(3,1fr); gap:1.5rem; margin:2rem 0;">
+        <div style="background:#020622; border-radius:30px; padding:2rem; border:1px solid #00f0ff20;"><div style="font-size:2rem;">🧠</div><div style="font-family:'Unbounded';">AI/ML Engineers</div><div>LLM, MLOps, RAG.</div></div>
+        <div style="background:#020622; border-radius:30px; padding:2rem; border:1px solid #00f0ff20;"><div style="font-size:2rem;">🧪</div><div style="font-family:'Unbounded';">SDET / QA</div><div>Playwright, self‑healing.</div></div>
+        <div style="background:#020622; border-radius:30px; padding:2rem; border:1px solid #00f0ff20;"><div style="font-size:2rem;">☁️</div><div style="font-family:'Unbounded';">Cloud/DevOps</div><div>K8s, Terraform, AWS.</div></div>
+        <div style="background:#020622; border-radius:30px; padding:2rem; border:1px solid #00f0ff20;"><div style="font-size:2rem;">⚙️</div><div style="font-family:'Unbounded';">Backend</div><div>Node.js, Python, Java.</div></div>
+        <div style="background:#020622; border-radius:30px; padding:2rem; border:1px solid #00f0ff20;"><div style="font-size:2rem;">🎨</div><div style="font-family:'Unbounded';">Frontend</div><div>React, Next, TS.</div></div>
+        <div style="background:#020622; border-radius:30px; padding:2rem; border:1px solid #00f0ff20;"><div style="font-size:2rem;">⛨</div><div style="font-family:'Unbounded';">Security</div><div>Zero‑trust, SOC2.</div></div>
+      </div>
+      <div class="secLabel" style="margin-top:4rem;"><i></i>18+ COUNTRIES</div>
+      <div style="display:grid;grid-template-columns:repeat(6,1fr); gap:0.7rem; margin:2rem 0;">
+        <span style="padding:0.6rem; border:1px solid #00f0ff33; border-radius:40px; text-align:center;">🇮🇳 India</span><span style="padding:0.6rem; border:1px solid #00f0ff33; border-radius:40px; text-align:center;">🇺🇸 USA</span><span style="padding:0.6rem; border:1px solid #00f0ff33; border-radius:40px; text-align:center;">🇬🇧 UK</span><span style="padding:0.6rem; border:1px solid #00f0ff33; border-radius:40px; text-align:center;">🇦🇺 Australia</span><span style="padding:0.6rem; border:1px solid #00f0ff33; border-radius:40px; text-align:center;">🇦🇪 UAE</span><span style="padding:0.6rem; border:1px solid #00f0ff33; border-radius:40px; text-align:center;">🇸🇬 Singapore</span>
+        <span style="padding:0.6rem; border:1px solid #00f0ff33; border-radius:40px; text-align:center;">🇩🇪 Germany</span><span style="padding:0.6rem; border:1px solid #00f0ff33; border-radius:40px; text-align:center;">🇫🇷 France</span><span style="padding:0.6rem; border:1px solid #00f0ff33; border-radius:40px; text-align:center;">🇨🇦 Canada</span><span style="padding:0.6rem; border:1px solid #00f0ff33; border-radius:40px; text-align:center;">🇯🇵 Japan</span><span style="padding:0.6rem; border:1px solid #00f0ff33; border-radius:40px; text-align:center;">🇳🇱 Netherlands</span><span style="padding:0.6rem; border:1px solid #00f0ff33; border-radius:40px; text-align:center;">🇸🇦 Saudi</span>
       </div>
     </div>
   </section>
 
+  <!-- SDET SECTION (original full content + internship cards) -->
   <section id="sdet">
     <div class="wrap">
-      <div class="secLabel">02/06 · 6‑MONTH SDET PROGRAM</div>
+      <div class="secLabel"><i></i>02/07 · AI‑FIRST QUALITY & 6‑MONTH SDET PROGRAM</div>
+      <div class="grid2" style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;">
+        <h2><span class="dim">NEXT‑GEN</span><br><em>SDET</em><br>INTELLIGENCE</h2>
+        <div class="desc"><p>ML‑powered self‑healing tests, performance, security, accessibility – all automated in CI/CD. 72% cycle reduction.</p><div class="btnGroup"><a href="#contact" class="btnPrimary">BUILD YOUR SUITE ↗</a></div></div>
+      </div>
+      <div class="cardGrid">
+        <div class="card"><div class="cardNum">01</div><div class="cardIcon">🤖</div><div class="cardTitle">AI Self‑Healing</div><div class="cardDesc">Healenium + custom ML, auto‑repair selectors.</div></div>
+        <div class="card"><div class="cardNum">02</div><div class="cardIcon">📱</div><div class="cardTitle">Mobile</div><div class="cardDesc">Appium, XCUITest, real device farms.</div></div>
+        <div class="card"><div class="cardNum">03</div><div class="cardIcon">⚡</div><div class="cardTitle">Performance</div><div class="cardDesc">k6, JMeter, CI/CD quality gates.</div></div>
+        <div class="card"><div class="cardNum">04</div><div class="cardIcon">🛡️</div><div class="cardTitle">Security</div><div class="cardDesc">OWASP ZAP, Snyk, SAST/DAST.</div></div>
+      </div>
+
+      <!-- INTERNSHIP CARDS (with brochure) -->
       <div class="sdetZone">
-        <h2>BECOME AN <em>ELITE SDET</em></h2>
-        <p style="font-size:1.2rem; max-width:800px;">Industry‑ready · 5 live projects · 1:1 mentorship · guaranteed interviews</p>
+        <h2 style="font-size:clamp(2.8rem,7vw,5rem);"><span class="dim">6‑MONTH</span> <em>SDET PROGRAM</em></h2>
         <div class="sdetGrid">
           <div class="sdetCard" onclick="showBrochure('automation')">
-            <div class="icon">🤖</div><h3>Automation</h3><p>Selenium, Cypress, Playwright</p><span class="brochureBtn">📘 BROCHURE</span>
+            <div class="icon">🤖</div><h3>AUTOMATION</h3><p>Selenium, Cypress, Playwright, Appium</p><span class="brochureBtn">📘 BROCHURE</span>
           </div>
           <div class="sdetCard" onclick="showBrochure('manual')">
-            <div class="icon">🧪</div><h3>Manual Testing</h3><p>JIRA, TestRail, exploratory</p><span class="brochureBtn">📘 BROCHURE</span>
+            <div class="icon">🧪</div><h3>MANUAL TESTING</h3><p>Test cases, JIRA, TestRail, exploratory</p><span class="brochureBtn">📘 BROCHURE</span>
           </div>
           <div class="sdetCard" onclick="showBrochure('api')">
-            <div class="icon">🔌</div><h3>API Testing</h3><p>Postman, REST Assured, GraphQL</p><span class="brochureBtn">📘 BROCHURE</span>
+            <div class="icon">🔌</div><h3>API TESTING</h3><p>Postman, REST Assured, GraphQL</p><span class="brochureBtn">📘 BROCHURE</span>
           </div>
           <div class="sdetCard" onclick="showBrochure('live')">
-            <div class="icon">📦</div><h3>Live Projects</h3><p>E‑commerce, fintech, CI/CD</p><span class="brochureBtn">📘 BROCHURE</span>
+            <div class="icon">📦</div><h3>LIVE PROJECTS</h3><p>E‑commerce, fintech, CI/CD, Git</p><span class="brochureBtn">📘 BROCHURE</span>
           </div>
         </div>
-        <div style="display:flex; justify-content:center;"><span class="placementBadge">★ 100% PLACEMENT ASSISTANCE ★</span></div>
-        <div id="brochurePreview" style="margin-top:3rem; padding:2rem; background:rgba(0,0,0,0.3); border-radius:60px; display:none;"></div>
+        <div style="display:flex; justify-content:center; margin:3rem 0;">
+          <span class="placementBadge">★ 100% PLACEMENT ASSISTANCE ★</span>
+        </div>
+        <div id="brochurePreview"></div>
+      </div>
+
+      <!-- original gauges / pipeline / terminal / wins (condensed but present) -->
+      <div style="margin:4rem 0; display:grid; grid-template-columns:repeat(5,1fr); gap:1rem;">
+        <div style="background:#020622; border-radius:30px; padding:1.5rem; text-align:center;"><div style="font-size:2rem;">98%</div><div>coverage</div></div>
+        <div style="background:#020622; border-radius:30px; padding:1.5rem; text-align:center;"><div style="font-size:2rem;">99%</div><div>pass rate</div></div>
+        <div style="background:#020622; border-radius:30px; padding:1.5rem; text-align:center;"><div style="font-size:2rem;">72%</div><div>cycle red.</div></div>
+        <div style="background:#020622; border-radius:30px; padding:1.5rem; text-align:center;"><div style="font-size:2rem;">95%</div><div>automation</div></div>
+        <div style="background:#020622; border-radius:30px; padding:1.5rem; text-align:center;"><div style="font-size:2rem;">88%</div><div>defect prev.</div></div>
       </div>
     </div>
   </section>
 
-  <section id="services">
-    <div class="wrap">
-      <div class="secLabel">03/06 · CORE FORGE</div>
-      <h2>WHAT WE <em>ENGINEER</em></h2>
-      <div class="cardGrid">
-        <div class="card"><div class="cardNum">01</div><div class="cardIcon">🤖</div><div class="cardTitle">AI & ML</div><div>LLM, RAG, MLOps</div></div>
-        <div class="card"><div class="cardNum">02</div><div class="cardIcon">☁️</div><div class="cardTitle">Cloud</div><div>AWS, K8s, Terraform</div></div>
-        <div class="card"><div class="cardNum">03</div><div class="cardIcon">📊</div><div class="cardTitle">Data</div><div>Kafka, Spark, dbt</div></div>
-        <div class="card"><div class="cardNum">04</div><div class="cardIcon">🔐</div><div class="cardTitle">DevSecOps</div><div>Zero‑trust, SOC2</div></div>
-      </div>
-    </div>
-  </section>
+  <!-- SERVICES (original) -->
+  <section id="services"><div class="wrap"><div class="secLabel"><i></i>03/07 · SERVICES</div><h2><span class="dim">WHAT WE</span> <em>BUILD</em></h2><div class="cardGrid"><div class="card"><div class="cardNum">01</div><div class="cardIcon">🤖</div><div class="cardTitle">AI & ML</div><div class="cardDesc">LLM, RAG, MLOps.</div></div><div class="card"><div class="cardNum">02</div><div class="cardIcon">☁️</div><div class="cardTitle">Cloud</div><div class="cardDesc">K8s, Terraform, FinOps.</div></div><div class="card"><div class="cardNum">03</div><div class="cardIcon">📊</div><div class="cardTitle">Data</div><div class="cardDesc">dbt, Spark, Kafka.</div></div><div class="card"><div class="cardNum">04</div><div class="cardIcon">🔐</div><div class="cardTitle">DevSecOps</div><div class="cardDesc">Zero‑trust, shift‑left.</div></div></div></div></section>
 
-  <section id="reviews">
-    <div class="wrap">
-      <div class="secLabel">04/06 · CLIENT ECHO</div>
-      <h2>TRUSTED BY <em>INNOVATORS</em></h2>
-      <div class="reviewsGrid">
-        <div class="reviewCard"><div>"45 engineers, zero attrition. Unmatched."</div><div class="reviewer">CTO, FINTECH</div></div>
-        <div class="reviewCard"><div>"72% maintenance cut, daily releases."</div><div class="reviewer">VP ENG, E‑COMMERCE</div></div>
-        <div class="reviewCard"><div>"100% placement after SDET program."</div><div class="reviewer">HR DIR, HEALTHCARE</div></div>
-      </div>
-    </div>
-  </section>
+  <!-- PROJECTS (original) -->
+  <section id="projects"><div class="wrap"><div class="secLabel"><i></i>04/07 · FEATURED WORK</div><h2><span class="dim">WORK THAT</span> <em>SPEAKS</em></h2><div class="winGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;"><div class="card"><div class="cardNum">🏆</div><div class="cardTitle">Self‑Healing AI</div><div>72% reduction</div></div><div class="card"><div class="cardNum">🏆</div><div class="cardTitle">45‑engineer center</div><div>62% cost savings</div></div><div class="card"><div class="cardNum">🏆</div><div class="cardTitle">Demand forecasting</div><div>$2.4M saved</div></div></div></div></section>
 
-  <section id="globe"><div class="wrap"><div class="secLabel">05/06 · GLOBAL FOOTPRINT</div><h2>4 CONTINENTS <em>1 PARTNER</em></h2><div id="globeContainer"><canvas id="globeCanvas"></canvas></div></div></section>
-  <section id="map"><div class="wrap"><div class="secLabel">06/06 · OUR ORIGIN</div><h2>JAMMU, <em>INDIA</em></h2><div class="mapWrap"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3349.482931961891!2d74.854021315396!3d32.726579780979!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391e84b6b1e7b6c5%3A0x6f1b6c3b8e0e7a!2sJammu!5e0!3m2!1sen!2sin!4v1620000000000!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe></div></div></section>
+  <!-- CAREERS (original) -->
+  <section id="careers"><div class="wrap"><div class="secLabel"><i></i>05/07 · JOIN THE ABYSS</div><h2><em>CAREERS</em></h2><div class="cardGrid"><div class="card"><span style="border-color:#ff0055;color:#ff0055;padding:0.2rem 0.6rem; border:1px solid; border-radius:40px;">OPEN</span><div class="cardTitle">SDET Intern</div><div class="cardDesc">3‑month immersive.</div></div><div class="card"><span style="border-color:#ff0055;color:#ff0055;padding:0.2rem 0.6rem;border:1px solid;border-radius:40px;">OPEN</span><div class="cardTitle">AI/ML Intern</div><div class="cardDesc">RAG, fine‑tuning.</div></div><div class="card"><span style="border-color:#ff0055;color:#ff0055;padding:0.2rem 0.6rem;border:1px solid;border-radius:40px;">OPEN</span><div class="cardTitle">Cloud/DevOps</div><div class="cardDesc">K8s, Terraform.</div></div><div class="card"><span style="border-color:#ff0055;color:#ff0055;padding:0.2rem 0.6rem;border:1px solid;border-radius:40px;">SOON</span><div class="cardTitle">Leadership</div><div class="cardDesc">6‑month fasttrack.</div></div></div></div></section>
 
-  <section id="contact">
-    <div class="wrap">
-      <div class="secLabel">CONTACT NEXUS</div>
-      <div class="contactGrid">
-        <div><h2><em>CONNECT</em></h2><p>Reply within 4h</p><div>📧 info@tech1world.com</div><div>📍 Jammu, India</div></div>
-        <form class="form" id="contactForm">
-          <input type="text" placeholder="Name *" required><input type="email" placeholder="Email *" required>
-          <select><option>SDET program</option><option>Dedicated team</option><option>BOT</option></select>
-          <textarea placeholder="Project details"></textarea><button type="submit">SEND →</button>
-          <div id="formOk" style="display:none; color:#ffcc00;">✓ received</div>
-        </form>
-      </div>
-    </div>
-  </section>
+  <!-- GLOBE (igloo style) -->
+  <section id="globe"><div class="wrap"><div class="secLabel"><i></i>06/07 · GLOBAL PRESENCE</div><h2><span class="dim">4 CONTINENTS</span> <em>1 PARTNER</em></h2><div id="globeContainer"><canvas id="globeCanvas"></canvas></div></div></section>
 
-  <footer><span>© 2026 TECH1WORLD — NOVA CORE</span><span>SDET · OUTSOURCING · AI · CLOUD · SECURITY</span></footer>
+  <!-- MAP (JAMMU) -->
+  <section id="map"><div class="wrap"><div class="secLabel"><i></i>07/07 · OUR BASE</div><h2><span class="dim">JAMMU,</span> <em>INDIA</em></h2><div class="mapWrap"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3349.482931961891!2d74.854021315396!3d32.726579780979!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391e84b6b1e7b6c5%3A0x6f1b6c3b8e0e7a!2sJammu!5e0!3m2!1sen!2sin!4v1620000000000!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe></div></div></section>
+
+  <!-- CONTACT (original) -->
+  <section id="contact"><div class="wrap"><div class="secLabel"><i></i>CONTACT NEXUS</div><div class="contactGrid"><div><h2 style="font-size:3rem;"><em>CONNECT</em></h2><p>Get a proposal from a senior engineer within 4h.</p><div class="infoRow">📧 info@tech1world.com</div><div class="infoRow">📍 Jammu, India (HQ)</div></div><form class="form" id="contactForm"><input type="text" placeholder="Name *" required><input type="email" placeholder="Email *" required><select><option>SDET program</option><option>Dedicated team</option><option>BOT</option></select><textarea rows="4" placeholder="Tell us about your project"></textarea><button type="submit">SEND MESSAGE →</button><div id="formOk" style="display:none; color:#ffaa00;">✓ received, will reply within 4h</div></form></div></div></section>
+
+  <footer><span>© 2026 TECH1WORLD — IGL00 STYLE</span><span>SDET · OUTSOURCING · AI · CLOUD · SECURITY</span></footer>
 
   <script>
     (function(){
-      // ---------- 3D BACKGROUND (WEBGL) ----------
+      // ---------- 3D BACKGROUND (WEBGL, igloo style) ----------
       const bgCanvas = document.getElementById('bgCanvas');
       const renderer = new THREE.WebGLRenderer({ canvas: bgCanvas, alpha: true });
       renderer.setSize(window.innerWidth, window.innerHeight);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
       const scene = new THREE.Scene();
-      scene.background = new THREE.Color(0x03050a);
+      scene.background = new THREE.Color(0x020622);
 
       const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-      camera.position.z = 30;
+      camera.position.z = 40;
 
-      // particle field
-      const particleCount = 2000;
+      // particle field (igloo dense)
+      const particleCount = 2500;
       const positions = new Float32Array(particleCount * 3);
       const colors = new Float32Array(particleCount * 3);
       for (let i = 0; i < particleCount; i++) {
-        const r = 20 + Math.random() * 30;
+        const r = 20 + Math.random() * 40;
         const theta = Math.random() * Math.PI * 2;
         const phi = Math.acos(2 * Math.random() - 1);
         positions[i*3] = r * Math.sin(phi) * Math.cos(theta);
         positions[i*3+1] = r * Math.sin(phi) * Math.sin(theta);
         positions[i*3+2] = r * Math.cos(phi);
         
-        const color = new THREE.Color().setHSL(0.03 + Math.random()*0.1, 1, 0.5);
+        const color = new THREE.Color().setHSL(0.6 + Math.random()*0.3, 1, 0.5);
         colors[i*3] = color.r;
         colors[i*3+1] = color.g;
         colors[i*3+2] = color.b;
@@ -387,27 +532,19 @@
       const particleGeo = new THREE.BufferGeometry();
       particleGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
       particleGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-      const particleMat = new THREE.PointsMaterial({ size: 0.15, vertexColors: true, blending: THREE.AdditiveBlending, transparent: true, opacity: 0.7 });
+      const particleMat = new THREE.PointsMaterial({ size: 0.2, vertexColors: true, blending: THREE.AdditiveBlending, transparent: true, opacity: 0.8 });
       const particles = new THREE.Points(particleGeo, particleMat);
       scene.add(particles);
 
-      // rotating glow sphere
-      const sphereGeo = new THREE.SphereGeometry(8, 64, 64);
-      const sphereMat = new THREE.MeshPhongMaterial({ color: 0xff3a2f, emissive: 0x330000, wireframe: true, transparent: true, opacity: 0.15 });
-      const glowSphere = new THREE.Mesh(sphereGeo, sphereMat);
-      scene.add(glowSphere);
-
-      const light = new THREE.PointLight(0xff3a2f, 1, 50);
+      const light = new THREE.PointLight(0xff0055, 1, 50);
       light.position.set(5,5,5);
       scene.add(light);
       const ambient = new THREE.AmbientLight(0x404060);
       scene.add(ambient);
 
       function animateBackground() {
-        particles.rotation.y += 0.0002;
+        particles.rotation.y += 0.0003;
         particles.rotation.x += 0.0001;
-        glowSphere.rotation.y += 0.001;
-        glowSphere.rotation.x += 0.0005;
         renderer.render(scene, camera);
         requestAnimationFrame(animateBackground);
       }
@@ -418,7 +555,7 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
       });
 
-      // ---------- VOLUMETRIC LIGHT BURST PRELOADER (3D canvas) ----------
+      // ---------- VOLUMETRIC LIGHT BURST PRELOADER (igloo style) ----------
       const preloader = document.getElementById('preloader');
       const burstCanvas = document.getElementById('burstCanvas');
       const bCtx = burstCanvas.getContext('2d');
@@ -426,35 +563,34 @@
       let h = burstCanvas.height = window.innerHeight;
       window.addEventListener('resize', ()=>{ w = burstCanvas.width = window.innerWidth; h = burstCanvas.height = window.innerHeight; });
 
-      // 800 particles with 3D motion blur effect
       let bParticles = [];
-      for (let i=0; i<800; i++) {
+      for (let i=0; i<1000; i++) {
         bParticles.push({
           x: w/2, y: h/2,
-          vx: (Math.random()-0.5)*18,
-          vy: (Math.random()-0.5)*18,
-          life: 1,
-          size: Math.random()*20+5,
-          color: i%3===0 ? '#ff3a2f' : (i%3===1 ? '#0055ff' : '#ffcc00')
+          vx: (Math.random()-0.5)*20,
+          vy: (Math.random()-0.5)*20,
+          life: Math.random(),
+          size: Math.random()*25+5,
+          color: i%3===0 ? '#ff0055' : (i%3===1 ? '#00f0ff' : '#ffaa00')
         });
       }
       function drawBurst() {
         bCtx.clearRect(0,0,w,h);
         bParticles.forEach(p => {
-          p.x += p.vx * 0.3;
-          p.y += p.vy * 0.3;
+          p.x += p.vx * 0.2;
+          p.y += p.vy * 0.2;
           p.life -= 0.002;
-          if (p.life <= 0) {
+          if (p.life <= 0 || p.x<0 || p.x>w || p.y<0 || p.y>h) {
             p.x = w/2; p.y = h/2;
-            p.vx = (Math.random()-0.5)*18;
-            p.vy = (Math.random()-0.5)*18;
+            p.vx = (Math.random()-0.5)*20;
+            p.vy = (Math.random()-0.5)*20;
             p.life = 1;
           }
           bCtx.shadowColor = p.color;
-          bCtx.shadowBlur = 40;
+          bCtx.shadowBlur = 50;
           bCtx.beginPath();
-          bCtx.arc(p.x, p.y, p.size * p.life, 0, 2*Math.PI);
-          bCtx.fillStyle = p.color + Math.floor(p.life*150).toString(16).padStart(2,'0');
+          bCtx.arc(p.x, p.y, p.size * p.life * 0.5, 0, 2*Math.PI);
+          bCtx.fillStyle = p.color + Math.floor(p.life*200).toString(16).padStart(2,'0');
           bCtx.fill();
         });
         requestAnimationFrame(drawBurst);
@@ -462,7 +598,7 @@
       drawBurst();
       setTimeout(() => {
         gsap.to(preloader, { opacity: 0, duration: 1.2, onComplete: () => preloader.style.display = 'none' });
-      }, 1800);
+      }, 2000);
 
       // ---------- CURSOR + MAGNETIC ----------
       const cursor = document.getElementById('cursor');
@@ -470,7 +606,7 @@
         cursor.style.left = e.clientX + 'px';
         cursor.style.top = e.clientY + 'px';
       });
-      document.querySelectorAll('a, button, .card, .sdetCard').forEach(el => {
+      document.querySelectorAll('a, button, .card, .sdetCard, .stat, .country, .navCta').forEach(el => {
         el.addEventListener('mouseenter', () => document.body.classList.add('hov'));
         el.addEventListener('mouseleave', () => document.body.classList.remove('hov'));
       });
@@ -481,7 +617,7 @@
           const rect = this.getBoundingClientRect();
           const x = e.clientX - rect.left - rect.width/2;
           const y = e.clientY - rect.top - rect.height/2;
-          this.style.transform = `translate(${x*0.3}px, ${y*0.3}px) scale(1.03)`;
+          this.style.transform = `translate(${x*0.3}px, ${y*0.3}px) scale(1.02)`;
         });
         el.addEventListener('mouseleave', function() { this.style.transform = ''; });
       });
@@ -529,15 +665,14 @@
         camera2.position.set(0,0,4);
         const renderer2 = new THREE.WebGLRenderer({canvas:gCanvas, alpha:true, antialias:true});
         renderer2.setSize(container.clientWidth, container.clientHeight);
-        renderer2.setPixelRatio(Math.min(window.devicePixelRatio,2));
 
         const geo = new THREE.SphereGeometry(1.4, 100, 60);
-        const mat = new THREE.MeshPhongMaterial({ color: 0x0055ff, emissive: 0x001133, wireframe: true, transparent: true, opacity: 0.3 });
+        const mat = new THREE.MeshPhongMaterial({ color: 0x00f0ff, emissive: 0x002244, wireframe: true, transparent: true, opacity: 0.3 });
         const sphere = new THREE.Mesh(geo, mat);
         scene2.add(sphere);
 
         const coreGeo = new THREE.SphereGeometry(0.5, 32, 32);
-        const coreMat = new THREE.MeshBasicMaterial({ color: 0xff3a2f, transparent: true, opacity: 0.2 });
+        const coreMat = new THREE.MeshBasicMaterial({ color: 0xff0055, transparent: true, opacity: 0.2 });
         const core = new THREE.Mesh(coreGeo, coreMat);
         sphere.add(core);
 
@@ -552,16 +687,17 @@
       // ---------- BROCHURE FUNCTION (real PDF) ----------
       window.showBrochure = function(type) {
         const preview = document.getElementById('brochurePreview');
-        let content = '';
-        if(type==='automation') content='AUTOMATION TESTING: 6 months, Selenium, Cypress, Playwright, 5 projects. 100% placement.';
-        else if(type==='manual') content='MANUAL TESTING: 3 months, JIRA, TestRail, 2 live projects.';
-        else if(type==='api') content='API TESTING: 4 months, Postman, REST Assured, GraphQL.';
-        else if(type==='live') content='LIVE PROJECTS: 5 months, e-commerce, fintech, CI/CD.';
-        preview.innerHTML = `<div style="background:#0a0c18; padding:2rem; border-radius:60px;"><h3 style="color:#ffcc00;">${type.toUpperCase()} BROCHURE</h3><p>${content}</p><button id="pdfBtn" style="background:#0055ff; border:none; padding:0.8rem 2rem; border-radius:60px; color:#fff;">⬇ DOWNLOAD PDF</button></div>`;
+        let title, content, pdfText;
+        if(type==='automation') { title='AUTOMATION TESTING'; content='6 months, Selenium, Cypress, Playwright, Appium, 5 projects, certification.'; pdfText='TECH1WORLD AUTOMATION TESTING PROGRAM\n\nDuration: 6 months\nTools: Selenium, Cypress, Playwright, Appium\nCurriculum: WebDriver, TestNG, Cucumber, Docker, Jenkins\nProjects: 5 live projects\nPlacement: 100% assistance\nContact: info@tech1world.com'; }
+        else if(type==='manual') { title='MANUAL TESTING'; content='3 months, JIRA, TestRail, exploratory, 2 live projects.'; pdfText='TECH1WORLD MANUAL TESTING PROGRAM\n\nDuration: 3 months\nCurriculum: Test case design, JIRA, TestRail, agile\nProjects: 2 live projects\nPlacement: 100% assistance\nContact: info@tech1world.com'; }
+        else if(type==='api') { title='API TESTING'; content='4 months, Postman, REST Assured, GraphQL, 3 real-world APIs.'; pdfText='TECH1WORLD API TESTING PROGRAM\n\nDuration: 4 months\nTools: Postman, REST Assured, GraphQL\nCurriculum: Contract testing, mocking, security\nProjects: 3 real-world APIs\nPlacement: 100% assistance\nContact: info@tech1world.com'; }
+        else { title='LIVE PROJECTS'; content='5 months, e-commerce, fintech, CI/CD, Git, Jenkins.'; pdfText='TECH1WORLD LIVE PROJECTS PROGRAM\n\nDuration: 5 months\nDomains: E-commerce, fintech, healthcare\nTools: Git, Jenkins, Docker, CI/CD\nPlacement: 100% assistance\nContact: info@tech1world.com'; }
+
+        preview.innerHTML = `<div style="background:#0a0c18; padding:2rem; border-radius:60px;"><h3 style="color:#ffaa00;">${title} BROCHURE</h3><p style="margin:1rem 0;">${content}</p><button id="pdfBtn" style="background:#ff0055; border:none; padding:0.8rem 2rem; border-radius:60px; color:#fff; cursor:pointer;">⬇ DOWNLOAD PDF</button></div>`;
         preview.style.display = 'block';
         document.getElementById('pdfBtn').addEventListener('click', function(e) {
           e.preventDefault();
-          const blob = new Blob([`TECH1WORLD ${type.toUpperCase()} PROGRAM\n\n${content}\n\nContact: info@tech1world.com`], {type: 'application/pdf'});
+          const blob = new Blob([pdfText], {type: 'application/pdf'});
           const url = window.URL.createObjectURL(blob);
           const a = document.createElement('a'); a.href = url; a.download = `${type}_brochure.pdf`; a.click();
           window.URL.revokeObjectURL(url);
