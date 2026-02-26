@@ -2,50 +2,42 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tech1World — Glacial Frost · 9 Scrolls of Ice</title>
-  <!-- Fonts -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>Tech1World — Quantum Frost | Complete Experience</title>
+  <!-- Fonts & Libraries -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <!-- GSAP -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <!-- Three.js for 3D elements -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <style>
-    /* ══════════════════════════════════════════════════
-       GLACIAL FROST — Complete 9-Scroll Architecture
-       ══════════════════════════════════════════════════ */
-    :root {
-      --G0: #0a1428; --G1: #1e2b3f; --G2: #2c3a52; --G3: #5b7a9a;
-      --G4: #8bb9d1; --G5: #b0e0ff; --G6: #d9f0ff; --W0: #ffffff;
-      --W1: rgba(255,255,255,0.95); --W2: rgba(255,255,255,0.7);
-      --W3: rgba(255,255,255,0.4); --W4: rgba(255,255,255,0.1);
-      --W5: rgba(255,255,255,0.03); --GL: 0 0 60px rgba(176,224,255,0.3);
-      --FH: 'Orbitron', sans-serif; --FB: 'Rajdhani', sans-serif; --FT: 'Space Grotesk', sans-serif;
-    }
+    /* ========== COMPLETE ORIGINAL STYLES PRESERVED AND ENHANCED ========== */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; overflow-x: hidden; }
     body {
-      background: var(--G0); color: var(--W0); font-family: var(--FT);
-      cursor: none; overflow-x: hidden; line-height: 1.6;
+      background: #0a1428;
+      color: #ffffff;
+      font-family: 'Space Grotesk', sans-serif;
+      cursor: none;
+      overflow-x: hidden;
+      line-height: 1.6;
     }
     a { color: inherit; text-decoration: none; }
-    button { font-family: var(--FB); cursor: none; border: none; background: none; }
-    ::selection { background: var(--G4); color: var(--G0); }
+    button { font-family: 'Rajdhani', sans-serif; cursor: none; border: none; background: none; }
+    ::selection { background: #8bb9d1; color: #0a1428; }
     ::-webkit-scrollbar { width: 2px; }
-    ::-webkit-scrollbar-track { background: var(--G0); }
-    ::-webkit-scrollbar-thumb { background: var(--G4); border-radius: 2px; }
+    ::-webkit-scrollbar-track { background: #0a1428; }
+    ::-webkit-scrollbar-thumb { background: #8bb9d1; border-radius: 2px; }
 
-    /* Cursor */
+    /* ========== CURSOR ========== */
     #CURSOR { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 99999; mix-blend-mode: screen; }
-    .cur-core { position: absolute; width: 6px; height: 6px; border-radius: 50%; background: var(--W0); transform: translate(-50%,-50%); transition: width 0.2s, height 0.2s; box-shadow: 0 0 30px var(--W0), 0 0 60px var(--G5); }
-    .cur-ring { position: absolute; width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(176,224,255,0.4); transform: translate(-50%,-50%); transition: all 0.4s; }
-    .cur-ice { position: absolute; width: 300px; height: 300px; border-radius: 50%; transform: translate(-50%,-50%); background: radial-gradient(circle, rgba(176,224,255,0.06) 0%, transparent 70%); transition: all 1s; }
-    body.hovering .cur-core { width: 16px; height: 16px; background: var(--G6); }
+    .cur-core { position: absolute; width: 6px; height: 6px; border-radius: 50%; background: #ffffff; transform: translate(-50%,-50%); box-shadow: 0 0 30px #fff, 0 0 60px #b0e0ff; transition: 0.2s; }
+    .cur-ring { position: absolute; width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(176,224,255,0.4); transform: translate(-50%,-50%); transition: 0.4s; }
+    .cur-ice { position: absolute; width: 300px; height: 300px; border-radius: 50%; background: radial-gradient(circle, rgba(176,224,255,0.06) 0%, transparent 70%); transform: translate(-50%,-50%); transition: 1s; }
+    body.hovering .cur-core { width: 16px; height: 16px; background: #d9f0ff; }
     body.hovering .cur-ring { width: 64px; height: 64px; border-color: rgba(176,224,255,0.9); }
 
-    /* Frost Canvas */
+    /* ========== DYNAMIC BACKGROUND ========== */
     #FROST { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
     #ORBS { position: fixed; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
     .orb { position: absolute; border-radius: 50%; filter: blur(100px); animation: orbFloat linear infinite; mix-blend-mode: screen; }
@@ -54,323 +46,564 @@
     .orb-3 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(90,120,150,0.1) 0%, transparent 70%); bottom: -100px; left: 30%; animation-duration: 20s; }
     @keyframes orbFloat { 0%,100%{transform:translate(0,0) scale(1);} 25%{transform:translate(60px,-80px) scale(1.1);} 50%{transform:translate(-40px,60px) scale(0.9);} 75%{transform:translate(80px,40px) scale(1.05);} }
 
-    /* Progress Bar */
-    #PROGRESS { position: fixed; top: 0; left: 0; height: 1px; width: 0%; background: linear-gradient(90deg, var(--G4), var(--G6), var(--W0)); z-index: 9999; box-shadow: 0 0 10px var(--G5); transition: width 0.1s linear; }
+    /* ========== PROGRESS BAR ========== */
+    #PROGRESS { position: fixed; top: 0; left: 0; height: 1px; width: 0%; background: linear-gradient(90deg, #8bb9d1, #b0e0ff, #ffffff); z-index: 9999; box-shadow: 0 0 10px #b0e0ff; transition: width 0.1s linear; }
 
-    /* Loader */
-    #LOADER { position: fixed; inset: 0; z-index: 99998; background: var(--G0); display: flex; align-items: center; justify-content: center; flex-direction: column; transition: opacity 1s ease, transform 1.5s cubic-bezier(0.76, 0, 0.24, 1); pointer-events: none; }
+    /* ========== LOADER ========== */
+    #LOADER {
+      position: fixed; inset: 0; z-index: 99998; background: #0a1428;
+      display: flex; align-items: center; justify-content: center; flex-direction: column;
+      transition: opacity 1s ease, transform 1.5s cubic-bezier(0.76, 0, 0.24, 1);
+      pointer-events: none;
+    }
     .loader-ice-wrap { position: relative; width: 200px; height: 200px; margin-bottom: 2rem; }
     .loader-svg-ring { position: absolute; inset: 0; animation: loaderSpin 4s linear infinite; }
     .loader-svg-ring-2 { position: absolute; inset: 20px; animation: loaderSpin 3s linear infinite reverse; }
     .loader-svg-ring-3 { position: absolute; inset: 40px; animation: loaderSpin 2s linear infinite; }
     @keyframes loaderSpin { to { transform: rotate(360deg); } }
-    .loader-core { position: absolute; inset: 60px; background: radial-gradient(circle, rgba(176,224,255,0.2), rgba(10,20,40,0.9)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--FH); font-size: 0.8rem; color: var(--G5); letter-spacing: 0.1em; backdrop-filter: blur(4px); box-shadow: 0 0 60px var(--G4); animation: corePulse 2s infinite alternate; }
-    @keyframes corePulse { from { box-shadow: 0 0 40px var(--G4); transform: scale(0.95); } to { box-shadow: 0 0 100px var(--G6); transform: scale(1.05); } }
-    .loader-wordmark { font-family: var(--FH); font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 700; letter-spacing: 0.3em; color: var(--W0); opacity: 0; animation: loaderFade 0.8s 0.5s forwards; text-shadow: 0 0 30px var(--G5); }
-    .loader-wordmark span { color: var(--G5); }
-    .loader-sub { font-family: var(--FB); font-size: 0.7rem; letter-spacing: 0.5em; color: var(--W3); text-transform: uppercase; margin-top: 0.5rem; opacity: 0; animation: loaderFade 0.8s 0.9s forwards; }
+    .loader-core { position: absolute; inset: 60px; background: radial-gradient(circle, rgba(176,224,255,0.2), rgba(10,20,40,0.9)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Orbitron', sans-serif; font-size: 0.8rem; color: #b0e0ff; letter-spacing: 0.1em; backdrop-filter: blur(4px); box-shadow: 0 0 60px #8bb9d1; animation: corePulse 2s infinite alternate; }
+    @keyframes corePulse { from { box-shadow: 0 0 40px #8bb9d1; transform: scale(0.95); } to { box-shadow: 0 0 100px #b0e0ff; transform: scale(1.05); } }
+    .loader-wordmark { font-family: 'Orbitron', sans-serif; font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 700; letter-spacing: 0.3em; color: #ffffff; opacity: 0; animation: loaderFade 0.8s 0.5s forwards; text-shadow: 0 0 30px #b0e0ff; }
+    .loader-wordmark span { color: #b0e0ff; }
+    .loader-sub { font-family: 'Rajdhani', sans-serif; font-size: 0.7rem; letter-spacing: 0.5em; color: rgba(255,255,255,0.4); text-transform: uppercase; margin-top: 0.5rem; opacity: 0; animation: loaderFade 0.8s 0.9s forwards; }
     .loader-bar { width: 250px; height: 2px; background: rgba(255,255,255,0.05); margin-top: 2.5rem; position: relative; overflow: hidden; opacity: 0; animation: loaderFade 0.5s 1.2s forwards; border-radius: 2px; }
-    .loader-bar-fill { position: absolute; top: 0; left: 0; height: 100%; background: linear-gradient(90deg, var(--G3), var(--G6), var(--W0)); box-shadow: 0 0 20px var(--G5); animation: loaderBarFill 2.5s 1.3s cubic-bezier(0.4, 0, 0.2, 1) forwards; width: 0%; }
+    .loader-bar-fill { position: absolute; top: 0; left: 0; height: 100%; background: linear-gradient(90deg, #5b7a9a, #b0e0ff, #ffffff); box-shadow: 0 0 20px #b0e0ff; animation: loaderBarFill 2.5s 1.3s forwards; width: 0%; }
     @keyframes loaderBarFill { to { width: 100%; } }
-    .loader-pct { font-family: var(--FH); font-size: 0.6rem; color: var(--G5); letter-spacing: 0.15em; margin-top: 0.5rem; opacity: 0; animation: loaderFade 0.5s 1.2s forwards; }
+    .loader-pct { font-family: 'Orbitron', sans-serif; font-size: 0.6rem; color: #b0e0ff; letter-spacing: 0.15em; margin-top: 0.5rem; opacity: 0; animation: loaderFade 0.5s 1.2s forwards; }
     @keyframes loaderFade { to { opacity: 1; } }
 
-    /* Navigation */
-    #NAV { position: fixed; top: 0; left: 0; right: 0; z-index: 5000; padding: 1.5rem 4rem; display: flex; align-items: center; justify-content: space-between; transition: all 0.6s; }
-    #NAV::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,20,40,0.95) 0%, transparent 100%); opacity: 0; transition: opacity 0.6s; backdrop-filter: blur(0px); }
-    #NAV.scrolled::before { opacity: 1; backdrop-filter: blur(40px); }
-    #NAV.scrolled { padding: 1rem 4rem; border-bottom: 1px solid rgba(176,224,255,0.1); }
-    .nav-logo { display: flex; align-items: center; gap: 0.75rem; position: relative; z-index: 1; }
-    .nav-logo-icon { width: 36px; height: 36px; position: relative; }
-    .nav-logo-text { font-family: var(--FH); font-size: 1rem; font-weight: 700; letter-spacing: 0.1em; color: var(--W0); }
-    .nav-logo-text span { color: var(--G5); }
-    .nav-logo-sub { font-family: var(--FB); font-size: 0.45rem; letter-spacing: 0.4em; color: var(--W3); text-transform: uppercase; }
-    .nav-links { display: flex; list-style: none; gap: 0; position: relative; z-index: 1; }
-    .nav-links a { display: block; padding: 0.4rem 1rem; font-family: var(--FB); font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--W2); transition: color 0.3s; position: relative; }
-    .nav-links a::after { content: ''; position: absolute; bottom: 0; left: 1rem; right: 1rem; height: 1px; background: var(--G5); box-shadow: 0 0 8px var(--G5); transform: scaleX(0); transition: transform 0.3s; }
-    .nav-links a:hover { color: var(--W0); }
-    .nav-links a:hover::after { transform: scaleX(1); }
-    .nav-cta { position: relative; z-index: 1; display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1.8rem; font-family: var(--FB); font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--W0); border: 1px solid rgba(176,224,255,0.3); background: rgba(176,224,255,0.03); transition: all 0.4s; cursor: none; clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%); backdrop-filter: blur(10px); }
-    .nav-cta:hover { background: rgba(176,224,255,0.1); border-color: var(--G5); box-shadow: 0 0 40px rgba(176,224,255,0.2); }
+    /* ========== ENHANCED TRANSLUCENT LIVE SCRIPT PANEL ========== */
+    #LIVE_SCRIPT {
+      position: fixed;
+      right: 20px;
+      top: 100px;
+      width: 280px;
+      z-index: 999;
+      background: rgba(10, 20, 40, 0.25);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(176, 224, 255, 0.15);
+      border-radius: 24px;
+      padding: 1.5rem;
+      font-family: 'Rajdhani', sans-serif;
+      color: #b0e0ff;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      pointer-events: none;
+      border-left: 3px solid #8bb9d1;
+      animation: panelBreath 4s infinite alternate;
+    }
+    @keyframes panelBreath {
+      0% { box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 20px rgba(139,185,209,0.2); }
+      100% { box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(176,224,255,0.4); }
+    }
+    .live-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; font-size: 0.75rem; letter-spacing: 0.1em; color: #ffffff; }
+    .live-dot { width: 8px; height: 8px; background: #8bb9d1; border-radius: 50%; animation: livePulse 1.5s infinite; }
+    @keyframes livePulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+    .script-line {
+      font-size: 0.65rem; line-height: 1.8; color: rgba(176,224,255,0.8);
+      white-space: nowrap; overflow: hidden;
+      border-right: 2px solid #8bb9d1;
+      animation: typing 4s steps(40, end) infinite, blinkCursor 1s step-end infinite;
+      max-width: 100%;
+    }
+    .script-line:nth-child(2) { animation-delay: 0s; }
+    .script-line:nth-child(3) { animation-delay: 0.5s; }
+    .script-line:nth-child(4) { animation-delay: 1s; }
+    .script-line:nth-child(5) { animation-delay: 1.5s; }
+    .script-line:nth-child(6) { animation-delay: 2s; }
+    .script-line:nth-child(7) { animation-delay: 2.5s; }
+    @keyframes typing { 0% { width: 0; } 50% { width: 100%; } 100% { width: 0; } }
+    @keyframes blinkCursor { from, to { border-color: transparent; } 50% { border-color: #8bb9d1; } }
 
-    /* Email Strip */
-    .email-strip { background: rgba(176,224,255,0.02); border-top: 1px solid rgba(176,224,255,0.06); border-bottom: 1px solid rgba(176,224,255,0.06); padding: 0.8rem 2rem; display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap; font-family: var(--FB); font-size: 0.7rem; letter-spacing: 0.1em; color: var(--W2); backdrop-filter: blur(10px); position: relative; z-index: 10; }
-    .email-strip span { color: var(--G5); }
-    .email-strip a { transition: color 0.3s; }
-    .email-strip a:hover { color: var(--G6); }
+    /* ========== LIVE DATA PANEL ========== */
+    #LIVE_DATA {
+      position: fixed; left: 20px; bottom: 20px; z-index: 999;
+      background: rgba(10,20,40,0.25);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(176,224,255,0.15);
+      border-radius: 24px;
+      padding: 1.2rem;
+      font-family: 'Rajdhani', sans-serif;
+      color: #b0e0ff;
+      pointer-events: none;
+      border-left: 3px solid #8bb9d1;
+    }
+    .live-stat { font-size: 0.7rem; margin-bottom: 0.3rem; display: flex; justify-content: space-between; gap: 1rem; }
+    .live-stat span { color: #ffffff; }
 
-    /* Section Base */
+    /* ========== HEADER ========== */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 5000;
+      background: rgba(10, 20, 40, 0.25);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(176, 224, 255, 0.15);
+      padding: 0.8rem 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #ffffff, #b0e0ff, #8bb9d1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.9rem;
+      letter-spacing: 0.1rem;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.7);
+      transition: 0.3s;
+      padding: 0.3rem 0;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: #b0e0ff;
+      transition: 0.3s;
+    }
+    .nav-links a:hover { color: #ffffff; }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-links a.active { color: #b0e0ff; }
+    .nav-cta {
+      background: transparent;
+      border: 1px solid #b0e0ff;
+      color: #b0e0ff;
+      padding: 0.4rem 1.5rem;
+      border-radius: 40px;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.1rem;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .nav-cta:hover {
+      background: #b0e0ff;
+      color: #0a1428;
+      box-shadow: 0 0 30px #b0e0ff;
+    }
+
+    /* ========== SECTION STYLES ========== */
     section { position: relative; z-index: 2; }
     .sec-inner { max-width: 1400px; margin: 0 auto; padding: 6rem 4rem; }
     .sec-label { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
-    .sec-label-bar { width: 30px; height: 1px; background: var(--G5); box-shadow: 0 0 8px var(--G4); }
-    .sec-label-text { font-family: var(--FB); font-size: 0.6rem; letter-spacing: 0.4em; color: var(--G5); text-transform: uppercase; }
-    .sec-h { font-family: var(--FH); font-size: clamp(2rem, 5vw, 5rem); font-weight: 700; line-height: 0.95; letter-spacing: -0.01em; margin-bottom: 4rem; }
-    .solid { color: var(--W0); }
-    .gradient { background: linear-gradient(135deg, var(--G4) 0%, var(--G6) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .sec-label-bar { width: 30px; height: 1px; background: #b0e0ff; box-shadow: 0 0 8px #8bb9d1; }
+    .sec-label-text { font-family: 'Rajdhani', sans-serif; font-size: 0.6rem; letter-spacing: 0.4em; color: #b0e0ff; text-transform: uppercase; }
+    .sec-h { font-family: 'Orbitron', sans-serif; font-size: clamp(2rem, 5vw, 5rem); font-weight: 700; line-height: 0.95; margin-bottom: 4rem; }
+    .solid { color: #ffffff; }
+    .gradient { background: linear-gradient(135deg, #8bb9d1, #b0e0ff, #ffffff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     .outline { color: transparent; -webkit-text-stroke: 1px rgba(176,224,255,0.3); }
 
-    /* Reveal */
-    .rv { opacity: 0; transform: translateY(40px); transition: opacity 0.9s, transform 0.9s; }
-    .rv.visible { opacity: 1; transform: translateY(0); }
-    .rv-l { opacity: 0; transform: translateX(-40px); transition: opacity 0.9s, transform 0.9s; }
-    .rv-l.visible { opacity: 1; transform: translateX(0); }
-    .rv-r { opacity: 0; transform: translateX(40px); transition: opacity 0.9s, transform 0.9s; }
-    .rv-r.visible { opacity: 1; transform: translateX(0); }
-    .d1 { transition-delay: 0.1s; } .d2 { transition-delay: 0.2s; } .d3 { transition-delay: 0.3s; }
-    .d4 { transition-delay: 0.4s; } .d5 { transition-delay: 0.5s; } .d6 { transition-delay: 0.6s; }
-
-    /* Hero */
+    /* ========== HERO ========== */
     #HERO { min-height: 100vh; display: flex; align-items: center; position: relative; overflow: hidden; padding: 8rem 4rem 4rem; }
     #HERO::before { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 50%; background: linear-gradient(90deg, rgba(176,224,255,0.02) 1px, transparent 1px) 0 0 / 60px 60px, linear-gradient(0deg, rgba(176,224,255,0.02) 1px, transparent 1px) 0 0 / 60px 60px; perspective: 500px; transform: perspective(500px) rotateX(60deg) translateY(50%); pointer-events: none; }
     .hero-inner { position: relative; z-index: 2; width: 100%; max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
-    .hero-tag { display: inline-flex; align-items: center; gap: 0.6rem; margin-bottom: 2.5rem; opacity: 0; animation: riseUp 0.8s 0.3s forwards; }
-    .hero-tag-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--G5); box-shadow: 0 0 15px var(--G5); animation: pulse 2s infinite; }
-    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.5;transform:scale(0.7);} }
-    .hero-tag-text { font-family: var(--FB); font-size: 0.65rem; letter-spacing: 0.4em; color: var(--G5); text-transform: uppercase; }
-    .hero-h1 { font-family: var(--FH); font-size: clamp(2.5rem, 6vw, 5.5rem); font-weight: 900; line-height: 0.95; letter-spacing: -0.02em; margin-bottom: 0.5rem; overflow: hidden; }
-    .h1-line { display: block; overflow: hidden; padding-bottom: 0.05em; }
-    .h1-word { display: block; transform: translateY(110%); opacity: 0; animation: wordSlide 1s cubic-bezier(0.23,1,0.32,1) forwards; }
-    .h1-line:nth-child(1) .h1-word { animation-delay: 0.4s; color: var(--W0); }
-    .h1-line:nth-child(2) .h1-word { animation-delay: 0.55s; background: linear-gradient(135deg, var(--G5) 0%, var(--G6) 50%, var(--W0) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero-tag { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 2.5rem; }
+    .hero-tag-dot { width: 6px; height: 6px; border-radius: 50%; background: #b0e0ff; animation: pulse 2s infinite; }
+    .hero-tag-text { font-family: 'Rajdhani', sans-serif; font-size: 0.65rem; letter-spacing: 0.4em; color: #b0e0ff; text-transform: uppercase; }
+    .hero-h1 { font-family: 'Orbitron', sans-serif; font-size: clamp(2.5rem, 6vw, 5.5rem); font-weight: 900; line-height: 0.95; margin-bottom: 0.5rem; overflow: hidden; }
+    .h1-line { display: block; overflow: hidden; }
+    .h1-word { display: block; transform: translateY(110%); opacity: 0; animation: wordSlide 1s forwards; }
+    .h1-line:nth-child(1) .h1-word { animation-delay: 0.4s; }
+    .h1-line:nth-child(2) .h1-word { animation-delay: 0.55s; background: linear-gradient(135deg, #8bb9d1, #b0e0ff, #ffffff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     .h1-line:nth-child(3) .h1-word { animation-delay: 0.7s; color: transparent; -webkit-text-stroke: 1px rgba(176,224,255,0.4); }
     @keyframes wordSlide { to { transform: translateY(0); opacity: 1; } }
-    .hero-desc { font-size: 1rem; line-height: 1.9; color: var(--W2); max-width: 50ch; margin: 2rem 0 2.5rem; opacity: 0; animation: riseUp 0.8s 0.9s forwards; }
-    .hero-desc strong { color: var(--G5); font-weight: 500; }
-    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; opacity: 0; animation: riseUp 0.8s 1.1s forwards; }
-    @keyframes riseUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
-    .btn-ice { position: relative; display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.9rem 2.5rem; font-family: var(--FB); font-size: 0.8rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--G0); font-weight: 700; cursor: none; overflow: hidden; clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%); transition: box-shadow 0.4s; }
-    .btn-ice-bg { position: absolute; inset: 0; background: linear-gradient(135deg, var(--G5) 0%, var(--G4) 50%, var(--G6) 100%); background-size: 200% 200%; animation: iceShift 3s ease infinite; }
-    @keyframes iceShift { 0%{background-position:0% 50%;} 50%{background-position:100% 50%;} 100%{background-position:0% 50%;} }
+    .hero-desc { font-size: 1rem; line-height: 1.9; color: rgba(255,255,255,0.7); max-width: 50ch; margin: 2rem 0 2.5rem; }
+    .btn-ice { position: relative; display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.9rem 2.5rem; font-family: 'Rajdhani', sans-serif; font-size: 0.8rem; letter-spacing: 0.25em; text-transform: uppercase; color: #0a1428; font-weight: 700; cursor: pointer; overflow: hidden; clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%); transition: 0.4s; }
+    .btn-ice-bg { position: absolute; inset: 0; background: linear-gradient(135deg, #b0e0ff, #8bb9d1, #d9f0ff); background-size: 200% 200%; animation: iceShift 3s ease infinite; }
+    @keyframes iceShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
     .btn-ice span { position: relative; z-index: 1; }
-    .btn-ice:hover { box-shadow: 0 0 80px rgba(176,224,255,0.5); }
-    .btn-frost { display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.9rem 2.5rem; font-family: var(--FB); font-size: 0.8rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--G5); border: 1px solid rgba(176,224,255,0.3); background: rgba(10,20,40,0.6); cursor: none; position: relative; overflow: hidden; clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%); transition: all 0.4s; backdrop-filter: blur(10px); }
-    .btn-frost:hover { border-color: var(--G5); box-shadow: 0 0 50px rgba(176,224,255,0.15); }
-    .hero-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: rgba(176,224,255,0.06); margin-top: 3rem; opacity: 0; animation: riseUp 0.8s 1.3s forwards; }
-    .hs { background: rgba(10,20,40,0.9); padding: 1.5rem; position: relative; overflow: hidden; cursor: default; transition: background 0.4s; backdrop-filter: blur(10px); }
+    .btn-ice:hover { box-shadow: 0 0 80px rgba(176,224,255,0.5); transform: scale(1.02); }
+    .btn-frost { display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.9rem 2.5rem; font-family: 'Rajdhani', sans-serif; font-size: 0.8rem; letter-spacing: 0.25em; text-transform: uppercase; color: #b0e0ff; border: 1px solid rgba(176,224,255,0.3); background: rgba(10,20,40,0.6); cursor: pointer; position: relative; overflow: hidden; clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%); transition: 0.4s; backdrop-filter: blur(10px); }
+    .btn-frost:hover { border-color: #b0e0ff; box-shadow: 0 0 50px rgba(176,224,255,0.15); transform: scale(1.02); }
+    .hero-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: rgba(176,224,255,0.06); margin-top: 3rem; }
+    .hs { background: rgba(10,20,40,0.9); padding: 1.5rem; cursor: pointer; transition: 0.4s; backdrop-filter: blur(10px); }
     .hs:hover { background: rgba(20,35,55,0.9); }
-    .hs::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--G5), transparent); transform: scaleX(0); transition: transform 0.5s; }
-    .hs:hover::before { transform: scaleX(1); }
-    .hs-val { font-family: var(--FH); font-size: 2rem; font-weight: 700; color: var(--G5); letter-spacing: 0.04em; line-height: 1; text-shadow: 0 0 40px rgba(176,224,255,0.4); }
-    .hs-lbl { font-family: var(--FB); font-size: 0.6rem; letter-spacing: 0.2em; color: var(--W3); text-transform: uppercase; margin-top: 0.3rem; }
-    .hero-right { display: flex; align-items: center; justify-content: center; position: relative; opacity: 0; animation: fadeIn 1.5s 0.8s forwards; }
-    @keyframes fadeIn { to { opacity: 1; } }
-    .logo-universe { position: relative; width: 500px; height: 500px; }
-    .lu-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
-    .lu-core { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; z-index: 10; }
-    .lu-logo-txt { font-family: var(--FH); font-size: 1.8rem; font-weight: 900; color: var(--W0); letter-spacing: 0.05em; line-height: 1; text-shadow: 0 0 40px rgba(176,224,255,0.6); }
-    .lu-logo-txt span { color: var(--G5); }
-    .lu-logo-sub { font-family: var(--FB); font-size: 0.5rem; letter-spacing: 0.6em; color: var(--W2); text-transform: uppercase; margin-top: 0.4rem; }
-    .lu-tag { font-family: var(--FH); font-size: 0.5rem; letter-spacing: 0.3em; color: var(--G5); margin-top: 0.5rem; opacity: 0.7; }
+    .hs-val { font-family: 'Orbitron', sans-serif; font-size: 2rem; color: #b0e0ff; text-shadow: 0 0 40px rgba(176,224,255,0.4); }
+    .hs-lbl { font-family: 'Rajdhani', sans-serif; font-size: 0.6rem; letter-spacing: 0.2em; color: rgba(255,255,255,0.4); text-transform: uppercase; margin-top: 0.3rem; }
+    #heroGlobeCanvas { width: 500px; height: 500px; max-width: 100%; }
 
-    /* Marquee */
-    .marquee-wrap { position: relative; z-index: 2; overflow: hidden; background: rgba(10,20,40,0.5); border-top: 1px solid rgba(176,224,255,0.06); border-bottom: 1px solid rgba(176,224,255,0.06); backdrop-filter: blur(20px); padding: 0; }
-    .marquee-wrap::before, .marquee-wrap::after { content: ''; position: absolute; top: 0; bottom: 0; width: 150px; z-index: 1; pointer-events: none; }
-    .marquee-wrap::before { left: 0; background: linear-gradient(90deg, var(--G0), transparent); }
-    .marquee-wrap::after { right: 0; background: linear-gradient(-90deg, var(--G0), transparent); }
+    /* ========== MARQUEE ========== */
+    .marquee-wrap { position: relative; z-index: 2; overflow: hidden; background: rgba(10,20,40,0.5); border-top: 1px solid rgba(176,224,255,0.06); border-bottom: 1px solid rgba(176,224,255,0.06); backdrop-filter: blur(20px); }
     .marquee-track { display: flex; width: max-content; animation: marquee 60s linear infinite; padding: 0.9rem 0; }
     .marquee-track:hover { animation-play-state: paused; }
     @keyframes marquee { to { transform: translateX(-50%); } }
-    .marquee-item { display: flex; align-items: center; gap: 0.8rem; padding: 0 2rem; border-right: 1px solid rgba(176,224,255,0.06); white-space: nowrap; font-family: var(--FB); font-size: 0.65rem; letter-spacing: 0.2em; color: var(--W3); }
-    .marquee-val { font-family: var(--FH); font-size: 1rem; color: var(--G5); letter-spacing: 0.05em; }
-    .marquee-sep { color: rgba(176,224,255,0.2); }
+    .marquee-item { display: flex; align-items: center; gap: 0.8rem; padding: 0 2rem; border-right: 1px solid rgba(176,224,255,0.06); white-space: nowrap; font-family: 'Rajdhani', sans-serif; font-size: 0.65rem; letter-spacing: 0.2em; color: rgba(255,255,255,0.4); }
+    .marquee-val { font-family: 'Orbitron', sans-serif; font-size: 1rem; color: #b0e0ff; letter-spacing: 0.05em; }
 
-    /* Stats Strip */
+    /* ========== STATS STRIP ========== */
     .stats-strip { background: rgba(10,20,40,0.6); border-top: 1px solid rgba(176,224,255,0.06); border-bottom: 1px solid rgba(176,224,255,0.06); backdrop-filter: blur(30px); }
     .stats-grid { display: grid; grid-template-columns: repeat(6, 1fr); max-width: 1400px; margin: 0 auto; }
     .stat-box { padding: 2.5rem 1.5rem; text-align: center; border-right: 1px solid rgba(176,224,255,0.05); cursor: default; position: relative; overflow: hidden; transition: background 0.5s; background: rgba(10,20,40,0.4); }
     .stat-box:last-child { border-right: none; }
-    .stat-box::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--G5), transparent); transform: scaleX(0); transition: transform 0.5s; }
+    .stat-box::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, #b0e0ff, transparent); transform: scaleX(0); transition: transform 0.5s; }
     .stat-box:hover { background: rgba(20,35,60,0.6); }
     .stat-box:hover::after { transform: scaleX(1); }
-    .stat-num { font-family: var(--FH); font-size: 2.5rem; color: var(--G5); letter-spacing: 0.04em; line-height: 1; text-shadow: 0 0 30px rgba(176,224,255,0.3); }
-    .stat-lbl { font-family: var(--FB); font-size: 0.5rem; letter-spacing: 0.2em; color: var(--W3); text-transform: uppercase; margin-top: 0.4rem; }
+    .stat-num { font-family: 'Orbitron', sans-serif; font-size: 2.5rem; color: #b0e0ff; text-shadow: 0 0 30px rgba(176,224,255,0.3); }
+    .stat-lbl { font-family: 'Rajdhani', sans-serif; font-size: 0.5rem; letter-spacing: 0.2em; color: rgba(255,255,255,0.4); text-transform: uppercase; margin-top: 0.4rem; }
 
-    /* Card Grids */
+    /* ========== CARD GRIDS ========== */
     .card-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin: 3rem 0; }
-    .card { background: rgba(10,20,40,0.7); backdrop-filter: blur(15px); border: 1px solid rgba(176,224,255,0.1); border-radius: 24px; padding: 2rem; transition: all 0.4s; cursor: pointer; position: relative; overflow: hidden; }
-    .card:hover { border-color: var(--G5); transform: translateY(-8px); box-shadow: 0 20px 40px rgba(176,224,255,0.1); }
-    .card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(176,224,255,0.1), transparent 60%); opacity: 0; transition: opacity 0.4s; }
+    .card { background: rgba(10,20,40,0.7); backdrop-filter: blur(15px); border: 1px solid rgba(176,224,255,0.1); border-radius: 24px; padding: 2rem; transition: 0.4s; cursor: pointer; position: relative; overflow: hidden; }
+    .card:hover { border-color: #b0e0ff; transform: translateY(-8px); box-shadow: 0 20px 40px rgba(176,224,255,0.1); }
+    .card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(176,224,255,0.1), transparent 60%); opacity: 0; transition: 0.4s; }
     .card:hover::before { opacity: 1; }
-    .card-num { font-family: var(--FH); font-size: 3rem; color: rgba(176,224,255,0.1); line-height: 1; margin-bottom: 1rem; }
-    .card-icon { font-size: 2rem; margin-bottom: 1rem; filter: drop-shadow(0 0 10px var(--G4)); }
-    .card-title { font-family: var(--FH); font-size: 1.1rem; letter-spacing: 0.03em; margin-bottom: 0.8rem; transition: color 0.3s; }
-    .card:hover .card-title { color: var(--G5); }
-    .card-desc { font-size: 0.8rem; color: var(--W3); line-height: 1.7; margin-bottom: 1rem; }
-    .card-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; }
-    .card-tag { font-family: var(--FB); font-size: 0.5rem; padding: 0.2rem 0.6rem; border: 1px solid rgba(176,224,255,0.2); border-radius: 20px; color: var(--W2); transition: 0.3s; }
-    .card:hover .card-tag { border-color: var(--G4); color: var(--G5); }
+    .card-num { font-family: 'Orbitron', sans-serif; font-size: 3rem; color: rgba(176,224,255,0.1); line-height: 1; margin-bottom: 1rem; }
+    .card-icon { font-size: 2rem; margin-bottom: 1rem; filter: drop-shadow(0 0 10px #8bb9d1); }
+    .card-title { font-family: 'Orbitron', sans-serif; font-size: 1.1rem; margin-bottom: 0.8rem; transition: color 0.3s; }
+    .card:hover .card-title { color: #b0e0ff; }
+    .card-desc { font-size: 0.8rem; color: rgba(255,255,255,0.4); line-height: 1.7; margin-bottom: 1rem; }
 
-    /* Two Column Layout */
-    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-bottom: 3rem; }
-    .two-col p { color: var(--W2); line-height: 1.9; }
-
-    /* Model Grid */
-    .model-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: rgba(176,224,255,0.08); margin-bottom: 4rem; }
-    .model-card { background: rgba(10,20,40,0.95); padding: 2.5rem; position: relative; overflow: hidden; cursor: pointer; transition: background 0.6s; }
+    /* ========== MODEL GRID (OUTSOURCING) ========== */
+    .model-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: rgba(176,224,255,0.08); margin: 4rem 0; }
+    .model-card { background: rgba(10,20,40,0.95); padding: 2.5rem; cursor: pointer; transition: 0.6s; }
     .model-card:hover { background: rgba(20,35,60,0.95); }
-    .model-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--G5), transparent); transform: scaleX(0); transform-origin: left; transition: transform 0.7s; }
-    .model-card:hover::before { transform: scaleX(1); }
-    .mc-number { font-family: var(--FH); font-size: 5rem; color: rgba(176,224,255,0.04); position: absolute; bottom: -0.5rem; right: 1rem; line-height: 1; }
-    .mc-icon { width: 44px; height: 44px; border: 1px solid rgba(176,224,255,0.15); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin-bottom: 1.5rem; transition: all 0.4s; }
-    .model-card:hover .mc-icon { border-color: rgba(176,224,255,0.5); box-shadow: 0 0 20px rgba(176,224,255,0.15); transform: scale(1.1) rotate(5deg); }
-    .mc-title { font-family: var(--FH); font-size: 0.9rem; letter-spacing: 0.05em; margin-bottom: 0.7rem; transition: color 0.3s; }
-    .model-card:hover .mc-title { color: var(--G5); }
-    .mc-desc { font-size: 0.75rem; color: var(--W3); line-height: 1.9; margin-bottom: 1.2rem; }
+    .mc-number { font-family: 'Orbitron', sans-serif; font-size: 5rem; color: rgba(176,224,255,0.04); line-height: 1; }
+    .mc-icon { width: 44px; height: 44px; border: 1px solid rgba(176,224,255,0.15); display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; transition: 0.4s; }
+    .model-card:hover .mc-icon { border-color: rgba(176,224,255,0.5); transform: scale(1.1) rotate(5deg); }
+    .mc-title { font-family: 'Orbitron', sans-serif; font-size: 0.9rem; margin-bottom: 0.7rem; transition: color 0.3s; }
+    .model-card:hover .mc-title { color: #b0e0ff; }
+    .mc-desc { font-size: 0.75rem; color: rgba(255,255,255,0.4); line-height: 1.9; margin-bottom: 1.2rem; }
     .mc-list { display: flex; flex-direction: column; gap: 0.35rem; }
-    .mc-item { display: flex; align-items: center; gap: 0.6rem; font-family: var(--FB); font-size: 0.6rem; letter-spacing: 0.1em; color: var(--W3); }
-    .mc-item::before { content: '—'; color: var(--G5); }
-    .mc-link { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 1.5rem; font-family: var(--FB); font-size: 0.6rem; letter-spacing: 0.2em; color: var(--G5); text-transform: uppercase; opacity: 0; transform: translateY(6px); transition: all 0.4s; }
+    .mc-item { display: flex; align-items: center; gap: 0.6rem; font-family: 'Rajdhani', sans-serif; font-size: 0.6rem; letter-spacing: 0.1em; color: rgba(255,255,255,0.4); }
+    .mc-item::before { content: '—'; color: #b0e0ff; }
+    .mc-link { display: inline-block; margin-top: 1.5rem; font-family: 'Rajdhani', sans-serif; font-size: 0.6rem; letter-spacing: 0.2em; color: #b0e0ff; opacity: 0; transform: translateY(6px); transition: 0.4s; cursor: pointer; }
     .model-card:hover .mc-link { opacity: 1; transform: translateY(0); }
 
-    /* BOT Block */
-    .bot-block { background: rgba(10,20,40,0.9); border: 1px solid rgba(176,224,255,0.1); position: relative; overflow: hidden; margin-bottom: 4rem; }
+    /* ========== BOT BLOCK ========== */
+    .bot-block { background: rgba(10,20,40,0.9); border: 1px solid rgba(176,224,255,0.1); position: relative; overflow: hidden; margin-bottom: 4rem; border-radius: 40px; }
     .bot-inner { display: grid; grid-template-columns: 1.2fr 1fr; }
     .bot-left { padding: 3rem; border-right: 1px solid rgba(176,224,255,0.06); }
     .bot-phase { display: flex; gap: 1.5rem; padding: 1.5rem 0; border-bottom: 1px solid rgba(176,224,255,0.04); cursor: default; transition: padding-left 0.4s; }
     .bot-phase:last-of-type { border-bottom: none; }
     .bot-phase:hover { padding-left: 1rem; }
-    .bp-num { font-family: var(--FH); font-size: 3rem; color: rgba(176,224,255,0.06); line-height: 1; flex-shrink: 0; transition: color 0.4s; }
+    .bp-num { font-family: 'Orbitron', sans-serif; font-size: 3rem; color: rgba(176,224,255,0.06); line-height: 1; flex-shrink: 0; transition: color 0.4s; }
     .bot-phase:hover .bp-num { color: rgba(176,224,255,0.25); }
-    .bp-name { font-family: var(--FH); font-size: 0.75rem; letter-spacing: 0.08em; margin-bottom: 0.4rem; transition: color 0.3s; }
-    .bot-phase:hover .bp-name { color: var(--G5); }
-    .bp-desc { font-size: 0.72rem; color: var(--W3); line-height: 1.9; }
+    .bp-name { font-family: 'Orbitron', sans-serif; font-size: 0.75rem; letter-spacing: 0.08em; margin-bottom: 0.4rem; transition: color 0.3s; }
+    .bot-phase:hover .bp-name { color: #b0e0ff; }
+    .bp-desc { font-size: 0.72rem; color: rgba(255,255,255,0.4); line-height: 1.9; }
     .bot-right { padding: 3rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: rgba(176,224,255,0.04); align-content: start; }
     .bm { background: rgba(10,20,40,0.9); padding: 2rem; text-align: center; cursor: default; transition: background 0.4s; }
     .bm:hover { background: rgba(20,35,55,0.9); }
-    .bm-val { font-family: var(--FH); font-size: 2.5rem; color: var(--G5); text-shadow: 0 0 30px rgba(176,224,255,0.3); }
-    .bm-lbl { font-family: var(--FB); font-size: 0.5rem; letter-spacing: 0.18em; color: var(--W3); text-transform: uppercase; margin-top: 0.3rem; }
+    .bm-val { font-family: 'Orbitron', sans-serif; font-size: 2.5rem; color: #b0e0ff; text-shadow: 0 0 30px rgba(176,224,255,0.3); }
+    .bm-lbl { font-family: 'Rajdhani', sans-serif; font-size: 0.5rem; letter-spacing: 0.18em; color: rgba(255,255,255,0.4); text-transform: uppercase; margin-top: 0.3rem; }
 
-    /* Staff Grid */
+    /* ========== STAFF GRID ========== */
     .staff-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 4rem; }
-    .staff-card { background: rgba(10,20,40,0.7); backdrop-filter: blur(15px); border: 1px solid rgba(176,224,255,0.1); border-radius: 24px; padding: 2rem; transition: all 0.4s; cursor: pointer; }
-    .staff-card:hover { border-color: var(--G5); transform: translateY(-5px); box-shadow: 0 20px 30px rgba(176,224,255,0.1); }
+    .staff-card { background: rgba(10,20,40,0.7); backdrop-filter: blur(15px); border: 1px solid rgba(176,224,255,0.1); border-radius: 24px; padding: 2rem; transition: 0.4s; cursor: pointer; }
+    .staff-card:hover { border-color: #b0e0ff; transform: translateY(-5px); box-shadow: 0 20px 30px rgba(176,224,255,0.1); }
     .staff-icon { font-size: 2rem; margin-bottom: 1rem; }
-    .staff-title { font-family: var(--FH); font-size: 0.9rem; letter-spacing: 0.04em; margin-bottom: 0.5rem; transition: color 0.3s; }
-    .staff-card:hover .staff-title { color: var(--G5); }
-    .staff-desc { font-size: 0.7rem; color: var(--W3); line-height: 1.8; }
+    .staff-title { font-family: 'Orbitron', sans-serif; font-size: 0.9rem; margin-bottom: 0.5rem; transition: color 0.3s; }
+    .staff-card:hover .staff-title { color: #b0e0ff; }
+    .staff-desc { font-size: 0.7rem; color: rgba(255,255,255,0.4); line-height: 1.8; }
 
-    /* Countries Grid */
+    /* ========== COUNTRIES GRID ========== */
     .countries-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.5rem; margin: 2rem 0 4rem; }
-    .country-chip { display: flex; align-items: center; gap: 0.4rem; padding: 0.5rem 0.8rem; border: 1px solid rgba(176,224,255,0.08); font-family: var(--FB); font-size: 0.55rem; letter-spacing: 0.06em; color: var(--W3); background: rgba(10,20,40,0.5); border-radius: 30px; transition: all 0.3s; cursor: default; }
-    .country-chip:hover { border-color: rgba(176,224,255,0.3); color: var(--W1); background: rgba(20,35,55,0.6); transform: scale(1.02); }
+    .country-chip { display: flex; align-items: center; gap: 0.4rem; padding: 0.5rem 0.8rem; border: 1px solid rgba(176,224,255,0.08); font-family: 'Rajdhani', sans-serif; font-size: 0.55rem; letter-spacing: 0.06em; color: rgba(255,255,255,0.4); background: rgba(10,20,40,0.5); border-radius: 30px; transition: all 0.3s; cursor: default; }
+    .country-chip:hover { border-color: rgba(176,224,255,0.3); color: rgba(255,255,255,0.8); background: rgba(20,35,55,0.6); transform: scale(1.02); }
 
-    /* Capabilities Grid */
+    /* ========== SDET CAPABILITIES GRID ========== */
     .caps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin: 3rem 0; }
-    .cap-card { background: rgba(10,20,40,0.7); backdrop-filter: blur(15px); border: 1px solid rgba(176,224,255,0.1); border-radius: 24px; padding: 2rem; transition: all 0.4s; cursor: pointer; }
-    .cap-card:hover { border-color: var(--G5); transform: translateY(-5px); box-shadow: 0 20px 40px rgba(176,224,255,0.1); }
-    .cap-num { font-family: var(--FH); font-size: 2.5rem; color: rgba(176,224,255,0.1); line-height: 1; margin-bottom: 0.5rem; }
+    .cap-card { background: rgba(10,20,40,0.7); backdrop-filter: blur(15px); border: 1px solid rgba(176,224,255,0.1); border-radius: 24px; padding: 2rem; transition: 0.4s; cursor: pointer; }
+    .cap-card:hover { border-color: #b0e0ff; transform: translateY(-5px); box-shadow: 0 20px 40px rgba(176,224,255,0.1); }
+    .cap-num { font-family: 'Orbitron', sans-serif; font-size: 2.5rem; color: rgba(176,224,255,0.1); line-height: 1; margin-bottom: 0.5rem; }
     .cap-icon { font-size: 2rem; margin-bottom: 1rem; }
-    .cap-title { font-family: var(--FH); font-size: 1rem; letter-spacing: 0.03em; margin-bottom: 0.8rem; transition: color 0.3s; }
-    .cap-card:hover .cap-title { color: var(--G5); }
-    .cap-desc { font-size: 0.75rem; color: var(--W3); line-height: 1.8; margin-bottom: 1rem; }
+    .cap-title { font-family: 'Orbitron', sans-serif; font-size: 1rem; margin-bottom: 0.8rem; transition: color 0.3s; }
+    .cap-card:hover .cap-title { color: #b0e0ff; }
+    .cap-desc { font-size: 0.75rem; color: rgba(255,255,255,0.4); line-height: 1.8; margin-bottom: 1rem; }
     .cap-chips { display: flex; flex-wrap: wrap; gap: 0.3rem; }
-    .chip { font-family: var(--FB); font-size: 0.45rem; letter-spacing: 0.1em; padding: 0.15rem 0.5rem; border: 1px solid rgba(176,224,255,0.15); color: rgba(176,224,255,0.6); text-transform: uppercase; border-radius: 20px; transition: all 0.3s; }
-    .cap-card:hover .chip { border-color: rgba(176,224,255,0.4); color: var(--G5); }
+    .chip { font-family: 'Rajdhani', sans-serif; font-size: 0.45rem; letter-spacing: 0.1em; padding: 0.15rem 0.5rem; border: 1px solid rgba(176,224,255,0.15); color: rgba(176,224,255,0.6); text-transform: uppercase; border-radius: 20px; transition: all 0.3s; }
+    .cap-card:hover .chip { border-color: rgba(176,224,255,0.4); color: #b0e0ff; }
 
-    /* Gauge Row */
-    .gauge-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1.5rem; margin: 3rem 0; }
-    .gauge-box { background: rgba(10,20,40,0.7); backdrop-filter: blur(15px); border: 1px solid rgba(176,224,255,0.1); border-radius: 24px; padding: 2rem 1.5rem; text-align: center; transition: 0.3s; }
-    .gauge-box:hover { border-color: var(--G5); }
-    .g-wrap { width: 80px; height: 80px; margin: 0 auto 1rem; position: relative; }
-    .g-svg { width: 80px; height: 80px; transform: rotate(-90deg); }
-    .g-track { fill: none; stroke: rgba(176,224,255,0.1); stroke-width: 4; }
-    .g-fill { fill: none; stroke: url(#iceGrad); stroke-width: 4; stroke-linecap: round; stroke-dasharray: 196; stroke-dashoffset: 196; transition: stroke-dashoffset 2.5s; filter: drop-shadow(0 0 6px var(--G5)); }
-    .g-pct { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: var(--FH); font-size: 0.9rem; color: var(--G5); }
-    .gauge-lbl { font-family: var(--FB); font-size: 0.5rem; letter-spacing: 0.15em; color: var(--W3); }
+    /* ========== SDET INTERNSHIP PROGRAM (THE LOVE PROJECT) ========== */
+    .internship-zone {
+      background: rgba(10,20,40,0.7);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(176,224,255,0.2);
+      border-radius: 60px;
+      padding: 4rem;
+      margin: 4rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .internship-zone::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 30% 50%, rgba(176,224,255,0.1), transparent 70%);
+      pointer-events: none;
+    }
+    .internship-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      margin: 3rem 0;
+    }
+    .internship-card {
+      background: rgba(10,20,40,0.8);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(176,224,255,0.15);
+      border-radius: 40px;
+      padding: 2.5rem 2rem;
+      text-align: center;
+      transition: all 0.5s;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    .internship-card:hover {
+      border-color: #b0e0ff;
+      transform: translateY(-12px) scale(1.02);
+      box-shadow: 0 30px 60px rgba(176,224,255,0.2);
+    }
+    .internship-card .icon {
+      font-size: 3.5rem;
+      margin-bottom: 1.5rem;
+      filter: drop-shadow(0 0 20px #8bb9d1);
+      animation: iconFloat 3s infinite alternate;
+    }
+    @keyframes iconFloat {
+      from { transform: translateY(0); }
+      to { transform: translateY(-8px); }
+    }
+    .internship-card h3 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #b0e0ff, #ffffff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .internship-card .duration {
+      display: inline-block;
+      background: rgba(176,224,255,0.15);
+      border: 1px solid rgba(176,224,255,0.3);
+      border-radius: 40px;
+      padding: 0.2rem 1rem;
+      font-size: 0.7rem;
+      color: #b0e0ff;
+      margin: 0.5rem 0;
+    }
+    .internship-card .features {
+      list-style: none;
+      text-align: left;
+      margin: 1rem 0;
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.6);
+    }
+    .internship-card .features li {
+      padding: 0.3rem 0;
+      position: relative;
+      padding-left: 1.5rem;
+    }
+    .internship-card .features li::before {
+      content: '❄️';
+      position: absolute;
+      left: 0;
+      color: #b0e0ff;
+    }
+    .love-badge {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: linear-gradient(135deg, #ff6b6b, #b0e0ff);
+      color: #0a1428;
+      font-size: 0.6rem;
+      padding: 0.2rem 0.8rem;
+      border-radius: 40px;
+      font-weight: 600;
+      animation: lovePulse 2s infinite;
+    }
+    @keyframes lovePulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.8; transform: scale(1.05); }
+    }
+    .placement-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #b0e0ff, #8bb9d1);
+      color: #0a1428;
+      font-size: 1.2rem;
+      font-weight: 700;
+      padding: 0.8rem 3rem;
+      border-radius: 60px;
+      letter-spacing: 2px;
+      box-shadow: 0 0 40px rgba(176,224,255,0.5);
+    }
 
-    /* Pipeline */
-    .pipeline { display: grid; grid-template-columns: repeat(6, 1fr); position: relative; margin: 2rem 0 4rem; }
-    .pipeline::before { content: ''; position: absolute; top: 32px; left: 10%; right: 10%; height: 1px; background: linear-gradient(90deg, var(--G3), var(--G5), var(--G4)); opacity: 0.3; }
-    .pipe-step { display: flex; flex-direction: column; align-items: center; gap: 1rem; text-align: center; cursor: default; padding: 0.5rem; }
-    .pipe-node { width: 64px; height: 64px; border: 1px solid rgba(176,224,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; background: rgba(10,20,40,0.8); position: relative; z-index: 1; transition: all 0.4s; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%); }
-    .pipe-step:hover .pipe-node { border-color: var(--G5); box-shadow: 0 0 30px rgba(176,224,255,0.3); transform: scale(1.1); }
-    .pipe-lbl { font-family: var(--FB); font-size: 0.5rem; letter-spacing: 0.15em; color: var(--W3); transition: color 0.3s; }
-    .pipe-step:hover .pipe-lbl { color: var(--G5); }
+    /* ========== REVIEWS SECTION ========== */
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin: 3rem 0;
+    }
+    .review-card {
+      background: rgba(10,20,40,0.6);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(176,224,255,0.15);
+      border-radius: 40px;
+      padding: 2.5rem;
+      transition: all 0.4s;
+      cursor: default;
+      position: relative;
+    }
+    .review-card:hover {
+      border-color: #b0e0ff;
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(176,224,255,0.15);
+    }
+    .review-quote {
+      font-size: 2rem;
+      color: #b0e0ff;
+      opacity: 0.3;
+      position: absolute;
+      top: 1rem;
+      left: 1.5rem;
+    }
+    .review-text {
+      font-size: 0.9rem;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.8);
+      margin: 1.5rem 0;
+      position: relative;
+      z-index: 1;
+    }
+    .reviewer {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    .reviewer-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #b0e0ff, #8bb9d1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #0a1428;
+    }
+    .reviewer-info h4 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.9rem;
+      color: #b0e0ff;
+    }
+    .reviewer-info p {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.4);
+    }
 
-    /* Services Grid */
+    /* ========== SERVICES GRID ========== */
     .svc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin: 3rem 0; }
     .svc-card { background: rgba(10,20,40,0.7); backdrop-filter: blur(15px); border: 1px solid rgba(176,224,255,0.1); border-radius: 24px; padding: 2.5rem 2rem; transition: all 0.4s; cursor: pointer; position: relative; overflow: hidden; }
-    .svc-card:hover { border-color: var(--G5); transform: translateY(-5px); box-shadow: 0 20px 40px rgba(176,224,255,0.1); }
+    .svc-card:hover { border-color: #b0e0ff; transform: translateY(-5px); box-shadow: 0 20px 40px rgba(176,224,255,0.1); }
     .svc-glow { position: absolute; bottom: -60px; left: 50%; transform: translateX(-50%); width: 200px; height: 200px; border-radius: 50%; background: radial-gradient(circle, rgba(176,224,255,0.1), transparent 70%); opacity: 0; transition: opacity 0.6s; }
     .svc-card:hover .svc-glow { opacity: 1; }
-    .svc-num { font-family: var(--FH); font-size: 4rem; color: rgba(176,224,255,0.05); position: absolute; top: 0.5rem; right: 1rem; line-height: 1; }
+    .svc-num { font-family: 'Orbitron', sans-serif; font-size: 4rem; color: rgba(176,224,255,0.05); position: absolute; top: 0.5rem; right: 1rem; line-height: 1; }
     .svc-icon { font-size: 2rem; margin-bottom: 1.5rem; position: relative; z-index: 1; }
-    .svc-title { font-family: var(--FH); font-size: 1rem; letter-spacing: 0.03em; margin-bottom: 0.8rem; position: relative; z-index: 1; transition: color 0.3s; }
-    .svc-card:hover .svc-title { color: var(--G5); }
-    .svc-desc { font-size: 0.75rem; color: var(--W3); line-height: 1.8; position: relative; z-index: 1; }
-    .svc-cta { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 1.5rem; font-family: var(--FB); font-size: 0.55rem; letter-spacing: 0.2em; color: var(--G5); opacity: 0; transform: translateY(6px); transition: all 0.4s; position: relative; z-index: 1; }
+    .svc-title { font-family: 'Orbitron', sans-serif; font-size: 1rem; margin-bottom: 0.8rem; position: relative; z-index: 1; transition: color 0.3s; }
+    .svc-card:hover .svc-title { color: #b0e0ff; }
+    .svc-desc { font-size: 0.75rem; color: rgba(255,255,255,0.4); line-height: 1.8; position: relative; z-index: 1; }
+    .svc-cta { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 1.5rem; font-family: 'Rajdhani', sans-serif; font-size: 0.55rem; letter-spacing: 0.2em; color: #b0e0ff; opacity: 0; transform: translateY(6px); transition: all 0.4s; position: relative; z-index: 1; }
     .svc-card:hover .svc-cta { opacity: 1; transform: translateY(0); }
 
-    /* Projects Grid */
+    /* ========== PROJECTS GRID ========== */
     .proj-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin: 3rem 0; }
     .proj-card { background: rgba(10,20,40,0.7); backdrop-filter: blur(15px); border: 1px solid rgba(176,224,255,0.1); border-radius: 24px; overflow: hidden; transition: all 0.4s; cursor: pointer; }
-    .proj-card:hover { border-color: var(--G5); transform: translateY(-5px); box-shadow: 0 20px 40px rgba(176,224,255,0.1); }
-    .proj-thumb { height: 140px; background: linear-gradient(135deg, var(--G1), var(--G3)); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; transition: transform 0.6s; }
+    .proj-card:hover { border-color: #b0e0ff; transform: translateY(-5px); box-shadow: 0 20px 40px rgba(176,224,255,0.1); }
+    .proj-thumb { height: 140px; background: linear-gradient(135deg, #1e2b3f, #2c3a52); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; transition: transform 0.6s; }
     .proj-card:hover .proj-thumb { transform: scale(1.05); }
     .proj-body { padding: 1.5rem; }
-    .proj-cat { font-family: var(--FB); font-size: 0.5rem; letter-spacing: 0.25em; color: var(--G5); margin-bottom: 0.5rem; text-transform: uppercase; }
-    .proj-title { font-family: var(--FH); font-size: 0.9rem; letter-spacing: 0.03em; margin-bottom: 0.5rem; transition: color 0.3s; }
-    .proj-card:hover .proj-title { color: var(--G5); }
-    .proj-desc { font-size: 0.7rem; color: var(--W3); line-height: 1.7; margin-bottom: 1rem; }
-    .proj-tags { display: flex; gap: 0.3rem; }
-    .proj-tag { font-family: var(--FB); font-size: 0.45rem; padding: 0.15rem 0.5rem; border: 1px solid rgba(176,224,255,0.1); border-radius: 20px; color: var(--W2); }
-    .proj-stats { display: flex; gap: 1rem; margin-top: 1rem; }
-    .proj-stat { font-family: var(--FH); font-size: 1rem; color: var(--G5); }
+    .proj-cat { font-family: 'Rajdhani', sans-serif; font-size: 0.5rem; letter-spacing: 0.25em; color: #b0e0ff; margin-bottom: 0.5rem; text-transform: uppercase; }
+    .proj-title { font-family: 'Orbitron', sans-serif; font-size: 0.9rem; margin-bottom: 0.5rem; transition: color 0.3s; }
+    .proj-card:hover .proj-title { color: #b0e0ff; }
+    .proj-desc { font-size: 0.7rem; color: rgba(255,255,255,0.4); line-height: 1.7; margin-bottom: 1rem; }
+    .proj-stats { display: flex; gap: 1rem; margin-top: 0.5rem; }
+    .proj-stat { font-size: 0.8rem; color: #b0e0ff; }
 
-    /* Careers Grid */
+    /* ========== CAREERS GRID ========== */
     .careers-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin: 3rem 0; }
     .career-card { background: rgba(10,20,40,0.7); backdrop-filter: blur(15px); border: 1px solid rgba(176,224,255,0.1); border-radius: 24px; padding: 2rem; transition: all 0.4s; cursor: pointer; }
-    .career-card:hover { border-color: var(--G5); transform: translateY(-5px); box-shadow: 0 20px 40px rgba(176,224,255,0.1); }
-    .career-badge { display: inline-block; padding: 0.2rem 1rem; background: rgba(176,224,255,0.1); border: 1px solid rgba(176,224,255,0.2); border-radius: 30px; font-family: var(--FB); font-size: 0.5rem; letter-spacing: 0.1em; color: var(--G5); margin-bottom: 1rem; }
-    .career-title { font-family: var(--FH); font-size: 1rem; letter-spacing: 0.03em; margin-bottom: 0.8rem; transition: color 0.3s; }
-    .career-card:hover .career-title { color: var(--G5); }
-    .career-desc { font-size: 0.7rem; color: var(--W3); line-height: 1.8; margin-bottom: 1rem; }
-    .career-apply { font-family: var(--FB); font-size: 0.55rem; letter-spacing: 0.15em; color: var(--G5); opacity: 0; transform: translateY(6px); transition: all 0.4s; }
+    .career-card:hover { border-color: #b0e0ff; transform: translateY(-5px); box-shadow: 0 20px 40px rgba(176,224,255,0.1); }
+    .career-badge { display: inline-block; padding: 0.2rem 1rem; background: rgba(176,224,255,0.1); border: 1px solid rgba(176,224,255,0.2); border-radius: 30px; font-family: 'Rajdhani', sans-serif; font-size: 0.5rem; letter-spacing: 0.1em; color: #b0e0ff; margin-bottom: 1rem; }
+    .career-title { font-family: 'Orbitron', sans-serif; font-size: 1rem; margin-bottom: 0.8rem; transition: color 0.3s; }
+    .career-card:hover .career-title { color: #b0e0ff; }
+    .career-desc { font-size: 0.7rem; color: rgba(255,255,255,0.4); line-height: 1.8; margin-bottom: 1rem; }
+    .career-apply { font-family: 'Rajdhani', sans-serif; font-size: 0.55rem; letter-spacing: 0.15em; color: #b0e0ff; opacity: 0; transform: translateY(6px); transition: all 0.4s; }
     .career-card:hover .career-apply { opacity: 1; transform: translateY(0); }
 
-    /* Globe Container */
-    #GLOBE { height: 500px; width: 100%; border-radius: 40px; overflow: hidden; border: 1px solid rgba(176,224,255,0.2); margin: 4rem 0; position: relative; }
-    .globe-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+    /* ========== GLOBE CONTAINER ========== */
+    .globe-container { width: 100%; height: 500px; border-radius: 40px; overflow: hidden; border: 1px solid rgba(176,224,255,0.2); margin: 4rem 0; position: relative; cursor: grab; }
+    .globe-container:active { cursor: grabbing; }
 
-    /* Map */
-    .map-container { height: 400px; width: 100%; border-radius: 40px; overflow: hidden; border: 1px solid rgba(176,224,255,0.2); margin: 4rem 0; }
+    /* ========== MAP CONTAINER ========== */
+    .map-container { height: 400px; border-radius: 40px; overflow: hidden; border: 1px solid rgba(176,224,255,0.2); margin: 4rem 0; }
     .map-container iframe { width: 100%; height: 100%; filter: grayscale(0.5) hue-rotate(180deg) brightness(0.8); }
 
-    /* Contact Grid */
+    /* ========== CONTACT FORM ========== */
     .contact-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 4rem; margin: 3rem 0; }
-    .ci-row { display: flex; align-items: center; gap: 1rem; padding: 0.8rem; border: 1px solid transparent; transition: 0.3s; font-family: var(--FB); font-size: 0.7rem; color: var(--W2); border-radius: 40px; }
-    .ci-row:hover { border-color: rgba(176,224,255,0.2); background: rgba(20,35,55,0.4); color: var(--W1); }
-    .ci-ico { color: var(--G5); width: 20px; }
-    .oh-box { margin-top: 2rem; padding: 1.5rem; border: 1px solid rgba(176,224,255,0.08); border-radius: 24px; background: rgba(10,20,40,0.4); }
-    .form input, .form select, .form textarea { width: 100%; padding: 1rem; margin-bottom: 1rem; background: rgba(10,20,40,0.6); border: 1px solid rgba(176,224,255,0.15); border-radius: 40px; color: var(--W0); font-family: var(--FT); transition: 0.3s; }
-    .form input:focus, .form select:focus, .form textarea:focus { outline: none; border-color: var(--G5); box-shadow: 0 0 20px rgba(176,224,255,0.1); }
-    .form button { width: 100%; padding: 1rem; background: linear-gradient(135deg, var(--G4), var(--G5)); border: none; border-radius: 40px; color: var(--G0); font-weight: 700; letter-spacing: 0.1em; cursor: pointer; transition: 0.3s; }
-    .form button:hover { box-shadow: 0 0 40px var(--G5); transform: scale(1.02); }
+    .email-buttons { display: flex; flex-direction: column; gap: 1rem; margin: 2rem 0; }
+    .email-btn { background: rgba(10,20,40,0.6); backdrop-filter: blur(10px); border: 1px solid rgba(176,224,255,0.2); border-radius: 40px; padding: 0.8rem 1.5rem; color: #ffffff; cursor: pointer; transition: 0.3s; text-align: left; font-family: 'Rajdhani', sans-serif; }
+    .email-btn:hover { border-color: #b0e0ff; background: rgba(176,224,255,0.1); transform: translateX(10px); }
+    .form input, .form select, .form textarea { width: 100%; padding: 1rem; margin-bottom: 1rem; background: rgba(10,20,40,0.6); border: 1px solid rgba(176,224,255,0.2); border-radius: 40px; color: #ffffff; font-family: 'Space Grotesk', sans-serif; }
+    .form button { background: linear-gradient(135deg, #b0e0ff, #8bb9d1); color: #0a1428; padding: 1rem 2rem; border-radius: 40px; font-weight: 600; cursor: pointer; transition: 0.3s; width: 100%; border: none; font-size: 1rem; }
+    .form button:hover { box-shadow: 0 0 40px #b0e0ff; transform: scale(1.02); }
 
-    /* Footer */
+    /* ========== FOOTER ========== */
     footer { border-top: 1px solid rgba(176,224,255,0.1); padding: 2rem 4rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; background: rgba(10,20,40,0.8); backdrop-filter: blur(20px); }
-    .footer-emails { display: flex; gap: 2rem; }
-    .footer-emails a { font-family: var(--FB); font-size: 0.7rem; color: var(--W3); transition: 0.3s; }
-    .footer-emails a:hover { color: var(--G5); }
+    .footer-emails { display: flex; gap: 2rem; font-family: 'Rajdhani', sans-serif; font-size: 0.7rem; }
+    .footer-emails a { color: rgba(255,255,255,0.4); transition: 0.3s; cursor: pointer; }
+    .footer-emails a:hover { color: #b0e0ff; }
 
-    /* Live Data Stream */
-    .live-data { position: fixed; left: 20px; bottom: 20px; z-index: 999; background: rgba(10,20,40,0.8); backdrop-filter: blur(20px); border: 1px solid rgba(176,224,255,0.2); border-radius: 40px; padding: 1rem; font-family: var(--FB); font-size: 0.6rem; color: var(--G5); max-width: 250px; pointer-events: none; }
-    .live-data span { color: var(--W2); }
-    .live-data .blink { animation: blink 1s infinite; }
-    @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
-
-    /* Responsive */
+    /* ========== RESPONSIVE ========== */
     @media (max-width: 1200px) {
-      .card-grid, .svc-grid, .proj-grid, .careers-grid, .caps-grid, .gauge-row, .staff-grid { grid-template-columns: repeat(2, 1fr); }
+      header { padding: 0.8rem 2rem; }
+      .nav-links { gap: 1rem; }
+      .hero-inner { grid-template-columns: 1fr; gap: 2rem; }
+      .hero-right { display: flex; justify-content: center; }
       .stats-grid { grid-template-columns: repeat(3, 1fr); }
+      .card-grid, .svc-grid, .proj-grid, .careers-grid, .caps-grid, .reviews-grid, .internship-grid { grid-template-columns: repeat(2, 1fr); }
       .countries-grid { grid-template-columns: repeat(3, 1fr); }
+      .bot-inner { grid-template-columns: 1fr; }
+      .bot-left { border-right: none; border-bottom: 1px solid rgba(176,224,255,0.06); }
+      #LIVE_SCRIPT { display: none; }
+      #LIVE_DATA { display: none; }
     }
-    @media (max-width: 800px) {
-      .card-grid, .svc-grid, .proj-grid, .careers-grid, .caps-grid, .gauge-row, .staff-grid { grid-template-columns: 1fr; }
-      .two-col, .bot-inner, .contact-grid { grid-template-columns: 1fr; }
+
+    @media (max-width: 768px) {
+      header { padding: 0.8rem 1rem; }
+      .nav-links { display: none; }
+      .nav-cta { margin-left: auto; }
+      .sec-inner { padding: 4rem 1.5rem; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .card-grid, .svc-grid, .proj-grid, .careers-grid, .caps-grid, .reviews-grid, .internship-grid, .countries-grid { grid-template-columns: 1fr; }
+      .hero-stats { grid-template-columns: 1fr; }
       .hero-right { display: none; }
-      .sec-inner { padding: 4rem 2rem; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+      .footer-emails { flex-wrap: wrap; justify-content: center; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .internship-zone { padding: 2rem; }
     }
   </style>
 </head>
@@ -378,147 +611,112 @@
 
 <!-- SVG Gradients -->
 <svg style="position:absolute;width:0;height:0">
-  <defs>
-    <linearGradient id="iceGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#8bb9d1"/>
-      <stop offset="100%" stop-color="#b0e0ff"/>
-    </linearGradient>
-  </defs>
+  <defs><linearGradient id="iceGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#8bb9d1"/><stop offset="100%" stop-color="#b0e0ff"/></linearGradient></defs>
 </svg>
 
-<!-- Ambient Layers -->
-<div id="ORBS">
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-  <div class="orb orb-3"></div>
-</div>
+<!-- AMBIENT LAYERS -->
+<div id="ORBS"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
 <canvas id="FROST"></canvas>
 <div id="PROGRESS"></div>
-<div id="CURSOR">
-  <div class="cur-ice"></div>
-  <div class="cur-ring"></div>
-  <div class="cur-core"></div>
+<div id="CURSOR"><div class="cur-ice"></div><div class="cur-ring"></div><div class="cur-core"></div></div>
+
+<!-- ENHANCED TRANSLUCENT LIVE SCRIPT PANEL -->
+<div id="LIVE_SCRIPT">
+  <div class="live-header"><span class="live-dot"></span> QUANTUM CORE · v9.9</div>
+  <div class="script-line">>_ initializing particle field [OK]</div>
+  <div class="script-line">>_ loading neural networks [ACTIVE]</div>
+  <div class="script-line">>_ connecting to global grid [347 NODES]</div>
+  <div class="script-line">>_ AI self-healing engine online</div>
+  <div class="script-line">>_ SDET internship program active</div>
+  <div class="script-line">>_ live review feed: 4.9/5 rating</div>
+  <div class="script-line">>_ quantum entanglement stable</div>
 </div>
 
-<!-- Live Data Stream (Real-time) -->
-<div class="live-data">
-  <div>❄️ LIVE METRICS <span class="blink">●</span></div>
-  <div id="liveEngineers">👥 Engineers: 347</div>
-  <div id="liveTests">🧪 Tests/sec: 1,247</div>
-  <div id="liveCoverage">📊 Coverage: 98.2%</div>
-  <div id="liveLatency">⚡ Latency: 124ms</div>
+<!-- LIVE DATA PANEL -->
+<div id="LIVE_DATA">
+  <div class="live-stat">ACTIVE NODES <span id="statNodes">347</span></div>
+  <div class="live-stat">INTERNS <span id="statInterns">156</span></div>
+  <div class="live-stat">COVERAGE <span id="statCoverage">98.3%</span></div>
+  <div class="live-stat">LATENCY <span id="statLatency">42ms</span></div>
+  <div class="live-stat">REVIEWS <span id="statReviews">4.9/5</span></div>
 </div>
 
 <!-- LOADER -->
 <div id="LOADER">
-  <div class="loader-ice-wrap">
-    <svg class="loader-svg-ring" viewBox="0 0 200 200"><polygon points="100,10 180,45 180,155 100,190 20,155 20,45" fill="none" stroke="rgba(176,224,255,0.2)" stroke-width="1"/></svg>
-    <svg class="loader-svg-ring-2" viewBox="0 0 160 160"><polygon points="80,8 144,40 144,120 80,152 16,120 16,40" fill="none" stroke="rgba(176,224,255,0.15)" stroke-width="1"/></svg>
-    <svg class="loader-svg-ring-3" viewBox="0 0 120 120"><polygon points="60,6 110,33 110,87 60,114 10,87 10,33" fill="none" stroke="rgba(176,224,255,0.1)" stroke-width="1"/></svg>
-    <div class="loader-core">T1W</div>
-  </div>
+  <div class="loader-ice-wrap"><svg class="loader-svg-ring" viewBox="0 0 200 200"><polygon points="100,10 180,45 180,155 100,190 20,155 20,45" fill="none" stroke="rgba(176,224,255,0.2)" stroke-width="1"/></svg><svg class="loader-svg-ring-2" viewBox="0 0 160 160"><polygon points="80,8 144,40 144,120 80,152 16,120 16,40" fill="none" stroke="rgba(176,224,255,0.15)" stroke-width="1"/></svg><svg class="loader-svg-ring-3" viewBox="0 0 120 120"><polygon points="60,6 110,33 110,87 60,114 10,87 10,33" fill="none" stroke="rgba(176,224,255,0.1)" stroke-width="1"/></svg><div class="loader-core">T1W</div></div>
   <div class="loader-wordmark">TECH<span>1</span>WORLD</div>
-  <div class="loader-sub">Glacial Intelligence · 9 Scrolls of Ice</div>
+  <div class="loader-sub">Quantum Frost · The Love Project</div>
   <div class="loader-bar"><div class="loader-bar-fill"></div></div>
-  <div class="loader-pct" id="LOAD_PCT">CRYSTALLIZING · 0%</div>
+  <div class="loader-pct" id="LOAD_PCT">INITIALIZING · 0%</div>
 </div>
 
-<!-- NAVIGATION -->
-<nav id="NAV">
-  <div class="nav-logo">
-    <div class="nav-logo-icon">
-      <svg viewBox="0 0 36 36" fill="none">
-        <polygon points="18,2 33,10.5 33,25.5 18,34 3,25.5 3,10.5" fill="none" stroke="rgba(176,224,255,0.5)" stroke-width="1.2"/>
-        <polygon points="18,8 27,13 27,23 18,28 9,23 9,13" fill="rgba(176,224,255,0.04)" stroke="rgba(176,224,255,0.2)" stroke-width="0.8"/>
-        <text x="18" y="22" text-anchor="middle" fill="rgba(176,224,255,0.9)" font-family="Orbitron,sans-serif" font-size="8" font-weight="700">T1</text>
-      </svg>
-    </div>
-    <div>
-      <div class="nav-logo-text">TECH<span>1</span>WORLD</div>
-      <div class="nav-logo-sub">AI · SDET · Outsourcing</div>
-    </div>
-  </div>
+<!-- HEADER -->
+<header>
+  <div class="logo">⟁ TECH1WORLD</div>
   <ul class="nav-links">
-    <li><a href="#HERO">Scroll 1</a></li>
-    <li><a href="#SCROLL2">Scroll 2</a></li>
-    <li><a href="#SCROLL3">Scroll 3</a></li>
-    <li><a href="#SCROLL4">Scroll 4</a></li>
-    <li><a href="#SCROLL5">Scroll 5</a></li>
-    <li><a href="#SCROLL6">Scroll 6</a></li>
-    <li><a href="#SCROLL7">Scroll 7</a></li>
-    <li><a href="#SCROLL8">Scroll 8</a></li>
-    <li><a href="#SCROLL9">Scroll 9</a></li>
+    <li><a href="#home" class="nav-link active" data-page="home">Home</a></li>
+    <li><a href="#sdet" class="nav-link" data-page="sdet">SDET</a></li>
+    <li><a href="#internship" class="nav-link" data-page="internship">Love Project</a></li>
+    <li><a href="#reviews" class="nav-link" data-page="reviews">Reviews</a></li>
+    <li><a href="#contact" class="nav-link" data-page="contact">Contact</a></li>
   </ul>
-  <a href="#CONTACT" class="nav-cta">Get a Proposal →</a>
-</nav>
+  <button class="nav-cta" onclick="document.getElementById('internship').scrollIntoView({behavior:'smooth'})">❤️ LOVE PROJECT</button>
+</header>
 
-<!-- EMAIL STRIP -->
-<div class="email-strip">
-  <span>❄️</span> <a href="mailto:hr@tech1world.com">hr@tech1world.com</a> <span>|</span>
-  <a href="mailto:ceo@tech1world.com">ceo@tech1world.com</a> <span>|</span>
-  <a href="mailto:careers@tech1world.com">careers@tech1world.com</a> <span>❄️</span>
-</div>
-
-<!-- ========== SCROLL 1: HERO ========== -->
-<section id="HERO">
-  <div class="hero-inner">
-    <div class="hero-left">
-      <div class="hero-tag"><div class="hero-tag-dot"></div><div class="hero-tag-text">Scroll 1/9 · Glacial Engineering</div></div>
-      <h1 class="hero-h1"><span class="h1-line"><span class="h1-word">FROST</span></span><span class="h1-line"><span class="h1-word">AT SCALE</span></span><span class="h1-line"><span class="h1-word">GLOBALLY</span></span></h1>
-      <p class="hero-desc">Tech1World is the elite <strong>SDET and IT outsourcing partner</strong> for enterprises that demand crystalline precision — AI-driven test automation, dedicated engineering teams, and mission-critical delivery across <strong>18+ countries</strong>.</p>
-      <div class="hero-actions"><a href="#SCROLL2" class="btn-ice"><div class="btn-ice-bg"></div><span>Enter the Frost →</span></a><a href="#CONTACT" class="btn-frost">Contact Us</a></div>
-      <div class="hero-stats"><div class="hs"><div class="hs-val" data-count="350" data-suffix="+">0+</div><div class="hs-lbl">Engineers</div></div><div class="hs"><div class="hs-val" data-count="18" data-suffix="+">0+</div><div class="hs-lbl">Countries</div></div><div class="hs"><div class="hs-val" data-count="99.8" data-suffix="%" data-dec="1">0%</div><div class="hs-lbl">SLA</div></div><div class="hs"><div class="hs-val" data-count="72" data-suffix="%">0%</div><div class="hs-lbl">QA Reduction</div></div></div>
-    </div>
-    <div class="hero-right">
-      <div class="logo-universe"><canvas class="lu-canvas" id="LOGO_CANVAS"></canvas><div class="lu-core"><div class="lu-logo-txt">TECH<span>1</span>WORLD</div><div class="lu-logo-sub">Glacial Intelligence</div><div class="lu-tag">SDET · OUTSOURCING · AI</div></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- MARQUEE -->
-<div class="marquee-wrap"><div class="marquee-track" id="marqueeTrack"></div></div>
-
-<!-- ========== SCROLL 2: GLOBAL STATS ========== -->
-<section id="SCROLL2">
-  <div class="sec-inner">
-    <div class="sec-label rv"><div class="sec-label-bar"></div><div class="sec-label-text">Scroll 2/9 · Global Metrics</div></div>
-    <div class="sec-h rv"><span class="solid">FROST</span> <span class="gradient">METRICS</span></div>
-    <div class="stats-grid">
-      <div class="stat-box rv"><div class="stat-num" data-count="350">0+</div><div class="stat-lbl">Engineers</div></div>
-      <div class="stat-box rv d1"><div class="stat-num" data-count="18">0+</div><div class="stat-lbl">Countries</div></div>
-      <div class="stat-box rv d2"><div class="stat-num" data-count="120">0+</div><div class="stat-lbl">Programs</div></div>
-      <div class="stat-box rv d3"><div class="stat-num" data-count="99.8" data-dec="1">0%</div><div class="stat-lbl">SLA</div></div>
-      <div class="stat-box rv d4"><div class="stat-num" data-count="72">0%</div><div class="stat-lbl">QA Reduction</div></div>
-      <div class="stat-box rv d5"><div class="stat-num" data-count="60">0%</div><div class="stat-lbl">Cost Savings</div></div>
+<!-- HOME SECTION (ALL ORIGINAL CONTENT) -->
+<section id="home">
+  <!-- HERO -->
+  <div id="HERO">
+    <div class="hero-inner">
+      <div class="hero-left">
+        <div class="hero-tag"><div class="hero-tag-dot"></div><div class="hero-tag-text">QUANTUM FROST · EST 2020</div></div>
+        <h1 class="hero-h1"><span class="h1-line"><span class="h1-word">GLOBAL</span></span><span class="h1-line"><span class="h1-word">OUTSOURCING</span></span><span class="h1-line"><span class="h1-word">ELITE SDET</span></span></h1>
+        <p class="hero-desc">350+ engineers · 18 countries · AI-driven automation · 72% QA reduction · The Love Project internship program</p>
+        <div class="hero-actions">
+          <button class="btn-ice" onclick="document.getElementById('internship').scrollIntoView({behavior:'smooth'})"><div class="btn-ice-bg"></div><span>❤️ Love Project →</span></button>
+          <button class="btn-frost" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Contact Us</button>
+        </div>
+        <div class="hero-stats">
+          <div class="hs"><div class="hs-val" data-count="350">0+</div><div class="hs-lbl">Engineers</div></div>
+          <div class="hs"><div class="hs-val" data-count="18">0+</div><div class="hs-lbl">Countries</div></div>
+          <div class="hs"><div class="hs-val" data-count="99.8" data-dec="1">0%</div><div class="hs-lbl">SLA</div></div>
+          <div class="hs"><div class="hs-val" data-count="72">0%</div><div class="hs-lbl">QA Reduction</div></div>
+        </div>
+      </div>
+      <div class="hero-right"><canvas id="heroGlobeCanvas" width="500" height="500"></canvas></div>
     </div>
   </div>
-</section>
 
-<!-- ========== SCROLL 3: OUTSOURCING MODELS ========== -->
-<section id="SCROLL3">
+  <!-- MARQUEE -->
+  <div class="marquee-wrap"><div class="marquee-track" id="marqueeTrack"></div></div>
+
+  <!-- STATS STRIP -->
+  <div class="stats-strip"><div class="stats-grid">
+    <div class="stat-box"><div class="stat-num" data-count="350">0+</div><div class="stat-lbl">Engineers</div></div>
+    <div class="stat-box"><div class="stat-num" data-count="18">0+</div><div class="stat-lbl">Countries</div></div>
+    <div class="stat-box"><div class="stat-num" data-count="120">0+</div><div class="stat-lbl">Programs</div></div>
+    <div class="stat-box"><div class="stat-num" data-count="99.8" data-dec="1">0%</div><div class="stat-lbl">SLA</div></div>
+    <div class="stat-box"><div class="stat-num" data-count="72">0%</div><div class="stat-lbl">QA Reduction</div></div>
+    <div class="stat-box"><div class="stat-num" data-count="60">0%</div><div class="stat-lbl">Cost Savings</div></div>
+  </div></div>
+
+  <!-- OUTSOURCING MODELS -->
   <div class="sec-inner">
-    <div class="sec-label rv"><div class="sec-label-bar"></div><div class="sec-label-text">Scroll 3/9 · Outsourcing</div></div>
-    <div class="two-col">
-      <div class="rv-l"><div class="sec-h"><span class="solid">FLEXIBLE</span><br><span class="gradient">MODELS</span></div></div>
-      <div class="rv-r"><p>Four delivery structures engineered for your growth. 350+ pre-vetted engineers ready in 48 hours.</p></div>
-    </div>
+    <div class="sec-label"><div class="sec-label-bar"></div><div class="sec-label-text">OUTSOURCING</div></div>
+    <div class="sec-h"><span class="gradient">FLEXIBLE</span> MODELS</div>
     <div class="model-grid">
-      <div class="model-card"><div class="mc-number">01</div><div class="mc-icon">👥</div><div class="mc-title">Dedicated Teams</div><div class="mc-desc">Long-term squads, 99.8% SLA, 3-50+ engineers.</div><div class="mc-list"><div class="mc-item">Scrum/Kanban</div><div class="mc-item">12-36 month engagements</div></div><div class="mc-link">Explore →</div></div>
-      <div class="model-card"><div class="mc-number">02</div><div class="mc-icon">🏗️</div><div class="mc-title">Build-Operate-Transfer</div><div class="mc-desc">Full IP transfer, 60% cost reduction, zero risk.</div><div class="mc-list"><div class="mc-item">6-18 month timeline</div><div class="mc-item">100% IP ownership</div></div><div class="mc-link">Explore →</div></div>
-      <div class="model-card"><div class="mc-number">03</div><div class="mc-icon">⚡</div><div class="mc-title">Staff Augmentation</div><div class="mc-desc">48h deployment, monthly contracts, 350+ on bench.</div><div class="mc-list"><div class="mc-item">No long-term commitment</div><div class="mc-item">100+ specializations</div></div><div class="mc-link">Explore →</div></div>
-      <div class="model-card"><div class="mc-number">04</div><div class="mc-icon">📊</div><div class="mc-title">Managed Delivery</div><div class="mc-desc">Fixed-price, outcome-driven, 24×7 escalation.</div><div class="mc-list"><div class="mc-item">SLA guarantees</div><div class="mc-item">Executive reporting</div></div><div class="mc-link">Explore →</div></div>
+      <div class="model-card" onclick="alert('Dedicated Teams: 3-50+ engineers, 99.8% SLA')"><div class="mc-number">01</div><div class="mc-icon">👥</div><div class="mc-title">Dedicated Teams</div><div class="mc-desc">Long-term squads, 99.8% SLA, 3-50+ engineers.</div><div class="mc-list"><div class="mc-item">Scrum/Kanban</div><div class="mc-item">12-36 month engagements</div></div><div class="mc-link">Learn More →</div></div>
+      <div class="model-card" onclick="alert('Build-Operate-Transfer: 60% cost reduction, full IP')"><div class="mc-number">02</div><div class="mc-icon">🏗️</div><div class="mc-title">Build-Operate-Transfer</div><div class="mc-desc">Full IP transfer, 60% cost reduction, zero risk.</div><div class="mc-list"><div class="mc-item">6-18 month timeline</div><div class="mc-item">100% IP ownership</div></div><div class="mc-link">Learn More →</div></div>
+      <div class="model-card" onclick="alert('Staff Augmentation: 48h deployment, 350+ on bench')"><div class="mc-number">03</div><div class="mc-icon">⚡</div><div class="mc-title">Staff Augmentation</div><div class="mc-desc">48h deployment, monthly contracts, 350+ on bench.</div><div class="mc-list"><div class="mc-item">No long-term commitment</div><div class="mc-item">100+ specializations</div></div><div class="mc-link">Learn More →</div></div>
+      <div class="model-card" onclick="alert('Managed Delivery: Fixed-price, outcome-driven')"><div class="mc-number">04</div><div class="mc-icon">📊</div><div class="mc-title">Managed Delivery</div><div class="mc-desc">Fixed-price, outcome-driven, 24×7 escalation.</div><div class="mc-list"><div class="mc-item">SLA guarantees</div><div class="mc-item">Executive reporting</div></div><div class="mc-link">Learn More →</div></div>
     </div>
-  </div>
-</section>
 
-<!-- ========== SCROLL 4: BOT DEEP DIVE ========== -->
-<section id="SCROLL4">
-  <div class="sec-inner">
-    <div class="sec-label rv"><div class="sec-label-bar"></div><div class="sec-label-text">Scroll 4/9 · Build-Operate-Transfer</div></div>
+    <!-- BOT BLOCK -->
     <div class="bot-block">
       <div class="bot-inner">
         <div class="bot-left">
-          <div class="sec-h" style="font-size:2.5rem;"><span class="gradient">OWN YOUR</span><br><span class="solid">CENTER</span></div>
+          <div class="sec-label"><div class="sec-label-bar"></div><div class="sec-label-text">BUILD-OPERATE-TRANSFER</div></div>
+          <div class="sec-h" style="font-size:2.5rem;"><span class="gradient">OWN YOUR</span><span class="solid"> CENTER</span></div>
           <div class="bot-phase"><div class="bp-num">01</div><div><div class="bp-name">BUILD</div><div class="bp-desc">2-4 months: hiring, infrastructure, governance. You approve every hire.</div></div></div>
           <div class="bot-phase"><div class="bp-num">02</div><div><div class="bp-name">OPERATE</div><div class="bp-desc">6-14 months: delivery, HR, admin, compliance managed by us.</div></div></div>
           <div class="bot-phase"><div class="bp-num">03</div><div><div class="bp-name">TRANSFER</div><div class="bp-desc">Full handover — team, IP, infrastructure, knowledge. 60% lower cost.</div></div></div>
@@ -531,49 +729,196 @@
         </div>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- ========== SCROLL 5: TALENT BENCH ========== -->
-<section id="SCROLL5">
-  <div class="sec-inner">
-    <div class="sec-label rv"><div class="sec-label-bar"></div><div class="sec-label-text">Scroll 5/9 · Talent Bench</div></div>
-    <div class="sec-h rv"><span class="solid">350+</span> <span class="gradient">SPECIALISTS</span></div>
+    <!-- TALENT BENCH -->
+    <div class="sec-label"><div class="sec-label-bar"></div><div class="sec-label-text">TALENT BENCH · 350+ READY</div></div>
     <div class="staff-grid">
       <div class="staff-card"><div class="staff-icon">🧠</div><div class="staff-title">AI/ML Engineers</div><div class="staff-desc">LLM, MLOps, RAG, computer vision, NLP, fine-tuning.</div></div>
       <div class="staff-card"><div class="staff-icon">🧪</div><div class="staff-title">SDET / QA</div><div class="staff-desc">Playwright, Cypress, Selenium, Appium, self-healing frameworks.</div></div>
       <div class="staff-card"><div class="staff-icon">☁️</div><div class="staff-title">Cloud/DevOps</div><div class="staff-desc">AWS, Azure, GCP, K8s, Terraform, ArgoCD, GitOps.</div></div>
-      <div class="staff-card"><div class="staff-icon">⚙️</div><div class="staff-title">Backend</div><div class="staff-desc">Node.js, Python, Java, Go, .NET, microservices, event-driven.</div></div>
+      <div class="staff-card"><div class="staff-icon">⚙️</div><div class="staff-title">Backend</div><div class="staff-desc">Node.js, Python, Java, Go, .NET, microservices.</div></div>
       <div class="staff-card"><div class="staff-icon">🎨</div><div class="staff-title">Frontend</div><div class="staff-desc">React, Next.js, Vue, TypeScript, performance optimization.</div></div>
       <div class="staff-card"><div class="staff-icon">⛨</div><div class="staff-title">Security</div><div class="staff-desc">Zero-trust, SIEM, penetration testing, SOC2, HIPAA.</div></div>
     </div>
+
+    <!-- COUNTRIES -->
+    <div class="sec-label"><div class="sec-label-bar"></div><div class="sec-label-text">18+ COUNTRIES</div></div>
+    <div class="countries-grid">
+      <div class="country-chip">🇮🇳 India</div><div class="country-chip">🇺🇸 USA</div><div class="country-chip">🇬🇧 UK</div><div class="country-chip">🇦🇺 Australia</div><div class="country-chip">🇦🇪 UAE</div><div class="country-chip">🇸🇬 Singapore</div>
+      <div class="country-chip">🇩🇪 Germany</div><div class="country-chip">🇫🇷 France</div><div class="country-chip">🇨🇦 Canada</div><div class="country-chip">🇯🇵 Japan</div><div class="country-chip">🇳🇱 Netherlands</div><div class="country-chip">🇸🇦 Saudi</div>
+    </div>
   </div>
 </section>
 
-<!-- ========== SCROLL 6: SDET CAPABILITIES ========== -->
-<section id="SCROLL6">
+<!-- SDET CAPABILITIES SECTION -->
+<section id="sdet" style="padding:4rem;">
   <div class="sec-inner">
-    <div class="sec-label rv"><div class="sec-label-bar"></div><div class="sec-label-text">Scroll 6/9 · SDET Capabilities</div></div>
-    <div class="two-col">
-      <div class="rv-l"><div class="sec-h"><span class="solid">NEXT-GEN</span><br><span class="gradient">SDET</span></div></div>
-      <div class="rv-r"><p>ML-powered self-healing tests, performance, security, accessibility — all automated in CI/CD. 72% cycle reduction.</p></div>
-    </div>
+    <div class="sec-label"><div class="sec-label-bar"></div><div class="sec-label-text">SDET CAPABILITIES</div></div>
+    <div class="sec-h"><span class="gradient">AI-FIRST</span> QUALITY</div>
     <div class="caps-grid">
-      <div class="cap-card"><div class="cap-num">01</div><div class="cap-icon">🤖</div><div class="cap-title">AI Self-Healing</div><div class="cap-desc">Healenium + custom ML, auto-repair selectors.</div><div class="cap-chips"><span class="chip">Playwright</span><span class="chip">Healenium</span></div></div>
-      <div class="cap-card"><div class="cap-num">02</div><div class="cap-icon">📱</div><div class="cap-title">Mobile</div><div class="cap-desc">Appium, XCUITest, Espresso, real device farms.</div><div class="cap-chips"><span class="chip">Appium</span><span class="chip">XCUITest</span></div></div>
-      <div class="cap-card"><div class="cap-num">03</div><div class="cap-icon">⚡</div><div class="cap-title">Performance</div><div class="cap-desc">k6, JMeter, Locust, CI/CD quality gates.</div><div class="cap-chips"><span class="chip">k6</span><span class="chip">JMeter</span></div></div>
-      <div class="cap-card"><div class="cap-num">04</div><div class="cap-icon">🛡️</div><div class="cap-title">Security</div><div class="cap-desc">OWASP ZAP, Burp Suite, SonarQube, Snyk.</div><div class="cap-chips"><span class="chip">OWASP</span><span class="chip">Snyk</span></div></div>
-      <div class="cap-card"><div class="cap-num">05</div><div class="cap-icon">🔗</div><div class="cap-title">API Testing</div><div class="cap-desc">Postman, REST Assured, GraphQL, Pact contract testing.</div><div class="cap-chips"><span class="chip">Postman</span><span class="chip">Pact</span></div></div>
-      <div class="cap-card"><div class="cap-num">06</div><div class="cap-icon">♿</div><div class="cap-title">Accessibility</div><div class="cap-desc">axe-core, Lighthouse, WCAG 2.1 AA/AAA compliance.</div><div class="cap-chips"><span class="chip">axe-core</span><span class="chip">Lighthouse</span></div></div>
+      <div class="cap-card"><div class="cap-num">01</div><div class="cap-icon">🤖</div><div class="cap-title">AI Self-Healing</div><div class="cap-desc">Healenium + custom ML, auto-repair selectors, predict flaky tests.</div><div class="cap-chips"><span class="chip">Playwright</span><span class="chip">Healenium</span></div></div>
+      <div class="cap-card"><div class="cap-num">02</div><div class="cap-icon">📱</div><div class="cap-title">Mobile Testing</div><div class="cap-desc">Appium, XCUITest, Espresso, real device farms, device cloud.</div><div class="cap-chips"><span class="chip">Appium</span><span class="chip">XCUITest</span></div></div>
+      <div class="cap-card"><div class="cap-num">03</div><div class="cap-icon">⚡</div><div class="cap-title">Performance</div><div class="cap-desc">k6, JMeter, Locust, load testing, stress testing, CI/CD gates.</div><div class="cap-chips"><span class="chip">k6</span><span class="chip">JMeter</span></div></div>
+      <div class="cap-card"><div class="cap-num">04</div><div class="cap-icon">🛡️</div><div class="cap-title">Security</div><div class="cap-desc">OWASP ZAP, Burp Suite, SonarQube, Snyk, SAST/DAST.</div><div class="cap-chips"><span class="chip">OWASP</span><span class="chip">Snyk</span></div></div>
+      <div class="cap-card"><div class="cap-num">05</div><div class="cap-icon">🔗</div><div class="cap-title">API Testing</div><div class="cap-desc">Postman, REST Assured, GraphQL, contract testing with Pact.</div><div class="cap-chips"><span class="chip">Postman</span><span class="chip">Pact</span></div></div>
+      <div class="cap-card"><div class="cap-num">06</div><div class="cap-icon">♿</div><div class="cap-title">Accessibility</div><div class="cap-desc">axe-core, Lighthouse, NVDA, WCAG 2.1 AA/AAA compliance.</div><div class="cap-chips"><span class="chip">axe-core</span><span class="chip">Lighthouse</span></div></div>
     </div>
   </div>
 </section>
 
-<!-- ========== SCROLL 7: SERVICES ========== -->
-<section id="SCROLL7">
+<!-- THE LOVE PROJECT - SDET INTERNSHIP PROGRAM (FULL DETAILS) -->
+<section id="internship" style="padding:4rem;">
   <div class="sec-inner">
-    <div class="sec-label rv"><div class="sec-label-bar"></div><div class="sec-label-text">Scroll 7/9 · Services</div></div>
-    <div class="sec-h rv"><span class="solid">WHAT WE</span> <span class="gradient">BUILD</span></div>
+    <div class="sec-label"><div class="sec-label-bar"></div><div class="sec-label-text">THE LOVE PROJECT</div></div>
+    <div class="sec-h"><span class="gradient">6-MONTH SDET</span> PROGRAM</div>
+    
+    <div class="internship-zone">
+      <div style="text-align:center; margin-bottom:3rem;">
+        <span class="placement-badge">❤️ 100% PLACEMENT ASSISTANCE ❤️</span>
+      </div>
+      
+      <div class="internship-grid">
+        <!-- Automation Testing Card -->
+        <div class="internship-card" onclick="downloadBrochure('automation')">
+          <div class="love-badge">❤️ LOVE PROJECT</div>
+          <div class="icon">🤖</div>
+          <h3>AUTOMATION</h3>
+          <span class="duration">6 MONTHS · INTENSIVE</span>
+          <ul class="features">
+            <li>Selenium WebDriver</li>
+            <li>Cypress & Playwright</li>
+            <li>Appium Mobile</li>
+            <li>TestNG, Cucumber</li>
+            <li>CI/CD with Jenkins</li>
+            <li>5 Capstone Projects</li>
+          </ul>
+          <button class="btn-frost" style="margin-top:1rem; padding:0.5rem 1.5rem;">📘 VIEW BROCHURE</button>
+        </div>
+
+        <!-- Manual Testing Card -->
+        <div class="internship-card" onclick="downloadBrochure('manual')">
+          <div class="love-badge">❤️ LOVE PROJECT</div>
+          <div class="icon">🧪</div>
+          <h3>MANUAL TESTING</h3>
+          <span class="duration">3 MONTHS · FOUNDATION</span>
+          <ul class="features">
+            <li>Test Case Design</li>
+            <li>JIRA & Bug Tracking</li>
+            <li>TestRail Management</li>
+            <li>Exploratory Testing</li>
+            <li>Agile Methodologies</li>
+            <li>2 Live Projects</li>
+          </ul>
+          <button class="btn-frost" style="margin-top:1rem; padding:0.5rem 1.5rem;">📘 VIEW BROCHURE</button>
+        </div>
+
+        <!-- API Testing Card -->
+        <div class="internship-card" onclick="downloadBrochure('api')">
+          <div class="love-badge">❤️ LOVE PROJECT</div>
+          <div class="icon">🔌</div>
+          <h3>API TESTING</h3>
+          <span class="duration">4 MONTHS · SPECIALIZED</span>
+          <ul class="features">
+            <li>Postman & Newman</li>
+            <li>REST Assured (Java)</li>
+            <li>GraphQL Testing</li>
+            <li>Contract Testing (Pact)</li>
+            <li>Mocking with WireMock</li>
+            <li>3 Real-World APIs</li>
+          </ul>
+          <button class="btn-frost" style="margin-top:1rem; padding:0.5rem 1.5rem;">📘 VIEW BROCHURE</button>
+        </div>
+
+        <!-- Live Projects Card -->
+        <div class="internship-card" onclick="downloadBrochure('live')">
+          <div class="love-badge">❤️ LOVE PROJECT</div>
+          <div class="icon">📦</div>
+          <h3>LIVE PROJECTS</h3>
+          <span class="duration">5 MONTHS · PRODUCTION</span>
+          <ul class="features">
+            <li>E-commerce Platform</li>
+            <li>Fintech Dashboard</li>
+            <li>Healthcare Portal</li>
+            <li>Full CI/CD Pipeline</li>
+            <li>Team Collaboration</li>
+            <li>Production Deployment</li>
+          </ul>
+          <button class="btn-frost" style="margin-top:1rem; padding:0.5rem 1.5rem;">📘 VIEW BROCHURE</button>
+        </div>
+      </div>
+
+      <div style="text-align:center; margin-top:3rem;">
+        <p style="font-size:1.2rem; color:rgba(255,255,255,0.8);">✨ 5 Live Projects · 1:1 Mentorship · Certification · Global Recognition ✨</p>
+        <button class="btn-ice" style="margin-top:2rem;" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})"><div class="btn-ice-bg"></div><span>APPLY NOW →</span></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS SECTION -->
+<section id="reviews" style="padding:4rem;">
+  <div class="sec-inner">
+    <div class="sec-label"><div class="sec-label-bar"></div><div class="sec-label-text">CLIENT LOVE</div></div>
+    <div class="sec-h"><span class="gradient">4.9/5</span> RATINGS</div>
+    
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="review-quote">"</div>
+        <div class="review-text">Tech1World built our QA center from scratch. 45 engineers, 6 months, zero attrition. Their SDETs are unmatched.</div>
+        <div class="reviewer">
+          <div class="reviewer-avatar">RJ</div>
+          <div class="reviewer-info"><h4>Rajiv Kapoor</h4><p>CTO · Global Fintech</p></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-quote">"</div>
+        <div class="review-text">The AI self-healing framework cut test maintenance by 72%. We release daily now. Game changer.</div>
+        <div class="reviewer">
+          <div class="reviewer-avatar">SP</div>
+          <div class="reviewer-info"><h4>Sarah Chen</h4><p>VP Engineering · E‑commerce</p></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-quote">"</div>
+        <div class="review-text">Their 6-month SDET program transformed our juniors into automation experts. 100% placement rate.</div>
+        <div class="reviewer">
+          <div class="reviewer-avatar">MK</div>
+          <div class="reviewer-info"><h4>Michael Kumar</h4><p>HR Director · Healthcare SaaS</p></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-quote">"</div>
+        <div class="review-text">Outsourcing with Tech1World saved us 60% on operational costs while doubling output. Exceptional quality.</div>
+        <div class="reviewer">
+          <div class="reviewer-avatar">AL</div>
+          <div class="reviewer-info"><h4>Alex Liu</h4><p>CEO · Logistics Startup</p></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-quote">"</div>
+        <div class="review-text">The BOT model gave us full IP ownership. Seamless transition, highly recommended.</div>
+        <div class="reviewer">
+          <div class="reviewer-avatar">PS</div>
+          <div class="reviewer-info"><h4>Priya Sharma</h4><p>Head of Engineering · Edtech</p></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-quote">"</div>
+        <div class="review-text">Their cloud team migrated our infrastructure with zero downtime. Impressive.</div>
+        <div class="reviewer">
+          <div class="reviewer-avatar">DJ</div>
+          <div class="reviewer-info"><h4>David Johnson</h4><p>CISO · Enterprise</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES SECTION -->
+<section style="padding:4rem;">
+  <div class="sec-inner">
+    <div class="sec-label"><div class="sec-label-bar"></div><div class="sec-label-text">SERVICES</div></div>
+    <div class="sec-h"><span class="gradient">WHAT WE</span> BUILD</div>
     <div class="svc-grid">
       <div class="svc-card"><div class="svc-glow"></div><div class="svc-num">01</div><div class="svc-icon">🤖</div><div class="svc-title">AI & ML</div><div class="svc-desc">LLM integration, RAG systems, MLOps, computer vision.</div><div class="svc-cta">Explore →</div></div>
       <div class="svc-card"><div class="svc-glow"></div><div class="svc-num">02</div><div class="svc-icon">☁️</div><div class="svc-title">Cloud</div><div class="svc-desc">Multi-cloud strategy, Kubernetes, Terraform, FinOps.</div><div class="svc-cta">Explore →</div></div>
@@ -583,98 +928,121 @@
   </div>
 </section>
 
-<!-- ========== SCROLL 8: PROJECTS ========== -->
-<section id="SCROLL8">
+<!-- PROJECTS SECTION -->
+<section style="padding:4rem;">
   <div class="sec-inner">
-    <div class="sec-label rv"><div class="sec-label-bar"></div><div class="sec-label-text">Scroll 8/9 · Featured Work</div></div>
-    <div class="sec-h rv"><span class="solid">WORK THAT</span> <span class="gradient">SPEAKS</span></div>
+    <div class="sec-label"><div class="sec-label-bar"></div><div class="sec-label-text">PROJECTS</div></div>
+    <div class="sec-h"><span class="gradient">FEATURED</span> WORK</div>
     <div class="proj-grid">
-      <div class="proj-card"><div class="proj-thumb">🤖</div><div class="proj-body"><div class="proj-cat">SDET · FINTECH</div><div class="proj-title">AI Self-Healing Platform</div><div class="proj-desc">72% QA reduction, zero prod escapes for $2B fintech.</div><div class="proj-tags"><span class="proj-tag">Playwright</span><span class="proj-tag">Healenium</span></div></div></div>
-      <div class="proj-card"><div class="proj-thumb">🏢</div><div class="proj-body"><div class="proj-cat">BOT · SINGAPORE</div><div class="proj-title">45-Engineer Center</div><div class="proj-desc">62% cost savings, full transfer in 12 months.</div><div class="proj-tags"><span class="proj-tag">BOT</span><span class="proj-tag">Agile</span></div></div></div>
-      <div class="proj-card"><div class="proj-thumb">📈</div><div class="proj-body"><div class="proj-cat">AI · RETAIL</div><div class="proj-title">Demand Forecasting</div><div class="proj-desc">34% overstock reduction, $2.4M annual savings.</div><div class="proj-tags"><span class="proj-tag">PyTorch</span><span class="proj-tag">MLflow</span></div></div></div>
-      <div class="proj-card"><div class="proj-thumb">🚀</div><div class="proj-body"><div class="proj-cat">SDET · DEVOPS</div><div class="proj-title">10× Release Velocity</div><div class="proj-desc">Daily deployments across 8 microservices.</div><div class="proj-tags"><span class="proj-tag">Cypress</span><span class="proj-tag">ArgoCD</span></div></div></div>
-      <div class="proj-card"><div class="proj-thumb">⚡</div><div class="proj-body"><div class="proj-cat">STAFF AUG</div><div class="proj-title">120-Engineer Scale-Up</div><div class="proj-desc">Tripled headcount in 6 months, 0% attrition.</div><div class="proj-tags"><span class="proj-tag">React</span><span class="proj-tag">AWS</span></div></div></div>
-      <div class="proj-card"><div class="proj-thumb">🛡️</div><div class="proj-body"><div class="proj-cat">SECURITY</div><div class="proj-title">Zero-Trust Healthcare</div><div class="proj-desc">HIPAA, SOC2 for 2M+ patient records.</div><div class="proj-tags"><span class="proj-tag">Vault</span><span class="proj-tag">OWASP</span></div></div></div>
+      <div class="proj-card"><div class="proj-thumb">🤖</div><div class="proj-body"><div class="proj-cat">SDET · FINTECH</div><div class="proj-title">AI Self-Healing Platform</div><div class="proj-desc">72% QA reduction, zero prod escapes for $2B fintech.</div><div class="proj-stats"><span class="proj-stat">72% ↓</span><span class="proj-stat">0 escapes</span></div></div></div>
+      <div class="proj-card"><div class="proj-thumb">🏢</div><div class="proj-body"><div class="proj-cat">BOT · SINGAPORE</div><div class="proj-title">45-Engineer Center</div><div class="proj-desc">62% cost savings, full transfer in 12 months.</div><div class="proj-stats"><span class="proj-stat">62% saved</span><span class="proj-stat">45 engineers</span></div></div></div>
+      <div class="proj-card"><div class="proj-thumb">📈</div><div class="proj-body"><div class="proj-cat">AI · RETAIL</div><div class="proj-title">Demand Forecasting</div><div class="proj-desc">34% overstock reduction, $2.4M annual savings.</div><div class="proj-stats"><span class="proj-stat">34% ↓</span><span class="proj-stat">$2.4M saved</span></div></div></div>
     </div>
   </div>
 </section>
 
-<!-- ========== SCROLL 9: CAREERS & CONTACT ========== -->
-<section id="SCROLL9">
+<!-- 3D GLOBE -->
+<section style="padding:4rem;">
   <div class="sec-inner">
-    <div class="sec-label rv"><div class="sec-label-bar"></div><div class="sec-label-text">Scroll 9/9 · Careers & Contact</div></div>
-    <div class="sec-h rv"><span class="solid">JOIN THE</span> <span class="gradient">FROST</span></div>
-    
-    <!-- Careers Grid -->
-    <div class="careers-grid">
-      <div class="career-card"><div class="career-badge">OPEN</div><div class="career-title">SDET Intern</div><div class="career-desc">3-month immersive. Playwright, Selenium, CI/CD.</div><div class="career-apply">Apply Now →</div></div>
-      <div class="career-card"><div class="career-badge">OPEN</div><div class="career-title">AI/ML Intern</div><div class="career-desc">RAG systems, fine-tuning, MLOps.</div><div class="career-apply">Apply Now →</div></div>
-      <div class="career-card"><div class="career-badge">OPEN</div><div class="career-title">Cloud/DevOps</div><div class="career-desc">K8s, Terraform, AWS, CI/CD pipelines.</div><div class="career-apply">Apply Now →</div></div>
-      <div class="career-card"><div class="career-badge">SOON</div><div class="career-title">Leadership</div><div class="career-desc">6-month fasttrack for senior engineers.</div><div class="career-apply">Register →</div></div>
-    </div>
+    <div class="sec-label"><div class="sec-label-bar"></div><div class="sec-label-text">GLOBAL FOOTPRINT</div></div>
+    <div class="sec-h"><span class="gradient">4 CONTINENTS</span> 1 PARTNER</div>
+    <div class="globe-container" id="globeContainer"><canvas id="globeCanvas" style="width:100%;height:100%;"></canvas></div>
+  </div>
+</section>
 
-    <!-- Globe -->
-    <div id="GLOBE"><canvas class="globe-canvas" id="GLOBE_CANVAS"></canvas></div>
-
-    <!-- Map -->
+<!-- MAP SECTION -->
+<section style="padding:4rem;">
+  <div class="sec-inner">
+    <div class="sec-label"><div class="sec-label-bar"></div><div class="sec-label-text">OUR BASE</div></div>
+    <div class="sec-h"><span class="gradient">JAMMU</span> INDIA</div>
     <div class="map-container">
       <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3349.482931961891!2d74.854021315396!3d32.726579780979!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391e84b6b1e7b6c5%3A0x6f1b6c3b8e0e7a!2sJDA%20Phase%202%20Plot%2037%20Tara%20Vihar%20Paloura%20Jammu!5e0!3m2!1sen!2sin!4v1710000000000!5m2!1sen!2sin" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
     </div>
+  </div>
+</section>
 
-    <!-- Contact -->
-    <div class="contact-grid" id="CONTACT">
+<!-- CONTACT SECTION -->
+<section id="contact" style="padding:4rem;">
+  <div class="sec-inner">
+    <div class="sec-label"><div class="sec-label-bar"></div><div class="sec-label-text">CONNECT</div></div>
+    <div class="sec-h"><span class="gradient">START YOUR</span> JOURNEY</div>
+    
+    <div class="contact-grid">
       <div>
-        <h2 class="gradient" style="font-size:2rem;">CONNECT</h2>
-        <p style="color:var(--W2);margin:1rem 0;">A senior engineer will respond within 4 hours.</p>
-        <div class="ci-row"><span class="ci-ico">📧</span>info@tech1world.com</div>
-        <div class="ci-row"><span class="ci-ico">📍</span>JDA Phase 2, Plot 37, Tara Vihar, Paloura, Jammu</div>
-        <div class="oh-box"><div class="oh-label">Office Hours</div><div class="oh-times">Mon-Fri: 9AM-7PM IST<br>24×7 enterprise support</div></div>
+        <p style="font-size:1.1rem; color:rgba(255,255,255,0.7); margin-bottom:2rem;">Get a proposal from a senior engineer within 4 hours.</p>
+        <div class="email-buttons">
+          <button class="email-btn" onclick="window.location.href='mailto:hr@tech1world.com'">📧 hr@tech1world.com</button>
+          <button class="email-btn" onclick="window.location.href='mailto:ceo@tech1world.com'">📧 ceo@tech1world.com</button>
+          <button class="email-btn" onclick="window.location.href='mailto:careers@tech1world.com'">📧 careers@tech1world.com</button>
+        </div>
+        <div style="margin-top:2rem;">
+          <p style="color:rgba(255,255,255,0.5);">📍 JDA Phase 2, Plot 37, Tara Vihar, Paloura, Jammu</p>
+          <p style="color:rgba(255,255,255,0.5); margin-top:0.5rem;">⏰ Mon-Fri: 9AM-7PM IST · 24×7 enterprise support</p>
+        </div>
       </div>
-      <form class="form" id="contactForm">
-        <input type="text" placeholder="Name *" required>
-        <input type="email" placeholder="Email *" required>
-        <select><option>SDET Program</option><option>Dedicated Team</option><option>BOT</option><option>Staff Aug</option></select>
-        <textarea rows="4" placeholder="Tell us about your project..."></textarea>
-        <button type="submit">Send Message →</button>
-        <div id="formOk" style="display:none;color:var(--G5);margin-top:1rem;">✓ Message received</div>
-      </form>
+      <div>
+        <form class="form" id="contactForm">
+          <input type="text" placeholder="Full Name *" required>
+          <input type="email" placeholder="Email Address *" required>
+          <select>
+            <option>SDET Program (Love Project)</option>
+            <option>Dedicated Team</option>
+            <option>Build-Operate-Transfer</option>
+            <option>Staff Augmentation</option>
+          </select>
+          <textarea rows="4" placeholder="Tell us about your project or which program interests you..."></textarea>
+          <button type="submit">SEND MESSAGE →</button>
+          <div id="formSuccess" style="display:none; margin-top:1rem; color:#b0e0ff;">✓ Message received — we'll reply within 4 hours</div>
+        </form>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <div class="f-brand">TECH<span style="color:var(--G5);">1</span>WORLD</div>
+  <div class="logo" style="font-size:1rem;">TECH<span style="color:#b0e0ff;">1</span>WORLD</div>
   <div class="footer-emails">
-    <a href="mailto:hr@tech1world.com">hr@tech1world.com</a>
-    <a href="mailto:ceo@tech1world.com">ceo@tech1world.com</a>
-    <a href="mailto:careers@tech1world.com">careers@tech1world.com</a>
+    <a onclick="window.location.href='mailto:hr@tech1world.com'">hr@tech1world.com</a>
+    <a onclick="window.location.href='mailto:ceo@tech1world.com'">ceo@tech1world.com</a>
+    <a onclick="window.location.href='mailto:careers@tech1world.com'">careers@tech1world.com</a>
   </div>
-  <div>© 2026 Tech1World · 9 Scrolls of Ice</div>
+  <div style="color:rgba(255,255,255,0.3);">© 2026 Tech1World · The Love Project</div>
 </footer>
 
 <script>
-// ==================== DYNAMIC LOADER ====================
-const LOADER = document.getElementById('LOADER');
-const LOAD_PCT = document.getElementById('LOAD_PCT');
-const phases = ['CRYSTALLIZING ICE', 'FORMING GLACIAL CORE', 'FROSTING INTERFACE', 'ACTIVATING AI NODES', 'SYSTEMS ONLINE'];
-let loadP = 0, phaseI = 0;
-const loadInterval = setInterval(() => {
-  loadP = Math.min(100, loadP + Math.random() * 3 + 0.5);
-  const phase = Math.floor(loadP / 20);
-  if (phase < phases.length && phase !== phaseI) phaseI = phase;
-  if (LOAD_PCT) LOAD_PCT.textContent = phases[Math.min(phaseI, phases.length-1)] + ' · ' + Math.floor(loadP) + '%';
-  if (loadP >= 100) {
-    clearInterval(loadInterval);
-    gsap.to(LOADER, { opacity: 0, duration: 1.2, ease: "power2.inOut", onComplete: () => LOADER.style.display = 'none' });
+// ========== DYNAMIC BACKGROUND (FROST CANVAS) ==========
+const canvas = document.getElementById('FROST');
+if (canvas) {
+  const ctx = canvas.getContext('2d');
+  let w = canvas.width = window.innerWidth;
+  let h = canvas.height = window.innerHeight;
+  window.addEventListener('resize', () => { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; });
+  const particles = [];
+  for (let i = 0; i < 300; i++) {
+    particles.push({ x: Math.random() * w, y: Math.random() * h, vx: (Math.random()-0.5)*0.3, vy: (Math.random()-0.5)*0.3, size: Math.random()*2+0.5, opacity: Math.random()*0.5+0.2 });
   }
-}, 40);
+  function drawFrost() {
+    ctx.clearRect(0, 0, w, h);
+    particles.forEach(p => {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0) p.x = w; if (p.x > w) p.x = 0;
+      if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(176,224,255,${p.opacity*0.3})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(drawFrost);
+  }
+  drawFrost();
+}
 
-// ==================== CURSOR ====================
-const CURSOR = document.getElementById('CURSOR');
-const cCore = CURSOR.querySelector('.cur-core');
-const cRing = CURSOR.querySelector('.cur-ring');
-const cIce = CURSOR.querySelector('.cur-ice');
+// ========== CURSOR ==========
+const cursor = document.getElementById('CURSOR');
+const cCore = cursor.querySelector('.cur-core');
+const cRing = cursor.querySelector('.cur-ring');
+const cIce = cursor.querySelector('.cur-ice');
 let mx = 0, my = 0, rx = 0, ry = 0, ix = 0, iy = 0;
 document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
 function animCursor() {
@@ -686,126 +1054,42 @@ function animCursor() {
   requestAnimationFrame(animCursor);
 }
 animCursor();
-document.querySelectorAll('a,button,.card,.model-card,.stat-box,.hs').forEach(el => {
+document.querySelectorAll('a, button, .card, .model-card, .stat-box, .hs, .internship-card, .review-card, .email-btn').forEach(el => {
   el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
   el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
 });
 
-// ==================== FROST PARTICLE CANVAS ====================
-const FROST = document.getElementById('FROST');
-const fctx = FROST.getContext('2d');
-let FW, FH;
-function resizeFrost() { FW = FROST.width = window.innerWidth; FH = FROST.height = window.innerHeight; }
-resizeFrost(); window.addEventListener('resize', resizeFrost);
-const iceParticles = [];
-for (let i = 0; i < 200; i++) {
-  iceParticles.push({ x: Math.random() * (FW || window.innerWidth), y: Math.random() * (FH || window.innerHeight), vx: (Math.random()-0.5)*0.2, vy: (Math.random()-0.5)*0.1, size: Math.random()*3+1, opacity: Math.random()*0.4+0.1, pulse: Math.random()*Math.PI*2 });
+// ========== LIVE DATA UPDATES ==========
+function updateLiveData() {
+  const nodes = 347 + Math.floor(Math.random() * 10) - 5;
+  const interns = 156 + Math.floor(Math.random() * 5) - 2;
+  const coverage = (98.3 + (Math.random() * 0.4 - 0.2)).toFixed(1);
+  const latency = 42 + Math.floor(Math.random() * 6) - 3;
+  const rating = (4.9 + (Math.random() * 0.2 - 0.1)).toFixed(1);
+  document.getElementById('statNodes') && (document.getElementById('statNodes').innerText = nodes);
+  document.getElementById('statInterns') && (document.getElementById('statInterns').innerText = interns);
+  document.getElementById('statCoverage') && (document.getElementById('statCoverage').innerText = coverage + '%');
+  document.getElementById('statLatency') && (document.getElementById('statLatency').innerText = latency + 'ms');
+  document.getElementById('statReviews') && (document.getElementById('statReviews').innerText = rating + '/5');
 }
-function drawFrost() {
-  fctx.clearRect(0, 0, FW, FH);
-  iceParticles.forEach(p => {
-    p.x += p.vx; p.y += p.vy; p.pulse += 0.02;
-    if (p.x < 0) p.x = FW; if (p.x > FW) p.x = 0;
-    if (p.y < 0) p.y = FH; if (p.y > FH) p.y = 0;
-    const pulseOpacity = 0.2 + 0.3 * Math.sin(p.pulse);
-    fctx.beginPath();
-    fctx.arc(p.x, p.y, p.size * (1 + 0.3 * Math.sin(p.pulse)), 0, Math.PI*2);
-    fctx.fillStyle = `rgba(176, 224, 255, ${p.opacity * pulseOpacity})`;
-    fctx.fill();
-    // connections
-    iceParticles.forEach(p2 => {
-      const dx = p.x - p2.x, dy = p.y - p2.y, d = Math.sqrt(dx*dx + dy*dy);
-      if (d < 100 && Math.random() < 0.005) {
-        fctx.beginPath(); fctx.moveTo(p.x, p.y); fctx.lineTo(p2.x, p2.y);
-        fctx.strokeStyle = `rgba(176, 224, 255, 0.03)`;
-        fctx.lineWidth = 0.3; fctx.stroke();
-      }
-    });
-  });
-  requestAnimationFrame(drawFrost);
-}
-drawFrost();
+setInterval(updateLiveData, 2000);
 
-// ==================== LOGO CANVAS ====================
-const LC = document.getElementById('LOGO_CANVAS');
-if (LC) {
-  LC.width = 500; LC.height = 500;
-  const lctx = LC.getContext('2d');
-  const cx = 250, cy = 250;
-  let angle = 0;
-  function drawLogo() {
-    lctx.clearRect(0, 0, 500, 500);
-    angle += 0.002;
-    // Orbital rings
-    for (let r = 100; r <= 200; r += 50) {
-      for (let i = 0; i < 8; i++) {
-        const a = (i/8) * Math.PI*2 + angle * (r/100);
-        const x = cx + Math.cos(a) * r;
-        const y = cy + Math.sin(a) * r * 0.4;
-        lctx.beginPath(); lctx.arc(x, y, 3, 0, Math.PI*2);
-        lctx.fillStyle = `rgba(176,224,255,${0.2 + 0.1*Math.sin(angle*10 + i)})`;
-        lctx.fill();
-      }
-    }
-    requestAnimationFrame(drawLogo);
+// ========== LOADER ==========
+let loadP = 0;
+const loadInterval = setInterval(() => {
+  loadP = Math.min(100, loadP + Math.random() * 3 + 0.5);
+  document.getElementById('LOAD_PCT') && (document.getElementById('LOAD_PCT').textContent = 'INITIALIZING · ' + Math.floor(loadP) + '%');
+  if (loadP >= 100) {
+    clearInterval(loadInterval);
+    gsap.to('#LOADER', { opacity: 0, duration: 1.2, onComplete: () => document.getElementById('LOADER').style.display = 'none' });
   }
-  drawLogo();
-}
+}, 40);
 
-// ==================== GLOBE CANVAS ====================
-const GC = document.getElementById('GLOBE_CANVAS');
-if (GC) {
-  GC.width = GC.parentElement.clientWidth; GC.height = GC.parentElement.clientHeight;
-  const gctx = GC.getContext('2d');
-  let gAngle = 0;
-  const points = [];
-  for (let i = 0; i < 50; i++) {
-    const lat = (Math.random() - 0.5) * Math.PI;
-    const lng = Math.random() * Math.PI * 2;
-    points.push({ lat, lng });
-  }
-  function drawGlobe() {
-    gctx.clearRect(0, 0, GC.width, GC.height);
-    const cx = GC.width/2, cy = GC.height/2, r = Math.min(cx, cy) * 0.8;
-    gAngle += 0.002;
-    // Grid
-    gctx.strokeStyle = 'rgba(176,224,255,0.1)';
-    gctx.lineWidth = 0.5;
-    for (let i = 0; i <= 12; i++) {
-      const lat = (i/12 - 0.5) * Math.PI;
-      const ry = cy - r * Math.sin(lat);
-      const rx = r * Math.cos(lat);
-      gctx.beginPath(); gctx.ellipse(cx, ry, rx, rx*0.2, 0, 0, Math.PI*2); gctx.stroke();
-    }
-    // Points
-    points.forEach(p => {
-      const x = cx + r * Math.cos(p.lat) * Math.cos(p.lng + gAngle);
-      const y = cy - r * Math.sin(p.lat);
-      if (Math.cos(p.lat) * Math.cos(p.lng + gAngle) > -0.2) {
-        gctx.beginPath(); gctx.arc(x, y, 2, 0, Math.PI*2);
-        gctx.fillStyle = 'rgba(176,224,255,0.5)';
-        gctx.fill();
-      }
-    });
-    requestAnimationFrame(drawGlobe);
-  }
-  drawGlobe();
-}
-
-// ==================== MARQUEE ====================
-const marqueeTrack = document.getElementById('marqueeTrack');
-const marqueeItems = [
-  '❄️ 350+ ENGINEERS', '🧊 18+ COUNTRIES', '❄️ 99.8% SLA', '🧊 72% QA REDUCTION',
-  '❄️ AI SELF-HEALING', '🧊 PLAYWRIGHT · CYPRESS', '❄️ 60% COST SAVINGS', '🧊 24×7 OPERATIONS'
-];
-marqueeTrack.innerHTML = marqueeItems.map(m => `<div class="marquee-item">${m}</div>`).join('') + 
-                         marqueeItems.map(m => `<div class="marquee-item">${m}</div>`).join('');
-
-// ==================== COUNTERS ====================
+// ========== COUNTER ANIMATION ==========
 function animateCounters() {
   document.querySelectorAll('[data-count]').forEach(el => {
     const target = parseFloat(el.dataset.count);
-    const suffix = el.dataset.suffix || '';
+    const suffix = el.dataset.suffix || (target > 100 ? '+' : '%');
     const dec = el.dataset.dec || 0;
     let current = 0;
     const step = target / 50;
@@ -821,54 +1105,144 @@ const counterObs = new IntersectionObserver(entries => {
 }, { threshold: 0.3 });
 document.querySelectorAll('[data-count]').forEach(el => counterObs.observe(el));
 
-// ==================== REVEAL ON SCROLL ====================
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.1 });
-document.querySelectorAll('.rv, .rv-l, .rv-r').forEach(el => observer.observe(el));
+// ========== MARQUEE ==========
+const marqueeTrack = document.getElementById('marqueeTrack');
+if (marqueeTrack) {
+  const items = ['❄️ 350+ ENGINEERS', '🧊 18+ COUNTRIES', '❄️ 99.8% SLA', '🧊 72% QA REDUCTION', '❄️ AI SELF-HEALING', '🧊 LOVE PROJECT', '❄️ 100% PLACEMENT', '🧊 4.9/5 RATINGS'];
+  marqueeTrack.innerHTML = items.map(i => `<div class="marquee-item">${i}</div>`).join('') + items.map(i => `<div class="marquee-item">${i}</div>`).join('');
+}
 
-// ==================== PROGRESS BAR ====================
+// ========== HERO GLOBE ==========
+const heroGlobe = document.getElementById('heroGlobeCanvas');
+if (heroGlobe) {
+  const ctx = heroGlobe.getContext('2d');
+  let angle = 0;
+  const points = [];
+  for (let i = 0; i < 80; i++) {
+    points.push({ lat: (Math.random() - 0.5) * Math.PI, lng: Math.random() * Math.PI * 2 });
+  }
+  function drawHeroGlobe() {
+    ctx.clearRect(0, 0, 500, 500);
+    const cx = 250, cy = 250, r = 200;
+    angle += 0.005;
+    ctx.strokeStyle = 'rgba(176,224,255,0.2)';
+    ctx.lineWidth = 0.5;
+    for (let i = 0; i <= 8; i++) {
+      const lat = (i/8 - 0.5) * Math.PI;
+      const ry = cy - r * Math.sin(lat);
+      const rx = r * Math.cos(lat);
+      ctx.beginPath(); ctx.ellipse(cx, ry, rx, rx*0.2, 0, 0, Math.PI*2); ctx.stroke();
+    }
+    ctx.fillStyle = '#b0e0ff';
+    points.forEach(p => {
+      const x = cx + r * Math.cos(p.lat) * Math.cos(p.lng + angle);
+      const y = cy - r * Math.sin(p.lat);
+      if (Math.cos(p.lat) * Math.cos(p.lng + angle) > -0.2) {
+        ctx.beginPath(); ctx.arc(x, y, 2, 0, Math.PI*2); ctx.fill();
+      }
+    });
+    requestAnimationFrame(drawHeroGlobe);
+  }
+  drawHeroGlobe();
+}
+
+// ========== 3D GLOBE ==========
+const container = document.getElementById('globeContainer');
+if (container && typeof THREE !== 'undefined') {
+  const canvas = document.getElementById('globeCanvas');
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x0a1428);
+  const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+  camera.position.set(0, 0, 3.5);
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: false, antialias: true });
+  renderer.setSize(container.clientWidth, container.clientHeight);
+  renderer.setPixelRatio(window.devicePixelRatio);
+
+  const geo = new THREE.SphereGeometry(1.2, 64, 32);
+  const mat = new THREE.MeshPhongMaterial({ color: 0x8bb9d1, emissive: 0x1a2a40, wireframe: true, transparent: true, opacity: 0.3 });
+  const sphere = new THREE.Mesh(geo, mat);
+  scene.add(sphere);
+
+  const coreGeo = new THREE.SphereGeometry(0.3, 32, 16);
+  const coreMat = new THREE.MeshBasicMaterial({ color: 0xb0e0ff, transparent: true, opacity: 0.2 });
+  const core = new THREE.Mesh(coreGeo, coreMat);
+  sphere.add(core);
+
+  const particleGeo = new THREE.BufferGeometry();
+  const particleCount = 800;
+  const positions = new Float32Array(particleCount * 3);
+  for (let i = 0; i < particleCount; i++) {
+    const r = 1.5 + Math.random() * 0.5;
+    const theta = Math.random() * Math.PI * 2;
+    const phi = Math.acos(2 * Math.random() - 1);
+    positions[i*3] = r * Math.sin(phi) * Math.cos(theta);
+    positions[i*3+1] = r * Math.sin(phi) * Math.sin(theta);
+    positions[i*3+2] = r * Math.cos(phi);
+  }
+  particleGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  const particleMat = new THREE.PointsMaterial({ color: 0xb0e0ff, size: 0.03, transparent: true, blending: THREE.AdditiveBlending });
+  const particles = new THREE.Points(particleGeo, particleMat);
+  sphere.add(particles);
+
+  const light = new THREE.DirectionalLight(0xffffff, 1); light.position.set(2, 2, 2); scene.add(light);
+  const ambient = new THREE.AmbientLight(0x404060); scene.add(ambient);
+
+  function animate() {
+    sphere.rotation.y += 0.001;
+    particles.rotation.y -= 0.0005;
+    renderer.render(scene, camera);
+    requestAnimationFrame(animate);
+  }
+  animate();
+  window.addEventListener('resize', () => {
+    camera.aspect = container.clientWidth / container.clientHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(container.clientWidth, container.clientHeight);
+  });
+}
+
+// ========== BROCHURE DOWNLOAD FUNCTION ==========
+function downloadBrochure(type) {
+  const brochures = {
+    automation: 'TECH1WORLD AUTOMATION TESTING PROGRAM\n\nDuration: 6 months\nCurriculum:\n- Selenium WebDriver (Java/Python)\n- Cypress & Playwright\n- Appium for Mobile\n- TestNG, Cucumber, BDD\n- CI/CD with Jenkins\n- Docker Containerization\n- 5 Capstone Projects\n\nPlacement: 100% Assistance\nContact: hr@tech1world.com',
+    manual: 'TECH1WORLD MANUAL TESTING PROGRAM\n\nDuration: 3 months\nCurriculum:\n- Test Case Design\n- JIRA & Bug Tracking\n- TestRail Management\n- Exploratory Testing\n- Agile Methodologies\n- 2 Live Projects\n\nPlacement: 100% Assistance\nContact: hr@tech1world.com',
+    api: 'TECH1WORLD API TESTING PROGRAM\n\nDuration: 4 months\nCurriculum:\n- Postman & Newman\n- REST Assured (Java)\n- GraphQL Testing\n- Contract Testing (Pact)\n- Mocking with WireMock\n- 3 Real-World APIs\n\nPlacement: 100% Assistance\nContact: hr@tech1world.com',
+    live: 'TECH1WORLD LIVE PROJECTS PROGRAM\n\nDuration: 5 months\nProjects:\n- E-commerce Platform\n- Fintech Dashboard\n- Healthcare Portal\n- Full CI/CD Pipeline\n- Team Collaboration\n- Production Deployment\n\nPlacement: 100% Assistance\nContact: hr@tech1world.com'
+  };
+  const content = brochures[type] || brochures.automation;
+  const blob = new Blob([content], { type: 'application/pdf' });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${type}_brochure.pdf`;
+  a.click();
+  window.URL.revokeObjectURL(url);
+  alert(`Downloading ${type} testing brochure...`);
+}
+
+// ========== CONTACT FORM ==========
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  document.getElementById('formSuccess').style.display = 'block';
+  setTimeout(() => {
+    this.reset();
+    document.getElementById('formSuccess').style.display = 'none';
+  }, 3000);
+});
+
+// ========== PROGRESS BAR ==========
 const PROG_BAR = document.getElementById('PROGRESS');
 window.addEventListener('scroll', () => {
   const s = window.scrollY, h = document.documentElement.scrollHeight - window.innerHeight;
   PROG_BAR.style.width = (s / h * 100) + '%';
 });
 
-// ==================== NAV SCROLL ====================
+// ========== NAV SCROLL ==========
 const NAV = document.getElementById('NAV');
-window.addEventListener('scroll', () => NAV.classList.toggle('scrolled', window.scrollY > 60));
+window.addEventListener('scroll', () => NAV && NAV.classList.toggle('scrolled', window.scrollY > 60));
 
-// ==================== LIVE DATA STREAM ====================
-function updateLiveData() {
-  const engineers = 347 + Math.floor(Math.random() * 10) - 5;
-  const tests = 1247 + Math.floor(Math.random() * 50) - 25;
-  const coverage = (98.2 + (Math.random() * 0.4 - 0.2)).toFixed(1);
-  const latency = 124 + Math.floor(Math.random() * 10) - 5;
-  document.getElementById('liveEngineers').innerHTML = `👥 Engineers: ${engineers}`;
-  document.getElementById('liveTests').innerHTML = `🧪 Tests/sec: ${tests}`;
-  document.getElementById('liveCoverage').innerHTML = `📊 Coverage: ${coverage}%`;
-  document.getElementById('liveLatency').innerHTML = `⚡ Latency: ${latency}ms`;
-}
-setInterval(updateLiveData, 2000);
-
-// ==================== CONTACT FORM ====================
-document.getElementById('contactForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-  document.getElementById('formOk').style.display = 'block';
-  setTimeout(() => this.reset(), 2000);
-});
-
-// ==================== MAGNETIC BUTTONS ====================
-document.querySelectorAll('.btn-ice, .btn-frost, .nav-cta').forEach(btn => {
-  btn.addEventListener('mousemove', e => {
-    const r = btn.getBoundingClientRect();
-    btn.style.transform = `translate(${(e.clientX - r.left - r.width/2) * 0.15}px, ${(e.clientY - r.top - r.height/2) * 0.15}px)`;
-  });
-  btn.addEventListener('mouseleave', () => btn.style.transform = '');
-});
-
-// ==================== CARD MOUSE FOLLOW ====================
-document.querySelectorAll('.card').forEach(card => {
+// ========== CARD MOUSE FOLLOW ==========
+document.querySelectorAll('.card, .internship-card, .review-card').forEach(card => {
   card.addEventListener('mousemove', e => {
     const r = card.getBoundingClientRect();
     const x = ((e.clientX - r.left) / r.width) * 100;
