@@ -3,305 +3,169 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tech1World — bioluminescent abyss</title>
-  <!-- GSAP for mind-blowing animations -->
+  <title>Tech1World — NOVA CORE</title>
+  <!-- GSAP + THREE.js for high-end 3D & animation -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <!-- three.js for volumetric globe -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <!-- fonts -->
+  <!-- fonts: stark industrial -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200..900&family=Syne:wght@400..800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@200..800&display=swap" rel="stylesheet">
   <style>
-    /* --- RESET / PERFECT BIOLUMINESCENT ABYSS (#02040a) --- */
     *{margin:0;padding:0;box-sizing:border-box}
     body{
-      background:#02040a; /* deep rich dark blue */
+      background:#03050a;
       color:#fff;
-      font-family:'Syne',sans-serif;
+      font-family:'Manrope',sans-serif;
       overflow-x:hidden;
       line-height:1.5;
       cursor:none;
     }
-    ::selection{background:#ff0055;color:#fff}
-
-    /* --- ADVANCED CURSOR (gravity singularity) --- */
+    /* --- 3D CURSOR (energy core) --- */
     #cursor{
-      position:fixed; width:6px; height:6px; background:#ff0055; border-radius:50%;
+      position:fixed; width:8px; height:8px; background:#ff3a2f; border-radius:50%;
       pointer-events:none; z-index:9999; transform:translate(-50%,-50%);
-      box-shadow:0 0 30px #ff0055, 0 0 60px #00f0ff, 0 0 120px #ffaa00;
-      transition:width 0.2s, height 0.2s, background 0.2s, box-shadow 0.3s;
-      mix-blend-mode:difference;
+      box-shadow:0 0 60px #ff3a2f,0 0 120px #0055ff,0 0 200px #00ffcc;
+      transition:width 0.2s,height 0.2s;
+      mix-blend-mode:plus-lighter;
     }
-    body.hov #cursor{
-      width:90px; height:90px; background:transparent; border:2px solid #ffaa00;
-      box-shadow:0 0 150px #ffaa00, 0 0 300px #00f0ff, 0 0 450px #ff0055;
-    }
+    body.hov #cursor{ width:120px; height:120px; background:transparent; border:2px solid #ffcc00; box-shadow:0 0 200px #ffcc00,0 0 400px #0055ff; }
 
-    /* --- HD VIDEO BACKGROUND (hero) --- */
-    #heroVideo{
-      position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:-2;
-      opacity:0.4; pointer-events:none;
-    }
-    .video-overlay{
-      position:absolute; top:0; left:0; width:100%; height:100%;
-      background:radial-gradient(circle, rgba(2,4,10,0.7) 0%, #02040a 100%);
-      z-index:-1;
-    }
-
-    /* --- PARTICLE CANVAS (hyperdimensional) --- */
-    #particleCanvas{
+    /* --- 3D BACKGROUND CANVAS (webgl) --- */
+    #bgCanvas{
       position:fixed; top:0; left:0; width:100%; height:100%; z-index:0;
-      pointer-events:none; display:block; background:transparent;
+      display:block; background:#03050a;
     }
+    /* --- grain (barely there) --- */
     .grain{
-      position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.015'/%3E%3C/svg%3E");
-      pointer-events:none; z-index:1; opacity:0.2;
-    }
-    .halo{
-      position:fixed; inset:0; background:radial-gradient(ellipse 80% 40% at 50% 50%, rgba(0,240,255,0.15), transparent 90%);
-      z-index:0; pointer-events:none;
+      position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E");
+      pointer-events:none; z-index:1; opacity:0.1;
     }
 
-    /* --- PRELOADER: QUANTUM BURST --- */
+    /* --- PRELOADER: VOLUMETRIC LIGHT BURST (3D canvas) --- */
     #preloader{
-      position:fixed; inset:0; background:#02040a; z-index:10000;
+      position:fixed; inset:0; background:#03050a; z-index:10000;
       display:flex; align-items:center; justify-content:center;
       pointer-events:none; opacity:1; visibility:visible;
     }
-    .burstCanvas{
+    #burstCanvas{
       position:absolute; top:0; left:0; width:100%; height:100%;
       display:block;
     }
     .preloadText{
-      position:relative; z-index:10001; font-family:'Unbounded',sans-serif;
-      font-size:clamp(2.5rem,9vw,6rem); letter-spacing:1rem;
-      background:linear-gradient(135deg, #00f0ff, #ff0055, #ffaa00, #00f0ff);
-      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-      background-size:300% 300%; animation:gradientFlow 3s infinite, pulseGlow 2s infinite;
+      position:relative; z-index:10001; font-family:'Bebas Neue',sans-serif;
+      font-size:clamp(4rem,12vw,8rem); letter-spacing:0.3rem;
+      color:transparent; -webkit-text-stroke:2px #ff3a2f;
+      text-shadow:0 0 60px #ff3a2f,0 0 120px #0055ff,0 0 180px #00ffcc;
+      animation:surge 2s infinite alternate;
     }
-    @keyframes gradientFlow{ 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
-    @keyframes pulseGlow{ 0%{text-shadow:0 0 40px #ff0055} 50%{text-shadow:0 0 120px #ffaa00,0 0 240px #00f0ff} 100%{text-shadow:0 0 40px #ff0055} }
+    @keyframes surge{ 0%{opacity:0.7; transform:scale(0.98);} 100%{opacity:1; transform:scale(1.05);} }
 
-    /* --- NAVIGATION (liquid glass) --- */
+    /* --- navigation (sleek glass) --- */
     nav{
-      position:fixed; top:20px; left:20px; right:20px; padding:0.8rem 2.5rem;
+      position:fixed; top:25px; left:30px; right:30px; padding:0.7rem 2.5rem;
       display:flex; justify-content:space-between; align-items:center; z-index:500;
-      background:rgba(2,4,10,0.4); backdrop-filter:blur(25px) saturate(300%);
-      border:1px solid rgba(0,240,255,0.25); border-radius:100px;
-      box-shadow:0 20px 40px rgba(0,0,0,0.8);
+      background:rgba(3,5,10,0.3); backdrop-filter:blur(20px);
+      border:1px solid rgba(255,58,47,0.2); border-radius:100px;
     }
-    .logo{
-      font-family:'Unbounded',sans-serif; font-weight:700; font-size:1.5rem;
-      background:linear-gradient(135deg, #00f0ff, #ff0055, #ffaa00);
-      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-    }
-    .navLinks{ display:flex; gap:2rem; list-style:none; flex-wrap:wrap; }
-    .navLinks a{
-      color:#fff; text-decoration:none; font-size:0.8rem; letter-spacing:2px;
-      text-transform:uppercase; padding:0.4rem 0; position:relative;
-      transition:0.2s;
-    }
-    .navLinks a::after{
-      content:''; position:absolute; bottom:0; left:0; width:0; height:2px;
-      background:linear-gradient(90deg, #00f0ff, #ff0055, #ffaa00);
-      transition:0.3s;
-    }
-    .navLinks a:hover::after{ width:100%; }
+    .logo{ font-family:'Bebas Neue',sans-serif; font-size:2rem; color:#ff3a2f; letter-spacing:2px; }
+    .navLinks{ display:flex; gap:2.5rem; list-style:none; }
+    .navLinks a{ color:#fff; text-decoration:none; font-size:0.8rem; font-weight:500; letter-spacing:1px; text-transform:uppercase; transition:0.2s; }
+    .navLinks a:hover{ color:#ffcc00; }
     .navCta{
-      background:linear-gradient(135deg, #ff0055, #ffaa00); border:none;
-      color:#02040a; padding:0.7rem 2.2rem; border-radius:60px; font-weight:600;
-      letter-spacing:1px; transition:0.3s; cursor:pointer;
+      background:transparent; border:1px solid #ff3a2f; color:#ff3a2f;
+      padding:0.5rem 2rem; border-radius:60px; font-weight:600; transition:0.3s; cursor:pointer;
     }
-    .navCta:hover{ transform:scale(1.08); box-shadow:0 0 80px #ffaa00; }
+    .navCta:hover{ background:#ff3a2f; color:#03050a; box-shadow:0 0 80px #ff3a2f; }
 
-    /* --- MAGNETIC CLASS --- */
-    .magnetic{ display:inline-block; transition:transform 0.2s cubic-bezier(0.2,1.2,0.5,1.5); }
+    /* --- sections --- */
+    section{ position:relative; z-index:10; padding:7rem 4rem; width:100%; }
+    .wrap{ max-width:1400px; margin:0 auto; }
 
-    /* --- SECTIONS (fixed overflow) --- */
-    section{ position:relative; z-index:10; padding:7rem 4rem; width:100%; overflow-x:hidden; }
-    .wrap{ max-width:1400px; margin:0 auto; width:100%; }
-
-    /* --- HERO (perfected) --- */
-    #hero{
-      min-height:100vh; display:flex; align-items:center; position:relative;
-      overflow:hidden;
-    }
-    .heroEyebrow{
-      display:flex; align-items:center; gap:1rem; margin-bottom:2rem;
-      font-size:0.8rem; letter-spacing:8px; text-transform:uppercase;
-      color:#00f0ff; opacity:0; animation:slideUp 0.8s 0.3s forwards;
-    }
-    .heroEyebrow span{
-      width:70px; height:2px; background:linear-gradient(90deg, #00f0ff, #ff0055);
-      box-shadow:0 0 30px #ff0055;
-    }
-    @keyframes slideUp{ to{opacity:1; transform:translateY(0);} from{opacity:0; transform:translateY(40px);} }
+    /* --- HERO (cinematic) --- */
+    #hero{ min-height:100vh; display:flex; align-items:center; position:relative; overflow:hidden; }
+    .heroEyebrow{ color:#ff3a2f; font-size:0.9rem; letter-spacing:6px; text-transform:uppercase; margin-bottom:2rem; }
     h1{
-      font-family:'Unbounded',sans-serif; font-size:clamp(3rem,12vw,12rem);
-      font-weight:200; line-height:0.85; text-transform:uppercase; margin-bottom:2rem;
-      word-break:break-word;
+      font-family:'Bebas Neue',sans-serif; font-size:clamp(4rem,15vw,14rem);
+      line-height:0.8; text-transform:uppercase; margin-bottom:2rem; color:#fff;
     }
-    .h1Line{ display:block; overflow:hidden; }
-    .h1Word{
-      display:inline-block; transform:translateY(150%);
-      animation:rise 1.2s cubic-bezier(0.2,0.9,0.3,1) forwards;
-    }
-    .h1Word:nth-child(2){ animation-delay:0.15s; }
-    .h1Word:nth-child(3){ animation-delay:0.3s; }
-    @keyframes rise{ to{ transform:translateY(0); } }
-    h1 .thin{ font-weight:200; color:#fff; }
-    h1 .glow{
-      font-weight:800; background:linear-gradient(135deg, #00f0ff, #ff0055, #ffaa00);
-      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-    }
-    .heroDesc{
-      font-size:1.2rem; color:rgba(255,255,255,0.8); max-width:650px; margin-bottom:3rem;
-      opacity:0; animation:fadeIn 1s 0.9s forwards;
-    }
-    @keyframes fadeIn{ to{ opacity:1; } }
-    .btnGroup{ display:flex; gap:1.5rem; flex-wrap:wrap; opacity:0; animation:fadeIn 1s 1.2s forwards; }
-
-    /* --- BUTTONS --- */
+    h1 .glow{ color:#ff3a2f; text-shadow:0 0 40px #ff3a2f,0 0 80px #0055ff; }
+    .heroDesc{ font-size:1.1rem; max-width:600px; color:rgba(255,255,255,0.6); margin-bottom:3rem; }
+    .btnGroup{ display:flex; gap:1.5rem; }
     .btnPrimary{
-      background:linear-gradient(135deg, #00f0ff, #ff0055); border:none;
-      padding:1rem 3rem; border-radius:60px; color:#02040a; font-weight:700;
-      letter-spacing:2px; transition:0.3s; box-shadow:0 0 40px #ff0055;
-      cursor:pointer;
+      background:#ff3a2f; border:none; padding:1rem 3rem; border-radius:60px; color:#03050a;
+      font-weight:700; letter-spacing:1px; transition:0.3s; box-shadow:0 0 40px #ff3a2f;
     }
-    .btnPrimary:hover{ box-shadow:0 0 120px #ffaa00; transform:scale(1.1); }
+    .btnPrimary:hover{ box-shadow:0 0 120px #ffcc00; transform:scale(1.08); background:#ffcc00; }
     .btnGhost{
-      border:1px solid rgba(0,240,255,0.4); background:rgba(2,4,10,0.4);
-      backdrop-filter:blur(10px); color:#fff; padding:1rem 3rem; border-radius:60px;
-      transition:0.3s; cursor:pointer;
+      border:1px solid rgba(255,255,255,0.3); background:transparent; padding:1rem 3rem;
+      border-radius:60px; color:#fff; transition:0.3s;
     }
-    .btnGhost:hover{ border-color:#ffaa00; color:#ffaa00; box-shadow:0 0 80px #ffaa00; }
+    .btnGhost:hover{ border-color:#ff3a2f; color:#ff3a2f; }
 
-    /* --- TICKER --- */
+    /* --- TICKER (high speed) --- */
     .ticker{
-      height:70px; border-top:1px solid rgba(0,240,255,0.25);
-      border-bottom:1px solid rgba(0,240,255,0.25); overflow:hidden;
-      background:rgba(2,4,10,0.8); backdrop-filter:blur(15px); width:100%;
+      height:70px; border-top:1px solid rgba(255,58,47,0.2); border-bottom:1px solid rgba(0,85,255,0.2);
+      overflow:hidden; background:rgba(3,5,10,0.9); backdrop-filter:blur(10px);
     }
-    .tickerTrack{ display:flex; width:max-content; animation:tick 40s linear infinite; }
-    .tickerTrack:hover{ animation-play-state:paused; }
+    .tickerTrack{ display:flex; width:max-content; animation:tick 30s linear infinite; }
     @keyframes tick{ to{ transform:translateX(-50%); } }
-    .tickItem{
-      display:flex; align-items:center; gap:2.5rem; padding:0 5rem;
-      font-size:0.8rem; letter-spacing:2px; color:rgba(255,255,255,0.7);
-      white-space:nowrap;
-    }
-    .tickItem strong{
-      background:linear-gradient(135deg, #00f0ff, #ff0055);
-      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-      font-size:1.3rem;
-    }
+    .tickItem{ display:flex; align-items:center; gap:3rem; padding:0 5rem; font-size:0.9rem; color:#ffcc00; white-space:nowrap; }
+    .tickItem span{ color:#0055ff; font-weight:700; }
 
-    /* --- STATS (holographic) --- */
+    /* --- STATS (crisp) --- */
     .statsBar{
-      display:grid; grid-template-columns:repeat(6,1fr); width:100%;
-      background:rgba(2,4,10,0.7); backdrop-filter:blur(20px);
-      border-bottom:1px solid rgba(0,240,255,0.2);
+      display:grid; grid-template-columns:repeat(6,1fr); background:rgba(3,5,10,0.7);
+      border-bottom:1px solid rgba(255,58,47,0.2);
     }
-    .stat{
-      padding:2.5rem 1rem; text-align:center; border-right:1px solid rgba(0,240,255,0.1);
-      transition:0.3s;
-    }
+    .stat{ padding:2.5rem 1rem; text-align:center; border-right:1px solid rgba(255,58,47,0.1); }
     .stat:last-child{ border-right:0; }
-    .stat:hover{
-      background:rgba(0,240,255,0.1); transform:scale(1.1); box-shadow:0 0 80px #ff0055;
-      border-radius:30px; z-index:20;
-    }
-    .statNumber{
-      font-family:'Unbounded',sans-serif; font-size:3.2rem;
-      background:linear-gradient(135deg, #00f0ff, #ff0055);
-      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-      line-height:1;
-    }
-    .statLabel{ font-size:0.6rem; letter-spacing:3px; color:rgba(255,255,255,0.6); }
+    .statNumber{ font-family:'Bebas Neue',sans-serif; font-size:3.8rem; color:#ff3a2f; line-height:1; }
+    .statLabel{ font-size:0.7rem; color:rgba(255,255,255,0.5); }
 
     /* --- SECTION LABELS --- */
-    .secLabel{
-      display:flex; align-items:center; gap:1rem; margin-bottom:2rem;
-      font-size:0.8rem; letter-spacing:8px; color:#00f0ff; text-transform:uppercase;
-    }
-    .secLabel i{
-      width:60px; height:2px; background:linear-gradient(90deg, #00f0ff, #ff0055, #ffaa00);
-      box-shadow:0 0 30px #ff0055;
-    }
-    h2{
-      font-family:'Unbounded',sans-serif; font-size:clamp(2.5rem,8vw,8rem);
-      font-weight:200; line-height:1.1; margin-bottom:2rem; word-break:break-word;
-    }
-    h2 em{
-      background:linear-gradient(135deg, #00f0ff, #ff0055, #ffaa00);
-      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-      font-style:normal; font-weight:800;
-    }
-    h2 .dim{ color:transparent; -webkit-text-stroke:1px rgba(0,240,255,0.3); }
+    .secLabel{ color:#ff3a2f; font-size:0.9rem; letter-spacing:4px; text-transform:uppercase; margin-bottom:1rem; }
+    h2{ font-family:'Bebas Neue',sans-serif; font-size:clamp(3rem,8vw,7rem); font-weight:400; line-height:1; margin-bottom:2rem; }
+    h2 em{ color:#ffcc00; font-style:normal; }
 
-    /* --- CARD GRID (4-column) --- */
+    /* --- CARD GRID (4-col) --- */
     .cardGrid{
       display:grid; grid-template-columns:repeat(4,1fr); gap:2rem; margin:3rem 0;
     }
     .card{
-      background:rgba(2,4,10,0.7); backdrop-filter:blur(20px);
-      border:1px solid rgba(0,240,255,0.2); border-radius:40px;
-      padding:2.5rem 2rem; transition:0.4s; cursor:pointer;
+      background:rgba(10,12,18,0.7); backdrop-filter:blur(15px);
+      border:1px solid rgba(255,58,47,0.2); border-radius:40px;
+      padding:2.5rem 2rem; transition:0.3s; cursor:pointer;
     }
-    .card:hover{
-      border-color:#ff0055; transform:scale(1.03) translateY(-8px);
-      box-shadow:0 0 100px rgba(255,0,85,0.3);
-    }
-    .cardNum{ font-size:4rem; font-weight:200; color:rgba(0,240,255,0.2); line-height:1; margin-bottom:1rem; }
+    .card:hover{ border-color:#ffcc00; transform:translateY(-8px); box-shadow:0 30px 60px rgba(255,58,47,0.2); }
+    .cardNum{ font-size:3rem; color:#0055ff; opacity:0.5; line-height:1; margin-bottom:1rem; }
     .cardIcon{ font-size:2.5rem; margin-bottom:1rem; }
-    .cardTitle{ font-family:'Unbounded',sans-serif; font-size:1.3rem; margin-bottom:0.8rem; }
-    .cardDesc{ color:rgba(255,255,255,0.7); font-size:0.9rem; line-height:1.6; }
+    .cardTitle{ font-family:'Bebas Neue',sans-serif; font-size:1.8rem; color:#ffcc00; margin-bottom:0.5rem; }
 
-    /* --- SDET PROGRAM ZONE --- */
+    /* --- SDET ZONE (flagship) --- */
     .sdetZone{
-      background:rgba(0,240,255,0.03); backdrop-filter:blur(25px);
-      border:1px solid rgba(255,0,85,0.3); border-radius:80px;
-      padding:4rem; margin:5rem 0;
+      background:linear-gradient(145deg, #0a0c12, #03050a);
+      border:1px solid #ff3a2f; border-radius:80px; padding:4rem; margin:5rem 0;
+      box-shadow:0 0 120px rgba(255,58,47,0.3);
     }
     .sdetGrid{
       display:grid; grid-template-columns:repeat(4,1fr); gap:2rem; margin:4rem 0;
     }
     .sdetCard{
-      background:rgba(2,4,10,0.8); backdrop-filter:blur(20px);
-      border:1px solid rgba(255,0,85,0.4); border-radius:50px;
+      background:rgba(3,5,10,0.8); border:1px solid #0055ff; border-radius:60px;
       padding:2.5rem 1.8rem; text-align:center; transition:0.4s; cursor:pointer;
     }
-    .sdetCard:hover{
-      border-color:#ffaa00; transform:scale(1.05) translateY(-12px);
-      box-shadow:0 0 120px #ffaa00;
+    .sdetCard:hover{ border-color:#ffcc00; transform:scale(1.05) translateY(-10px); box-shadow:0 0 100px #ffcc00; }
+    .sdetCard .icon{ font-size:3.5rem; margin-bottom:1rem; }
+    .sdetCard h3{ font-size:2rem; color:#ff3a2f; margin-bottom:0.5rem; }
+    .sdetCard p{ color:rgba(255,255,255,0.7); }
+    .brochureBtn{
+      background:#0055ff; border:none; padding:0.7rem 2rem; border-radius:60px; color:#fff;
+      font-weight:600; margin-top:1.5rem; display:inline-block; transition:0.3s; cursor:pointer;
     }
-    .sdetCard .icon{ font-size:3.5rem; margin-bottom:1rem; filter:drop-shadow(0 0 20px #00f0ff); }
-    .sdetCard h3{
-      font-size:2rem; font-weight:700;
-      background:linear-gradient(135deg, #00f0ff, #ff0055);
-      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-    }
-    .sdetCard p{ color:rgba(255,255,255,0.8); font-size:0.95rem; margin:0.8rem 0; }
-    .sdetCard .brochureBtn{
-      background:linear-gradient(135deg, #ff0055, #ffaa00); border:none;
-      padding:0.7rem 2rem; border-radius:60px; color:#02040a; font-weight:600;
-      font-size:0.9rem; margin-top:1rem; display:inline-block; transition:0.3s;
-      cursor:pointer;
-    }
-    .sdetCard .brochureBtn:hover{ transform:scale(1.1); box-shadow:0 0 70px #ffaa00; }
+    .brochureBtn:hover{ background:#ffcc00; box-shadow:0 0 70px #ffcc00; }
     .placementBadge{
-      display:inline-block; background:linear-gradient(135deg, #ffaa00, #ff0055);
-      padding:0.8rem 3rem; border-radius:60px; color:#02040a; font-weight:800;
-      font-size:1.3rem; letter-spacing:2px; box-shadow:0 0 100px #ffaa00;
-      text-align:center;
-    }
-
-    /* --- BROCHURE PREVIEW (rich content) --- */
-    #brochurePreview{
-      background:rgba(0,240,255,0.07); backdrop-filter:blur(20px);
-      border-radius:60px; padding:2.5rem; margin-top:3rem; border:1px solid #ff0055;
-      display:none;
+      background:#ffcc00; color:#03050a; padding:0.8rem 3rem; border-radius:60px; font-weight:700; font-size:1.3rem; display:inline-block;
     }
 
     /* --- REVIEWS --- */
@@ -309,120 +173,93 @@
       display:grid; grid-template-columns:repeat(3,1fr); gap:2rem; margin:4rem 0;
     }
     .reviewCard{
-      background:rgba(2,4,10,0.7); backdrop-filter:blur(20px);
-      border:1px solid rgba(0,240,255,0.2); border-radius:40px;
-      padding:2.5rem; transition:0.3s;
+      background:rgba(10,12,18,0.7); border:1px solid rgba(255,58,47,0.2); border-radius:40px; padding:2.5rem;
     }
-    .reviewCard:hover{ border-color:#ffaa00; transform:translateY(-8px); }
-    .reviewText{ font-size:1rem; color:rgba(255,255,255,0.9); line-height:1.7; margin-bottom:1.5rem; }
-    .reviewer{ font-family:'Unbounded',sans-serif; color:#00f0ff; }
+    .reviewer{ color:#ffcc00; margin-top:1rem; font-weight:600; }
 
-    /* --- GLOBE CONTAINER --- */
+    /* --- GLOBE (3D) --- */
     #globeContainer{
       width:100%; height:500px; border-radius:80px; overflow:hidden;
-      border:2px solid rgba(0,240,255,0.3); margin:4rem 0;
-      box-shadow:0 0 120px rgba(255,0,85,0.2);
+      border:2px solid rgba(255,58,47,0.4); margin:4rem 0;
     }
 
     /* --- MAP --- */
     .mapWrap{
       width:100%; height:400px; border-radius:80px; overflow:hidden;
-      border:2px solid rgba(0,240,255,0.4); margin:4rem 0;
-      box-shadow:0 0 150px rgba(255,0,85,0.3);
+      border:2px solid rgba(0,85,255,0.4); margin:4rem 0;
     }
 
-    /* --- CONTACT / FOOTER --- */
-    .contactGrid{ display:grid; grid-template-columns:1fr 1.5fr; gap:4rem; margin-top:3rem; }
-    .infoRow{ display:flex; gap:1.2rem; align-items:center; margin-bottom:1.2rem; font-size:1rem; }
-    .form input, .form select, .form textarea{
-      width:100%; background:rgba(0,240,255,0.05); border:1px solid rgba(0,240,255,0.3);
-      padding:1rem 1.5rem; border-radius:60px; margin-bottom:1.2rem; color:#fff;
-      font-size:0.9rem;
+    /* --- CONTACT --- */
+    .contactGrid{ display:grid; grid-template-columns:1fr 1.5fr; gap:4rem; }
+    .form input,.form select,.form textarea{
+      width:100%; background:rgba(10,12,18,0.7); border:1px solid rgba(255,58,47,0.3);
+      padding:1rem 1.5rem; border-radius:60px; margin-bottom:1rem; color:#fff;
     }
     .form button{
-      background:linear-gradient(135deg, #00f0ff, #ff0055); border:none;
-      padding:1.3rem; width:100%; border-radius:60px; color:#02040a; font-weight:700;
-      font-size:1rem; cursor:pointer; transition:0.3s;
+      background:#ff3a2f; border:none; padding:1.3rem; width:100%; border-radius:60px;
+      color:#03050a; font-weight:700; cursor:pointer; transition:0.3s;
     }
-    .form button:hover{ box-shadow:0 0 120px #ffaa00; transform:scale(1.02); }
-    footer{ padding:2.5rem 4rem; border-top:1px solid rgba(0,240,255,0.2); display:flex; justify-content:space-between; flex-wrap:wrap; color:rgba(255,255,255,0.6); }
+    .form button:hover{ background:#ffcc00; box-shadow:0 0 100px #ffcc00; }
+    footer{ padding:2rem 4rem; border-top:1px solid rgba(255,58,47,0.2); display:flex; justify-content:space-between; }
 
-    /* --- RESPONSIVE (fix overflow) --- */
-    @media (max-width:1200px){
-      .cardGrid, .sdetGrid, .reviewsGrid{ grid-template-columns:repeat(2,1fr); }
-    }
-    @media (max-width:1000px){
-      section{ padding:5rem 2rem; }
-      .statsBar{ grid-template-columns:repeat(3,1fr); }
-    }
-    @media (max-width:800px){
-      .cardGrid, .sdetGrid, .reviewsGrid{ grid-template-columns:1fr; }
-      h2{ font-size:3rem; }
-    }
+    /* --- responsive --- */
+    @media (max-width:1200px){ .cardGrid,.sdetGrid,.reviewsGrid{ grid-template-columns:repeat(2,1fr); } }
+    @media (max-width:900px){ .statsBar{ grid-template-columns:repeat(3,1fr); } }
+    @media (max-width:700px){ .cardGrid,.sdetGrid,.reviewsGrid{ grid-template-columns:1fr; } }
   </style>
 </head>
 <body>
   <div id="cursor"></div>
-  <canvas id="particleCanvas"></canvas>
-  <div class="halo"></div>
+  <canvas id="bgCanvas"></canvas>
   <div class="grain"></div>
 
-  <!-- PRELOADER: QUANTUM BURST -->
+  <!-- PRELOADER: VOLUMETRIC LIGHT BURST (3D) -->
   <div id="preloader">
-    <canvas class="burstCanvas" id="burstCanvas"></canvas>
+    <canvas id="burstCanvas"></canvas>
     <div class="preloadText">TECH1WORLD</div>
   </div>
 
-  <!-- NAVIGATION -->
   <nav>
-    <div class="logo">⟁ TECH1WORLD</div>
+    <div class="logo">⟁ T1W</div>
     <ul class="navLinks">
-      <li><a href="#hero">abyss</a></li>
-      <li><a href="#out">outsourcing</a></li>
-      <li><a href="#sdet">sdet</a></li>
-      <li><a href="#services">services</a></li>
-      <li><a href="#reviews">echo</a></li>
-      <li><a href="#contact">connect</a></li>
+      <li><a href="#hero">NOVA</a></li>
+      <li><a href="#out">OUTSOURCE</a></li>
+      <li><a href="#sdet">SDET</a></li>
+      <li><a href="#services">FORGE</a></li>
+      <li><a href="#contact">CONTACT</a></li>
     </ul>
-    <button class="navCta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">↗ engage</button>
+    <button class="navCta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">⟁ IGNITE</button>
   </nav>
 
-  <!-- HERO with HD video -->
   <section id="hero">
-    <video autoplay muted loop playsinline id="heroVideo">
-      <source src="https://cdn.pixabay.com/vimeo/342194570/abstract-28593.mp4?width=1280&hash=9c2b7a0d7c1a1b2d3e4f5g6h7i8j9k0l" type="video/mp4">
-    </video>
-    <div class="video-overlay"></div>
     <div class="wrap">
-      <div class="heroEyebrow"><span></span>since 2020 · bioluminescent core</div>
+      <div class="heroEyebrow">SINCE 2020 · NOVA CORE</div>
       <h1>
-        <span class="h1Line"><span class="h1Word thin">GLOBAL</span></span>
-        <span class="h1Line"><span class="h1Word glow">OUTSOURCING</span></span>
-        <span class="h1Line"><span class="h1Word thin">ELITE SDET</span></span>
+        <span>GLOBAL</span><br>
+        <span class="glow">OUTSOURCING</span><br>
+        <span>ELITE SDET</span>
       </h1>
-      <p class="heroDesc">We don't just test software — we architect quality into the abyss. 350+ engineers, 18 countries, AI‑driven automation, and the most advanced SDET program on the planet.</p>
+      <p class="heroDesc">350+ engineers · 18 countries · AI‑driven automation · the most advanced SDET program.</p>
       <div class="btnGroup">
-        <a href="#sdet" class="btnPrimary">enter the program →</a>
-        <a href="#out" class="btnGhost">explore outsourcing</a>
+        <a href="#sdet" class="btnPrimary">ENTER THE FORGE →</a>
+        <a href="#out" class="btnGhost">EXPLORE</a>
       </div>
     </div>
   </section>
 
-  <!-- TICKER -->
   <div class="ticker">
     <div class="tickerTrack">
-      <div class="tickItem"><strong>350+</strong> ENGINEERS & SDETs <span>⚡</span></div>
-      <div class="tickItem"><strong>18+</strong> COUNTRIES <span>⚡</span></div>
-      <div class="tickItem"><strong>99.8%</strong> SLA <span>⚡</span></div>
-      <div class="tickItem"><strong>72%</strong> QA REDUCTION <span>⚡</span></div>
-      <div class="tickItem"><strong>AI</strong> SELF‑HEALING <span>⚡</span></div>
-      <div class="tickItem">PLAYWRIGHT · CYPRESS · APPIUM <span>⚡</span></div>
-      <div class="tickItem"><strong>60%</strong> COST SAVINGS <span>⚡</span></div>
+      <div class="tickItem"><span>350+</span> ENGINEERS & SDETs ⚡</div>
+      <div class="tickItem"><span>18+</span> COUNTRIES ⚡</div>
+      <div class="tickItem"><span>99.8%</span> SLA ⚡</div>
+      <div class="tickItem"><span>72%</span> QA REDUCTION ⚡</div>
+      <div class="tickItem">AI SELF‑HEALING ⚡</div>
+      <div class="tickItem">PLAYWRIGHT · CYPRESS · APPIUM ⚡</div>
+      <div class="tickItem"><span>60%</span> COST SAVINGS ⚡</div>
       <div class="tickItem">350+ ENGINEERS & SDETs</div>
     </div>
   </div>
 
-  <!-- STATS -->
   <div class="statsBar">
     <div class="stat"><div class="statNumber" data-target="350">0</div><div class="statLabel">engineers</div></div>
     <div class="stat"><div class="statNumber" data-target="18">0</div><div class="statLabel">countries</div></div>
@@ -432,247 +269,219 @@
     <div class="stat"><div class="statNumber" data-target="60">0</div><div class="statLabel">cost savings</div></div>
   </div>
 
-  <!-- OUTSOURCING SECTION (fixed overflow) -->
   <section id="out">
     <div class="wrap">
-      <div class="secLabel"><i></i>01/06 · global outsourcing</div>
-      <h2><span class="dim">THE WORLD'S</span> <em>MOST FLEXIBLE</em> OUTSOURCING</h2>
+      <div class="secLabel">01/06 · GLOBAL OUTSOURCE</div>
+      <h2>THE WORLD'S <em>MOST FLEXIBLE</em> OUTSOURCING</h2>
       <div class="cardGrid">
-        <div class="card"><div class="cardNum">01</div><div class="cardIcon">👥</div><div class="cardTitle">Dedicated Teams</div><div class="cardDesc">Long‑term squads embedded in your culture. 99.8% SLA, 3–50+ engineers, agile from day one.</div></div>
-        <div class="card"><div class="cardNum">02</div><div class="cardIcon">🏗️</div><div class="cardTitle">Build‑Operate‑Transfer</div><div class="cardDesc">We build your offshore center, operate it, then hand over full IP. 60% cost reduction, zero risk.</div></div>
-        <div class="card"><div class="cardNum">03</div><div class="cardIcon">⚡</div><div class="cardTitle">Staff Augmentation</div><div class="cardDesc">350+ pre‑vetted engineers deploy within 48h. Monthly contracts, zero overhead.</div></div>
-        <div class="card"><div class="cardNum">04</div><div class="cardIcon">📊</div><div class="cardTitle">Managed Delivery</div><div class="cardDesc">Fixed‑price, outcome‑driven delivery. 24×7 escalation, enterprise SLAs.</div></div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem; margin:5rem 0;">
-        <div>
-          <h3 style="font-size:2rem; font-family:'Unbounded';">18+ Countries</h3>
-          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem; margin-top:2rem;">
-            <span class="country" style="padding:0.6rem;border:1px solid #00f0ff33;border-radius:40px;text-align:center;">🇮🇳 India</span>
-            <span class="country" style="padding:0.6rem;border:1px solid #00f0ff33;border-radius:40px;text-align:center;">🇺🇸 USA</span>
-            <span class="country" style="padding:0.6rem;border:1px solid #00f0ff33;border-radius:40px;text-align:center;">🇬🇧 UK</span>
-            <span class="country" style="padding:0.6rem;border:1px solid #00f0ff33;border-radius:40px;text-align:center;">🇦🇺 Australia</span>
-            <span class="country" style="padding:0.6rem;border:1px solid #00f0ff33;border-radius:40px;text-align:center;">🇸🇬 Singapore</span>
-            <span class="country" style="padding:0.6rem;border:1px solid #00f0ff33;border-radius:40px;text-align:center;">🇩🇪 Germany</span>
-          </div>
-        </div>
-        <div>
-          <h3 style="font-size:2rem; font-family:'Unbounded';">Talent Bench</h3>
-          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1rem; margin-top:2rem;">
-            <span style="background:#00f0ff10; border-radius:40px; padding:0.8rem; text-align:center;">🧠 AI/ML</span>
-            <span style="background:#00f0ff10; border-radius:40px; padding:0.8rem; text-align:center;">🧪 SDET</span>
-            <span style="background:#00f0ff10; border-radius:40px; padding:0.8rem; text-align:center;">☁️ Cloud</span>
-            <span style="background:#00f0ff10; border-radius:40px; padding:0.8rem; text-align:center;">🔐 Security</span>
-          </div>
-        </div>
+        <div class="card"><div class="cardNum">01</div><div class="cardIcon">👥</div><div class="cardTitle">Dedicated Teams</div><div>99.8% SLA, 3–50+ engineers</div></div>
+        <div class="card"><div class="cardNum">02</div><div class="cardIcon">🏗️</div><div class="cardTitle">Build‑Operate‑Transfer</div><div>60% cost reduction, full IP</div></div>
+        <div class="card"><div class="cardNum">03</div><div class="cardIcon">⚡</div><div class="cardTitle">Staff Augmentation</div><div>48h deployment, monthly</div></div>
+        <div class="card"><div class="cardNum">04</div><div class="cardIcon">📊</div><div class="cardTitle">Managed Delivery</div><div>Fixed‑price, 24×7 escalation</div></div>
       </div>
     </div>
   </section>
 
-  <!-- SDET PROGRAM ZONE (with real PDF download) -->
   <section id="sdet">
     <div class="wrap">
-      <div class="secLabel"><i></i>02/06 · 6‑month sdet program</div>
+      <div class="secLabel">02/06 · 6‑MONTH SDET PROGRAM</div>
       <div class="sdetZone">
-        <h2 style="font-size:clamp(2.8rem,7vw,6rem);"><span class="dim">BECOME AN</span> <em>ELITE SDET</em></h2>
-        <p style="font-size:1.2rem; color:rgba(255,255,255,0.8); max-width:800px;">Industry‑ready automation engineers · 5 live projects · 1:1 mentorship · guaranteed interviews</p>
+        <h2>BECOME AN <em>ELITE SDET</em></h2>
+        <p style="font-size:1.2rem; max-width:800px;">Industry‑ready · 5 live projects · 1:1 mentorship · guaranteed interviews</p>
         <div class="sdetGrid">
           <div class="sdetCard" onclick="showBrochure('automation')">
-            <div class="icon">🤖</div>
-            <h3>Automation</h3>
-            <p>Selenium, Cypress, Playwright, Appium</p>
-            <span class="brochureBtn">📘 view brochure</span>
+            <div class="icon">🤖</div><h3>Automation</h3><p>Selenium, Cypress, Playwright</p><span class="brochureBtn">📘 BROCHURE</span>
           </div>
           <div class="sdetCard" onclick="showBrochure('manual')">
-            <div class="icon">🧪</div>
-            <h3>Manual Testing</h3>
-            <p>Test cases, JIRA, TestRail, exploratory</p>
-            <span class="brochureBtn">📘 view brochure</span>
+            <div class="icon">🧪</div><h3>Manual Testing</h3><p>JIRA, TestRail, exploratory</p><span class="brochureBtn">📘 BROCHURE</span>
           </div>
           <div class="sdetCard" onclick="showBrochure('api')">
-            <div class="icon">🔌</div>
-            <h3>API Testing</h3>
-            <p>Postman, REST Assured, GraphQL</p>
-            <span class="brochureBtn">📘 view brochure</span>
+            <div class="icon">🔌</div><h3>API Testing</h3><p>Postman, REST Assured, GraphQL</p><span class="brochureBtn">📘 BROCHURE</span>
           </div>
           <div class="sdetCard" onclick="showBrochure('live')">
-            <div class="icon">📦</div>
-            <h3>Live Projects</h3>
-            <p>E‑commerce, fintech, CI/CD, Git</p>
-            <span class="brochureBtn">📘 view brochure</span>
+            <div class="icon">📦</div><h3>Live Projects</h3><p>E‑commerce, fintech, CI/CD</p><span class="brochureBtn">📘 BROCHURE</span>
           </div>
         </div>
-        <div style="display:flex; justify-content:center; margin:3rem 0;">
-          <span class="placementBadge">★ 100% PLACEMENT ASSISTANCE ★</span>
-        </div>
-        <!-- RICH BROCHURE PREVIEW (with real PDF download via Blob) -->
-        <div id="brochurePreview">
-          <div style="display:flex; gap:2rem; align-items:center; flex-wrap:wrap;">
-            <span style="font-size:4rem;">📘</span>
-            <div style="flex:1;">
-              <h3 id="brochureTitle" style="font-size:2rem; margin-bottom:0.5rem;">Automation Testing Brochure</h3>
-              <p id="brochureContent" style="font-size:1rem; color:rgba(255,255,255,0.8);">6‑month intensive: 200+ hours of live coding, real‑world frameworks (Selenium, Cypress, Playwright, Appium), CI/CD integration, and 5 capstone projects. Includes certification and lifetime job support.</p>
-              <p style="margin-top:1rem;"><strong>Curriculum:</strong> WebDriver, TestNG, Cucumber, Page Object Model, Docker, Jenkins, Allure reports.</p>
-              <button id="downloadBtn" style="background:#ff0055; color:#fff; border:none; padding:0.8rem 2.5rem; border-radius:60px; margin-top:1.5rem; cursor:pointer; font-size:1rem;">⬇ Download PDF Brochure</button>
-            </div>
-          </div>
-        </div>
+        <div style="display:flex; justify-content:center;"><span class="placementBadge">★ 100% PLACEMENT ASSISTANCE ★</span></div>
+        <div id="brochurePreview" style="margin-top:3rem; padding:2rem; background:rgba(0,0,0,0.3); border-radius:60px; display:none;"></div>
       </div>
     </div>
   </section>
 
-  <!-- SERVICES -->
   <section id="services">
     <div class="wrap">
-      <div class="secLabel"><i></i>03/06 · core capabilities</div>
-      <h2><span class="dim">WHAT WE</span> <em>ENGINEER</em></h2>
+      <div class="secLabel">03/06 · CORE FORGE</div>
+      <h2>WHAT WE <em>ENGINEER</em></h2>
       <div class="cardGrid">
-        <div class="card"><div class="cardNum">01</div><div class="cardIcon">🤖</div><div class="cardTitle">AI & Machine Learning</div><div class="cardDesc">LLM integration, RAG, MLOps, computer vision, predictive analytics, custom model fine‑tuning.</div></div>
-        <div class="card"><div class="cardNum">02</div><div class="cardIcon">☁️</div><div class="cardTitle">Cloud & Platform</div><div class="cardDesc">AWS, Azure, GCP · Kubernetes · Terraform · Istio · serverless · FinOps.</div></div>
-        <div class="card"><div class="cardNum">03</div><div class="cardIcon">📊</div><div class="cardTitle">Data Engineering</div><div class="cardDesc">Real‑time pipelines (Kafka, Spark), data lakes, dbt, Snowflake, Databricks.</div></div>
-        <div class="card"><div class="cardNum">04</div><div class="cardIcon">🔐</div><div class="cardTitle">DevSecOps</div><div class="cardDesc">Zero‑trust architecture, SOC2, HIPAA, supply chain security, shift‑left.</div></div>
+        <div class="card"><div class="cardNum">01</div><div class="cardIcon">🤖</div><div class="cardTitle">AI & ML</div><div>LLM, RAG, MLOps</div></div>
+        <div class="card"><div class="cardNum">02</div><div class="cardIcon">☁️</div><div class="cardTitle">Cloud</div><div>AWS, K8s, Terraform</div></div>
+        <div class="card"><div class="cardNum">03</div><div class="cardIcon">📊</div><div class="cardTitle">Data</div><div>Kafka, Spark, dbt</div></div>
+        <div class="card"><div class="cardNum">04</div><div class="cardIcon">🔐</div><div class="cardTitle">DevSecOps</div><div>Zero‑trust, SOC2</div></div>
       </div>
     </div>
   </section>
 
-  <!-- REVIEWS -->
   <section id="reviews">
     <div class="wrap">
-      <div class="secLabel"><i></i>04/06 · client echo</div>
-      <h2><span class="dim">TRUSTED BY</span> <em>INNOVATORS</em></h2>
+      <div class="secLabel">04/06 · CLIENT ECHO</div>
+      <h2>TRUSTED BY <em>INNOVATORS</em></h2>
       <div class="reviewsGrid">
-        <div class="reviewCard">
-          <div class="reviewText">"Tech1World built our entire QA center from scratch. 45 engineers, 6 months, zero attrition. Their SDETs are the best I've ever worked with."</div>
-          <div class="reviewer">— CTO, global fintech</div>
-        </div>
-        <div class="reviewCard">
-          <div class="reviewText">"The AI self‑healing framework they delivered cut our test maintenance by 72%. We release daily now. Game changer."</div>
-          <div class="reviewer">— VP Engineering, e‑commerce leader</div>
-        </div>
-        <div class="reviewCard">
-          <div class="reviewText">"Their 6‑month SDET program transformed our junior hires into automation experts. 100% placement rate, no exaggeration."</div>
-          <div class="reviewer">— HR Director, healthcare SaaS</div>
-        </div>
+        <div class="reviewCard"><div>"45 engineers, zero attrition. Unmatched."</div><div class="reviewer">CTO, FINTECH</div></div>
+        <div class="reviewCard"><div>"72% maintenance cut, daily releases."</div><div class="reviewer">VP ENG, E‑COMMERCE</div></div>
+        <div class="reviewCard"><div>"100% placement after SDET program."</div><div class="reviewer">HR DIR, HEALTHCARE</div></div>
       </div>
     </div>
   </section>
 
-  <!-- GLOBE -->
-  <section id="globe">
-    <div class="wrap">
-      <div class="secLabel"><i></i>05/06 · global footprint</div>
-      <h2><span class="dim">4 CONTINENTS</span> <em>1 PARTNER</em></h2>
-      <div id="globeContainer"><canvas id="globeCanvas"></canvas></div>
-    </div>
-  </section>
+  <section id="globe"><div class="wrap"><div class="secLabel">05/06 · GLOBAL FOOTPRINT</div><h2>4 CONTINENTS <em>1 PARTNER</em></h2><div id="globeContainer"><canvas id="globeCanvas"></canvas></div></div></section>
+  <section id="map"><div class="wrap"><div class="secLabel">06/06 · OUR ORIGIN</div><h2>JAMMU, <em>INDIA</em></h2><div class="mapWrap"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3349.482931961891!2d74.854021315396!3d32.726579780979!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391e84b6b1e7b6c5%3A0x6f1b6c3b8e0e7a!2sJammu!5e0!3m2!1sen!2sin!4v1620000000000!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe></div></div></section>
 
-  <!-- GOOGLE MAP (JAMMU) -->
-  <section id="map">
-    <div class="wrap">
-      <div class="secLabel"><i></i>06/06 · our origin</div>
-      <h2><span class="dim">JAMMU,</span> <em>INDIA</em></h2>
-      <div class="mapWrap">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3349.482931961891!2d74.854021315396!3d32.726579780979!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391e84b6b1e7b6c5%3A0x6f1b6c3b8e0e7a!2sJammu!5e0!3m2!1sen!2sin!4v1620000000000!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACT -->
   <section id="contact">
     <div class="wrap">
-      <div class="secLabel"><i></i>contact nexus</div>
+      <div class="secLabel">CONTACT NEXUS</div>
       <div class="contactGrid">
-        <div>
-          <h2 style="font-size:3rem;"><em>CONNECT</em></h2>
-          <p style="font-size:1.1rem; color:rgba(255,255,255,0.7); margin-bottom:2rem;">A senior engineer will respond within 4 hours.</p>
-          <div class="infoRow"><span style="font-size:1.5rem;">📧</span> info@tech1world.com</div>
-          <div class="infoRow"><span style="font-size:1.5rem;">📍</span> Jammu, India (HQ)</div>
-          <div class="infoRow"><span style="font-size:1.5rem;">⏳</span> 24/7 enterprise support</div>
-        </div>
+        <div><h2><em>CONNECT</em></h2><p>Reply within 4h</p><div>📧 info@tech1world.com</div><div>📍 Jammu, India</div></div>
         <form class="form" id="contactForm">
-          <input type="text" placeholder="Your name *" required>
-          <input type="email" placeholder="Email *" required>
-          <select><option>SDET program</option><option>Dedicated team</option><option>BOT</option><option>Staff augmentation</option></select>
-          <textarea rows="4" placeholder="Tell us about your project or goals..."></textarea>
-          <button type="submit">send message →</button>
-          <div id="formOk" style="display:none; margin-top:1rem; color:#ffaa00;">✓ Message received — we'll reply within 4h.</div>
+          <input type="text" placeholder="Name *" required><input type="email" placeholder="Email *" required>
+          <select><option>SDET program</option><option>Dedicated team</option><option>BOT</option></select>
+          <textarea placeholder="Project details"></textarea><button type="submit">SEND →</button>
+          <div id="formOk" style="display:none; color:#ffcc00;">✓ received</div>
         </form>
       </div>
     </div>
   </section>
 
-  <footer>
-    <span>© 2026 TECH1WORLD </span>
-    <span>SDET · OUTSOURCING · AI · CLOUD · SECURITY</span>
-  </footer>
+  <footer><span>© 2026 TECH1WORLD — NOVA CORE</span><span>SDET · OUTSOURCING · AI · CLOUD · SECURITY</span></footer>
 
   <script>
-    (function() {
-      // ---------- QUANTUM BURST PRELOADER (500 particles) ----------
-      const preloader = document.getElementById('preloader');
-      const canvas = document.getElementById('burstCanvas');
-      const ctx = canvas.getContext('2d');
-      let w = canvas.width = window.innerWidth;
-      let h = canvas.height = window.innerHeight;
-      window.addEventListener('resize', ()=>{ w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; });
+    (function(){
+      // ---------- 3D BACKGROUND (WEBGL) ----------
+      const bgCanvas = document.getElementById('bgCanvas');
+      const renderer = new THREE.WebGLRenderer({ canvas: bgCanvas, alpha: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-      const particles = [];
-      for (let i = 0; i < 500; i++) {
-        particles.push({
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x03050a);
+
+      const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.z = 30;
+
+      // particle field
+      const particleCount = 2000;
+      const positions = new Float32Array(particleCount * 3);
+      const colors = new Float32Array(particleCount * 3);
+      for (let i = 0; i < particleCount; i++) {
+        const r = 20 + Math.random() * 30;
+        const theta = Math.random() * Math.PI * 2;
+        const phi = Math.acos(2 * Math.random() - 1);
+        positions[i*3] = r * Math.sin(phi) * Math.cos(theta);
+        positions[i*3+1] = r * Math.sin(phi) * Math.sin(theta);
+        positions[i*3+2] = r * Math.cos(phi);
+        
+        const color = new THREE.Color().setHSL(0.03 + Math.random()*0.1, 1, 0.5);
+        colors[i*3] = color.r;
+        colors[i*3+1] = color.g;
+        colors[i*3+2] = color.b;
+      }
+      const particleGeo = new THREE.BufferGeometry();
+      particleGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      particleGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+      const particleMat = new THREE.PointsMaterial({ size: 0.15, vertexColors: true, blending: THREE.AdditiveBlending, transparent: true, opacity: 0.7 });
+      const particles = new THREE.Points(particleGeo, particleMat);
+      scene.add(particles);
+
+      // rotating glow sphere
+      const sphereGeo = new THREE.SphereGeometry(8, 64, 64);
+      const sphereMat = new THREE.MeshPhongMaterial({ color: 0xff3a2f, emissive: 0x330000, wireframe: true, transparent: true, opacity: 0.15 });
+      const glowSphere = new THREE.Mesh(sphereGeo, sphereMat);
+      scene.add(glowSphere);
+
+      const light = new THREE.PointLight(0xff3a2f, 1, 50);
+      light.position.set(5,5,5);
+      scene.add(light);
+      const ambient = new THREE.AmbientLight(0x404060);
+      scene.add(ambient);
+
+      function animateBackground() {
+        particles.rotation.y += 0.0002;
+        particles.rotation.x += 0.0001;
+        glowSphere.rotation.y += 0.001;
+        glowSphere.rotation.x += 0.0005;
+        renderer.render(scene, camera);
+        requestAnimationFrame(animateBackground);
+      }
+      animateBackground();
+      window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+
+      // ---------- VOLUMETRIC LIGHT BURST PRELOADER (3D canvas) ----------
+      const preloader = document.getElementById('preloader');
+      const burstCanvas = document.getElementById('burstCanvas');
+      const bCtx = burstCanvas.getContext('2d');
+      let w = burstCanvas.width = window.innerWidth;
+      let h = burstCanvas.height = window.innerHeight;
+      window.addEventListener('resize', ()=>{ w = burstCanvas.width = window.innerWidth; h = burstCanvas.height = window.innerHeight; });
+
+      // 800 particles with 3D motion blur effect
+      let bParticles = [];
+      for (let i=0; i<800; i++) {
+        bParticles.push({
           x: w/2, y: h/2,
-          targetX: (Math.random() - 0.5) * w * 2.2,
-          targetY: (Math.random() - 0.5) * h * 2.2,
-          size: Math.random() * 20 + 5,
-          color: `hsl(${Math.random()*60 + 280}, 100%, 65%)`,
-          rotation: Math.random() * Math.PI * 2,
-          progress: 0
+          vx: (Math.random()-0.5)*18,
+          vy: (Math.random()-0.5)*18,
+          life: 1,
+          size: Math.random()*20+5,
+          color: i%3===0 ? '#ff3a2f' : (i%3===1 ? '#0055ff' : '#ffcc00')
         });
       }
-      const burstTl = gsap.timeline({
-        onUpdate: function() {
-          ctx.clearRect(0,0,w,h);
-          particles.forEach(p => {
-            let x = gsap.utils.interpolate(w/2, p.targetX, p.progress);
-            let y = gsap.utils.interpolate(h/2, p.targetY, p.progress);
-            ctx.save();
-            ctx.translate(x, y);
-            ctx.rotate(p.rotation * p.progress);
-            ctx.shadowColor = '#ff0055';
-            ctx.shadowBlur = 40;
-            if (i % 2 === 0) {
-              ctx.fillStyle = p.color;
-              ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
-            } else {
-              ctx.beginPath();
-              ctx.arc(0, 0, p.size/2, 0, 2*Math.PI);
-              ctx.fillStyle = p.color;
-              ctx.fill();
-            }
-            ctx.restore();
-          });
-        }
-      });
-      burstTl.to(particles, { progress: 1, duration: 1.6, ease: "power3.out", stagger: 0.003 })
-             .to(preloader, { opacity: 0, duration: 0.8, onComplete: () => preloader.style.display = 'none' }, "-=0.3");
-      gsap.to('.preloadText', { opacity: 0, duration: 0.5, delay: 1.5 });
+      function drawBurst() {
+        bCtx.clearRect(0,0,w,h);
+        bParticles.forEach(p => {
+          p.x += p.vx * 0.3;
+          p.y += p.vy * 0.3;
+          p.life -= 0.002;
+          if (p.life <= 0) {
+            p.x = w/2; p.y = h/2;
+            p.vx = (Math.random()-0.5)*18;
+            p.vy = (Math.random()-0.5)*18;
+            p.life = 1;
+          }
+          bCtx.shadowColor = p.color;
+          bCtx.shadowBlur = 40;
+          bCtx.beginPath();
+          bCtx.arc(p.x, p.y, p.size * p.life, 0, 2*Math.PI);
+          bCtx.fillStyle = p.color + Math.floor(p.life*150).toString(16).padStart(2,'0');
+          bCtx.fill();
+        });
+        requestAnimationFrame(drawBurst);
+      }
+      drawBurst();
+      setTimeout(() => {
+        gsap.to(preloader, { opacity: 0, duration: 1.2, onComplete: () => preloader.style.display = 'none' });
+      }, 1800);
 
-      // ---------- CURSOR & MAGNETIC ----------
+      // ---------- CURSOR + MAGNETIC ----------
       const cursor = document.getElementById('cursor');
       document.addEventListener('mousemove', (e) => {
         cursor.style.left = e.clientX + 'px';
         cursor.style.top = e.clientY + 'px';
       });
-      document.querySelectorAll('a, button, .magnetic, .card, .sdetCard, .stat, .navCta, .country, .reviewCard').forEach(el => {
+      document.querySelectorAll('a, button, .card, .sdetCard').forEach(el => {
         el.addEventListener('mouseenter', () => document.body.classList.add('hov'));
         el.addEventListener('mouseleave', () => document.body.classList.remove('hov'));
       });
 
       // magnetic effect
-      document.querySelectorAll('.magnetic, .btnPrimary, .btnGhost, .card, .sdetCard, .stat').forEach(el => {
+      document.querySelectorAll('.btnPrimary, .btnGhost, .card, .sdetCard, .brochureBtn').forEach(el => {
         el.addEventListener('mousemove', function(e) {
           const rect = this.getBoundingClientRect();
           const x = e.clientX - rect.left - rect.width/2;
           const y = e.clientY - rect.top - rect.height/2;
-          this.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px) scale(1.02)`;
+          this.style.transform = `translate(${x*0.3}px, ${y*0.3}px) scale(1.03)`;
         });
         el.addEventListener('mouseleave', function() { this.style.transform = ''; });
       });
@@ -681,108 +490,16 @@
       document.querySelectorAll('.navLinks a').forEach(link => {
         const orig = link.innerText;
         link.addEventListener('mouseenter', function() {
-          let count = 0;
-          const interval = setInterval(() => {
-            if(count >= 6) { clearInterval(interval); this.innerText = orig; return; }
-            this.innerText = this.innerText.split('').map(c => Math.random() > 0.6 ? String.fromCharCode(65+Math.floor(Math.random()*26)) : c).join('');
+          let count=0;
+          const int = setInterval(() => {
+            if(count>=5) { clearInterval(int); this.innerText=orig; return; }
+            this.innerText = this.innerText.split('').map(c => Math.random()>0.6 ? String.fromCharCode(65+Math.floor(Math.random()*26)) : c).join('');
             count++;
           }, 40);
         });
       });
 
-      // ---------- BACKGROUND PARTICLE CANVAS ----------
-      const pCanvas = document.getElementById('particleCanvas');
-      const pCtx = pCanvas.getContext('2d');
-      let pW = pCanvas.width = window.innerWidth, pH = pCanvas.height = window.innerHeight;
-      window.addEventListener('resize', ()=>{ pW = pCanvas.width = window.innerWidth; pH = pCanvas.height = window.innerHeight; });
-      let particlesBg = [];
-      for(let i=0;i<200;i++) {
-        particlesBg.push({
-          x: Math.random()*pW, y: Math.random()*pH,
-          vx: (Math.random()-0.5)*0.8, vy: (Math.random()-0.5)*0.6,
-          size: Math.random()*3+1, phase: Math.random()*10
-        });
-      }
-      function drawBgParticles() {
-        pCtx.clearRect(0,0,pW,pH);
-        particlesBg.forEach(p => {
-          p.x += p.vx; p.y += p.vy;
-          if(p.x<0||p.x>pW) p.vx*=-1;
-          if(p.y<0||p.y>pH) p.vy*=-1;
-          let flick = 0.5 + 0.5*Math.sin(Date.now()*0.003 + p.phase);
-          pCtx.beginPath();
-          pCtx.arc(p.x, p.y, p.size*0.8, 0, 2*Math.PI);
-          pCtx.fillStyle = `rgba(0,240,255,${0.1*flick})`;
-          pCtx.fill();
-        });
-        requestAnimationFrame(drawBgParticles);
-      }
-      drawBgParticles();
-
-      // ---------- THREE.JS GLOBE ----------
-      const container = document.getElementById('globeContainer');
-      if(container) {
-        const gCanvas = document.getElementById('globeCanvas');
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(45, container.clientWidth/container.clientHeight, 0.1, 1000);
-        camera.position.set(0,0,4);
-        const renderer = new THREE.WebGLRenderer({canvas:gCanvas, alpha:true, antialias:true});
-        renderer.setSize(container.clientWidth, container.clientHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
-
-        const geometry = new THREE.SphereGeometry(1.4, 100, 60);
-        const material = new THREE.MeshPhongMaterial({
-          color: 0x00f0ff,
-          emissive: 0x002244,
-          wireframe: true,
-          transparent: true,
-          opacity: 0.25
-        });
-        const sphere = new THREE.Mesh(geometry, material);
-        scene.add(sphere);
-
-        const coreGeo = new THREE.SphereGeometry(0.5, 32, 32);
-        const coreMat = new THREE.MeshBasicMaterial({ color: 0xff0055, transparent: true, opacity: 0.15 });
-        const core = new THREE.Mesh(coreGeo, coreMat);
-        sphere.add(core);
-
-        const dotGeo = new THREE.BufferGeometry();
-        let dotPos = [];
-        for(let i=0;i<400;i++){
-          let r = 1.6 + Math.random()*0.4;
-          let theta = Math.random()*Math.PI*2;
-          let phi = Math.acos(2*Math.random()-1);
-          let x = r*Math.sin(phi)*Math.cos(theta);
-          let y = r*Math.sin(phi)*Math.sin(theta);
-          let z = r*Math.cos(phi);
-          dotPos.push(x,y,z);
-        }
-        dotGeo.setAttribute('position', new THREE.Float32BufferAttribute(dotPos,3));
-        const dotMat = new THREE.PointsMaterial({color: 0xffaa00, size: 0.04, blending: THREE.AdditiveBlending});
-        const dots = new THREE.Points(dotGeo, dotMat);
-        sphere.add(dots);
-
-        const light = new THREE.DirectionalLight(0xffffff, 1.2);
-        light.position.set(2,2,2);
-        scene.add(light);
-        const ambient = new THREE.AmbientLight(0x404060);
-        scene.add(ambient);
-
-        function animateGlobe() {
-          sphere.rotation.y += 0.002;
-          sphere.rotation.x += 0.0005;
-          renderer.render(scene, camera);
-          requestAnimationFrame(animateGlobe);
-        }
-        animateGlobe();
-        window.addEventListener('resize', ()=>{
-          camera.aspect = container.clientWidth/container.clientHeight;
-          camera.updateProjectionMatrix();
-          renderer.setSize(container.clientWidth, container.clientHeight);
-        });
-      }
-
-      // ---------- COUNTERS ----------
+      // counters
       const statNumbers = document.querySelectorAll('.statNumber');
       const obs = new IntersectionObserver(entries => {
         entries.forEach(e => {
@@ -803,78 +520,61 @@
       }, { threshold: 0.5 });
       statNumbers.forEach(s => obs.observe(s));
 
-      // ---------- BROCHURE FUNCTION (with REAL PDF download via Blob) ----------
+      // ---------- THREE.JS GLOBE (holographic) ----------
+      const container = document.getElementById('globeContainer');
+      if(container) {
+        const gCanvas = document.getElementById('globeCanvas');
+        const scene2 = new THREE.Scene();
+        const camera2 = new THREE.PerspectiveCamera(45, container.clientWidth/container.clientHeight, 0.1, 1000);
+        camera2.position.set(0,0,4);
+        const renderer2 = new THREE.WebGLRenderer({canvas:gCanvas, alpha:true, antialias:true});
+        renderer2.setSize(container.clientWidth, container.clientHeight);
+        renderer2.setPixelRatio(Math.min(window.devicePixelRatio,2));
+
+        const geo = new THREE.SphereGeometry(1.4, 100, 60);
+        const mat = new THREE.MeshPhongMaterial({ color: 0x0055ff, emissive: 0x001133, wireframe: true, transparent: true, opacity: 0.3 });
+        const sphere = new THREE.Mesh(geo, mat);
+        scene2.add(sphere);
+
+        const coreGeo = new THREE.SphereGeometry(0.5, 32, 32);
+        const coreMat = new THREE.MeshBasicMaterial({ color: 0xff3a2f, transparent: true, opacity: 0.2 });
+        const core = new THREE.Mesh(coreGeo, coreMat);
+        sphere.add(core);
+
+        const light2 = new THREE.DirectionalLight(0xffffff, 1.2); light2.position.set(2,2,2); scene2.add(light2);
+        const ambient2 = new THREE.AmbientLight(0x404060); scene2.add(ambient2);
+
+        function animateGlobe() { sphere.rotation.y += 0.002; renderer2.render(scene2, camera2); requestAnimationFrame(animateGlobe); }
+        animateGlobe();
+        window.addEventListener('resize', ()=>{ camera2.aspect = container.clientWidth/container.clientHeight; camera2.updateProjectionMatrix(); renderer2.setSize(container.clientWidth, container.clientHeight); });
+      }
+
+      // ---------- BROCHURE FUNCTION (real PDF) ----------
       window.showBrochure = function(type) {
         const preview = document.getElementById('brochurePreview');
-        const title = document.getElementById('brochureTitle');
-        const content = document.getElementById('brochureContent');
-        const downloadBtn = document.getElementById('downloadBtn');
-        
-        let pdfContent = '';
-        if(type === 'automation') {
-          title.innerText = 'Automation Testing Brochure';
-          content.innerText = '6‑month intensive: 200+ hours of live coding, real‑world frameworks (Selenium, Cypress, Playwright, Appium), CI/CD integration, and 5 capstone projects. Includes certification and lifetime job support.';
-          pdfContent = 'TECH1WORLD AUTOMATION TESTING PROGRAM\n\nDuration: 6 months\nTools: Selenium, Cypress, Playwright, Appium, WebDriverIO\nCurriculum: WebDriver, TestNG, Cucumber, Page Object Model, Docker, Jenkins, Allure reports\nProjects: 5 live capstone projects\nPlacement: 100% assistance\n\nContact: info@tech1world.com';
-        } else if(type === 'manual') {
-          title.innerText = 'Manual Testing Brochure';
-          content.innerText = 'Master test design, bug tracking (JIRA), TestRail, exploratory testing, and agile methodologies. 3 months, 2 live projects, and 100% placement assistance.';
-          pdfContent = 'TECH1WORLD MANUAL TESTING PROGRAM\n\nDuration: 3 months\nCurriculum: Test case design, JIRA, TestRail, exploratory testing, agile methodologies\nProjects: 2 live projects\nPlacement: 100% assistance\n\nContact: info@tech1world.com';
-        } else if(type === 'api') {
-          title.innerText = 'API Testing Brochure';
-          content.innerText = 'Comprehensive API testing: Postman, REST Assured, GraphQL, contract testing, mocking, and security testing. 4 months with 3 real‑world APIs.';
-          pdfContent = 'TECH1WORLD API TESTING PROGRAM\n\nDuration: 4 months\nTools: Postman, REST Assured, GraphQL, SoapUI\nCurriculum: Contract testing, mocking, security testing, OAuth\nProjects: 3 real-world APIs\nPlacement: 100% assistance\n\nContact: info@tech1world.com';
-        } else if(type === 'live') {
-          title.innerText = 'Live Projects Brochure';
-          content.innerText = 'Work on production‑scale applications: e‑commerce, fintech, healthcare. Full CI/CD, Git, Jenkins, Docker. 5 months, team collaboration, and interview prep.';
-          pdfContent = 'TECH1WORLD LIVE PROJECTS PROGRAM\n\nDuration: 5 months\nDomains: E-commerce, fintech, healthcare\nTools: Git, Jenkins, Docker, CI/CD pipelines\nCollaboration: Team-based agile development\nPlacement: 100% assistance\n\nContact: info@tech1world.com';
-        }
-
-        // Replace download button with new one that creates real PDF
-        const newBtn = document.createElement('button');
-        newBtn.id = 'downloadBtn';
-        newBtn.style.background = '#ff0055';
-        newBtn.style.color = '#fff';
-        newBtn.style.border = 'none';
-        newBtn.style.padding = '0.8rem 2.5rem';
-        newBtn.style.borderRadius = '60px';
-        newBtn.style.marginTop = '1.5rem';
-        newBtn.style.cursor = 'pointer';
-        newBtn.style.fontSize = '1rem';
-        newBtn.innerText = '⬇ Download PDF Brochure';
-        
-        // Add click event to generate and download PDF
-        newBtn.addEventListener('click', function(e) {
+        let content = '';
+        if(type==='automation') content='AUTOMATION TESTING: 6 months, Selenium, Cypress, Playwright, 5 projects. 100% placement.';
+        else if(type==='manual') content='MANUAL TESTING: 3 months, JIRA, TestRail, 2 live projects.';
+        else if(type==='api') content='API TESTING: 4 months, Postman, REST Assured, GraphQL.';
+        else if(type==='live') content='LIVE PROJECTS: 5 months, e-commerce, fintech, CI/CD.';
+        preview.innerHTML = `<div style="background:#0a0c18; padding:2rem; border-radius:60px;"><h3 style="color:#ffcc00;">${type.toUpperCase()} BROCHURE</h3><p>${content}</p><button id="pdfBtn" style="background:#0055ff; border:none; padding:0.8rem 2rem; border-radius:60px; color:#fff;">⬇ DOWNLOAD PDF</button></div>`;
+        preview.style.display = 'block';
+        document.getElementById('pdfBtn').addEventListener('click', function(e) {
           e.preventDefault();
-          e.stopPropagation();
-          // Create a Blob with the brochure content (simulating a PDF)
-          const blob = new Blob([pdfContent], { type: 'application/pdf' });
+          const blob = new Blob([`TECH1WORLD ${type.toUpperCase()} PROGRAM\n\n${content}\n\nContact: info@tech1world.com`], {type: 'application/pdf'});
           const url = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = `${type}_brochure.pdf`;
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
+          const a = document.createElement('a'); a.href = url; a.download = `${type}_brochure.pdf`; a.click();
           window.URL.revokeObjectURL(url);
         });
-
-        // Replace old button
-        if (downloadBtn) {
-          downloadBtn.parentNode.replaceChild(newBtn, downloadBtn);
-        }
-
-        preview.style.display = 'block';
-        preview.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        preview.scrollIntoView({behavior:'smooth'});
       };
 
-      // ---------- CONTACT FORM ----------
+      // contact form
       document.getElementById('contactForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        document.getElementById('formOk').style.display = 'block';
-        setTimeout(() => this.reset(), 2000);
+        e.preventDefault(); document.getElementById('formOk').style.display='block'; setTimeout(()=>this.reset(),2000);
       });
 
-      // ---------- SMOOTH SCROLL ----------
+      // smooth scroll
       gsap.registerPlugin(ScrollTrigger);
       gsap.utils.toArray('section').forEach(s => {
         gsap.from(s, {
