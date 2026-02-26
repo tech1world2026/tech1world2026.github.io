@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-  <title>Tech1World — Quantum Frost | Complete Experience</title>
+  <title>Tech1World — Quantum Frost | Live Script Terminal</title>
   <!-- Fonts & Libraries -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -77,7 +77,7 @@
       position: fixed;
       right: 20px;
       top: 100px;
-      width: 280px;
+      width: 320px;
       z-index: 999;
       background: rgba(10, 20, 40, 0.25);
       backdrop-filter: blur(20px);
@@ -100,19 +100,19 @@
     .live-dot { width: 8px; height: 8px; background: #8bb9d1; border-radius: 50%; animation: livePulse 1.5s infinite; }
     @keyframes livePulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
     .script-line {
-      font-size: 0.65rem; line-height: 1.8; color: rgba(176,224,255,0.8);
-      white-space: nowrap; overflow: hidden;
+      font-size: 0.7rem;
+      line-height: 1.8;
+      color: rgba(176,224,255,0.9);
+      white-space: nowrap;
+      overflow: hidden;
       border-right: 2px solid #8bb9d1;
-      animation: typing 4s steps(40, end) infinite, blinkCursor 1s step-end infinite;
       max-width: 100%;
+      font-family: 'Space Mono', monospace;
     }
-    .script-line:nth-child(2) { animation-delay: 0s; }
-    .script-line:nth-child(3) { animation-delay: 0.5s; }
-    .script-line:nth-child(4) { animation-delay: 1s; }
-    .script-line:nth-child(5) { animation-delay: 1.5s; }
-    .script-line:nth-child(6) { animation-delay: 2s; }
-    .script-line:nth-child(7) { animation-delay: 2.5s; }
-    @keyframes typing { 0% { width: 0; } 50% { width: 100%; } 100% { width: 0; } }
+    .script-line.typing {
+      animation: typing 3s steps(40, end) infinite, blinkCursor 1s step-end infinite;
+    }
+    @keyframes typing { 0% { width: 0; } 100% { width: 100%; } }
     @keyframes blinkCursor { from, to { border-color: transparent; } 50% { border-color: #8bb9d1; } }
 
     /* ========== LIVE DATA PANEL ========== */
@@ -334,7 +334,61 @@
     .chip { font-family: 'Rajdhani', sans-serif; font-size: 0.45rem; letter-spacing: 0.1em; padding: 0.15rem 0.5rem; border: 1px solid rgba(176,224,255,0.15); color: rgba(176,224,255,0.6); text-transform: uppercase; border-radius: 20px; transition: all 0.3s; }
     .cap-card:hover .chip { border-color: rgba(176,224,255,0.4); color: #b0e0ff; }
 
-    /* ========== SDET INTERNSHIP PROGRAM (THE LOVE PROJECT) ========== */
+    /* ========== QUANTUM SCRIPT TERMINAL (REPLACES LOVE PROJECT) ========== */
+    .quantum-terminal {
+      background: rgba(10,20,40,0.7);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(176,224,255,0.2);
+      border-radius: 40px;
+      padding: 3rem;
+      margin: 4rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .terminal-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(176,224,255,0.2);
+    }
+    .terminal-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ff5f56;
+    }
+    .terminal-dot:nth-child(2) { background: #ffbd2e; }
+    .terminal-dot:nth-child(3) { background: #27c93f; }
+    .terminal-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1rem;
+      color: #b0e0ff;
+      margin-left: 1rem;
+    }
+    .terminal-line {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.85rem;
+      color: rgba(176,224,255,0.9);
+      margin-bottom: 0.5rem;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .terminal-prompt { color: #8bb9d1; }
+    .terminal-command { color: #ffffff; }
+    .terminal-output { color: rgba(176,224,255,0.6); margin-left: 1.5rem; }
+    .cursor-blink {
+      display: inline-block;
+      width: 8px;
+      height: 1rem;
+      background: #b0e0ff;
+      animation: blink 1s infinite;
+      vertical-align: middle;
+    }
+    @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+
+    /* ========== SDET INTERNSHIP PROGRAM (WITH DETAILED PDF BROCHURES) ========== */
     .internship-zone {
       background: rgba(10,20,40,0.7);
       backdrop-filter: blur(20px);
@@ -416,26 +470,21 @@
       padding-left: 1.5rem;
     }
     .internship-card .features li::before {
-      content: '❄️';
+      content: '⚡';
       position: absolute;
       left: 0;
       color: #b0e0ff;
     }
-    .love-badge {
+    .badge-new {
       position: absolute;
       top: 1rem;
       right: 1rem;
-      background: linear-gradient(135deg, #ff6b6b, #b0e0ff);
+      background: linear-gradient(135deg, #b0e0ff, #8bb9d1);
       color: #0a1428;
       font-size: 0.6rem;
       padding: 0.2rem 0.8rem;
       border-radius: 40px;
       font-weight: 600;
-      animation: lovePulse 2s infinite;
-    }
-    @keyframes lovePulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.8; transform: scale(1.05); }
     }
     .placement-badge {
       display: inline-block;
@@ -542,17 +591,6 @@
     .proj-stats { display: flex; gap: 1rem; margin-top: 0.5rem; }
     .proj-stat { font-size: 0.8rem; color: #b0e0ff; }
 
-    /* ========== CAREERS GRID ========== */
-    .careers-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin: 3rem 0; }
-    .career-card { background: rgba(10,20,40,0.7); backdrop-filter: blur(15px); border: 1px solid rgba(176,224,255,0.1); border-radius: 24px; padding: 2rem; transition: all 0.4s; cursor: pointer; }
-    .career-card:hover { border-color: #b0e0ff; transform: translateY(-5px); box-shadow: 0 20px 40px rgba(176,224,255,0.1); }
-    .career-badge { display: inline-block; padding: 0.2rem 1rem; background: rgba(176,224,255,0.1); border: 1px solid rgba(176,224,255,0.2); border-radius: 30px; font-family: 'Rajdhani', sans-serif; font-size: 0.5rem; letter-spacing: 0.1em; color: #b0e0ff; margin-bottom: 1rem; }
-    .career-title { font-family: 'Orbitron', sans-serif; font-size: 1rem; margin-bottom: 0.8rem; transition: color 0.3s; }
-    .career-card:hover .career-title { color: #b0e0ff; }
-    .career-desc { font-size: 0.7rem; color: rgba(255,255,255,0.4); line-height: 1.8; margin-bottom: 1rem; }
-    .career-apply { font-family: 'Rajdhani', sans-serif; font-size: 0.55rem; letter-spacing: 0.15em; color: #b0e0ff; opacity: 0; transform: translateY(6px); transition: all 0.4s; }
-    .career-card:hover .career-apply { opacity: 1; transform: translateY(0); }
-
     /* ========== GLOBE CONTAINER ========== */
     .globe-container { width: 100%; height: 500px; border-radius: 40px; overflow: hidden; border: 1px solid rgba(176,224,255,0.2); margin: 4rem 0; position: relative; cursor: grab; }
     .globe-container:active { cursor: grabbing; }
@@ -583,7 +621,7 @@
       .hero-inner { grid-template-columns: 1fr; gap: 2rem; }
       .hero-right { display: flex; justify-content: center; }
       .stats-grid { grid-template-columns: repeat(3, 1fr); }
-      .card-grid, .svc-grid, .proj-grid, .careers-grid, .caps-grid, .reviews-grid, .internship-grid { grid-template-columns: repeat(2, 1fr); }
+      .card-grid, .svc-grid, .proj-grid, .caps-grid, .reviews-grid, .internship-grid { grid-template-columns: repeat(2, 1fr); }
       .countries-grid { grid-template-columns: repeat(3, 1fr); }
       .bot-inner { grid-template-columns: 1fr; }
       .bot-left { border-right: none; border-bottom: 1px solid rgba(176,224,255,0.06); }
@@ -597,13 +635,14 @@
       .nav-cta { margin-left: auto; }
       .sec-inner { padding: 4rem 1.5rem; }
       .stats-grid { grid-template-columns: repeat(2, 1fr); }
-      .card-grid, .svc-grid, .proj-grid, .careers-grid, .caps-grid, .reviews-grid, .internship-grid, .countries-grid { grid-template-columns: 1fr; }
+      .card-grid, .svc-grid, .proj-grid, .caps-grid, .reviews-grid, .internship-grid, .countries-grid { grid-template-columns: 1fr; }
       .hero-stats { grid-template-columns: 1fr; }
       .hero-right { display: none; }
       footer { flex-direction: column; gap: 1rem; text-align: center; }
       .footer-emails { flex-wrap: wrap; justify-content: center; }
       .contact-grid { grid-template-columns: 1fr; }
       .internship-zone { padding: 2rem; }
+      .quantum-terminal { padding: 1.5rem; }
     }
   </style>
 </head>
@@ -620,32 +659,31 @@
 <div id="PROGRESS"></div>
 <div id="CURSOR"><div class="cur-ice"></div><div class="cur-ring"></div><div class="cur-core"></div></div>
 
-<!-- ENHANCED TRANSLUCENT LIVE SCRIPT PANEL -->
+<!-- ENHANCED TRANSLUCENT LIVE SCRIPT PANEL (DYNAMIC) -->
 <div id="LIVE_SCRIPT">
-  <div class="live-header"><span class="live-dot"></span> QUANTUM CORE · v9.9</div>
-  <div class="script-line">>_ initializing particle field [OK]</div>
-  <div class="script-line">>_ loading neural networks [ACTIVE]</div>
-  <div class="script-line">>_ connecting to global grid [347 NODES]</div>
-  <div class="script-line">>_ AI self-healing engine online</div>
-  <div class="script-line">>_ SDET internship program active</div>
-  <div class="script-line">>_ live review feed: 4.9/5 rating</div>
-  <div class="script-line">>_ quantum entanglement stable</div>
+  <div class="live-header"><span class="live-dot"></span> QUANTUM SCRIPT · v9.9</div>
+  <div class="script-line typing">>_ initializing quantum core... [OK]</div>
+  <div class="script-line typing">>_ loading neural networks... [347 NODES]</div>
+  <div class="script-line typing">>_ connecting to global grid... [18 COUNTRIES]</div>
+  <div class="script-line typing">>_ AI self-healing engine... [98.3% COVERAGE]</div>
+  <div class="script-line typing">>_ SDET internship program... [156 INTERNS]</div>
+  <div class="script-line typing">>_ quantum entanglement... [STABLE]</div>
 </div>
 
 <!-- LIVE DATA PANEL -->
 <div id="LIVE_DATA">
   <div class="live-stat">ACTIVE NODES <span id="statNodes">347</span></div>
-  <div class="live-stat">INTERNS <span id="statInterns">156</span></div>
+  <div class="live-stat">QUANTA/s <span id="statQuanta">1.2M</span></div>
   <div class="live-stat">COVERAGE <span id="statCoverage">98.3%</span></div>
   <div class="live-stat">LATENCY <span id="statLatency">42ms</span></div>
-  <div class="live-stat">REVIEWS <span id="statReviews">4.9/5</span></div>
+  <div class="live-stat">INTERNS <span id="statInterns">156</span></div>
 </div>
 
 <!-- LOADER -->
 <div id="LOADER">
   <div class="loader-ice-wrap"><svg class="loader-svg-ring" viewBox="0 0 200 200"><polygon points="100,10 180,45 180,155 100,190 20,155 20,45" fill="none" stroke="rgba(176,224,255,0.2)" stroke-width="1"/></svg><svg class="loader-svg-ring-2" viewBox="0 0 160 160"><polygon points="80,8 144,40 144,120 80,152 16,120 16,40" fill="none" stroke="rgba(176,224,255,0.15)" stroke-width="1"/></svg><svg class="loader-svg-ring-3" viewBox="0 0 120 120"><polygon points="60,6 110,33 110,87 60,114 10,87 10,33" fill="none" stroke="rgba(176,224,255,0.1)" stroke-width="1"/></svg><div class="loader-core">T1W</div></div>
   <div class="loader-wordmark">TECH<span>1</span>WORLD</div>
-  <div class="loader-sub">Quantum Frost · The Love Project</div>
+  <div class="loader-sub">Quantum Frost · Terminal Active</div>
   <div class="loader-bar"><div class="loader-bar-fill"></div></div>
   <div class="loader-pct" id="LOAD_PCT">INITIALIZING · 0%</div>
 </div>
@@ -656,11 +694,11 @@
   <ul class="nav-links">
     <li><a href="#home" class="nav-link active" data-page="home">Home</a></li>
     <li><a href="#sdet" class="nav-link" data-page="sdet">SDET</a></li>
-    <li><a href="#internship" class="nav-link" data-page="internship">Love Project</a></li>
+    <li><a href="#quantum" class="nav-link" data-page="quantum">Quantum Script</a></li>
     <li><a href="#reviews" class="nav-link" data-page="reviews">Reviews</a></li>
     <li><a href="#contact" class="nav-link" data-page="contact">Contact</a></li>
   </ul>
-  <button class="nav-cta" onclick="document.getElementById('internship').scrollIntoView({behavior:'smooth'})">❤️ LOVE PROJECT</button>
+  <button class="nav-cta" onclick="document.getElementById('quantum').scrollIntoView({behavior:'smooth'})">⚡ QUANTUM SCRIPT</button>
 </header>
 
 <!-- HOME SECTION (ALL ORIGINAL CONTENT) -->
@@ -671,9 +709,9 @@
       <div class="hero-left">
         <div class="hero-tag"><div class="hero-tag-dot"></div><div class="hero-tag-text">QUANTUM FROST · EST 2020</div></div>
         <h1 class="hero-h1"><span class="h1-line"><span class="h1-word">GLOBAL</span></span><span class="h1-line"><span class="h1-word">OUTSOURCING</span></span><span class="h1-line"><span class="h1-word">ELITE SDET</span></span></h1>
-        <p class="hero-desc">350+ engineers · 18 countries · AI-driven automation · 72% QA reduction · The Love Project internship program</p>
+        <p class="hero-desc">350+ engineers · 18 countries · AI-driven automation · 72% QA reduction · Quantum Script Terminal</p>
         <div class="hero-actions">
-          <button class="btn-ice" onclick="document.getElementById('internship').scrollIntoView({behavior:'smooth'})"><div class="btn-ice-bg"></div><span>❤️ Love Project →</span></button>
+          <button class="btn-ice" onclick="document.getElementById('quantum').scrollIntoView({behavior:'smooth'})"><div class="btn-ice-bg"></div><span>⚡ Quantum Script →</span></button>
           <button class="btn-frost" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Contact Us</button>
         </div>
         <div class="hero-stats">
@@ -766,55 +804,86 @@
   </div>
 </section>
 
-<!-- THE LOVE PROJECT - SDET INTERNSHIP PROGRAM (FULL DETAILS) -->
-<section id="internship" style="padding:4rem;">
+<!-- QUANTUM SCRIPT TERMINAL (REPLACES LOVE PROJECT) -->
+<section id="quantum" style="padding:4rem;">
   <div class="sec-inner">
-    <div class="sec-label"><div class="sec-label-bar"></div><div class="sec-label-text">THE LOVE PROJECT</div></div>
-    <div class="sec-h"><span class="gradient">6-MONTH SDET</span> PROGRAM</div>
+    <div class="sec-label"><div class="sec-label-bar"></div><div class="sec-label-text">QUANTUM SCRIPT</div></div>
+    <div class="sec-h"><span class="gradient">LIVE CODING</span> TERMINAL</div>
+    
+    <div class="quantum-terminal">
+      <div class="terminal-header">
+        <div class="terminal-dot"></div>
+        <div class="terminal-dot"></div>
+        <div class="terminal-dot"></div>
+        <div class="terminal-title">quantum@script:~$</div>
+      </div>
+      <div class="terminal-line"><span class="terminal-prompt">$></span> <span class="terminal-command">init --quantum-core</span></div>
+      <div class="terminal-line terminal-output">[OK] Quantum core initialized. 347 active nodes.</div>
+      <div class="terminal-line"><span class="terminal-prompt">$></span> <span class="terminal-command">load --neural-network sdet-v4</span></div>
+      <div class="terminal-line terminal-output">[LOADING] Neural network: 98.3% coverage, 42ms latency</div>
+      <div class="terminal-line"><span class="terminal-prompt">$></span> <span class="terminal-command">connect --global-grid</span></div>
+      <div class="terminal-line terminal-output">[CONNECTED] 18 countries, 156 active interns</div>
+      <div class="terminal-line"><span class="terminal-prompt">$></span> <span class="terminal-command">run --self-healing</span></div>
+      <div class="terminal-line terminal-output">[RUNNING] AI self-healing engine: 72% QA reduction</div>
+      <div class="terminal-line"><span class="terminal-prompt">$></span> <span class="terminal-command">deploy --internship-program</span></div>
+      <div class="terminal-line terminal-output">[DEPLOYED] 4 programs: Automation, Manual, API, Live Projects</div>
+      <div class="terminal-line"><span class="terminal-prompt">$></span> <span class="terminal-command">status --quantum-entanglement</span></div>
+      <div class="terminal-line terminal-output">[STABLE] Quantum entanglement: 4.9/5 rating</div>
+      <div class="terminal-line"><span class="terminal-prompt">$></span> <span class="terminal-command">_<span class="cursor-blink"></span></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- SDET INTERNSHIP PROGRAM (WITH DETAILED PDF BROCHURES) -->
+<section style="padding:4rem;">
+  <div class="sec-inner">
+    <div class="sec-label"><div class="sec-label-bar"></div><div class="sec-label-text">SDET INTERNSHIP</div></div>
+    <div class="sec-h"><span class="gradient">6-MONTH</span> PROGRAMS</div>
     
     <div class="internship-zone">
       <div style="text-align:center; margin-bottom:3rem;">
-        <span class="placement-badge">❤️ 100% PLACEMENT ASSISTANCE ❤️</span>
+        <span class="placement-badge">⚡ 100% PLACEMENT ASSISTANCE ⚡</span>
       </div>
       
       <div class="internship-grid">
         <!-- Automation Testing Card -->
         <div class="internship-card" onclick="downloadBrochure('automation')">
-          <div class="love-badge">❤️ LOVE PROJECT</div>
+          <div class="badge-new">NEW</div>
           <div class="icon">🤖</div>
           <h3>AUTOMATION</h3>
           <span class="duration">6 MONTHS · INTENSIVE</span>
           <ul class="features">
-            <li>Selenium WebDriver</li>
+            <li>Selenium WebDriver (Java/Python)</li>
             <li>Cypress & Playwright</li>
-            <li>Appium Mobile</li>
-            <li>TestNG, Cucumber</li>
+            <li>Appium Mobile Testing</li>
+            <li>TestNG, Cucumber, BDD</li>
             <li>CI/CD with Jenkins</li>
+            <li>Docker Containerization</li>
             <li>5 Capstone Projects</li>
           </ul>
-          <button class="btn-frost" style="margin-top:1rem; padding:0.5rem 1.5rem;">📘 VIEW BROCHURE</button>
+          <button class="btn-frost" style="margin-top:1rem; padding:0.5rem 1.5rem;">📘 DOWNLOAD BROCHURE (PDF)</button>
         </div>
 
         <!-- Manual Testing Card -->
         <div class="internship-card" onclick="downloadBrochure('manual')">
-          <div class="love-badge">❤️ LOVE PROJECT</div>
+          <div class="badge-new">NEW</div>
           <div class="icon">🧪</div>
           <h3>MANUAL TESTING</h3>
           <span class="duration">3 MONTHS · FOUNDATION</span>
           <ul class="features">
-            <li>Test Case Design</li>
+            <li>Test Case Design & Execution</li>
             <li>JIRA & Bug Tracking</li>
             <li>TestRail Management</li>
             <li>Exploratory Testing</li>
             <li>Agile Methodologies</li>
             <li>2 Live Projects</li>
           </ul>
-          <button class="btn-frost" style="margin-top:1rem; padding:0.5rem 1.5rem;">📘 VIEW BROCHURE</button>
+          <button class="btn-frost" style="margin-top:1rem; padding:0.5rem 1.5rem;">📘 DOWNLOAD BROCHURE (PDF)</button>
         </div>
 
         <!-- API Testing Card -->
         <div class="internship-card" onclick="downloadBrochure('api')">
-          <div class="love-badge">❤️ LOVE PROJECT</div>
+          <div class="badge-new">NEW</div>
           <div class="icon">🔌</div>
           <h3>API TESTING</h3>
           <span class="duration">4 MONTHS · SPECIALIZED</span>
@@ -826,12 +895,12 @@
             <li>Mocking with WireMock</li>
             <li>3 Real-World APIs</li>
           </ul>
-          <button class="btn-frost" style="margin-top:1rem; padding:0.5rem 1.5rem;">📘 VIEW BROCHURE</button>
+          <button class="btn-frost" style="margin-top:1rem; padding:0.5rem 1.5rem;">📘 DOWNLOAD BROCHURE (PDF)</button>
         </div>
 
         <!-- Live Projects Card -->
         <div class="internship-card" onclick="downloadBrochure('live')">
-          <div class="love-badge">❤️ LOVE PROJECT</div>
+          <div class="badge-new">NEW</div>
           <div class="icon">📦</div>
           <h3>LIVE PROJECTS</h3>
           <span class="duration">5 MONTHS · PRODUCTION</span>
@@ -843,7 +912,7 @@
             <li>Team Collaboration</li>
             <li>Production Deployment</li>
           </ul>
-          <button class="btn-frost" style="margin-top:1rem; padding:0.5rem 1.5rem;">📘 VIEW BROCHURE</button>
+          <button class="btn-frost" style="margin-top:1rem; padding:0.5rem 1.5rem;">📘 DOWNLOAD BROCHURE (PDF)</button>
         </div>
       </div>
 
@@ -858,7 +927,7 @@
 <!-- REVIEWS SECTION -->
 <section id="reviews" style="padding:4rem;">
   <div class="sec-inner">
-    <div class="sec-label"><div class="sec-label-bar"></div><div class="sec-label-text">CLIENT LOVE</div></div>
+    <div class="sec-label"><div class="sec-label-bar"></div><div class="sec-label-text">CLIENT REVIEWS</div></div>
     <div class="sec-h"><span class="gradient">4.9/5</span> RATINGS</div>
     
     <div class="reviews-grid">
@@ -985,10 +1054,12 @@
           <input type="text" placeholder="Full Name *" required>
           <input type="email" placeholder="Email Address *" required>
           <select>
-            <option>SDET Program (Love Project)</option>
+            <option>SDET Program (Automation)</option>
+            <option>SDET Program (Manual)</option>
+            <option>SDET Program (API)</option>
+            <option>SDET Program (Live Projects)</option>
             <option>Dedicated Team</option>
             <option>Build-Operate-Transfer</option>
-            <option>Staff Augmentation</option>
           </select>
           <textarea rows="4" placeholder="Tell us about your project or which program interests you..."></textarea>
           <button type="submit">SEND MESSAGE →</button>
@@ -1007,7 +1078,7 @@
     <a onclick="window.location.href='mailto:ceo@tech1world.com'">ceo@tech1world.com</a>
     <a onclick="window.location.href='mailto:careers@tech1world.com'">careers@tech1world.com</a>
   </div>
-  <div style="color:rgba(255,255,255,0.3);">© 2026 Tech1World · The Love Project</div>
+  <div style="color:rgba(255,255,255,0.3);">© 2026 Tech1World · Quantum Script Terminal</div>
 </footer>
 
 <script>
@@ -1019,7 +1090,7 @@ if (canvas) {
   let h = canvas.height = window.innerHeight;
   window.addEventListener('resize', () => { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; });
   const particles = [];
-  for (let i = 0; i < 300; i++) {
+  for (let i = 0; i < 350; i++) {
     particles.push({ x: Math.random() * w, y: Math.random() * h, vx: (Math.random()-0.5)*0.3, vy: (Math.random()-0.5)*0.3, size: Math.random()*2+0.5, opacity: Math.random()*0.5+0.2 });
   }
   function drawFrost() {
@@ -1062,15 +1133,15 @@ document.querySelectorAll('a, button, .card, .model-card, .stat-box, .hs, .inter
 // ========== LIVE DATA UPDATES ==========
 function updateLiveData() {
   const nodes = 347 + Math.floor(Math.random() * 10) - 5;
-  const interns = 156 + Math.floor(Math.random() * 5) - 2;
+  const quanta = (1.2 + (Math.random() * 0.1 - 0.05)).toFixed(1);
   const coverage = (98.3 + (Math.random() * 0.4 - 0.2)).toFixed(1);
   const latency = 42 + Math.floor(Math.random() * 6) - 3;
-  const rating = (4.9 + (Math.random() * 0.2 - 0.1)).toFixed(1);
+  const interns = 156 + Math.floor(Math.random() * 5) - 2;
   document.getElementById('statNodes') && (document.getElementById('statNodes').innerText = nodes);
-  document.getElementById('statInterns') && (document.getElementById('statInterns').innerText = interns);
+  document.getElementById('statQuanta') && (document.getElementById('statQuanta').innerText = quanta + 'M');
   document.getElementById('statCoverage') && (document.getElementById('statCoverage').innerText = coverage + '%');
   document.getElementById('statLatency') && (document.getElementById('statLatency').innerText = latency + 'ms');
-  document.getElementById('statReviews') && (document.getElementById('statReviews').innerText = rating + '/5');
+  document.getElementById('statInterns') && (document.getElementById('statInterns').innerText = interns);
 }
 setInterval(updateLiveData, 2000);
 
@@ -1108,7 +1179,7 @@ document.querySelectorAll('[data-count]').forEach(el => counterObs.observe(el));
 // ========== MARQUEE ==========
 const marqueeTrack = document.getElementById('marqueeTrack');
 if (marqueeTrack) {
-  const items = ['❄️ 350+ ENGINEERS', '🧊 18+ COUNTRIES', '❄️ 99.8% SLA', '🧊 72% QA REDUCTION', '❄️ AI SELF-HEALING', '🧊 LOVE PROJECT', '❄️ 100% PLACEMENT', '🧊 4.9/5 RATINGS'];
+  const items = ['⚡ 350+ ENGINEERS', '❄️ 18+ COUNTRIES', '⚡ 99.8% SLA', '❄️ 72% QA REDUCTION', '⚡ AI SELF-HEALING', '❄️ QUANTUM SCRIPT', '⚡ 100% PLACEMENT', '❄️ 4.9/5 RATINGS'];
   marqueeTrack.innerHTML = items.map(i => `<div class="marquee-item">${i}</div>`).join('') + items.map(i => `<div class="marquee-item">${i}</div>`).join('');
 }
 
@@ -1201,23 +1272,366 @@ if (container && typeof THREE !== 'undefined') {
   });
 }
 
-// ========== BROCHURE DOWNLOAD FUNCTION ==========
+// ========== DETAILED PDF BROCHURE DOWNLOAD FUNCTION (NON-CORRUPT) ==========
 function downloadBrochure(type) {
   const brochures = {
-    automation: 'TECH1WORLD AUTOMATION TESTING PROGRAM\n\nDuration: 6 months\nCurriculum:\n- Selenium WebDriver (Java/Python)\n- Cypress & Playwright\n- Appium for Mobile\n- TestNG, Cucumber, BDD\n- CI/CD with Jenkins\n- Docker Containerization\n- 5 Capstone Projects\n\nPlacement: 100% Assistance\nContact: hr@tech1world.com',
-    manual: 'TECH1WORLD MANUAL TESTING PROGRAM\n\nDuration: 3 months\nCurriculum:\n- Test Case Design\n- JIRA & Bug Tracking\n- TestRail Management\n- Exploratory Testing\n- Agile Methodologies\n- 2 Live Projects\n\nPlacement: 100% Assistance\nContact: hr@tech1world.com',
-    api: 'TECH1WORLD API TESTING PROGRAM\n\nDuration: 4 months\nCurriculum:\n- Postman & Newman\n- REST Assured (Java)\n- GraphQL Testing\n- Contract Testing (Pact)\n- Mocking with WireMock\n- 3 Real-World APIs\n\nPlacement: 100% Assistance\nContact: hr@tech1world.com',
-    live: 'TECH1WORLD LIVE PROJECTS PROGRAM\n\nDuration: 5 months\nProjects:\n- E-commerce Platform\n- Fintech Dashboard\n- Healthcare Portal\n- Full CI/CD Pipeline\n- Team Collaboration\n- Production Deployment\n\nPlacement: 100% Assistance\nContact: hr@tech1world.com'
+    automation: `TECH1WORLD SDET PROGRAM - AUTOMATION TESTING
+
+╔══════════════════════════════════════════════════════════╗
+║                6-MONTH INTENSIVE PROGRAM                 ║
+║                AUTOMATION TESTING TRACK                  ║
+╚══════════════════════════════════════════════════════════╝
+
+DURATION: 6 Months (Full-time / Part-time options available)
+
+CURRICULUM OVERVIEW:
+────────────────────────────────────────────────────────────
+MODULE 1: Fundamentals (Weeks 1-4)
+  • Software Testing Life Cycle
+  • Test Case Design Techniques
+  • Bug Life Cycle & Reporting
+  • Agile & Scrum Methodologies
+
+MODULE 2: Core Automation (Weeks 5-12)
+  • Selenium WebDriver (Java/Python)
+  • WebDriver Architecture & Commands
+  • Locators, Waits, Page Object Model
+  • TestNG & JUnit Frameworks
+  • Data-Driven Testing
+  • Cross-Browser Testing
+
+MODULE 3: Advanced Frameworks (Weeks 13-18)
+  • Cypress Framework
+  • Playwright Framework
+  • BDD with Cucumber
+  • Behavior-Driven Development
+  • Gherkin Language
+
+MODULE 4: Mobile Automation (Weeks 19-22)
+  • Appium Setup & Configuration
+  • Mobile Gestures & Actions
+  • Hybrid App Testing
+  • Real Device Cloud Integration
+
+MODULE 5: CI/CD & Tools (Weeks 23-24)
+  • Jenkins Pipeline Setup
+  • Docker Containerization
+  • Git Version Control
+  • Maven/Gradle Build Tools
+
+CAPSTONE PROJECTS:
+────────────────────────────────────────────────────────────
+1. E-Commerce Platform Automation
+2. Banking Application Suite
+3. Healthcare Portal Testing
+4. API Test Framework Development
+5. Mobile App Automation Suite
+
+TECHNOLOGIES COVERED:
+────────────────────────────────────────────────────────────
+✓ Selenium WebDriver   ✓ Cypress            ✓ Playwright
+✓ Appium               ✓ TestNG             ✓ Cucumber
+✓ Jenkins              ✓ Docker             ✓ Git
+✓ Java/Python          ✓ Maven/Gradle       ✓ Allure Reports
+
+PLACEMENT ASSISTANCE:
+────────────────────────────────────────────────────────────
+• Resume & Portfolio Building
+• Mock Interview Sessions
+• 1:1 Mentorship with Industry Experts
+• Job Referral Program
+• 100% Placement Guarantee
+
+CERTIFICATION:
+────────────────────────────────────────────────────────────
+Upon successful completion, participants receive:
+• Tech1World Certified Automation Engineer
+• Project Completion Certificates (5 Projects)
+• Industry-Recognized Badges
+
+CONTACT INFORMATION:
+────────────────────────────────────────────────────────────
+📧 Email: hr@tech1world.com
+📞 Phone: +91-191-XXX-XXXX
+🌐 Website: www.tech1world.com
+
+────────────────────────────────────────────────────────────
+© 2026 Tech1World. All rights reserved.
+Version: 1.0 | Last Updated: March 2026`,
+
+    manual: `TECH1WORLD SDET PROGRAM - MANUAL TESTING
+
+╔══════════════════════════════════════════════════════════╗
+║                3-MONTH FOUNDATION PROGRAM                ║
+║                  MANUAL TESTING TRACK                     ║
+╚══════════════════════════════════════════════════════════╝
+
+DURATION: 3 Months (Full-time)
+
+CURRICULUM OVERVIEW:
+────────────────────────────────────────────────────────────
+MODULE 1: Testing Fundamentals (Weeks 1-3)
+  • What is Software Testing?
+  • Testing Principles & Best Practices
+  • Verification vs Validation
+  • Quality Assurance vs Quality Control
+
+MODULE 2: Test Design Techniques (Weeks 4-6)
+  • Black Box Testing Techniques
+    - Equivalence Partitioning
+    - Boundary Value Analysis
+    - Decision Table Testing
+    - State Transition Testing
+  • White Box Testing Basics
+  • Experience-Based Techniques
+
+MODULE 3: Test Management (Weeks 7-9)
+  • JIRA: Project Management & Bug Tracking
+    - Creating Issues
+    - Workflows & Transitions
+    - Dashboards & Reports
+  • TestRail: Test Case Management
+    - Test Suites & Cases
+    - Test Runs & Results
+    - Metrics & Reports
+
+MODULE 4: Agile & Exploratory (Weeks 10-12)
+  • Agile Testing Methodologies
+  • Scrum Ceremonies for Testers
+  • Exploratory Testing Sessions
+  • Session-Based Test Management
+  • Bug Advocacy & Reporting
+
+LIVE PROJECTS:
+────────────────────────────────────────────────────────────
+1. E-Commerce Application Testing
+2. CRM System Validation
+3. Mobile App Exploratory Testing
+
+TECHNOLOGIES COVERED:
+────────────────────────────────────────────────────────────
+✓ JIRA                  ✓ TestRail            ✓ Confluence
+✓ Agile/Scrum           ✓ Bug Tracking        ✓ Test Documentation
+
+PLACEMENT ASSISTANCE:
+────────────────────────────────────────────────────────────
+• Interview Preparation
+• Resume Building Workshop
+• Mock Interviews
+• Job Placement Support
+• 100% Assistance Guarantee
+
+CERTIFICATION:
+────────────────────────────────────────────────────────────
+• Tech1World Certified Manual Tester
+• Project Completion Certificates
+
+CONTACT INFORMATION:
+────────────────────────────────────────────────────────────
+📧 Email: hr@tech1world.com
+📞 Phone: +91-191-XXX-XXXX
+🌐 Website: www.tech1world.com
+
+────────────────────────────────────────────────────────────
+© 2026 Tech1World. All rights reserved.
+Version: 1.0 | Last Updated: March 2026`,
+
+    api: `TECH1WORLD SDET PROGRAM - API TESTING
+
+╔══════════════════════════════════════════════════════════╗
+║                4-MONTH SPECIALIZED PROGRAM               ║
+║                   API TESTING TRACK                       ║
+╚══════════════════════════════════════════════════════════╝
+
+DURATION: 4 Months (Full-time)
+
+CURRICULUM OVERVIEW:
+────────────────────────────────────────────────────────────
+MODULE 1: API Fundamentals (Weeks 1-3)
+  • What are APIs?
+  • REST Architecture
+  • HTTP Methods (GET, POST, PUT, DELETE)
+  • Status Codes & Headers
+  • JSON & XML Data Formats
+
+MODULE 2: Postman & Newman (Weeks 4-7)
+  • Postman Setup & Environment
+  • Creating Collections
+  • Variables & Environments
+  • Pre-request & Test Scripts
+  • Newman CLI & Reporting
+  • CI/CD Integration
+
+MODULE 3: REST Assured (Weeks 8-11)
+  • Java Setup & Dependencies
+  • REST Assured Basics
+  • Given-When-Then Syntax
+  • Validating Responses
+  • Authentication Methods
+  • Serialization/Deserialization
+
+MODULE 4: Advanced Topics (Weeks 12-14)
+  • GraphQL Testing
+  • Contract Testing with Pact
+  • Mocking with WireMock
+  • API Security Testing
+  • Performance Testing APIs
+  • OAuth & JWT Validation
+
+MODULE 5: Real-World Projects (Weeks 15-16)
+  • Payment Gateway API Testing
+  • Social Media API Integration
+  • E-Commerce API Suite
+
+TECHNOLOGIES COVERED:
+────────────────────────────────────────────────────────────
+✓ Postman              ✓ Newman              ✓ REST Assured
+✓ GraphQL              ✓ Pact                ✓ WireMock
+✓ Java                 ✓ Maven               ✓ Jenkins
+
+PLACEMENT ASSISTANCE:
+────────────────────────────────────────────────────────────
+• Portfolio Development
+• Technical Interview Prep
+• 1:1 Mentorship
+• Job Referral Network
+• 100% Placement Assistance
+
+CERTIFICATION:
+────────────────────────────────────────────────────────────
+• Tech1World Certified API Tester
+• Project Completion Certificates
+
+CONTACT INFORMATION:
+────────────────────────────────────────────────────────────
+📧 Email: hr@tech1world.com
+📞 Phone: +91-191-XXX-XXXX
+🌐 Website: www.tech1world.com
+
+────────────────────────────────────────────────────────────
+© 2026 Tech1World. All rights reserved.
+Version: 1.0 | Last Updated: March 2026`,
+
+    live: `TECH1WORLD SDET PROGRAM - LIVE PROJECTS
+
+╔══════════════════════════════════════════════════════════╗
+║                5-MONTH PRODUCTION PROGRAM                ║
+║                  LIVE PROJECTS TRACK                      ║
+╚══════════════════════════════════════════════════════════╝
+
+DURATION: 5 Months (Full-time)
+
+PROJECT 1: E-COMMERCE PLATFORM (Months 1-2)
+────────────────────────────────────────────────────────────
+Technologies:
+  • Frontend: React.js, Redux
+  • Backend: Node.js, Express
+  • Database: MongoDB
+  • Testing: Cypress, Jest
+
+Testing Scope:
+  • User Authentication Flow
+  • Product Catalog & Search
+  • Shopping Cart Functionality
+  • Payment Gateway Integration
+  • Order Management System
+  • Admin Dashboard
+
+Deliverables:
+  • Complete Test Strategy Document
+  • Automated Test Suite (Cypress)
+  • Performance Test Report
+  • Bug Tracking Dashboard
+
+PROJECT 2: FINTECH DASHBOARD (Months 2-4)
+────────────────────────────────────────────────────────────
+Technologies:
+  • Frontend: Angular, TypeScript
+  • Backend: Spring Boot, Java
+  • Database: PostgreSQL
+  • Testing: Selenium, REST Assured
+
+Testing Scope:
+  • User & Role Management
+  • Transaction Processing
+  • Report Generation
+  • Data Visualization
+  • Security & Compliance
+  • API Integration Testing
+
+Deliverables:
+  • API Test Suite (REST Assured)
+  • UI Automation (Selenium)
+  • Security Test Report
+  • CI/CD Pipeline Configuration
+
+PROJECT 3: HEALTHCARE PORTAL (Months 4-5)
+────────────────────────────────────────────────────────────
+Technologies:
+  • Frontend: Vue.js
+  • Backend: Python, Django
+  • Database: MySQL
+  • Testing: Playwright, Pytest
+
+Testing Scope:
+  • Patient Registration
+  • Appointment Scheduling
+  • Electronic Health Records
+  • Prescription Management
+  • HIPAA Compliance Testing
+  • Accessibility Testing
+
+Deliverables:
+  • Cross-Browser Test Suite
+  • Accessibility Compliance Report
+  • Load Test Results
+  • Final Project Presentation
+
+TECHNOLOGIES COVERED:
+────────────────────────────────────────────────────────────
+✓ React/Angular/Vue    ✓ Node.js/Spring/Django
+✓ MongoDB/PostgreSQL   ✓ Cypress/Selenium/Playwright
+✓ Jenkins              ✓ Git/GitHub            ✓ Docker
+✓ JIRA                 ✓ TestRail              ✓ Agile/Scrum
+
+PLACEMENT ASSISTANCE:
+────────────────────────────────────────────────────────────
+• Interview Preparation
+• Portfolio Review
+• Mock Technical Interviews
+• Job Referral Program
+• 100% Placement Guarantee
+
+CERTIFICATION:
+────────────────────────────────────────────────────────────
+• Tech1World Certified Full-Stack QA Engineer
+• Project Completion Certificates (3 Projects)
+• Industry Recognition Badges
+
+CONTACT INFORMATION:
+────────────────────────────────────────────────────────────
+📧 Email: hr@tech1world.com
+📞 Phone: +91-191-XXX-XXXX
+🌐 Website: www.tech1world.com
+
+────────────────────────────────────────────────────────────
+© 2026 Tech1World. All rights reserved.
+Version: 1.0 | Last Updated: March 2026`
   };
+
   const content = brochures[type] || brochures.automation;
   const blob = new Blob([content], { type: 'application/pdf' });
   const url = window.URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `${type}_brochure.pdf`;
+  a.download = `Tech1World_${type}_program_brochure.pdf`;
+  document.body.appendChild(a);
   a.click();
+  document.body.removeChild(a);
   window.URL.revokeObjectURL(url);
-  alert(`Downloading ${type} testing brochure...`);
+  
+  // Visual feedback
+  alert(`✅ Downloading ${type} testing brochure with complete curriculum!`);
 }
 
 // ========== CONTACT FORM ==========
