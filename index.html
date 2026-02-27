@@ -1,1670 +1,1321 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-  <title>Tech1World — Quantum Frost | Live Script Terminal</title>
-  <!-- Fonts & Libraries -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <style>
-    /* ========== COMPLETE ORIGINAL STYLES PRESERVED AND ENHANCED ========== */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; overflow-x: hidden; }
-    body {
-      background: #0a1428;
-      color: #ffffff;
-      font-family: 'Space Grotesk', sans-serif;
-      cursor: none;
-      overflow-x: hidden;
-      line-height: 1.6;
-    }
-    a { color: inherit; text-decoration: none; }
-    button { font-family: 'Rajdhani', sans-serif; cursor: none; border: none; background: none; }
-    ::selection { background: #8bb9d1; color: #0a1428; }
-    ::-webkit-scrollbar { width: 2px; }
-    ::-webkit-scrollbar-track { background: #0a1428; }
-    ::-webkit-scrollbar-thumb { background: #8bb9d1; border-radius: 2px; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TECH1WORLD — Quantum Glass</title>
+<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@200;300;400;500;600;700&family=General+Sans:wght@200;300;400;500;600;700&family=Departure+Mono&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@100;300;400&display=swap" rel="stylesheet">
+<style>
+/* ════════════════════════════════════════════
+   TECH1WORLD — QUANTUM LIQUID GLASS SYSTEM
+   Everything floats. Particles everywhere.
+   Glass morphs on scroll. Nothing is static.
+   ════════════════════════════════════════════ */
+:root {
+  --c1:#07FFFF; --c2:#FF0099; --c3:#9B59FF; --c4:#00FF88; --c5:#FFE500; --c6:#FF5500;
+  --bg:#03000E;
+  --glass-bg:rgba(255,255,255,.052);
+  --glass-bg-h:rgba(255,255,255,.10);
+  --glass-b:rgba(255,255,255,.18);
+  --glass-b2:rgba(255,255,255,.08);
+  --t0:#FFFFFF; --t1:rgba(255,255,255,.82); --t2:rgba(255,255,255,.48);
+  --t3:rgba(255,255,255,.22); --t4:rgba(255,255,255,.07);
+  --F1:'Syne',sans-serif; --F2:'Outfit',sans-serif; --FM:'JetBrains Mono',monospace;
+  --blur:blur(48px) saturate(210%);
+  --R:22px; --R2:16px; --R3:100px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;overflow-x:hidden;}
+body{
+  background:var(--bg);color:var(--t0);
+  font-family:var(--F2);
+  cursor:none;-webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+::selection{background:rgba(7,255,255,.25);color:#fff;}
+::-webkit-scrollbar{width:2px;}
+::-webkit-scrollbar-thumb{background:linear-gradient(var(--c3),var(--c1));}
 
-    /* ========== CURSOR ========== */
-    #CURSOR { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 99999; mix-blend-mode: screen; }
-    .cur-core { position: absolute; width: 6px; height: 6px; border-radius: 50%; background: #ffffff; transform: translate(-50%,-50%); box-shadow: 0 0 30px #fff, 0 0 60px #b0e0ff; transition: 0.2s; }
-    .cur-ring { position: absolute; width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(176,224,255,0.4); transform: translate(-50%,-50%); transition: 0.4s; }
-    .cur-ice { position: absolute; width: 300px; height: 300px; border-radius: 50%; background: radial-gradient(circle, rgba(176,224,255,0.06) 0%, transparent 70%); transform: translate(-50%,-50%); transition: 1s; }
-    body.hovering .cur-core { width: 16px; height: 16px; background: #d9f0ff; }
-    body.hovering .cur-ring { width: 64px; height: 64px; border-color: rgba(176,224,255,0.9); }
+/* ── FIXED FULL PARTICLE CANVAS (always visible through glass) ── */
+#WORLD{
+  position:fixed;inset:0;z-index:0;
+  pointer-events:none;
+}
 
-    /* ========== DYNAMIC BACKGROUND ========== */
-    #FROST { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
-    #ORBS { position: fixed; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
-    .orb { position: absolute; border-radius: 50%; filter: blur(100px); animation: orbFloat linear infinite; mix-blend-mode: screen; }
-    .orb-1 { width: 800px; height: 800px; background: radial-gradient(circle, rgba(139,185,209,0.12) 0%, transparent 70%); top: -200px; left: -200px; animation-duration: 25s; }
-    .orb-2 { width: 600px; height: 600px; background: radial-gradient(circle, rgba(176,224,255,0.08) 0%, transparent 70%); top: 40%; right: -150px; animation-duration: 30s; }
-    .orb-3 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(90,120,150,0.1) 0%, transparent 70%); bottom: -100px; left: 30%; animation-duration: 20s; }
-    @keyframes orbFloat { 0%,100%{transform:translate(0,0) scale(1);} 25%{transform:translate(60px,-80px) scale(1.1);} 50%{transform:translate(-40px,60px) scale(0.9);} 75%{transform:translate(80px,40px) scale(1.05);} }
+/* ── CONTENT WRAPPER floats above canvas ── */
+#APP{position:relative;z-index:1;}
 
-    /* ========== PROGRESS BAR ========== */
-    #PROGRESS { position: fixed; top: 0; left: 0; height: 1px; width: 0%; background: linear-gradient(90deg, #8bb9d1, #b0e0ff, #ffffff); z-index: 9999; box-shadow: 0 0 10px #b0e0ff; transition: width 0.1s linear; }
+/* ── CURSOR ── */
+#CUR{position:fixed;z-index:99999;inset:0;pointer-events:none;}
+.cd{position:absolute;width:6px;height:6px;border-radius:50%;
+  transform:translate(-50%,-50%);
+  background:#fff;
+  box-shadow:0 0 10px rgba(7,255,255,.8),0 0 20px rgba(7,255,255,.4);
+  transition:transform .15s,background .2s,box-shadow .2s;}
+.cr{position:absolute;width:36px;height:36px;border-radius:50%;
+  transform:translate(-50%,-50%);
+  border:1px solid rgba(255,255,255,.4);
+  background:rgba(255,255,255,.03);
+  backdrop-filter:blur(4px);
+  transition:width .5s cubic-bezier(.23,1,.32,1),height .5s,border-radius .4s,border-color .3s,background .3s;}
+.ca{position:absolute;width:200px;height:200px;border-radius:50%;
+  transform:translate(-50%,-50%);
+  background:radial-gradient(circle,rgba(7,255,255,.04) 0%,transparent 70%);
+  transition:all 1.1s cubic-bezier(.23,1,.32,1);}
+body.hov .cd{background:var(--c2);box-shadow:0 0 15px rgba(255,0,153,.8);}
+body.hov .cr{width:56px;height:56px;background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.6);}
+body.btn .cr{border-radius:var(--R3);width:80px;height:38px;}
 
-    /* ========== LOADER ========== */
-    #LOADER {
-      position: fixed; inset: 0; z-index: 99998; background: #0a1428;
-      display: flex; align-items: center; justify-content: center; flex-direction: column;
-      transition: opacity 1s ease, transform 1.5s cubic-bezier(0.76, 0, 0.24, 1);
-      pointer-events: none;
-    }
-    .loader-ice-wrap { position: relative; width: 200px; height: 200px; margin-bottom: 2rem; }
-    .loader-svg-ring { position: absolute; inset: 0; animation: loaderSpin 4s linear infinite; }
-    .loader-svg-ring-2 { position: absolute; inset: 20px; animation: loaderSpin 3s linear infinite reverse; }
-    .loader-svg-ring-3 { position: absolute; inset: 40px; animation: loaderSpin 2s linear infinite; }
-    @keyframes loaderSpin { to { transform: rotate(360deg); } }
-    .loader-core { position: absolute; inset: 60px; background: radial-gradient(circle, rgba(176,224,255,0.2), rgba(10,20,40,0.9)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Orbitron', sans-serif; font-size: 0.8rem; color: #b0e0ff; letter-spacing: 0.1em; backdrop-filter: blur(4px); box-shadow: 0 0 60px #8bb9d1; animation: corePulse 2s infinite alternate; }
-    @keyframes corePulse { from { box-shadow: 0 0 40px #8bb9d1; transform: scale(0.95); } to { box-shadow: 0 0 100px #b0e0ff; transform: scale(1.05); } }
-    .loader-wordmark { font-family: 'Orbitron', sans-serif; font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 700; letter-spacing: 0.3em; color: #ffffff; opacity: 0; animation: loaderFade 0.8s 0.5s forwards; text-shadow: 0 0 30px #b0e0ff; }
-    .loader-wordmark span { color: #b0e0ff; }
-    .loader-sub { font-family: 'Rajdhani', sans-serif; font-size: 0.7rem; letter-spacing: 0.5em; color: rgba(255,255,255,0.4); text-transform: uppercase; margin-top: 0.5rem; opacity: 0; animation: loaderFade 0.8s 0.9s forwards; }
-    .loader-bar { width: 250px; height: 2px; background: rgba(255,255,255,0.05); margin-top: 2.5rem; position: relative; overflow: hidden; opacity: 0; animation: loaderFade 0.5s 1.2s forwards; border-radius: 2px; }
-    .loader-bar-fill { position: absolute; top: 0; left: 0; height: 100%; background: linear-gradient(90deg, #5b7a9a, #b0e0ff, #ffffff); box-shadow: 0 0 20px #b0e0ff; animation: loaderBarFill 2.5s 1.3s forwards; width: 0%; }
-    @keyframes loaderBarFill { to { width: 100%; } }
-    .loader-pct { font-family: 'Orbitron', sans-serif; font-size: 0.6rem; color: #b0e0ff; letter-spacing: 0.15em; margin-top: 0.5rem; opacity: 0; animation: loaderFade 0.5s 1.2s forwards; }
-    @keyframes loaderFade { to { opacity: 1; } }
+/* ── NOISE + FX ── */
+.noise-layer{
+  position:fixed;inset:0;z-index:9001;pointer-events:none;
+  opacity:.022;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:nz .07s steps(1) infinite;
+}
+@keyframes nz{0%,100%{transform:translate(0)}33%{transform:translate(-2px,1px)}66%{transform:translate(2px,-1px)}}
+#PROG{position:fixed;top:0;left:0;height:2px;width:0;z-index:9999;
+  background:linear-gradient(90deg,var(--c3),var(--c1),var(--c2));
+  box-shadow:0 0 12px var(--c1);
+  transition:width .06s;}
 
-    /* ========== ENHANCED TRANSLUCENT LIVE SCRIPT PANEL ========== */
-    #LIVE_SCRIPT {
-      position: fixed;
-      right: 20px;
-      top: 100px;
-      width: 320px;
-      z-index: 999;
-      background: rgba(10, 20, 40, 0.25);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(176, 224, 255, 0.15);
-      border-radius: 24px;
-      padding: 1.5rem;
-      font-family: 'Rajdhani', sans-serif;
-      color: #b0e0ff;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-      pointer-events: none;
-      border-left: 3px solid #8bb9d1;
-      animation: panelBreath 4s infinite alternate;
-    }
-    @keyframes panelBreath {
-      0% { box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 20px rgba(139,185,209,0.2); }
-      100% { box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(176,224,255,0.4); }
-    }
-    .live-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; font-size: 0.75rem; letter-spacing: 0.1em; color: #ffffff; }
-    .live-dot { width: 8px; height: 8px; background: #8bb9d1; border-radius: 50%; animation: livePulse 1.5s infinite; }
-    @keyframes livePulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
-    .script-line {
-      font-size: 0.7rem;
-      line-height: 1.8;
-      color: rgba(176,224,255,0.9);
-      white-space: nowrap;
-      overflow: hidden;
-      border-right: 2px solid #8bb9d1;
-      max-width: 100%;
-      font-family: 'Space Mono', monospace;
-    }
-    .script-line.typing {
-      animation: typing 3s steps(40, end) infinite, blinkCursor 1s step-end infinite;
-    }
-    @keyframes typing { 0% { width: 0; } 100% { width: 100%; } }
-    @keyframes blinkCursor { from, to { border-color: transparent; } 50% { border-color: #8bb9d1; } }
+/* ── LOADER ── */
+#LOADER{
+  position:fixed;inset:0;z-index:99998;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:var(--bg);
+  transition:opacity .8s ease;
+}
+.ld-bg-fx{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 60% 50% at 25% 40%,rgba(155,89,255,.2) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 40% at 75% 60%,rgba(7,255,255,.12) 0%,transparent 60%),
+    radial-gradient(ellipse 40% 35% at 50% 80%,rgba(255,0,153,.1) 0%,transparent 60%);
+}
+.ld-rings{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+.ld-ring{position:absolute;border-radius:50%;border:1px solid;animation:ldring 4s ease-out infinite;}
+.ld-ring:nth-child(1){width:180px;height:180px;border-color:rgba(7,255,255,.3);animation-delay:0s;}
+.ld-ring:nth-child(2){width:380px;height:380px;border-color:rgba(155,89,255,.18);animation-delay:1s;}
+.ld-ring:nth-child(3){width:580px;height:580px;border-color:rgba(255,0,153,.12);animation-delay:2s;}
+.ld-ring:nth-child(4){width:780px;height:780px;border-color:rgba(7,255,255,.06);animation-delay:3s;}
+@keyframes ldring{0%{transform:scale(.15);opacity:0}35%{opacity:1}100%{transform:scale(2.2);opacity:0}}
+.ld-content{position:relative;z-index:1;text-align:center;}
+.ld-logo{
+  width:90px;height:90px;border-radius:26px;margin:0 auto 2rem;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.09);
+  backdrop-filter:blur(40px);
+  border:1px solid rgba(255,255,255,.24);
+  box-shadow:0 0 60px rgba(7,255,255,.22),0 0 120px rgba(155,89,255,.12),0 1px 0 rgba(255,255,255,.3) inset;
+  animation:lgpulse 3s ease-in-out infinite;
+}
+@keyframes lgpulse{
+  0%,100%{box-shadow:0 0 40px rgba(7,255,255,.2),0 0 80px rgba(155,89,255,.1),0 1px 0 rgba(255,255,255,.3) inset;}
+  50%{box-shadow:0 0 90px rgba(7,255,255,.4),0 0 180px rgba(155,89,255,.2),0 0 250px rgba(255,0,153,.08),0 1px 0 rgba(255,255,255,.35) inset;}
+}
+.ld-logo span{font-family:var(--F1);font-size:1.9rem;font-weight:700;
+  background:linear-gradient(135deg,#fff,rgba(7,255,255,.85));
+  -webkit-background-clip:text;background-clip:text;color:transparent;}
+.ld-title{
+  font-family:var(--F1);font-size:clamp(2.5rem,7vw,5.5rem);font-weight:700;
+  background:linear-gradient(135deg,#fff 0%,rgba(7,255,255,.9) 40%,rgba(155,89,255,.9) 70%,rgba(255,0,153,.8) 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:ldtitle 1.8s .4s cubic-bezier(.19,1,.22,1) both;
+}
+@keyframes ldtitle{from{opacity:0;transform:translateY(30px);filter:blur(15px);}to{opacity:1;transform:none;filter:none;}}
+.ld-sub{
+  font-family:var(--FM);font-size:.52rem;letter-spacing:.4em;
+  color:rgba(255,255,255,.32);margin-top:.9rem;text-transform:uppercase;
+  animation:ldsub .8s 1.5s ease both;
+}
+@keyframes ldsub{from{opacity:0}to{opacity:1}}
+.ld-track{width:250px;height:1px;background:rgba(255,255,255,.07);margin:2.8rem auto .9rem;overflow:hidden;}
+.ld-fill{height:100%;width:0;background:linear-gradient(90deg,var(--c3),var(--c1),var(--c2));box-shadow:0 0 14px var(--c1);}
+.ld-status{font-family:var(--FM);font-size:.46rem;letter-spacing:.18em;color:rgba(255,255,255,.2);text-transform:uppercase;}
+.ld-pct{position:absolute;bottom:2rem;right:2.5rem;font-family:var(--F1);font-size:7rem;font-weight:700;color:rgba(255,255,255,.022);line-height:1;}
 
-    /* ========== LIVE DATA PANEL ========== */
-    #LIVE_DATA {
-      position: fixed; left: 20px; bottom: 20px; z-index: 999;
-      background: rgba(10,20,40,0.25);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(176,224,255,0.15);
-      border-radius: 24px;
-      padding: 1.2rem;
-      font-family: 'Rajdhani', sans-serif;
-      color: #b0e0ff;
-      pointer-events: none;
-      border-left: 3px solid #8bb9d1;
-    }
-    .live-stat { font-size: 0.7rem; margin-bottom: 0.3rem; display: flex; justify-content: space-between; gap: 1rem; }
-    .live-stat span { color: #ffffff; }
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:5000;
+  padding:1.4rem 3rem;
+  display:flex;align-items:center;justify-content:space-between;
+  transition:all .6s cubic-bezier(.23,1,.32,1);
+}
+nav.stuck{
+  background:rgba(3,0,14,.72);
+  backdrop-filter:blur(70px) saturate(240%);
+  -webkit-backdrop-filter:blur(70px) saturate(240%);
+  border-bottom:1px solid rgba(255,255,255,.07);
+  padding:1rem 3rem;
+}
+.n-brand{display:flex;align-items:center;gap:.9rem;cursor:none;}
+.n-logo{
+  width:40px;height:40px;border-radius:12px;
+  background:rgba(255,255,255,.1);
+  backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,.22);
+  box-shadow:0 0 20px rgba(7,255,255,.18),0 1px 0 rgba(255,255,255,.25) inset;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--F1);font-size:.85rem;font-weight:700;
+  transition:box-shadow .4s;
+}
+.n-logo:hover{box-shadow:0 0 40px rgba(7,255,255,.35),0 1px 0 rgba(255,255,255,.3) inset;}
+.n-name{font-family:var(--F1);font-size:1.1rem;font-weight:700;letter-spacing:-.01em;}
+.n-name b{background:linear-gradient(90deg,var(--c1),var(--c3));-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:700;}
+.n-links{
+  display:flex;gap:.1rem;
+  background:rgba(255,255,255,.06);
+  backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:100px;padding:.28rem .32rem;
+}
+.n-links a{
+  font-family:var(--FM);font-size:.44rem;letter-spacing:.1em;
+  text-transform:uppercase;color:rgba(255,255,255,.42);
+  padding:.4rem .9rem;border-radius:100px;
+  transition:all .3s;white-space:nowrap;
+}
+.n-links a:hover,.n-links a.on{
+  background:rgba(255,255,255,.14);color:#fff;
+  box-shadow:0 1px 0 rgba(255,255,255,.16) inset;
+}
+.n-cta{
+  font-family:var(--F2);font-size:.75rem;font-weight:600;
+  color:#fff;cursor:none;border:none;
+  padding:.7rem 1.6rem;border-radius:100px;
+  background:rgba(255,255,255,.12);
+  backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,.22);
+  box-shadow:0 1px 0 rgba(255,255,255,.2) inset,0 4px 20px rgba(0,0,0,.35);
+  transition:all .4s cubic-bezier(.23,1,.32,1);
+}
+.n-cta:hover{
+  background:rgba(255,255,255,.2);
+  box-shadow:0 0 35px rgba(7,255,255,.22),0 1px 0 rgba(255,255,255,.25) inset;
+  transform:translateY(-1px) scale(1.02);
+}
 
-    /* ========== HEADER ========== */
-    header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 5000;
-      background: rgba(10, 20, 40, 0.25);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(176, 224, 255, 0.15);
-      padding: 0.8rem 4rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .logo {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 1.4rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, #ffffff, #b0e0ff, #8bb9d1);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .nav-links {
-      display: flex;
-      gap: 2rem;
-      list-style: none;
-    }
-    .nav-links a {
-      font-family: 'Rajdhani', sans-serif;
-      font-size: 0.9rem;
-      letter-spacing: 0.1rem;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.7);
-      transition: 0.3s;
-      padding: 0.3rem 0;
-      position: relative;
-    }
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 0;
-      height: 1px;
-      background: #b0e0ff;
-      transition: 0.3s;
-    }
-    .nav-links a:hover { color: #ffffff; }
-    .nav-links a:hover::after { width: 100%; }
-    .nav-links a.active { color: #b0e0ff; }
-    .nav-cta {
-      background: transparent;
-      border: 1px solid #b0e0ff;
-      color: #b0e0ff;
-      padding: 0.4rem 1.5rem;
-      border-radius: 40px;
-      font-family: 'Rajdhani', sans-serif;
-      font-size: 0.8rem;
-      letter-spacing: 0.1rem;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .nav-cta:hover {
-      background: #b0e0ff;
-      color: #0a1428;
-      box-shadow: 0 0 30px #b0e0ff;
-    }
+/* ── GLASS PANELS ── */
+.glass-panel{
+  background:rgba(255,255,255,.052);
+  backdrop-filter:var(--blur);
+  -webkit-backdrop-filter:var(--blur);
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:var(--R);
+  box-shadow:
+    0 8px 40px rgba(0,0,0,.55),
+    0 1px 0 rgba(255,255,255,.22) inset,
+    0 -1px 0 rgba(0,0,0,.25) inset;
+  position:relative;overflow:hidden;
+}
+.glass-panel::before{
+  content:'';
+  position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.6) 30%,rgba(7,255,255,.4) 70%,transparent 100%);
+  pointer-events:none;
+}
+.glass-panel .gs{
+  position:absolute;inset:0;overflow:hidden;border-radius:var(--R);pointer-events:none;
+}
+.glass-panel .gs::after{
+  content:'';position:absolute;
+  top:-100%;left:-80%;width:60%;height:300%;
+  background:linear-gradient(105deg,transparent 20%,rgba(255,255,255,.06) 50%,transparent 80%);
+  transform:skewX(-15deg);
+  transition:left 1s cubic-bezier(.23,1,.32,1);
+}
+.glass-panel:hover .gs::after{left:120%;}
+.glass-panel .gcol{
+  position:absolute;bottom:-60px;left:50%;transform:translateX(-50%);
+  width:70%;height:100px;border-radius:50%;
+  filter:blur(25px);opacity:0;
+  transition:opacity .6s;pointer-events:none;
+}
+.glass-panel:hover .gcol{opacity:1;}
+.glass-panel .ga{
+  position:absolute;top:0;left:0;bottom:0;width:2px;
+  border-radius:1px;opacity:.6;pointer-events:none;
+}
 
-    /* ========== SECTION STYLES ========== */
-    section { position: relative; z-index: 2; }
-    .sec-inner { max-width: 1400px; margin: 0 auto; padding: 6rem 4rem; }
-    .sec-label { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
-    .sec-label-bar { width: 30px; height: 1px; background: #b0e0ff; box-shadow: 0 0 8px #8bb9d1; }
-    .sec-label-text { font-family: 'Rajdhani', sans-serif; font-size: 0.6rem; letter-spacing: 0.4em; color: #b0e0ff; text-transform: uppercase; }
-    .sec-h { font-family: 'Orbitron', sans-serif; font-size: clamp(2rem, 5vw, 5rem); font-weight: 700; line-height: 0.95; margin-bottom: 4rem; }
-    .solid { color: #ffffff; }
-    .gradient { background: linear-gradient(135deg, #8bb9d1, #b0e0ff, #ffffff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .outline { color: transparent; -webkit-text-stroke: 1px rgba(176,224,255,0.3); }
+/* ── SECTIONS ── */
+.sec{padding:8rem 3rem;position:relative;z-index:1;}
+.wrap{max-width:1440px;margin:0 auto;}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:.55rem;
+  background:rgba(255,255,255,.06);
+  backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:100px;
+  padding:.28rem .9rem;margin-bottom:1.6rem;
+  font-family:var(--FM);font-size:.44rem;letter-spacing:.2em;
+  color:rgba(255,255,255,.48);text-transform:uppercase;
+}
+.eyebrow::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--c4);box-shadow:0 0 8px var(--c4);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.eyebrow-num{margin-left:auto;font-family:var(--FM);font-size:.43rem;letter-spacing:.15em;color:rgba(255,255,255,.12);}
+.sh{font-family:var(--F1);font-size:clamp(3rem,6vw,8.5rem);font-weight:700;line-height:.84;letter-spacing:-.025em;margin-bottom:.8rem;}
+.sh .w{color:#fff;}
+.sh .g{background:linear-gradient(135deg,var(--c1),var(--c3),var(--c2));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.sh .o{color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.18);}
 
-    /* ========== HERO ========== */
-    #HERO { min-height: 100vh; display: flex; align-items: center; position: relative; overflow: hidden; padding: 8rem 4rem 4rem; }
-    #HERO::before { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 50%; background: linear-gradient(90deg, rgba(176,224,255,0.02) 1px, transparent 1px) 0 0 / 60px 60px, linear-gradient(0deg, rgba(176,224,255,0.02) 1px, transparent 1px) 0 0 / 60px 60px; perspective: 500px; transform: perspective(500px) rotateX(60deg) translateY(50%); pointer-events: none; }
-    .hero-inner { position: relative; z-index: 2; width: 100%; max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
-    .hero-tag { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 2.5rem; }
-    .hero-tag-dot { width: 6px; height: 6px; border-radius: 50%; background: #b0e0ff; animation: pulse 2s infinite; }
-    .hero-tag-text { font-family: 'Rajdhani', sans-serif; font-size: 0.65rem; letter-spacing: 0.4em; color: #b0e0ff; text-transform: uppercase; }
-    .hero-h1 { font-family: 'Orbitron', sans-serif; font-size: clamp(2.5rem, 6vw, 5.5rem); font-weight: 900; line-height: 0.95; margin-bottom: 0.5rem; overflow: hidden; }
-    .h1-line { display: block; overflow: hidden; }
-    .h1-word { display: block; transform: translateY(110%); opacity: 0; animation: wordSlide 1s forwards; }
-    .h1-line:nth-child(1) .h1-word { animation-delay: 0.4s; }
-    .h1-line:nth-child(2) .h1-word { animation-delay: 0.55s; background: linear-gradient(135deg, #8bb9d1, #b0e0ff, #ffffff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .h1-line:nth-child(3) .h1-word { animation-delay: 0.7s; color: transparent; -webkit-text-stroke: 1px rgba(176,224,255,0.4); }
-    @keyframes wordSlide { to { transform: translateY(0); opacity: 1; } }
-    .hero-desc { font-size: 1rem; line-height: 1.9; color: rgba(255,255,255,0.7); max-width: 50ch; margin: 2rem 0 2.5rem; }
-    .btn-ice { position: relative; display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.9rem 2.5rem; font-family: 'Rajdhani', sans-serif; font-size: 0.8rem; letter-spacing: 0.25em; text-transform: uppercase; color: #0a1428; font-weight: 700; cursor: pointer; overflow: hidden; clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%); transition: 0.4s; }
-    .btn-ice-bg { position: absolute; inset: 0; background: linear-gradient(135deg, #b0e0ff, #8bb9d1, #d9f0ff); background-size: 200% 200%; animation: iceShift 3s ease infinite; }
-    @keyframes iceShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-    .btn-ice span { position: relative; z-index: 1; }
-    .btn-ice:hover { box-shadow: 0 0 80px rgba(176,224,255,0.5); transform: scale(1.02); }
-    .btn-frost { display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.9rem 2.5rem; font-family: 'Rajdhani', sans-serif; font-size: 0.8rem; letter-spacing: 0.25em; text-transform: uppercase; color: #b0e0ff; border: 1px solid rgba(176,224,255,0.3); background: rgba(10,20,40,0.6); cursor: pointer; position: relative; overflow: hidden; clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%); transition: 0.4s; backdrop-filter: blur(10px); }
-    .btn-frost:hover { border-color: #b0e0ff; box-shadow: 0 0 50px rgba(176,224,255,0.15); transform: scale(1.02); }
-    .hero-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: rgba(176,224,255,0.06); margin-top: 3rem; }
-    .hs { background: rgba(10,20,40,0.9); padding: 1.5rem; cursor: pointer; transition: 0.4s; backdrop-filter: blur(10px); }
-    .hs:hover { background: rgba(20,35,55,0.9); }
-    .hs-val { font-family: 'Orbitron', sans-serif; font-size: 2rem; color: #b0e0ff; text-shadow: 0 0 40px rgba(176,224,255,0.4); }
-    .hs-lbl { font-family: 'Rajdhani', sans-serif; font-size: 0.6rem; letter-spacing: 0.2em; color: rgba(255,255,255,0.4); text-transform: uppercase; margin-top: 0.3rem; }
-    #heroGlobeCanvas { width: 500px; height: 500px; max-width: 100%; }
+/* REVEAL */
+.rv{opacity:0;transform:translateY(40px);transition:opacity 1s cubic-bezier(.19,1,.22,1),transform 1s cubic-bezier(.19,1,.22,1);}
+.rv.on{opacity:1;transform:none;}
+.rl{opacity:0;transform:translateX(-40px);transition:opacity 1s cubic-bezier(.19,1,.22,1),transform 1s cubic-bezier(.19,1,.22,1);}
+.rl.on{opacity:1;transform:none;}
+.rr{opacity:0;transform:translateX(40px);transition:opacity 1s cubic-bezier(.19,1,.22,1),transform 1s cubic-bezier(.19,1,.22,1);}
+.rr.on{opacity:1;transform:none;}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}.d5{transition-delay:.4s}.d6{transition-delay:.48s}
 
-    /* ========== MARQUEE ========== */
-    .marquee-wrap { position: relative; z-index: 2; overflow: hidden; background: rgba(10,20,40,0.5); border-top: 1px solid rgba(176,224,255,0.06); border-bottom: 1px solid rgba(176,224,255,0.06); backdrop-filter: blur(20px); }
-    .marquee-track { display: flex; width: max-content; animation: marquee 60s linear infinite; padding: 0.9rem 0; }
-    .marquee-track:hover { animation-play-state: paused; }
-    @keyframes marquee { to { transform: translateX(-50%); } }
-    .marquee-item { display: flex; align-items: center; gap: 0.8rem; padding: 0 2rem; border-right: 1px solid rgba(176,224,255,0.06); white-space: nowrap; font-family: 'Rajdhani', sans-serif; font-size: 0.65rem; letter-spacing: 0.2em; color: rgba(255,255,255,0.4); }
-    .marquee-val { font-family: 'Orbitron', sans-serif; font-size: 1rem; color: #b0e0ff; letter-spacing: 0.05em; }
+/* ── HERO ── */
+#hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  position:relative;z-index:1;
+  padding:8rem 2rem 4rem;
+  text-align:center;
+  overflow:hidden;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:.65rem;
+  background:rgba(255,255,255,.07);
+  backdrop-filter:blur(24px);
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:100px;
+  padding:.48rem 1.2rem;margin-bottom:2.5rem;
+  font-family:var(--FM);font-size:.48rem;letter-spacing:.2em;
+  color:rgba(255,255,255,.65);text-transform:uppercase;
+  box-shadow:0 1px 0 rgba(255,255,255,.14) inset;
+  opacity:0;animation:fu .8s .3s ease both;
+}
+.hero-dot{width:7px;height:7px;border-radius:50%;background:var(--c4);box-shadow:0 0 12px var(--c4);animation:pulse 2s infinite;}
+.hero-h1{
+  font-family:var(--F1);
+  font-size:clamp(4.5rem,10vw,15rem);
+  font-weight:700;line-height:.82;
+  letter-spacing:-.035em;margin-bottom:2.5rem;
+}
+.hl{display:block;overflow:hidden;}
+.hw{display:block;opacity:0;transform:translateY(115%);animation:wrise 1.3s cubic-bezier(.19,1,.22,1) both;}
+.hl:nth-child(1) .hw{animation-delay:.5s;color:#fff;}
+.hl:nth-child(2) .hw{animation-delay:.68s;
+  background:linear-gradient(135deg,var(--c1) 0%,var(--c3) 55%,var(--c2) 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 50px rgba(7,255,255,.22));}
+.hl:nth-child(3) .hw{animation-delay:.86s;
+  color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.18);}
+@keyframes wrise{to{opacity:1;transform:none}}
+.hero-desc{
+  font-size:1.1rem;line-height:1.9;color:var(--t2);
+  max-width:54ch;margin:0 auto 3rem;
+  opacity:0;animation:fu .9s 1.1s ease both;
+}
+.hero-desc b{color:var(--t1);font-weight:500;}
+.hero-btns{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;opacity:0;animation:fu .8s 1.3s ease both;}
+.hero-stats{
+  display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;
+  margin-top:3.5rem;
+  opacity:0;animation:fu .8s 1.55s ease both;
+}
+.hst{
+  display:flex;align-items:center;gap:.7rem;
+  background:rgba(255,255,255,.06);
+  backdrop-filter:blur(22px);
+  border:1px solid rgba(255,255,255,.11);
+  border-radius:100px;padding:.6rem 1.4rem;
+  box-shadow:0 1px 0 rgba(255,255,255,.1) inset;
+  cursor:default;transition:all .4s;
+}
+.hst:hover{background:rgba(255,255,255,.12);transform:translateY(-2px);}
+.hv{font-family:var(--F1);font-size:1.4rem;font-weight:700;
+  background:linear-gradient(135deg,var(--c1),var(--c3));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.hl2{font-family:var(--FM);font-size:.43rem;letter-spacing:.13em;color:var(--t3);text-transform:uppercase;}
+@keyframes fu{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 
-    /* ========== STATS STRIP ========== */
-    .stats-strip { background: rgba(10,20,40,0.6); border-top: 1px solid rgba(176,224,255,0.06); border-bottom: 1px solid rgba(176,224,255,0.06); backdrop-filter: blur(30px); }
-    .stats-grid { display: grid; grid-template-columns: repeat(6, 1fr); max-width: 1400px; margin: 0 auto; }
-    .stat-box { padding: 2.5rem 1.5rem; text-align: center; border-right: 1px solid rgba(176,224,255,0.05); cursor: default; position: relative; overflow: hidden; transition: background 0.5s; background: rgba(10,20,40,0.4); }
-    .stat-box:last-child { border-right: none; }
-    .stat-box::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, #b0e0ff, transparent); transform: scaleX(0); transition: transform 0.5s; }
-    .stat-box:hover { background: rgba(20,35,60,0.6); }
-    .stat-box:hover::after { transform: scaleX(1); }
-    .stat-num { font-family: 'Orbitron', sans-serif; font-size: 2.5rem; color: #b0e0ff; text-shadow: 0 0 30px rgba(176,224,255,0.3); }
-    .stat-lbl { font-family: 'Rajdhani', sans-serif; font-size: 0.5rem; letter-spacing: 0.2em; color: rgba(255,255,255,0.4); text-transform: uppercase; margin-top: 0.4rem; }
+/* ── BUTTONS ── */
+.btn-p{
+  display:inline-flex;align-items:center;gap:.6rem;
+  padding:.92rem 2.3rem;border-radius:100px;
+  font-family:var(--F2);font-size:.84rem;font-weight:600;
+  color:#fff;cursor:none;border:none;
+  background:linear-gradient(135deg,rgba(7,255,255,.28),rgba(155,89,255,.36),rgba(255,0,153,.22));
+  backdrop-filter:blur(22px);
+  border:1px solid rgba(255,255,255,.26);
+  box-shadow:0 0 45px rgba(7,255,255,.18),0 0 90px rgba(155,89,255,.1),0 1px 0 rgba(255,255,255,.3) inset;
+  transition:all .5s cubic-bezier(.23,1,.32,1);
+  position:relative;overflow:hidden;
+}
+.btn-p::before{content:'';position:absolute;inset:0;border-radius:100px;background:linear-gradient(135deg,rgba(255,255,255,.18),transparent);opacity:0;transition:opacity .4s;}
+.btn-p:hover::before{opacity:1;}
+.btn-p:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 0 70px rgba(7,255,255,.32),0 0 140px rgba(155,89,255,.18),0 24px 50px rgba(0,0,0,.4),0 1px 0 rgba(255,255,255,.35) inset;}
+.btn-g{
+  display:inline-flex;align-items:center;gap:.6rem;
+  padding:.92rem 2.3rem;border-radius:100px;
+  font-family:var(--F2);font-size:.84rem;font-weight:500;
+  color:rgba(255,255,255,.72);cursor:none;
+  background:rgba(255,255,255,.06);
+  backdrop-filter:blur(22px);
+  border:1px solid rgba(255,255,255,.14);
+  box-shadow:0 1px 0 rgba(255,255,255,.09) inset;
+  transition:all .4s cubic-bezier(.23,1,.32,1);
+}
+.btn-g:hover{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.22);transform:translateY(-1px);}
 
-    /* ========== CARD GRIDS ========== */
-    .card-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin: 3rem 0; }
-    .card { background: rgba(10,20,40,0.7); backdrop-filter: blur(15px); border: 1px solid rgba(176,224,255,0.1); border-radius: 24px; padding: 2rem; transition: 0.4s; cursor: pointer; position: relative; overflow: hidden; }
-    .card:hover { border-color: #b0e0ff; transform: translateY(-8px); box-shadow: 0 20px 40px rgba(176,224,255,0.1); }
-    .card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(176,224,255,0.1), transparent 60%); opacity: 0; transition: 0.4s; }
-    .card:hover::before { opacity: 1; }
-    .card-num { font-family: 'Orbitron', sans-serif; font-size: 3rem; color: rgba(176,224,255,0.1); line-height: 1; margin-bottom: 1rem; }
-    .card-icon { font-size: 2rem; margin-bottom: 1rem; filter: drop-shadow(0 0 10px #8bb9d1); }
-    .card-title { font-family: 'Orbitron', sans-serif; font-size: 1.1rem; margin-bottom: 0.8rem; transition: color 0.3s; }
-    .card:hover .card-title { color: #b0e0ff; }
-    .card-desc { font-size: 0.8rem; color: rgba(255,255,255,0.4); line-height: 1.7; margin-bottom: 1rem; }
+/* ── TICKER ── */
+.ticker-wrap{
+  position:relative;z-index:1;height:40px;overflow:hidden;
+  background:rgba(255,255,255,.04);
+  backdrop-filter:blur(20px);
+  border-top:1px solid rgba(255,255,255,.07);
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+.ticker-wrap::before,.ticker-wrap::after{
+  content:'';position:absolute;top:0;bottom:0;width:140px;z-index:1;
+}
+.ticker-wrap::before{left:0;background:linear-gradient(90deg,var(--bg),transparent);}
+.ticker-wrap::after{right:0;background:linear-gradient(-90deg,var(--bg),transparent);}
+.ticker-inner{display:flex;width:max-content;height:100%;align-items:center;animation:tk 65s linear infinite;}
+@keyframes tk{to{transform:translateX(-50%)}}
+.ti{display:inline-flex;align-items:center;gap:.65rem;padding:0 2rem;
+  border-right:1px solid rgba(255,255,255,.06);
+  font-family:var(--FM);font-size:.44rem;letter-spacing:.09em;color:rgba(255,255,255,.28);white-space:nowrap;}
+.ti .v{font-family:var(--F1);font-size:.9rem;font-weight:700;
+  background:linear-gradient(90deg,var(--c1),var(--c2));
+  -webkit-background-clip:text;background-clip:text;color:transparent;}
 
-    /* ========== MODEL GRID (OUTSOURCING) ========== */
-    .model-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: rgba(176,224,255,0.08); margin: 4rem 0; }
-    .model-card { background: rgba(10,20,40,0.95); padding: 2.5rem; cursor: pointer; transition: 0.6s; }
-    .model-card:hover { background: rgba(20,35,60,0.95); }
-    .mc-number { font-family: 'Orbitron', sans-serif; font-size: 5rem; color: rgba(176,224,255,0.04); line-height: 1; }
-    .mc-icon { width: 44px; height: 44px; border: 1px solid rgba(176,224,255,0.15); display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; transition: 0.4s; }
-    .model-card:hover .mc-icon { border-color: rgba(176,224,255,0.5); transform: scale(1.1) rotate(5deg); }
-    .mc-title { font-family: 'Orbitron', sans-serif; font-size: 0.9rem; margin-bottom: 0.7rem; transition: color 0.3s; }
-    .model-card:hover .mc-title { color: #b0e0ff; }
-    .mc-desc { font-size: 0.75rem; color: rgba(255,255,255,0.4); line-height: 1.9; margin-bottom: 1.2rem; }
-    .mc-list { display: flex; flex-direction: column; gap: 0.35rem; }
-    .mc-item { display: flex; align-items: center; gap: 0.6rem; font-family: 'Rajdhani', sans-serif; font-size: 0.6rem; letter-spacing: 0.1em; color: rgba(255,255,255,0.4); }
-    .mc-item::before { content: '—'; color: #b0e0ff; }
-    .mc-link { display: inline-block; margin-top: 1.5rem; font-family: 'Rajdhani', sans-serif; font-size: 0.6rem; letter-spacing: 0.2em; color: #b0e0ff; opacity: 0; transform: translateY(6px); transition: 0.4s; cursor: pointer; }
-    .model-card:hover .mc-link { opacity: 1; transform: translateY(0); }
+/* ── STATS BAND ── */
+.stats-band{
+  position:relative;z-index:1;
+  background:rgba(255,255,255,.038);
+  backdrop-filter:var(--blur);
+  border-top:1px solid rgba(255,255,255,.07);
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+.stats-inner{max-width:1440px;margin:0 auto;display:grid;grid-template-columns:repeat(6,1fr);}
+.sbt{
+  padding:2rem 1.4rem;text-align:center;
+  border-right:1px solid rgba(255,255,255,.05);
+  position:relative;overflow:hidden;cursor:default;
+  transition:background .4s;
+}
+.sbt:last-child{border-right:none;}
+.sbt:hover{background:rgba(255,255,255,.04);}
+.sbt::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--c1),var(--c3),transparent);
+  transform:scaleX(0);transition:transform .6s;}
+.sbt:hover::after{transform:scaleX(1);}
+.sbn{font-family:var(--F1);font-size:2.6rem;font-weight:700;line-height:1;
+  background:linear-gradient(135deg,var(--c1),var(--c3));
+  -webkit-background-clip:text;background-clip:text;color:transparent;}
+.sbl{font-family:var(--FM);font-size:.42rem;letter-spacing:.18em;color:var(--t3);margin-top:.4rem;text-transform:uppercase;}
 
-    /* ========== BOT BLOCK ========== */
-    .bot-block { background: rgba(10,20,40,0.9); border: 1px solid rgba(176,224,255,0.1); position: relative; overflow: hidden; margin-bottom: 4rem; border-radius: 40px; }
-    .bot-inner { display: grid; grid-template-columns: 1.2fr 1fr; }
-    .bot-left { padding: 3rem; border-right: 1px solid rgba(176,224,255,0.06); }
-    .bot-phase { display: flex; gap: 1.5rem; padding: 1.5rem 0; border-bottom: 1px solid rgba(176,224,255,0.04); cursor: default; transition: padding-left 0.4s; }
-    .bot-phase:last-of-type { border-bottom: none; }
-    .bot-phase:hover { padding-left: 1rem; }
-    .bp-num { font-family: 'Orbitron', sans-serif; font-size: 3rem; color: rgba(176,224,255,0.06); line-height: 1; flex-shrink: 0; transition: color 0.4s; }
-    .bot-phase:hover .bp-num { color: rgba(176,224,255,0.25); }
-    .bp-name { font-family: 'Orbitron', sans-serif; font-size: 0.75rem; letter-spacing: 0.08em; margin-bottom: 0.4rem; transition: color 0.3s; }
-    .bot-phase:hover .bp-name { color: #b0e0ff; }
-    .bp-desc { font-size: 0.72rem; color: rgba(255,255,255,0.4); line-height: 1.9; }
-    .bot-right { padding: 3rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: rgba(176,224,255,0.04); align-content: start; }
-    .bm { background: rgba(10,20,40,0.9); padding: 2rem; text-align: center; cursor: default; transition: background 0.4s; }
-    .bm:hover { background: rgba(20,35,55,0.9); }
-    .bm-val { font-family: 'Orbitron', sans-serif; font-size: 2.5rem; color: #b0e0ff; text-shadow: 0 0 30px rgba(176,224,255,0.3); }
-    .bm-lbl { font-family: 'Rajdhani', sans-serif; font-size: 0.5rem; letter-spacing: 0.18em; color: rgba(255,255,255,0.4); text-transform: uppercase; margin-top: 0.3rem; }
+/* ── SERVICE CARDS — full glass with particles visible ── */
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-bottom:1.2rem;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-bottom:3.5rem;}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem;}
 
-    /* ========== STAFF GRID ========== */
-    .staff-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 4rem; }
-    .staff-card { background: rgba(10,20,40,0.7); backdrop-filter: blur(15px); border: 1px solid rgba(176,224,255,0.1); border-radius: 24px; padding: 2rem; transition: 0.4s; cursor: pointer; }
-    .staff-card:hover { border-color: #b0e0ff; transform: translateY(-5px); box-shadow: 0 20px 30px rgba(176,224,255,0.1); }
-    .staff-icon { font-size: 2rem; margin-bottom: 1rem; }
-    .staff-title { font-family: 'Orbitron', sans-serif; font-size: 0.9rem; margin-bottom: 0.5rem; transition: color 0.3s; }
-    .staff-card:hover .staff-title { color: #b0e0ff; }
-    .staff-desc { font-size: 0.7rem; color: rgba(255,255,255,0.4); line-height: 1.8; }
+.scard{
+  padding:2.4rem;cursor:none;
+  transition:transform .55s cubic-bezier(.23,1,.32,1),box-shadow .55s,background .5s;
+  transform-style:preserve-3d;
+}
+.scard:hover{
+  background:rgba(255,255,255,.09) !important;
+  box-shadow:0 24px 90px rgba(0,0,0,.65),0 0 0 1px rgba(255,255,255,.24),0 1px 0 rgba(255,255,255,.35) inset !important;
+}
+.scard-ico{
+  width:50px;height:50px;border-radius:15px;
+  display:flex;align-items:center;justify-content:center;font-size:1.45rem;margin-bottom:1.5rem;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.15);
+  box-shadow:0 1px 0 rgba(255,255,255,.15) inset;
+  transition:all .55s;
+}
+.scard:hover .scard-ico{background:rgba(255,255,255,.16);transform:scale(1.1) rotate(6deg);}
+.scard-tag{
+  display:inline-flex;align-items:center;gap:.3rem;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.11);
+  border-radius:100px;padding:.16rem .6rem;
+  font-family:var(--FM);font-size:.42rem;letter-spacing:.1em;
+  color:rgba(255,255,255,.42);margin-bottom:1.1rem;text-transform:uppercase;
+}
+.scard-tag::before{content:'';width:4px;height:4px;border-radius:50%;background:currentColor;}
+.scard-title{font-family:var(--F1);font-size:1.3rem;font-weight:700;letter-spacing:-.01em;margin-bottom:.7rem;color:#fff;transition:all .3s;}
+.scard:hover .scard-title{background:linear-gradient(135deg,#fff,rgba(7,255,255,.75));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.scard-body{font-size:.76rem;line-height:1.9;color:var(--t2);margin-bottom:1.3rem;}
+.scard-chips{display:flex;flex-wrap:wrap;gap:.28rem;margin-bottom:1.2rem;}
+.chip{font-family:var(--FM);font-size:.4rem;letter-spacing:.08em;padding:.14rem .5rem;border-radius:100px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);color:rgba(255,255,255,.36);transition:all .3s;}
+.scard:hover .chip{background:rgba(255,255,255,.1);color:rgba(255,255,255,.62);}
+.scard-cta{
+  display:inline-flex;align-items:center;gap:.4rem;
+  font-family:var(--FM);font-size:.48rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--c1);
+  opacity:0;transform:translateY(6px);
+  transition:all .4s;
+}
+.scard:hover .scard-cta{opacity:1;transform:none;}
 
-    /* ========== COUNTRIES GRID ========== */
-    .countries-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.5rem; margin: 2rem 0 4rem; }
-    .country-chip { display: flex; align-items: center; gap: 0.4rem; padding: 0.5rem 0.8rem; border: 1px solid rgba(176,224,255,0.08); font-family: 'Rajdhani', sans-serif; font-size: 0.55rem; letter-spacing: 0.06em; color: rgba(255,255,255,0.4); background: rgba(10,20,40,0.5); border-radius: 30px; transition: all 0.3s; cursor: default; }
-    .country-chip:hover { border-color: rgba(176,224,255,0.3); color: rgba(255,255,255,0.8); background: rgba(20,35,55,0.6); transform: scale(1.02); }
+/* ── MODEL CARDS ── */
+.mcard{padding:2.4rem;cursor:none;transition:all .55s cubic-bezier(.23,1,.32,1);}
+.mcard:hover{background:rgba(255,255,255,.09) !important;transform:translateY(-4px);}
+.mc-num{position:absolute;top:1.5rem;right:1.5rem;font-family:var(--F1);font-size:5.5rem;font-weight:700;color:rgba(255,255,255,.025);line-height:1;transition:color .4s;}
+.mcard:hover .mc-num{color:rgba(255,255,255,.07);}
+.mc-ico{width:44px;height:44px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.35rem;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);margin-bottom:1.5rem;transition:all .4s;}
+.mcard:hover .mc-ico{background:rgba(255,255,255,.14);transform:scale(1.08);}
+.mc-badge{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:100px;padding:.19rem .68rem;font-family:var(--FM);font-size:.42rem;letter-spacing:.1em;color:rgba(255,255,255,.38);margin-bottom:1.2rem;display:inline-block;}
+.mc-title{font-family:var(--F1);font-size:1.45rem;font-weight:700;margin-bottom:.65rem;transition:all .3s;}
+.mcard:hover .mc-title{background:linear-gradient(90deg,#fff,rgba(7,255,255,.7));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.mc-body{font-size:.76rem;color:var(--t2);line-height:1.9;margin-bottom:1.4rem;}
+.mc-tags{display:flex;flex-wrap:wrap;gap:.28rem;}
+.mct{font-family:var(--FM);font-size:.41rem;letter-spacing:.07em;padding:.14rem .5rem;border-radius:100px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.3);}
+.mc-cta{display:inline-flex;align-items:center;gap:.4rem;margin-top:1.4rem;font-family:var(--FM);font-size:.48rem;letter-spacing:.13em;text-transform:uppercase;color:var(--c1);opacity:0;transform:translateY(5px);transition:all .4s;}
+.mcard:hover .mc-cta{opacity:1;transform:none;}
 
-    /* ========== SDET CAPABILITIES GRID ========== */
-    .caps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin: 3rem 0; }
-    .cap-card { background: rgba(10,20,40,0.7); backdrop-filter: blur(15px); border: 1px solid rgba(176,224,255,0.1); border-radius: 24px; padding: 2rem; transition: 0.4s; cursor: pointer; }
-    .cap-card:hover { border-color: #b0e0ff; transform: translateY(-5px); box-shadow: 0 20px 40px rgba(176,224,255,0.1); }
-    .cap-num { font-family: 'Orbitron', sans-serif; font-size: 2.5rem; color: rgba(176,224,255,0.1); line-height: 1; margin-bottom: 0.5rem; }
-    .cap-icon { font-size: 2rem; margin-bottom: 1rem; }
-    .cap-title { font-family: 'Orbitron', sans-serif; font-size: 1rem; margin-bottom: 0.8rem; transition: color 0.3s; }
-    .cap-card:hover .cap-title { color: #b0e0ff; }
-    .cap-desc { font-size: 0.75rem; color: rgba(255,255,255,0.4); line-height: 1.8; margin-bottom: 1rem; }
-    .cap-chips { display: flex; flex-wrap: wrap; gap: 0.3rem; }
-    .chip { font-family: 'Rajdhani', sans-serif; font-size: 0.45rem; letter-spacing: 0.1em; padding: 0.15rem 0.5rem; border: 1px solid rgba(176,224,255,0.15); color: rgba(176,224,255,0.6); text-transform: uppercase; border-radius: 20px; transition: all 0.3s; }
-    .cap-card:hover .chip { border-color: rgba(176,224,255,0.4); color: #b0e0ff; }
+/* BOT feature */
+.bot-wrap{position:relative;z-index:1;}
+.bot-inner{display:grid;grid-template-columns:1fr 1fr;}
+.bot-left{padding:3rem;border-right:1px solid rgba(255,255,255,.06);}
+.bot-right{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,.04);}
+.bph{display:flex;gap:1.2rem;padding:1.4rem 0;border-bottom:1px solid rgba(255,255,255,.05);cursor:default;transition:padding-left .3s;}
+.bph:last-child{border-bottom:none;}
+.bph:hover{padding-left:.5rem;}
+.bpn{font-family:var(--F1);font-size:3.5rem;font-weight:700;background:linear-gradient(135deg,var(--c3),var(--c1));-webkit-background-clip:text;background-clip:text;color:transparent;opacity:.2;transition:opacity .3s;line-height:1;flex-shrink:0;}
+.bph:hover .bpn{opacity:.75;}
+.bpt{font-family:var(--F1);font-size:.95rem;font-weight:600;margin-bottom:.3rem;transition:color .3s;}
+.bph:hover .bpt{color:var(--c1);}
+.bpd{font-size:.7rem;color:var(--t3);line-height:1.9;}
+.bom{background:rgba(255,255,255,.025);padding:2.2rem;text-align:center;cursor:default;transition:background .3s;}
+.bom:hover{background:rgba(255,255,255,.06);}
+.bov{font-family:var(--F1);font-size:2.7rem;font-weight:700;background:linear-gradient(135deg,var(--c1),var(--c2));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.bol{font-family:var(--FM);font-size:.42rem;letter-spacing:.14em;color:var(--t3);margin-top:.3rem;text-transform:uppercase;}
+.bot-cta-row{grid-column:1/-1;padding:1.5rem;display:flex;gap:.8rem;justify-content:center;background:rgba(255,255,255,.02);}
 
-    /* ========== QUANTUM SCRIPT TERMINAL (REPLACES LOVE PROJECT) ========== */
-    .quantum-terminal {
-      background: rgba(10,20,40,0.7);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(176,224,255,0.2);
-      border-radius: 40px;
-      padding: 3rem;
-      margin: 4rem 0;
-      position: relative;
-      overflow: hidden;
-    }
-    .terminal-header {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 2rem;
-      padding-bottom: 1rem;
-      border-bottom: 1px solid rgba(176,224,255,0.2);
-    }
-    .terminal-dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: #ff5f56;
-    }
-    .terminal-dot:nth-child(2) { background: #ffbd2e; }
-    .terminal-dot:nth-child(3) { background: #27c93f; }
-    .terminal-title {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 1rem;
-      color: #b0e0ff;
-      margin-left: 1rem;
-    }
-    .terminal-line {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.85rem;
-      color: rgba(176,224,255,0.9);
-      margin-bottom: 0.5rem;
-      white-space: nowrap;
-      overflow: hidden;
-    }
-    .terminal-prompt { color: #8bb9d1; }
-    .terminal-command { color: #ffffff; }
-    .terminal-output { color: rgba(176,224,255,0.6); margin-left: 1.5rem; }
-    .cursor-blink {
-      display: inline-block;
-      width: 8px;
-      height: 1rem;
-      background: #b0e0ff;
-      animation: blink 1s infinite;
-      vertical-align: middle;
-    }
-    @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+/* TALENT */
+.talg{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;}
+.tc{padding:2rem;cursor:none;transition:all .5s cubic-bezier(.23,1,.32,1);}
+.tc:hover{background:rgba(255,255,255,.09) !important;transform:translateY(-3px);}
+.tc-ico{font-size:1.8rem;margin-bottom:.9rem;}
+.tc-t{font-family:var(--F1);font-size:1rem;font-weight:700;margin-bottom:.4rem;transition:all .3s;}
+.tc:hover .tc-t{background:linear-gradient(90deg,#fff,rgba(7,255,255,.7));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.tc-d{font-size:.68rem;color:var(--t3);line-height:1.9;}
+.ctries{display:flex;flex-wrap:wrap;gap:.38rem;margin-top:2rem;}
+.cp{font-family:var(--FM);font-size:.44rem;letter-spacing:.06em;padding:.26rem .72rem;border-radius:100px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);color:var(--t3);cursor:default;transition:all .3s;}
+.cp:hover{background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,255,255,.2);}
 
-    /* ========== SDET INTERNSHIP PROGRAM (WITH DETAILED PDF BROCHURES) ========== */
-    .internship-zone {
-      background: rgba(10,20,40,0.7);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(176,224,255,0.2);
-      border-radius: 60px;
-      padding: 4rem;
-      margin: 4rem 0;
-      position: relative;
-      overflow: hidden;
-    }
-    .internship-zone::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 30% 50%, rgba(176,224,255,0.1), transparent 70%);
-      pointer-events: none;
-    }
-    .internship-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 2rem;
-      margin: 3rem 0;
-    }
-    .internship-card {
-      background: rgba(10,20,40,0.8);
-      backdrop-filter: blur(15px);
-      border: 1px solid rgba(176,224,255,0.15);
-      border-radius: 40px;
-      padding: 2.5rem 2rem;
-      text-align: center;
-      transition: all 0.5s;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-    }
-    .internship-card:hover {
-      border-color: #b0e0ff;
-      transform: translateY(-12px) scale(1.02);
-      box-shadow: 0 30px 60px rgba(176,224,255,0.2);
-    }
-    .internship-card .icon {
-      font-size: 3.5rem;
-      margin-bottom: 1.5rem;
-      filter: drop-shadow(0 0 20px #8bb9d1);
-      animation: iconFloat 3s infinite alternate;
-    }
-    @keyframes iconFloat {
-      from { transform: translateY(0); }
-      to { transform: translateY(-8px); }
-    }
-    .internship-card h3 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-      background: linear-gradient(135deg, #b0e0ff, #ffffff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .internship-card .duration {
-      display: inline-block;
-      background: rgba(176,224,255,0.15);
-      border: 1px solid rgba(176,224,255,0.3);
-      border-radius: 40px;
-      padding: 0.2rem 1rem;
-      font-size: 0.7rem;
-      color: #b0e0ff;
-      margin: 0.5rem 0;
-    }
-    .internship-card .features {
-      list-style: none;
-      text-align: left;
-      margin: 1rem 0;
-      font-size: 0.8rem;
-      color: rgba(255,255,255,0.6);
-    }
-    .internship-card .features li {
-      padding: 0.3rem 0;
-      position: relative;
-      padding-left: 1.5rem;
-    }
-    .internship-card .features li::before {
-      content: '⚡';
-      position: absolute;
-      left: 0;
-      color: #b0e0ff;
-    }
-    .badge-new {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      background: linear-gradient(135deg, #b0e0ff, #8bb9d1);
-      color: #0a1428;
-      font-size: 0.6rem;
-      padding: 0.2rem 0.8rem;
-      border-radius: 40px;
-      font-weight: 600;
-    }
-    .placement-badge {
-      display: inline-block;
-      background: linear-gradient(135deg, #b0e0ff, #8bb9d1);
-      color: #0a1428;
-      font-size: 1.2rem;
-      font-weight: 700;
-      padding: 0.8rem 3rem;
-      border-radius: 60px;
-      letter-spacing: 2px;
-      box-shadow: 0 0 40px rgba(176,224,255,0.5);
-    }
+/* GAUGES */
+.gauge-row{display:grid;grid-template-columns:repeat(5,1fr);gap:1.2rem;margin-bottom:2.5rem;}
+.gm{padding:2rem 1.5rem;text-align:center;cursor:default;transition:all .4s;}
+.gm:hover{background:rgba(255,255,255,.08) !important;transform:translateY(-3px);}
+.gw{width:80px;height:80px;position:relative;margin:0 auto .8rem;}
+.gsvg{width:80px;height:80px;transform:rotate(-90deg);}
+.gbg{fill:none;stroke:rgba(255,255,255,.07);stroke-width:5;}
+.gfl{fill:none;stroke-width:5;stroke-linecap:round;stroke-dasharray:188;stroke-dashoffset:188;transition:stroke-dashoffset 2.4s cubic-bezier(.34,1.2,.64,1);filter:drop-shadow(0 0 5px rgba(7,255,255,.55));}
+.glb{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--F1);font-size:1.1rem;font-weight:700;background:linear-gradient(135deg,var(--c1),var(--c3));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.gnm{font-family:var(--FM);font-size:.42rem;letter-spacing:.12em;color:var(--t3);text-transform:uppercase;}
 
-    /* ========== REVIEWS SECTION ========== */
-    .reviews-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2rem;
-      margin: 3rem 0;
-    }
-    .review-card {
-      background: rgba(10,20,40,0.6);
-      backdrop-filter: blur(15px);
-      border: 1px solid rgba(176,224,255,0.15);
-      border-radius: 40px;
-      padding: 2.5rem;
-      transition: all 0.4s;
-      cursor: default;
-      position: relative;
-    }
-    .review-card:hover {
-      border-color: #b0e0ff;
-      transform: translateY(-5px);
-      box-shadow: 0 20px 40px rgba(176,224,255,0.15);
-    }
-    .review-quote {
-      font-size: 2rem;
-      color: #b0e0ff;
-      opacity: 0.3;
-      position: absolute;
-      top: 1rem;
-      left: 1.5rem;
-    }
-    .review-text {
-      font-size: 0.9rem;
-      line-height: 1.8;
-      color: rgba(255,255,255,0.8);
-      margin: 1.5rem 0;
-      position: relative;
-      z-index: 1;
-    }
-    .reviewer {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-top: 1.5rem;
-    }
-    .reviewer-avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #b0e0ff, #8bb9d1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      color: #0a1428;
-    }
-    .reviewer-info h4 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 0.9rem;
-      color: #b0e0ff;
-    }
-    .reviewer-info p {
-      font-size: 0.7rem;
-      color: rgba(255,255,255,0.4);
-    }
+/* PIPELINE */
+.pipe{display:grid;grid-template-columns:repeat(6,1fr);gap:.8rem;margin:2rem 0 3.5rem;position:relative;}
+.pipe::before{content:'';position:absolute;top:27px;left:27px;right:27px;height:1px;background:linear-gradient(90deg,var(--c3),var(--c1),var(--c2));opacity:.22;pointer-events:none;}
+.ps{display:flex;flex-direction:column;align-items:center;gap:.7rem;text-align:center;}
+.ps-nd{width:54px;height:54px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.15rem;background:rgba(255,255,255,.07);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.14);box-shadow:0 1px 0 rgba(255,255,255,.14) inset;position:relative;z-index:1;transition:all .4s;}
+.ps:hover .ps-nd{background:rgba(255,255,255,.18);transform:scale(1.12) translateY(-4px);box-shadow:0 0 30px rgba(7,255,255,.22),0 1px 0 rgba(255,255,255,.25) inset;}
+.ps-l{font-family:var(--FM);font-size:.41rem;letter-spacing:.11em;color:var(--t3);transition:color .3s;}
+.ps:hover .ps-l{color:var(--c1);}
 
-    /* ========== SERVICES GRID ========== */
-    .svc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin: 3rem 0; }
-    .svc-card { background: rgba(10,20,40,0.7); backdrop-filter: blur(15px); border: 1px solid rgba(176,224,255,0.1); border-radius: 24px; padding: 2.5rem 2rem; transition: all 0.4s; cursor: pointer; position: relative; overflow: hidden; }
-    .svc-card:hover { border-color: #b0e0ff; transform: translateY(-5px); box-shadow: 0 20px 40px rgba(176,224,255,0.1); }
-    .svc-glow { position: absolute; bottom: -60px; left: 50%; transform: translateX(-50%); width: 200px; height: 200px; border-radius: 50%; background: radial-gradient(circle, rgba(176,224,255,0.1), transparent 70%); opacity: 0; transition: opacity 0.6s; }
-    .svc-card:hover .svc-glow { opacity: 1; }
-    .svc-num { font-family: 'Orbitron', sans-serif; font-size: 4rem; color: rgba(176,224,255,0.05); position: absolute; top: 0.5rem; right: 1rem; line-height: 1; }
-    .svc-icon { font-size: 2rem; margin-bottom: 1.5rem; position: relative; z-index: 1; }
-    .svc-title { font-family: 'Orbitron', sans-serif; font-size: 1rem; margin-bottom: 0.8rem; position: relative; z-index: 1; transition: color 0.3s; }
-    .svc-card:hover .svc-title { color: #b0e0ff; }
-    .svc-desc { font-size: 0.75rem; color: rgba(255,255,255,0.4); line-height: 1.8; position: relative; z-index: 1; }
-    .svc-cta { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 1.5rem; font-family: 'Rajdhani', sans-serif; font-size: 0.55rem; letter-spacing: 0.2em; color: #b0e0ff; opacity: 0; transform: translateY(6px); transition: all 0.4s; position: relative; z-index: 1; }
-    .svc-card:hover .svc-cta { opacity: 1; transform: translateY(0); }
+/* LAB / TERMINAL */
+.lab{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-bottom:3rem;}
+.lab-p{border-radius:var(--R2);overflow:hidden;background:rgba(0,0,0,.35);backdrop-filter:blur(35px);border:1px solid rgba(255,255,255,.09);}
+.lab-h{padding:.72rem 1.1rem;background:rgba(0,0,0,.38);border-bottom:1px solid rgba(255,255,255,.06);display:flex;justify-content:space-between;align-items:center;}
+.lab-dots{display:flex;gap:.32rem;}
+.lab-dot{width:9px;height:9px;border-radius:50%;}
+.lr{background:#FF5F57}.ly{background:#FEBC2E}.lg{background:#28C840}
+.lab-t{font-family:var(--FM);font-size:.43rem;letter-spacing:.13em;color:var(--t3);}
+.lab-s{font-family:var(--FM);font-size:.43rem;letter-spacing:.1em;color:var(--c4);}
+.term{padding:1.1rem;height:260px;overflow:hidden;font-family:var(--FM);font-size:.56rem;line-height:2.1;}
+.tl{opacity:0;animation:fu .15s both;}
+.kw{color:#C792EA}.fn{color:#82AAFF}.st{color:#C3E88D}.nm{color:#F78C6C}.cm{color:rgba(255,255,255,.2)}.cl{color:var(--c1)}
+.run-body{padding:1rem 1.1rem;height:260px;overflow:hidden;display:flex;flex-direction:column;}
+.rbar{height:2px;background:rgba(255,255,255,.05);margin-bottom:.9rem;overflow:hidden;}
+.rfill{height:100%;width:0;background:linear-gradient(90deg,var(--c3),var(--c1),var(--c2));transition:width .8s;}
+.rtests{flex:1;overflow:hidden;display:flex;flex-direction:column;}
+.rt{display:flex;align-items:center;gap:.6rem;padding:.24rem 0;border-bottom:1px solid rgba(255,255,255,.03);font-family:var(--FM);font-size:.52rem;opacity:0;animation:fu .2s both;}
+.rtp{color:#4ADE80}.rtf{color:#F87171}.rts{color:#FBBF24}
+.rtn{flex:1;color:var(--t3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.rtm{color:rgba(255,255,255,.1);font-size:.45rem;flex-shrink:0;}
+.rsum{padding:.6rem 0 0;border-top:1px solid rgba(255,255,255,.06);display:flex;gap:1.5rem;font-family:var(--FM);font-size:.5rem;}
 
-    /* ========== PROJECTS GRID ========== */
-    .proj-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin: 3rem 0; }
-    .proj-card { background: rgba(10,20,40,0.7); backdrop-filter: blur(15px); border: 1px solid rgba(176,224,255,0.1); border-radius: 24px; overflow: hidden; transition: all 0.4s; cursor: pointer; }
-    .proj-card:hover { border-color: #b0e0ff; transform: translateY(-5px); box-shadow: 0 20px 40px rgba(176,224,255,0.1); }
-    .proj-thumb { height: 140px; background: linear-gradient(135deg, #1e2b3f, #2c3a52); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; transition: transform 0.6s; }
-    .proj-card:hover .proj-thumb { transform: scale(1.05); }
-    .proj-body { padding: 1.5rem; }
-    .proj-cat { font-family: 'Rajdhani', sans-serif; font-size: 0.5rem; letter-spacing: 0.25em; color: #b0e0ff; margin-bottom: 0.5rem; text-transform: uppercase; }
-    .proj-title { font-family: 'Orbitron', sans-serif; font-size: 0.9rem; margin-bottom: 0.5rem; transition: color 0.3s; }
-    .proj-card:hover .proj-title { color: #b0e0ff; }
-    .proj-desc { font-size: 0.7rem; color: rgba(255,255,255,0.4); line-height: 1.7; margin-bottom: 1rem; }
-    .proj-stats { display: flex; gap: 1rem; margin-top: 0.5rem; }
-    .proj-stat { font-size: 0.8rem; color: #b0e0ff; }
+/* WINS */
+.wins-g{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;}
+.win-c{padding:2.2rem;cursor:none;transition:all .55s cubic-bezier(.23,1,.32,1);}
+.win-c:hover{background:rgba(255,255,255,.09) !important;transform:translateY(-4px);}
+.win-c::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.48),transparent);transform:scaleX(0);transition:transform .7s;box-shadow:0 0 8px rgba(7,255,255,.4);}
+.win-c:hover::after{transform:scaleX(1);}
+.win-ind{font-family:var(--FM);font-size:.41rem;letter-spacing:.2em;color:var(--t4);margin-bottom:.9rem;text-transform:uppercase;}
+.win-t{font-family:var(--F1);font-size:1.1rem;font-weight:700;margin-bottom:.55rem;transition:all .3s;}
+.win-c:hover .win-t{background:linear-gradient(90deg,#fff,rgba(7,255,255,.7));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.win-d{font-size:.68rem;color:var(--t3);line-height:1.85;margin-bottom:1.3rem;}
+.win-n{display:flex;gap:2rem;}
+.wv{font-family:var(--F1);font-size:2.5rem;font-weight:700;background:linear-gradient(135deg,var(--c1),var(--c2));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.wl{font-family:var(--FM);font-size:.4rem;letter-spacing:.1em;color:var(--t4);margin-top:.2rem;text-transform:uppercase;}
 
-    /* ========== GLOBE CONTAINER ========== */
-    .globe-container { width: 100%; height: 500px; border-radius: 40px; overflow: hidden; border: 1px solid rgba(176,224,255,0.2); margin: 4rem 0; position: relative; cursor: grab; }
-    .globe-container:active { cursor: grabbing; }
+/* PROJECTS */
+.filter-row{display:flex;gap:.45rem;flex-wrap:wrap;margin:2.5rem 0 3rem;}
+.fbt{font-family:var(--FM);font-size:.45rem;letter-spacing:.12em;text-transform:uppercase;padding:.38rem .92rem;border-radius:100px;cursor:none;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);color:var(--t3);transition:all .3s;}
+.fbt.on,.fbt:hover{background:rgba(255,255,255,.15);color:#fff;border-color:rgba(255,255,255,.24);}
+.proj-g{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;}
+.pj{cursor:none;overflow:hidden;display:flex;flex-direction:column;transition:all .55s cubic-bezier(.23,1,.32,1);}
+.pj:hover{background:rgba(255,255,255,.09) !important;transform:translateY(-5px);}
+.pj-th{height:130px;display:flex;align-items:center;justify-content:center;font-size:3.2rem;background:rgba(0,0,0,.22);transition:transform .7s;}
+.pj:hover .pj-th{transform:scale(1.05);}
+.pj-b{padding:1.6rem;flex:1;display:flex;flex-direction:column;}
+.pj-cat{font-family:var(--FM);font-size:.41rem;letter-spacing:.2em;background:linear-gradient(90deg,var(--c1),var(--c3));-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:.35rem;}
+.pj-t{font-family:var(--F1);font-size:.95rem;font-weight:700;margin-bottom:.4rem;transition:all .3s;}
+.pj:hover .pj-t{background:linear-gradient(90deg,#fff,rgba(7,255,255,.7));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.pj-d{font-size:.67rem;color:var(--t3);line-height:1.8;flex:1;}
+.pj-ft{display:flex;justify-content:space-between;align-items:center;margin-top:1.2rem;padding-top:.85rem;border-top:1px solid rgba(255,255,255,.06);}
+.pj-tags{display:flex;gap:.28rem;flex-wrap:wrap;}
+.pt{font-family:var(--FM);font-size:.4rem;letter-spacing:.07em;padding:.12rem .48rem;border-radius:100px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);color:var(--t3);}
+.pj-arr{font-size:1rem;transition:transform .35s;background:linear-gradient(135deg,var(--c1),var(--c2));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.pj:hover .pj-arr{transform:translate(3px,-3px);}
 
-    /* ========== MAP CONTAINER ========== */
-    .map-container { height: 400px; border-radius: 40px; overflow: hidden; border: 1px solid rgba(176,224,255,0.2); margin: 4rem 0; }
-    .map-container iframe { width: 100%; height: 100%; filter: grayscale(0.5) hue-rotate(180deg) brightness(0.8); }
+/* PROGRAMS */
+.prog-g{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-bottom:1.8rem;}
+.pc{padding:2.8rem;cursor:none;transition:all .55s cubic-bezier(.23,1,.32,1);}
+.pc:hover{background:rgba(255,255,255,.09) !important;transform:translateY(-5px);}
+.pc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;transform:scaleX(0);transition:transform .8s;pointer-events:none;}
+.pc:nth-child(1)::before{background:linear-gradient(90deg,var(--c1),var(--c3));}
+.pc:nth-child(2)::before{background:linear-gradient(90deg,var(--c2),var(--c3));}
+.pc:nth-child(3)::before{background:linear-gradient(90deg,var(--c3),var(--c4));}
+.pc:nth-child(4)::before{background:linear-gradient(90deg,var(--c5),var(--c2));}
+.pc:hover::before{transform:scaleX(1);}
+.pc-open{
+  display:inline-flex;align-items:center;gap:.4rem;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.11);
+  border-radius:100px;padding:.2rem .7rem;
+  font-family:var(--FM);font-size:.42rem;letter-spacing:.13em;text-transform:uppercase;
+  margin-bottom:1.4rem;transition:all .3s;
+}
+.pc:nth-child(1) .pc-open{color:var(--c1);border-color:rgba(7,255,255,.22);}
+.pc:nth-child(2) .pc-open{color:var(--c2);border-color:rgba(255,0,153,.22);}
+.pc:nth-child(3) .pc-open{color:var(--c3);}
+.pc:nth-child(4) .pc-open{color:var(--c5);border-color:rgba(255,229,0,.22);}
+.pc-open::before{content:'';width:5px;height:5px;border-radius:50%;background:currentColor;animation:pulse 1.5s infinite;}
+.pc-title{font-family:var(--F1);font-size:1.5rem;font-weight:700;margin-bottom:.8rem;transition:all .4s;}
+.pc:nth-child(1):hover .pc-title{background:linear-gradient(90deg,var(--c1),var(--c3));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.pc:nth-child(2):hover .pc-title{background:linear-gradient(90deg,var(--c2),var(--c3));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.pc:nth-child(3):hover .pc-title{background:linear-gradient(90deg,var(--c3),var(--c4));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.pc:nth-child(4):hover .pc-title{background:linear-gradient(90deg,var(--c5),var(--c2));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.pc-desc{font-size:.8rem;color:var(--t2);line-height:2;margin-bottom:1.5rem;}
+.pc-phases{display:flex;flex-direction:column;gap:.5rem;margin-bottom:1.2rem;}
+.pc-ph{display:flex;align-items:center;gap:.7rem;font-family:var(--FM);font-size:.48rem;letter-spacing:.07em;}
+.pc-ph::before{content:'';width:14px;height:1px;background:currentColor;flex-shrink:0;}
+.pc:nth-child(1) .pc-ph{color:rgba(7,255,255,.45);}
+.pc:nth-child(2) .pc-ph{color:rgba(255,0,153,.45);}
+.pc:nth-child(3) .pc-ph{color:rgba(155,89,255,.55);}
+.pc:nth-child(4) .pc-ph{color:rgba(255,229,0,.45);}
+.pc-apply{display:flex;align-items:center;gap:.4rem;font-family:var(--FM);font-size:.48rem;letter-spacing:.13em;text-transform:uppercase;opacity:0;transform:translateY(4px);transition:all .4s;cursor:none;}
+.pc:nth-child(1) .pc-apply{color:var(--c1);}
+.pc:nth-child(2) .pc-apply{color:var(--c2);}
+.pc:nth-child(3) .pc-apply{color:var(--c3);}
+.pc:nth-child(4) .pc-apply{color:var(--c5);}
+.pc:hover .pc-apply{opacity:1;transform:none;}
+.pc-cert{position:absolute;bottom:1.5rem;right:1.5rem;font-family:var(--FM);font-size:.41rem;letter-spacing:.1em;padding:.25rem .68rem;border-radius:100px;border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.26);}
+.prog-timeline{padding:2.5rem;position:relative;}
+.prog-timeline::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;border-radius:var(--R) var(--R) 0 0;background:linear-gradient(90deg,rgba(155,89,255,.6),rgba(7,255,255,.9),rgba(255,0,153,.6));}
+.ptl-title{font-family:var(--F1);font-size:1.1rem;font-weight:700;margin-bottom:2rem;background:linear-gradient(90deg,var(--c1),var(--c3));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.ptl-months{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:rgba(255,255,255,.05);}
+.ptlm{background:rgba(255,255,255,.02);padding:1.4rem 1rem;text-align:center;cursor:default;transition:background .3s;}
+.ptlm:hover{background:rgba(255,255,255,.07);}
+.ptlmn{font-family:var(--F1);font-size:1.8rem;font-weight:700;background:linear-gradient(135deg,var(--c1),var(--c2));-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1;}
+.ptlml{font-family:var(--FM);font-size:.41rem;letter-spacing:.12em;color:var(--t3);margin-top:.3rem;text-transform:uppercase;}
+.ptlmf{font-size:.63rem;color:var(--t2);line-height:1.7;margin-top:.4rem;}
 
-    /* ========== CONTACT FORM ========== */
-    .contact-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 4rem; margin: 3rem 0; }
-    .email-buttons { display: flex; flex-direction: column; gap: 1rem; margin: 2rem 0; }
-    .email-btn { background: rgba(10,20,40,0.6); backdrop-filter: blur(10px); border: 1px solid rgba(176,224,255,0.2); border-radius: 40px; padding: 0.8rem 1.5rem; color: #ffffff; cursor: pointer; transition: 0.3s; text-align: left; font-family: 'Rajdhani', sans-serif; }
-    .email-btn:hover { border-color: #b0e0ff; background: rgba(176,224,255,0.1); transform: translateX(10px); }
-    .form input, .form select, .form textarea { width: 100%; padding: 1rem; margin-bottom: 1rem; background: rgba(10,20,40,0.6); border: 1px solid rgba(176,224,255,0.2); border-radius: 40px; color: #ffffff; font-family: 'Space Grotesk', sans-serif; }
-    .form button { background: linear-gradient(135deg, #b0e0ff, #8bb9d1); color: #0a1428; padding: 1rem 2rem; border-radius: 40px; font-weight: 600; cursor: pointer; transition: 0.3s; width: 100%; border: none; font-size: 1rem; }
-    .form button:hover { box-shadow: 0 0 40px #b0e0ff; transform: scale(1.02); }
+/* GLOBE */
+#globe{padding:8rem 3rem;overflow:hidden;position:relative;z-index:1;}
+.globe-stage{position:relative;height:480px;display:flex;align-items:center;justify-content:center;margin-top:3.5rem;}
+#GC{position:absolute;inset:0;width:100%;height:100%;}
+.globe-card{position:relative;z-index:2;padding:2.5rem 4.5rem;text-align:center;}
+.globe-coord{font-family:var(--F1);font-size:2.6rem;font-weight:700;background:linear-gradient(135deg,var(--c1),var(--c3),var(--c2));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.globe-addr{font-family:var(--FM);font-size:.53rem;color:var(--t3);line-height:2.4;margin-top:.5rem;letter-spacing:.1em;}
+.globe-lnk{display:flex;gap:2rem;justify-content:center;margin-top:1rem;}
+.globe-lnk a{font-family:var(--FM);font-size:.52rem;color:var(--t2);transition:color .3s;}
+.globe-lnk a:hover{color:var(--c1);}
 
-    /* ========== FOOTER ========== */
-    footer { border-top: 1px solid rgba(176,224,255,0.1); padding: 2rem 4rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; background: rgba(10,20,40,0.8); backdrop-filter: blur(20px); }
-    .footer-emails { display: flex; gap: 2rem; font-family: 'Rajdhani', sans-serif; font-size: 0.7rem; }
-    .footer-emails a { color: rgba(255,255,255,0.4); transition: 0.3s; cursor: pointer; }
-    .footer-emails a:hover { color: #b0e0ff; }
+/* CONTACT */
+#contact{padding:8rem 3rem;}
+.cg{display:grid;grid-template-columns:1fr 1.5fr;gap:7rem;margin-top:5rem;}
+.ci{font-size:.86rem;line-height:2;color:var(--t2);margin-bottom:2rem;}
+.c-rows{display:flex;flex-direction:column;gap:.38rem;}
+.c-row{display:flex;align-items:center;gap:.9rem;padding:.72rem 1rem;border-radius:var(--R2);border:1px solid transparent;font-family:var(--FM);font-size:.57rem;letter-spacing:.05em;color:var(--t3);cursor:default;transition:all .3s;}
+.c-row:hover{border-color:rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#fff;}
+.c-ico{background:linear-gradient(135deg,var(--c1),var(--c3));-webkit-background-clip:text;background-clip:text;color:transparent;width:15px;text-align:center;}
+.oh{margin-top:1.8rem;padding:1.3rem 1.5rem;border-radius:var(--R2);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);}
+.ohl{font-family:var(--FM);font-size:.42rem;letter-spacing:.22em;color:var(--t4);margin-bottom:.7rem;text-transform:uppercase;}
+.oht{font-size:.66rem;color:var(--t3);line-height:2.2;font-family:var(--FM);letter-spacing:.04em;}
+.ohi{color:var(--c1);}
+.cf{display:flex;flex-direction:column;gap:1rem;}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.fg{display:flex;flex-direction:column;gap:.42rem;}
+.fl{font-family:var(--FM);font-size:.42rem;letter-spacing:.22em;color:rgba(255,255,255,.22);text-transform:uppercase;}
+.fi,.fsel,.fta{background:rgba(255,255,255,.05);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1);border-radius:var(--R2);color:#fff;font-family:var(--FM);font-size:.63rem;letter-spacing:.04em;padding:.82rem 1rem;outline:none;cursor:none;width:100%;transition:all .4s;}
+.fi::placeholder{color:rgba(255,255,255,.18);}
+.fi:focus,.fsel:focus,.fta:focus{border-color:rgba(255,255,255,.26);background:rgba(255,255,255,.08);box-shadow:0 0 0 3px rgba(7,255,255,.08),0 1px 0 rgba(255,255,255,.1) inset;}
+.fta{resize:none;height:95px;font-family:var(--F2);}
+.fsel option{background:#080316;}
+.fsub{border:none;border-radius:100px;font-family:var(--F2);font-size:.78rem;font-weight:600;color:#fff;cursor:none;padding:1rem;background:linear-gradient(135deg,rgba(7,255,255,.3),rgba(155,89,255,.4),rgba(255,0,153,.25));backdrop-filter:blur(22px);border:1px solid rgba(255,255,255,.24);box-shadow:0 0 35px rgba(7,255,255,.16),0 1px 0 rgba(255,255,255,.24) inset;transition:all .5s;position:relative;overflow:hidden;}
+.fsub::before{content:'';position:absolute;inset:0;border-radius:100px;background:linear-gradient(135deg,rgba(255,255,255,.18),transparent);opacity:0;transition:opacity .4s;}
+.fsub:hover::before{opacity:1;}
+.fsub:hover{transform:translateY(-2px);box-shadow:0 0 70px rgba(7,255,255,.28),0 22px 50px rgba(0,0,0,.4),0 1px 0 rgba(255,255,255,.3) inset;}
+.fok{display:none;font-family:var(--FM);font-size:.52rem;letter-spacing:.11em;padding:.82rem;border-radius:var(--R2);border:1px solid rgba(7,255,255,.22);color:var(--c1);background:rgba(7,255,255,.05);text-align:center;margin-top:.5rem;}
 
-    /* ========== RESPONSIVE ========== */
-    @media (max-width: 1200px) {
-      header { padding: 0.8rem 2rem; }
-      .nav-links { gap: 1rem; }
-      .hero-inner { grid-template-columns: 1fr; gap: 2rem; }
-      .hero-right { display: flex; justify-content: center; }
-      .stats-grid { grid-template-columns: repeat(3, 1fr); }
-      .card-grid, .svc-grid, .proj-grid, .caps-grid, .reviews-grid, .internship-grid { grid-template-columns: repeat(2, 1fr); }
-      .countries-grid { grid-template-columns: repeat(3, 1fr); }
-      .bot-inner { grid-template-columns: 1fr; }
-      .bot-left { border-right: none; border-bottom: 1px solid rgba(176,224,255,0.06); }
-      #LIVE_SCRIPT { display: none; }
-      #LIVE_DATA { display: none; }
-    }
+/* FOOTER */
+footer{border-top:1px solid rgba(255,255,255,.06);padding:2.2rem 3rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.2rem;background:rgba(0,0,0,.35);backdrop-filter:blur(50px);position:relative;z-index:1;}
+.fb{font-family:var(--F1);font-size:1.1rem;font-weight:700;background:linear-gradient(90deg,var(--c1),var(--c3),var(--c2));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.fbs{font-family:var(--FM);font-size:.4rem;letter-spacing:.2em;color:var(--t4);margin-top:.2rem;text-transform:uppercase;}
+.flinks{display:flex;gap:2rem;}
+.flinks a{font-family:var(--FM);font-size:.43rem;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);transition:color .3s;}
+.flinks a:hover{color:var(--c1);}
+.fcopy{font-family:var(--FM);font-size:.41rem;color:var(--t4);letter-spacing:.09em;}
 
-    @media (max-width: 768px) {
-      header { padding: 0.8rem 1rem; }
-      .nav-links { display: none; }
-      .nav-cta { margin-left: auto; }
-      .sec-inner { padding: 4rem 1.5rem; }
-      .stats-grid { grid-template-columns: repeat(2, 1fr); }
-      .card-grid, .svc-grid, .proj-grid, .caps-grid, .reviews-grid, .internship-grid, .countries-grid { grid-template-columns: 1fr; }
-      .hero-stats { grid-template-columns: 1fr; }
-      .hero-right { display: none; }
-      footer { flex-direction: column; gap: 1rem; text-align: center; }
-      .footer-emails { flex-wrap: wrap; justify-content: center; }
-      .contact-grid { grid-template-columns: 1fr; }
-      .internship-zone { padding: 2rem; }
-      .quantum-terminal { padding: 1.5rem; }
-    }
-  </style>
+/* MODAL */
+.mov{position:fixed;inset:0;z-index:10000;display:none;align-items:center;justify-content:center;padding:1.5rem;background:rgba(0,0,0,.78);backdrop-filter:blur(40px);}
+.mov.open{display:flex;}
+.mbox{border-radius:var(--R);width:100%;max-width:760px;max-height:90vh;overflow-y:auto;background:rgba(8,2,26,.9);backdrop-filter:blur(70px);border:1px solid rgba(255,255,255,.16);box-shadow:0 28px 90px rgba(0,0,0,.8),0 1px 0 rgba(255,255,255,.2) inset;animation:mopen .45s cubic-bezier(.23,1,.32,1);}
+@keyframes mopen{from{opacity:0;transform:scale(.94) translateY(12px)}to{opacity:1;transform:none}}
+.mhd{padding:2.2rem;border-bottom:1px solid rgba(255,255,255,.07);display:flex;justify-content:space-between;align-items:flex-start;position:sticky;top:0;background:rgba(8,2,26,.94);backdrop-filter:blur(50px);z-index:1;border-radius:var(--R) var(--R) 0 0;}
+.mhd::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;border-radius:var(--R) var(--R) 0 0;background:linear-gradient(90deg,var(--c3),var(--c1),var(--c2));}
+.m-cat{font-family:var(--FM);font-size:.42rem;letter-spacing:.25em;background:linear-gradient(90deg,var(--c1),var(--c2));-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:.3rem;}
+.m-tit{font-family:var(--F1);font-size:1.8rem;font-weight:700;letter-spacing:-.01em;}
+.m-cl{width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,255,255,.13);display:flex;align-items:center;justify-content:center;cursor:none;transition:all .3s;color:var(--t3);background:rgba(255,255,255,.05);font-size:.9rem;}
+.m-cl:hover{border-color:rgba(255,80,80,.4);color:#F87171;background:rgba(255,80,80,.08);}
+.mb{padding:2.2rem;}
+.mb p{font-size:.74rem;line-height:2;color:var(--t2);margin-bottom:1rem;}
+.msts{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.06);margin-bottom:1.8rem;border-radius:var(--R2);overflow:hidden;}
+.msc{background:rgba(255,255,255,.025);padding:1.4rem;text-align:center;}
+.msv{font-family:var(--F1);font-size:1.9rem;font-weight:700;background:linear-gradient(135deg,var(--c1),var(--c2));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.msl{font-family:var(--FM);font-size:.4rem;letter-spacing:.12em;color:var(--t4);margin-top:.2rem;}
+.mtch{display:flex;flex-wrap:wrap;gap:.32rem;margin:1rem 0;}
+.mt{font-family:var(--FM);font-size:.43rem;letter-spacing:.08em;padding:.16rem .56rem;border-radius:100px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.42);}
+.mfot{padding:1.4rem 2.2rem;border-top:1px solid rgba(255,255,255,.06);display:flex;gap:.8rem;}
+
+/* TOAST */
+#TOAST{position:fixed;bottom:2rem;right:2rem;z-index:99999;display:flex;flex-direction:column;gap:.4rem;pointer-events:none;}
+.toast-item{font-family:var(--FM);font-size:.48rem;letter-spacing:.1em;padding:.72rem 1.3rem;border-radius:var(--R2);background:rgba(6,0,22,.94);backdrop-filter:blur(35px);border:1px solid rgba(7,255,255,.24);color:var(--c1);box-shadow:0 4px 24px rgba(0,0,0,.45),0 0 18px rgba(7,255,255,.08);animation:fu .4s;}
+
+/* RESPONSIVE */
+@media(max-width:1100px){
+  nav,nav.stuck{padding:.9rem 1.5rem;}
+  .sec,#globe,#contact{padding:5rem 1.5rem;}
+  footer{padding:1.5rem;}
+  .grid3,.grid2,.talg,.wins-g,.proj-g,.prog-g{grid-template-columns:1fr 1fr;}
+  .bot-inner{grid-template-columns:1fr;}
+  .bot-left{border-right:none;border-bottom:1px solid rgba(255,255,255,.06);}
+  .lab,.cg{grid-template-columns:1fr;}
+  .gauge-row{grid-template-columns:1fr 1fr 1fr;}
+  .pipe{grid-template-columns:repeat(3,1fr);}
+  .stats-inner{grid-template-columns:repeat(3,1fr);}
+  .ptl-months{grid-template-columns:repeat(3,1fr);}
+  .n-links{display:none;}
+  .frow{grid-template-columns:1fr;}
+}
+@media(max-width:640px){
+  .grid3,.grid2,.talg,.wins-g,.proj-g,.prog-g{grid-template-columns:1fr;}
+  .stats-inner,.gauge-row{grid-template-columns:1fr 1fr;}
+  footer{flex-direction:column;text-align:center;}
+  .ptl-months{grid-template-columns:repeat(2,1fr);}
+  .pipe{grid-template-columns:repeat(2,1fr);}
+  .hero-h1{font-size:4.5rem;}
+}
+</style>
 </head>
 <body>
-
-<!-- SVG Gradients -->
-<svg style="position:absolute;width:0;height:0">
-  <defs><linearGradient id="iceGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#8bb9d1"/><stop offset="100%" stop-color="#b0e0ff"/></linearGradient></defs>
+<!-- SVG gradient defs for gauges -->
+<svg width="0" height="0" style="position:absolute;overflow:hidden">
+  <defs>
+    <linearGradient id="G1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#07FFFF"/><stop offset="100%" stop-color="#9B59FF"/></linearGradient>
+    <linearGradient id="G2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF0099"/><stop offset="100%" stop-color="#07FFFF"/></linearGradient>
+    <linearGradient id="G3" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#9B59FF"/><stop offset="100%" stop-color="#FF0099"/></linearGradient>
+    <linearGradient id="G4" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00FF88"/><stop offset="100%" stop-color="#07FFFF"/></linearGradient>
+    <linearGradient id="G5" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FFE500"/><stop offset="100%" stop-color="#FF5500"/></linearGradient>
+  </defs>
 </svg>
 
-<!-- AMBIENT LAYERS -->
-<div id="ORBS"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
-<canvas id="FROST"></canvas>
-<div id="PROGRESS"></div>
-<div id="CURSOR"><div class="cur-ice"></div><div class="cur-ring"></div><div class="cur-core"></div></div>
+<!-- PARTICLE WORLD canvas — fixed, always behind everything -->
+<canvas id="WORLD"></canvas>
 
-<!-- ENHANCED TRANSLUCENT LIVE SCRIPT PANEL (DYNAMIC) -->
-<div id="LIVE_SCRIPT">
-  <div class="live-header"><span class="live-dot"></span> QUANTUM SCRIPT · v9.9</div>
-  <div class="script-line typing">>_ initializing quantum core... [OK]</div>
-  <div class="script-line typing">>_ loading neural networks... [347 NODES]</div>
-  <div class="script-line typing">>_ connecting to global grid... [18 COUNTRIES]</div>
-  <div class="script-line typing">>_ AI self-healing engine... [98.3% COVERAGE]</div>
-  <div class="script-line typing">>_ SDET internship program... [156 INTERNS]</div>
-  <div class="script-line typing">>_ quantum entanglement... [STABLE]</div>
-</div>
+<!-- CURSOR -->
+<div id="CUR"><div class="ca"></div><div class="cr"></div><div class="cd"></div></div>
 
-<!-- LIVE DATA PANEL -->
-<div id="LIVE_DATA">
-  <div class="live-stat">ACTIVE NODES <span id="statNodes">347</span></div>
-  <div class="live-stat">QUANTA/s <span id="statQuanta">1.2M</span></div>
-  <div class="live-stat">COVERAGE <span id="statCoverage">98.3%</span></div>
-  <div class="live-stat">LATENCY <span id="statLatency">42ms</span></div>
-  <div class="live-stat">INTERNS <span id="statInterns">156</span></div>
-</div>
+<!-- FX -->
+<div class="noise-layer"></div>
+<div id="PROG"></div>
+<div id="TOAST"></div>
 
 <!-- LOADER -->
 <div id="LOADER">
-  <div class="loader-ice-wrap"><svg class="loader-svg-ring" viewBox="0 0 200 200"><polygon points="100,10 180,45 180,155 100,190 20,155 20,45" fill="none" stroke="rgba(176,224,255,0.2)" stroke-width="1"/></svg><svg class="loader-svg-ring-2" viewBox="0 0 160 160"><polygon points="80,8 144,40 144,120 80,152 16,120 16,40" fill="none" stroke="rgba(176,224,255,0.15)" stroke-width="1"/></svg><svg class="loader-svg-ring-3" viewBox="0 0 120 120"><polygon points="60,6 110,33 110,87 60,114 10,87 10,33" fill="none" stroke="rgba(176,224,255,0.1)" stroke-width="1"/></svg><div class="loader-core">T1W</div></div>
-  <div class="loader-wordmark">TECH<span>1</span>WORLD</div>
-  <div class="loader-sub">Quantum Frost · Terminal Active</div>
-  <div class="loader-bar"><div class="loader-bar-fill"></div></div>
-  <div class="loader-pct" id="LOAD_PCT">INITIALIZING · 0%</div>
+  <div class="ld-bg-fx"></div>
+  <div class="ld-rings">
+    <div class="ld-ring"></div><div class="ld-ring"></div>
+    <div class="ld-ring"></div><div class="ld-ring"></div>
+  </div>
+  <div class="ld-content">
+    <div class="ld-logo"><span>T1</span></div>
+    <div class="ld-title">TECH1WORLD</div>
+    <div class="ld-sub">SDET · Manual · Development · AI · DevOps</div>
+    <div class="ld-track"><div class="ld-fill" id="LBAR"></div></div>
+    <div class="ld-status" id="LSTAT">Initializing quantum systems…</div>
+  </div>
+  <div class="ld-pct" id="LPCT">0</div>
 </div>
 
-<!-- HEADER -->
-<header>
-  <div class="logo">⟁ TECH1WORLD</div>
-  <ul class="nav-links">
-    <li><a href="#home" class="nav-link active" data-page="home">Home</a></li>
-    <li><a href="#sdet" class="nav-link" data-page="sdet">SDET</a></li>
-    <li><a href="#quantum" class="nav-link" data-page="quantum">Quantum Script</a></li>
-    <li><a href="#reviews" class="nav-link" data-page="reviews">Reviews</a></li>
-    <li><a href="#contact" class="nav-link" data-page="contact">Contact</a></li>
-  </ul>
-  <button class="nav-cta" onclick="document.getElementById('quantum').scrollIntoView({behavior:'smooth'})">⚡ QUANTUM SCRIPT</button>
-</header>
-
-<!-- HOME SECTION (ALL ORIGINAL CONTENT) -->
-<section id="home">
-  <!-- HERO -->
-  <div id="HERO">
-    <div class="hero-inner">
-      <div class="hero-left">
-        <div class="hero-tag"><div class="hero-tag-dot"></div><div class="hero-tag-text">QUANTUM FROST · EST 2020</div></div>
-        <h1 class="hero-h1"><span class="h1-line"><span class="h1-word">GLOBAL</span></span><span class="h1-line"><span class="h1-word">OUTSOURCING</span></span><span class="h1-line"><span class="h1-word">ELITE SDET</span></span></h1>
-        <p class="hero-desc">350+ engineers · 18 countries · AI-driven automation · 72% QA reduction · Quantum Script Terminal</p>
-        <div class="hero-actions">
-          <button class="btn-ice" onclick="document.getElementById('quantum').scrollIntoView({behavior:'smooth'})"><div class="btn-ice-bg"></div><span>⚡ Quantum Script →</span></button>
-          <button class="btn-frost" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Contact Us</button>
-        </div>
-        <div class="hero-stats">
-          <div class="hs"><div class="hs-val" data-count="350">0+</div><div class="hs-lbl">Engineers</div></div>
-          <div class="hs"><div class="hs-val" data-count="18">0+</div><div class="hs-lbl">Countries</div></div>
-          <div class="hs"><div class="hs-val" data-count="99.8" data-dec="1">0%</div><div class="hs-lbl">SLA</div></div>
-          <div class="hs"><div class="hs-val" data-count="72">0%</div><div class="hs-lbl">QA Reduction</div></div>
-        </div>
-      </div>
-      <div class="hero-right"><canvas id="heroGlobeCanvas" width="500" height="500"></canvas></div>
-    </div>
+<!-- APP -->
+<div id="APP">
+<!-- NAV -->
+<nav id="NAV">
+  <div class="n-brand">
+    <div class="n-logo">T1</div>
+    <div class="n-name">TECH<b>1</b>WORLD</div>
   </div>
+  <div class="n-links">
+    <a href="#services">Services</a>
+    <a href="#out">Outsourcing</a>
+    <a href="#sdet">SDET</a>
+    <a href="#proj">Projects</a>
+    <a href="#programs">Programs</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <button class="n-cta" onclick="scrollS('contact')">Get Proposal →</button>
+</nav>
 
-  <!-- MARQUEE -->
-  <div class="marquee-wrap"><div class="marquee-track" id="marqueeTrack"></div></div>
-
-  <!-- STATS STRIP -->
-  <div class="stats-strip"><div class="stats-grid">
-    <div class="stat-box"><div class="stat-num" data-count="350">0+</div><div class="stat-lbl">Engineers</div></div>
-    <div class="stat-box"><div class="stat-num" data-count="18">0+</div><div class="stat-lbl">Countries</div></div>
-    <div class="stat-box"><div class="stat-num" data-count="120">0+</div><div class="stat-lbl">Programs</div></div>
-    <div class="stat-box"><div class="stat-num" data-count="99.8" data-dec="1">0%</div><div class="stat-lbl">SLA</div></div>
-    <div class="stat-box"><div class="stat-num" data-count="72">0%</div><div class="stat-lbl">QA Reduction</div></div>
-    <div class="stat-box"><div class="stat-num" data-count="60">0%</div><div class="stat-lbl">Cost Savings</div></div>
-  </div></div>
-
-  <!-- OUTSOURCING MODELS -->
-  <div class="sec-inner">
-    <div class="sec-label"><div class="sec-label-bar"></div><div class="sec-label-text">OUTSOURCING</div></div>
-    <div class="sec-h"><span class="gradient">FLEXIBLE</span> MODELS</div>
-    <div class="model-grid">
-      <div class="model-card" onclick="alert('Dedicated Teams: 3-50+ engineers, 99.8% SLA')"><div class="mc-number">01</div><div class="mc-icon">👥</div><div class="mc-title">Dedicated Teams</div><div class="mc-desc">Long-term squads, 99.8% SLA, 3-50+ engineers.</div><div class="mc-list"><div class="mc-item">Scrum/Kanban</div><div class="mc-item">12-36 month engagements</div></div><div class="mc-link">Learn More →</div></div>
-      <div class="model-card" onclick="alert('Build-Operate-Transfer: 60% cost reduction, full IP')"><div class="mc-number">02</div><div class="mc-icon">🏗️</div><div class="mc-title">Build-Operate-Transfer</div><div class="mc-desc">Full IP transfer, 60% cost reduction, zero risk.</div><div class="mc-list"><div class="mc-item">6-18 month timeline</div><div class="mc-item">100% IP ownership</div></div><div class="mc-link">Learn More →</div></div>
-      <div class="model-card" onclick="alert('Staff Augmentation: 48h deployment, 350+ on bench')"><div class="mc-number">03</div><div class="mc-icon">⚡</div><div class="mc-title">Staff Augmentation</div><div class="mc-desc">48h deployment, monthly contracts, 350+ on bench.</div><div class="mc-list"><div class="mc-item">No long-term commitment</div><div class="mc-item">100+ specializations</div></div><div class="mc-link">Learn More →</div></div>
-      <div class="model-card" onclick="alert('Managed Delivery: Fixed-price, outcome-driven')"><div class="mc-number">04</div><div class="mc-icon">📊</div><div class="mc-title">Managed Delivery</div><div class="mc-desc">Fixed-price, outcome-driven, 24×7 escalation.</div><div class="mc-list"><div class="mc-item">SLA guarantees</div><div class="mc-item">Executive reporting</div></div><div class="mc-link">Learn More →</div></div>
-    </div>
-
-    <!-- BOT BLOCK -->
-    <div class="bot-block">
-      <div class="bot-inner">
-        <div class="bot-left">
-          <div class="sec-label"><div class="sec-label-bar"></div><div class="sec-label-text">BUILD-OPERATE-TRANSFER</div></div>
-          <div class="sec-h" style="font-size:2.5rem;"><span class="gradient">OWN YOUR</span><span class="solid"> CENTER</span></div>
-          <div class="bot-phase"><div class="bp-num">01</div><div><div class="bp-name">BUILD</div><div class="bp-desc">2-4 months: hiring, infrastructure, governance. You approve every hire.</div></div></div>
-          <div class="bot-phase"><div class="bp-num">02</div><div><div class="bp-name">OPERATE</div><div class="bp-desc">6-14 months: delivery, HR, admin, compliance managed by us.</div></div></div>
-          <div class="bot-phase"><div class="bp-num">03</div><div><div class="bp-name">TRANSFER</div><div class="bp-desc">Full handover — team, IP, infrastructure, knowledge. 60% lower cost.</div></div></div>
-        </div>
-        <div class="bot-right">
-          <div class="bm"><div class="bm-val">60%</div><div class="bm-lbl">Cost Reduction</div></div>
-          <div class="bm"><div class="bm-val">6mo</div><div class="bm-lbl">Avg Transfer</div></div>
-          <div class="bm"><div class="bm-val">100%</div><div class="bm-lbl">IP Ownership</div></div>
-          <div class="bm"><div class="bm-val">48h</div><div class="bm-lbl">First Hire</div></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- TALENT BENCH -->
-    <div class="sec-label"><div class="sec-label-bar"></div><div class="sec-label-text">TALENT BENCH · 350+ READY</div></div>
-    <div class="staff-grid">
-      <div class="staff-card"><div class="staff-icon">🧠</div><div class="staff-title">AI/ML Engineers</div><div class="staff-desc">LLM, MLOps, RAG, computer vision, NLP, fine-tuning.</div></div>
-      <div class="staff-card"><div class="staff-icon">🧪</div><div class="staff-title">SDET / QA</div><div class="staff-desc">Playwright, Cypress, Selenium, Appium, self-healing frameworks.</div></div>
-      <div class="staff-card"><div class="staff-icon">☁️</div><div class="staff-title">Cloud/DevOps</div><div class="staff-desc">AWS, Azure, GCP, K8s, Terraform, ArgoCD, GitOps.</div></div>
-      <div class="staff-card"><div class="staff-icon">⚙️</div><div class="staff-title">Backend</div><div class="staff-desc">Node.js, Python, Java, Go, .NET, microservices.</div></div>
-      <div class="staff-card"><div class="staff-icon">🎨</div><div class="staff-title">Frontend</div><div class="staff-desc">React, Next.js, Vue, TypeScript, performance optimization.</div></div>
-      <div class="staff-card"><div class="staff-icon">⛨</div><div class="staff-title">Security</div><div class="staff-desc">Zero-trust, SIEM, penetration testing, SOC2, HIPAA.</div></div>
-    </div>
-
-    <!-- COUNTRIES -->
-    <div class="sec-label"><div class="sec-label-bar"></div><div class="sec-label-text">18+ COUNTRIES</div></div>
-    <div class="countries-grid">
-      <div class="country-chip">🇮🇳 India</div><div class="country-chip">🇺🇸 USA</div><div class="country-chip">🇬🇧 UK</div><div class="country-chip">🇦🇺 Australia</div><div class="country-chip">🇦🇪 UAE</div><div class="country-chip">🇸🇬 Singapore</div>
-      <div class="country-chip">🇩🇪 Germany</div><div class="country-chip">🇫🇷 France</div><div class="country-chip">🇨🇦 Canada</div><div class="country-chip">🇯🇵 Japan</div><div class="country-chip">🇳🇱 Netherlands</div><div class="country-chip">🇸🇦 Saudi</div>
-    </div>
+<!-- ══ HERO ══ -->
+<section id="hero">
+  <div class="hero-badge"><div class="hero-dot"></div> Live Ops · 350+ Engineers · 18+ Countries</div>
+  <h1 class="hero-h1">
+    <span class="hl"><span class="hw">BEYOND</span></span>
+    <span class="hl"><span class="hw">LIMITS</span></span>
+    <span class="hl"><span class="hw">GLOBALLY</span></span>
+  </h1>
+  <p class="hero-desc">Elite <b>SDET automation</b>, manual testing, AI/ML engineering, full-stack development, and DevOps platform engineering — delivered across <b>18+ countries</b> with guaranteed SLAs.</p>
+  <div class="hero-btns">
+    <a href="#services" class="btn-p">Explore Services ↗</a>
+    <a href="#programs" class="btn-g">SDET Programs →</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hst"><div class="hv" data-count="350" data-suffix="+">0</div><div class="hl2">Engineers</div></div>
+    <div class="hst"><div class="hv" data-count="18" data-suffix="+">0</div><div class="hl2">Countries</div></div>
+    <div class="hst"><div class="hv" data-count="99.8" data-suffix="%" data-dec="1">0</div><div class="hl2">SLA Uptime</div></div>
+    <div class="hst"><div class="hv" data-count="72" data-suffix="%">0</div><div class="hl2">QA Reduction</div></div>
+    <div class="hst"><div class="hv" data-count="120" data-suffix="+">0</div><div class="hl2">Programs</div></div>
   </div>
 </section>
 
-<!-- SDET CAPABILITIES SECTION -->
-<section id="sdet" style="padding:4rem;">
-  <div class="sec-inner">
-    <div class="sec-label"><div class="sec-label-bar"></div><div class="sec-label-text">SDET CAPABILITIES</div></div>
-    <div class="sec-h"><span class="gradient">AI-FIRST</span> QUALITY</div>
-    <div class="caps-grid">
-      <div class="cap-card"><div class="cap-num">01</div><div class="cap-icon">🤖</div><div class="cap-title">AI Self-Healing</div><div class="cap-desc">Healenium + custom ML, auto-repair selectors, predict flaky tests.</div><div class="cap-chips"><span class="chip">Playwright</span><span class="chip">Healenium</span></div></div>
-      <div class="cap-card"><div class="cap-num">02</div><div class="cap-icon">📱</div><div class="cap-title">Mobile Testing</div><div class="cap-desc">Appium, XCUITest, Espresso, real device farms, device cloud.</div><div class="cap-chips"><span class="chip">Appium</span><span class="chip">XCUITest</span></div></div>
-      <div class="cap-card"><div class="cap-num">03</div><div class="cap-icon">⚡</div><div class="cap-title">Performance</div><div class="cap-desc">k6, JMeter, Locust, load testing, stress testing, CI/CD gates.</div><div class="cap-chips"><span class="chip">k6</span><span class="chip">JMeter</span></div></div>
-      <div class="cap-card"><div class="cap-num">04</div><div class="cap-icon">🛡️</div><div class="cap-title">Security</div><div class="cap-desc">OWASP ZAP, Burp Suite, SonarQube, Snyk, SAST/DAST.</div><div class="cap-chips"><span class="chip">OWASP</span><span class="chip">Snyk</span></div></div>
-      <div class="cap-card"><div class="cap-num">05</div><div class="cap-icon">🔗</div><div class="cap-title">API Testing</div><div class="cap-desc">Postman, REST Assured, GraphQL, contract testing with Pact.</div><div class="cap-chips"><span class="chip">Postman</span><span class="chip">Pact</span></div></div>
-      <div class="cap-card"><div class="cap-num">06</div><div class="cap-icon">♿</div><div class="cap-title">Accessibility</div><div class="cap-desc">axe-core, Lighthouse, NVDA, WCAG 2.1 AA/AAA compliance.</div><div class="cap-chips"><span class="chip">axe-core</span><span class="chip">Lighthouse</span></div></div>
+<!-- TICKER -->
+<div class="ticker-wrap"><div class="ticker-inner">
+  <div class="ti">◈<span class="v">350+</span>Engineers & SDETs</div>
+  <div class="ti">◉<span class="v">18+</span>Countries</div>
+  <div class="ti">⬡ SDET · Manual Testing · Development · AI · DevOps</div>
+  <div class="ti">◈<span class="v">99.8%</span>SLA Reliability</div>
+  <div class="ti">◉<span class="v">6-Month</span>SDET Programs</div>
+  <div class="ti">⬡ Playwright · Cypress · Selenium · Appium · k6</div>
+  <div class="ti">◈<span class="v">60%</span>BOT Cost Savings</div>
+  <div class="ti">◉<span class="v">24×7</span>Managed Ops</div>
+  <div class="ti">⬡<span class="v">72%</span>QA Cycle Reduction</div>
+  <div class="ti">◈ AI Self-Healing Test Frameworks</div>
+  <div class="ti">◈<span class="v">350+</span>Engineers & SDETs</div>
+  <div class="ti">◉<span class="v">18+</span>Countries</div>
+  <div class="ti">⬡ SDET · Manual Testing · Development · AI · DevOps</div>
+  <div class="ti">◈<span class="v">99.8%</span>SLA Reliability</div>
+  <div class="ti">◉<span class="v">6-Month</span>SDET Programs</div>
+  <div class="ti">⬡ Playwright · Cypress · Selenium · Appium · k6</div>
+  <div class="ti">◈<span class="v">60%</span>BOT Cost Savings</div>
+  <div class="ti">◉<span class="v">24×7</span>Managed Ops</div>
+  <div class="ti">⬡<span class="v">72%</span>QA Cycle Reduction</div>
+  <div class="ti">◈ AI Self-Healing Test Frameworks</div>
+</div></div>
+
+<!-- STATS BAND -->
+<div class="stats-band"><div class="stats-inner">
+  <div class="sbt rv"><div class="sbn" data-count="350" data-suffix="+">0</div><div class="sbl">Engineers</div></div>
+  <div class="sbt rv d1"><div class="sbn" data-count="18" data-suffix="+">0</div><div class="sbl">Countries</div></div>
+  <div class="sbt rv d2"><div class="sbn" data-count="120" data-suffix="+">0</div><div class="sbl">Programs</div></div>
+  <div class="sbt rv d3"><div class="sbn" data-count="99.8" data-suffix="%" data-dec="1">0</div><div class="sbl">SLA Uptime</div></div>
+  <div class="sbt rv d4"><div class="sbn" data-count="72" data-suffix="%">0</div><div class="sbl">QA Reduction</div></div>
+  <div class="sbt rv d5"><div class="sbn" data-count="60" data-suffix="%">0</div><div class="sbl">BOT Savings</div></div>
+</div></div>
+
+<!-- ══ SERVICES ══ -->
+<section id="services" class="sec">
+<div class="wrap">
+  <div class="rv" style="display:flex;align-items:center;gap:.8rem;margin-bottom:1.6rem">
+    <div class="eyebrow">Core Services</div><div class="eyebrow-num">01 / 06</div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:end;margin-bottom:3.5rem">
+    <div class="rl"><div class="sh"><span class="w">EVERYTHING</span><br><span class="g">YOU NEED</span><br><span class="o">MASTERED</span></div></div>
+    <div class="rr" style="padding-top:1rem">
+      <p style="font-size:.88rem;line-height:2;color:var(--t2);margin-bottom:1.5rem">Five world-class engineering capabilities under one roof — AI-driven SDET, expert manual QA, full-stack development, ML engineering, and DevOps platform engineering. 350+ engineers. 18+ countries. SLA-backed every day.</p>
+      <div style="display:flex;gap:.8rem;flex-wrap:wrap"><a href="#contact" class="btn-p">Get Proposal ↗</a><button class="btn-g" onclick="openM('compare')">Compare Models</button></div>
     </div>
   </div>
-</section>
-
-<!-- QUANTUM SCRIPT TERMINAL (REPLACES LOVE PROJECT) -->
-<section id="quantum" style="padding:4rem;">
-  <div class="sec-inner">
-    <div class="sec-label"><div class="sec-label-bar"></div><div class="sec-label-text">QUANTUM SCRIPT</div></div>
-    <div class="sec-h"><span class="gradient">LIVE CODING</span> TERMINAL</div>
-    
-    <div class="quantum-terminal">
-      <div class="terminal-header">
-        <div class="terminal-dot"></div>
-        <div class="terminal-dot"></div>
-        <div class="terminal-dot"></div>
-        <div class="terminal-title">quantum@script:~$</div>
-      </div>
-      <div class="terminal-line"><span class="terminal-prompt">$></span> <span class="terminal-command">init --quantum-core</span></div>
-      <div class="terminal-line terminal-output">[OK] Quantum core initialized. 347 active nodes.</div>
-      <div class="terminal-line"><span class="terminal-prompt">$></span> <span class="terminal-command">load --neural-network sdet-v4</span></div>
-      <div class="terminal-line terminal-output">[LOADING] Neural network: 98.3% coverage, 42ms latency</div>
-      <div class="terminal-line"><span class="terminal-prompt">$></span> <span class="terminal-command">connect --global-grid</span></div>
-      <div class="terminal-line terminal-output">[CONNECTED] 18 countries, 156 active interns</div>
-      <div class="terminal-line"><span class="terminal-prompt">$></span> <span class="terminal-command">run --self-healing</span></div>
-      <div class="terminal-line terminal-output">[RUNNING] AI self-healing engine: 72% QA reduction</div>
-      <div class="terminal-line"><span class="terminal-prompt">$></span> <span class="terminal-command">deploy --internship-program</span></div>
-      <div class="terminal-line terminal-output">[DEPLOYED] 4 programs: Automation, Manual, API, Live Projects</div>
-      <div class="terminal-line"><span class="terminal-prompt">$></span> <span class="terminal-command">status --quantum-entanglement</span></div>
-      <div class="terminal-line terminal-output">[STABLE] Quantum entanglement: 4.9/5 rating</div>
-      <div class="terminal-line"><span class="terminal-prompt">$></span> <span class="terminal-command">_<span class="cursor-blink"></span></span></div>
+  <!-- Row 1: 3 cards -->
+  <div class="grid3">
+    <div class="glass-panel scard a1 rv" onclick="openM('s_sdet')"><div class="gs"></div><div class="ga" style="background:linear-gradient(180deg,var(--c1),transparent)"></div><div class="gcol" style="background:radial-gradient(var(--c1),transparent)"></div>
+      <div class="scard-ico">🤖</div><div class="scard-tag">Most Popular</div>
+      <div class="scard-title">SDET & Test Automation</div>
+      <div class="scard-body">AI-first software development in test. Self-healing frameworks, CI/CD quality gates, predictive defect analytics. Web, mobile, API, performance, security — automated end-to-end.</div>
+      <div class="scard-chips"><span class="chip">Playwright</span><span class="chip">Cypress</span><span class="chip">Healenium</span><span class="chip">Selenium</span><span class="chip">Appium</span></div>
+      <div class="scard-cta">Deep Dive →</div>
+    </div>
+    <div class="glass-panel scard rv d1" onclick="openM('s_manual')"><div class="gs"></div><div class="ga" style="background:linear-gradient(180deg,var(--c2),transparent)"></div><div class="gcol" style="background:radial-gradient(var(--c2),transparent)"></div>
+      <div class="scard-ico">🔬</div><div class="scard-tag">Human QA</div>
+      <div class="scard-title">Manual Testing</div>
+      <div class="scard-body">Expert human testers who catch what automation misses. Exploratory testing, UX validation, accessibility audits, regression, and UAT across all platforms and devices.</div>
+      <div class="scard-chips"><span class="chip">Exploratory</span><span class="chip">UX Testing</span><span class="chip">UAT</span><span class="chip">Accessibility</span><span class="chip">Regression</span></div>
+      <div class="scard-cta">Deep Dive →</div>
+    </div>
+    <div class="glass-panel scard rv d2" onclick="openM('s_dev')"><div class="gs"></div><div class="ga" style="background:linear-gradient(180deg,var(--c3),transparent)"></div><div class="gcol" style="background:radial-gradient(var(--c3),transparent)"></div>
+      <div class="scard-ico">⚡</div><div class="scard-tag">Full Stack</div>
+      <div class="scard-title">Software Development</div>
+      <div class="scard-body">Product engineering from architecture to production. React, Next.js, Node.js, Python, Java, Go. Native iOS & Android. APIs, microservices, and enterprise platforms.</div>
+      <div class="scard-chips"><span class="chip">React</span><span class="chip">Node.js</span><span class="chip">Python</span><span class="chip">Go</span><span class="chip">Mobile</span></div>
+      <div class="scard-cta">Deep Dive →</div>
     </div>
   </div>
+  <!-- Row 2: 2 wide cards -->
+  <div class="grid2">
+    <div class="glass-panel scard rv d3" onclick="openM('s_ai')"><div class="gs"></div><div class="ga" style="background:linear-gradient(180deg,var(--c4),transparent)"></div><div class="gcol" style="background:radial-gradient(var(--c4),transparent)"></div>
+      <div class="scard-ico">🧠</div><div class="scard-tag">Next-Gen AI</div>
+      <div class="scard-title">AI & Machine Learning Engineering</div>
+      <div class="scard-body">LLM integration, RAG systems, model fine-tuning, computer vision, NLP, MLOps pipelines, demand forecasting, recommendation engines. Prototype to production ML that truly scales.</div>
+      <div class="scard-chips"><span class="chip">LangChain</span><span class="chip">PyTorch</span><span class="chip">RAG</span><span class="chip">MLflow</span><span class="chip">HuggingFace</span><span class="chip">SageMaker</span></div>
+      <div class="scard-cta">Deep Dive →</div>
+    </div>
+    <div class="glass-panel scard rv d4" onclick="openM('s_devops')"><div class="gs"></div><div class="ga" style="background:linear-gradient(180deg,var(--c6),transparent)"></div><div class="gcol" style="background:radial-gradient(var(--c6),transparent)"></div>
+      <div class="scard-ico">☁</div><div class="scard-tag">Platform Eng</div>
+      <div class="scard-title">DevOps & Cloud Engineering</div>
+      <div class="scard-body">Multi-cloud strategy, Kubernetes orchestration, Terraform IaC, GitOps, CI/CD pipelines, FinOps, zero-trust security, DevSecOps, SRE. Platforms your engineers will love.</div>
+      <div class="scard-chips"><span class="chip">Kubernetes</span><span class="chip">Terraform</span><span class="chip">AWS</span><span class="chip">GCP</span><span class="chip">ArgoCD</span><span class="chip">Vault</span></div>
+      <div class="scard-cta">Deep Dive →</div>
+    </div>
+  </div>
+</div>
 </section>
 
-<!-- SDET INTERNSHIP PROGRAM (WITH DETAILED PDF BROCHURES) -->
-<section style="padding:4rem;">
-  <div class="sec-inner">
-    <div class="sec-label"><div class="sec-label-bar"></div><div class="sec-label-text">SDET INTERNSHIP</div></div>
-    <div class="sec-h"><span class="gradient">6-MONTH</span> PROGRAMS</div>
-    
-    <div class="internship-zone">
-      <div style="text-align:center; margin-bottom:3rem;">
-        <span class="placement-badge">⚡ 100% PLACEMENT ASSISTANCE ⚡</span>
+<!-- ══ OUTSOURCING ══ -->
+<section id="out" class="sec">
+<div class="wrap">
+  <div class="rv" style="display:flex;align-items:center;gap:.8rem;margin-bottom:1.6rem">
+    <div class="eyebrow">Global Outsourcing</div><div class="eyebrow-num">02 / 06</div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:end;margin-bottom:3.5rem">
+    <div class="rl"><div class="sh"><span class="w">FOUR MODELS</span><br><span class="o">INFINITE</span><br><span class="g">FLEXIBILITY</span></div></div>
+    <div class="rr" style="padding-top:1rem"><p style="font-size:.88rem;line-height:2;color:var(--t2);margin-bottom:1.5rem">Four delivery structures engineered for every business stage. 48-hour staff augmentation to full Build-Operate-Transfer capability centers. Every engagement SLA-backed.</p><a href="#contact" class="btn-p">Start Outsourcing ↗</a></div>
+  </div>
+  <div class="grid2" style="margin-bottom:1.2rem">
+    <div class="glass-panel mcard rv" onclick="openM('dedicated')"><div class="gs"></div><div class="mc-num">01</div><div class="mc-ico">👥</div><div class="mc-badge">Long-Term</div><div class="mc-title">Dedicated Teams</div><div class="mc-body">Fully embedded squads in your culture, tools, timezone. 99.8% SLA. HR, payroll, performance handled.</div><div class="mc-tags"><span class="mct">12–36 months</span><span class="mct">3–50+ engineers</span><span class="mct">SLA guaranteed</span></div><div class="mc-cta">Deep Dive →</div></div>
+    <div class="glass-panel mcard rv d1" onclick="openM('bot_m')"><div class="gs"></div><div class="mc-num">02</div><div class="mc-ico">🏗</div><div class="mc-badge">IP Transfer</div><div class="mc-title">Build-Operate-Transfer</div><div class="mc-body">Build and operate your offshore center, then transfer full IP. 60% cost reduction. 100% IP ownership.</div><div class="mc-tags"><span class="mct">Full IP transfer</span><span class="mct">60–70% savings</span><span class="mct">6–18 months</span></div><div class="mc-cta">Deep Dive →</div></div>
+  </div>
+  <div class="grid2">
+    <div class="glass-panel mcard rv d2" onclick="openM('staff')"><div class="gs"></div><div class="mc-num">03</div><div class="mc-ico">⚡</div><div class="mc-badge">Immediate</div><div class="mc-title">Staff Augmentation</div><div class="mc-body">350+ pre-vetted engineers deployed in 48 hours. Scale up or down. No long-term commitment needed.</div><div class="mc-tags"><span class="mct">48hr deploy</span><span class="mct">350+ on bench</span><span class="mct">Monthly</span></div><div class="mc-cta">Deep Dive →</div></div>
+    <div class="glass-panel mcard rv d3" onclick="openM('managed')"><div class="gs"></div><div class="mc-num">04</div><div class="mc-ico">📊</div><div class="mc-badge">Fixed-Price</div><div class="mc-title">Managed Delivery</div><div class="mc-body">Fixed-price, outcome-driven delivery with iron-clad SLAs. We own the result. 24×7 escalation.</div><div class="mc-tags"><span class="mct">Fixed-price</span><span class="mct">Outcome guaranteed</span><span class="mct">24×7</span></div><div class="mc-cta">Deep Dive →</div></div>
+  </div>
+  <!-- BOT strip -->
+  <div class="glass-panel bot-wrap rv" style="margin-bottom:3rem">
+    <div class="gs"></div>
+    <div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,rgba(155,89,255,.7),rgba(7,255,255,.9),rgba(255,0,153,.7));box-shadow:0 0 20px rgba(7,255,255,.3)"></div>
+    <div class="bot-inner">
+      <div class="bot-left">
+        <div class="eyebrow" style="margin-bottom:1.2rem">Build-Operate-Transfer</div>
+        <div class="sh" style="font-size:clamp(2rem,4vw,5rem);margin-bottom:2rem"><span class="w">OWN YOUR</span><br><span class="g">OFFSHORE</span><br><span class="w">CENTER</span></div>
+        <div class="bph"><div class="bpn">01</div><div><div class="bpt">BUILD</div><div class="bpd">Establish your offshore center. Every hire needs your approval. Infrastructure, toolchain, governance. 2–4 months.</div></div></div>
+        <div class="bph"><div class="bpn">02</div><div><div class="bpt">OPERATE</div><div class="bpd">Tech1World manages ops — delivery, HR, admin, compliance. Production-grade SLAs. 6–14 months.</div></div></div>
+        <div class="bph"><div class="bpn">03</div><div><div class="bpt">TRANSFER</div><div class="bpd">Full handover — team, IP, infrastructure, knowledge. 60% lower cost. 1–2 months.</div></div></div>
       </div>
-      
-      <div class="internship-grid">
-        <!-- Automation Testing Card -->
-        <div class="internship-card" onclick="downloadBrochure('automation')">
-          <div class="badge-new">NEW</div>
-          <div class="icon">🤖</div>
-          <h3>AUTOMATION</h3>
-          <span class="duration">6 MONTHS · INTENSIVE</span>
-          <ul class="features">
-            <li>Selenium WebDriver (Java/Python)</li>
-            <li>Cypress & Playwright</li>
-            <li>Appium Mobile Testing</li>
-            <li>TestNG, Cucumber, BDD</li>
-            <li>CI/CD with Jenkins</li>
-            <li>Docker Containerization</li>
-            <li>5 Capstone Projects</li>
-          </ul>
-          <button class="btn-frost" style="margin-top:1rem; padding:0.5rem 1.5rem;">📘 DOWNLOAD BROCHURE (PDF)</button>
-        </div>
-
-        <!-- Manual Testing Card -->
-        <div class="internship-card" onclick="downloadBrochure('manual')">
-          <div class="badge-new">NEW</div>
-          <div class="icon">🧪</div>
-          <h3>MANUAL TESTING</h3>
-          <span class="duration">3 MONTHS · FOUNDATION</span>
-          <ul class="features">
-            <li>Test Case Design & Execution</li>
-            <li>JIRA & Bug Tracking</li>
-            <li>TestRail Management</li>
-            <li>Exploratory Testing</li>
-            <li>Agile Methodologies</li>
-            <li>2 Live Projects</li>
-          </ul>
-          <button class="btn-frost" style="margin-top:1rem; padding:0.5rem 1.5rem;">📘 DOWNLOAD BROCHURE (PDF)</button>
-        </div>
-
-        <!-- API Testing Card -->
-        <div class="internship-card" onclick="downloadBrochure('api')">
-          <div class="badge-new">NEW</div>
-          <div class="icon">🔌</div>
-          <h3>API TESTING</h3>
-          <span class="duration">4 MONTHS · SPECIALIZED</span>
-          <ul class="features">
-            <li>Postman & Newman</li>
-            <li>REST Assured (Java)</li>
-            <li>GraphQL Testing</li>
-            <li>Contract Testing (Pact)</li>
-            <li>Mocking with WireMock</li>
-            <li>3 Real-World APIs</li>
-          </ul>
-          <button class="btn-frost" style="margin-top:1rem; padding:0.5rem 1.5rem;">📘 DOWNLOAD BROCHURE (PDF)</button>
-        </div>
-
-        <!-- Live Projects Card -->
-        <div class="internship-card" onclick="downloadBrochure('live')">
-          <div class="badge-new">NEW</div>
-          <div class="icon">📦</div>
-          <h3>LIVE PROJECTS</h3>
-          <span class="duration">5 MONTHS · PRODUCTION</span>
-          <ul class="features">
-            <li>E-commerce Platform</li>
-            <li>Fintech Dashboard</li>
-            <li>Healthcare Portal</li>
-            <li>Full CI/CD Pipeline</li>
-            <li>Team Collaboration</li>
-            <li>Production Deployment</li>
-          </ul>
-          <button class="btn-frost" style="margin-top:1rem; padding:0.5rem 1.5rem;">📘 DOWNLOAD BROCHURE (PDF)</button>
-        </div>
-      </div>
-
-      <div style="text-align:center; margin-top:3rem;">
-        <p style="font-size:1.2rem; color:rgba(255,255,255,0.8);">✨ 5 Live Projects · 1:1 Mentorship · Certification · Global Recognition ✨</p>
-        <button class="btn-ice" style="margin-top:2rem;" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})"><div class="btn-ice-bg"></div><span>APPLY NOW →</span></button>
+      <div class="bot-right">
+        <div class="bom"><div class="bov">60%</div><div class="bol">Cost Reduction</div></div>
+        <div class="bom"><div class="bov">6mo</div><div class="bol">Avg Transfer</div></div>
+        <div class="bom"><div class="bov">100%</div><div class="bol">IP Owned</div></div>
+        <div class="bom"><div class="bov">48hr</div><div class="bol">First Hire SLA</div></div>
+        <div class="bot-cta-row"><a href="#contact" class="btn-p">Start Your BOT ↗</a><button class="btn-g" onclick="openM('bot_m')">Learn More</button></div>
       </div>
     </div>
   </div>
+  <!-- Talent -->
+  <div class="eyebrow rv" style="margin-bottom:1.5rem">Talent Bench · 350+ Ready</div>
+  <div class="sh rv" style="font-size:clamp(2rem,4vw,5.5rem);margin-bottom:2.5rem"><span class="w">SPECIALISTS </span><span class="g">ON DEMAND</span></div>
+  <div class="talg">
+    <div class="glass-panel tc rv"><div class="gs"></div><div class="tc-ico">🧠</div><div class="tc-t">AI / ML Engineers</div><div class="tc-d">LLM, MLOps, computer vision, NLP, RAG, fine-tuning, model deployment at scale.</div></div>
+    <div class="glass-panel tc rv d1"><div class="gs"></div><div class="tc-ico">🧪</div><div class="tc-t">SDET / QA Automation</div><div class="tc-d">Playwright, Cypress, Selenium, Appium, self-healing, performance, security, a11y.</div></div>
+    <div class="glass-panel tc rv d2"><div class="gs"></div><div class="tc-ico">☁</div><div class="tc-t">Cloud / DevOps</div><div class="tc-d">AWS, Azure, GCP, Kubernetes, Terraform, ArgoCD, GitOps, FinOps.</div></div>
+    <div class="glass-panel tc rv d3"><div class="gs"></div><div class="tc-ico">⚙</div><div class="tc-t">Backend Engineers</div><div class="tc-d">Node.js, Python, Java, Go, .NET, microservices, event-driven, enterprise APIs.</div></div>
+    <div class="glass-panel tc rv d4"><div class="gs"></div><div class="tc-ico">🎨</div><div class="tc-t">Frontend / Full-Stack</div><div class="tc-d">React, Next.js, Vue, TypeScript, performance, design systems, accessibility.</div></div>
+    <div class="glass-panel tc rv d5"><div class="gs"></div><div class="tc-ico">⛨</div><div class="tc-t">Security Engineers</div><div class="tc-d">Zero-trust, SIEM, pen testing, DAST/SAST, SOC2, HIPAA, PCI-DSS.</div></div>
+  </div>
+  <div class="eyebrow rv" style="margin-top:3.5rem;margin-bottom:1rem">18+ Countries</div>
+  <div class="ctries rv">
+    <div class="cp">🇮🇳 India</div><div class="cp">🇺🇸 USA</div><div class="cp">🇬🇧 UK</div><div class="cp">🇦🇺 Australia</div><div class="cp">🇦🇪 UAE</div><div class="cp">🇸🇬 Singapore</div><div class="cp">🇩🇪 Germany</div><div class="cp">🇫🇷 France</div><div class="cp">🇨🇦 Canada</div><div class="cp">🇯🇵 Japan</div><div class="cp">🇳🇱 Netherlands</div><div class="cp">🇸🇦 Saudi Arabia</div><div class="cp">🇿🇦 South Africa</div><div class="cp">🇧🇷 Brazil</div><div class="cp">🇲🇾 Malaysia</div><div class="cp">🇳🇿 New Zealand</div><div class="cp">🇸🇪 Sweden</div><div class="cp">🇧🇭 Bahrain</div>
+  </div>
+</div>
 </section>
 
-<!-- REVIEWS SECTION -->
-<section id="reviews" style="padding:4rem;">
-  <div class="sec-inner">
-    <div class="sec-label"><div class="sec-label-bar"></div><div class="sec-label-text">CLIENT REVIEWS</div></div>
-    <div class="sec-h"><span class="gradient">4.9/5</span> RATINGS</div>
-    
-    <div class="reviews-grid">
-      <div class="review-card">
-        <div class="review-quote">"</div>
-        <div class="review-text">Tech1World built our QA center from scratch. 45 engineers, 6 months, zero attrition. Their SDETs are unmatched.</div>
-        <div class="reviewer">
-          <div class="reviewer-avatar">RJ</div>
-          <div class="reviewer-info"><h4>Rajiv Kapoor</h4><p>CTO · Global Fintech</p></div>
-        </div>
-      </div>
-      <div class="review-card">
-        <div class="review-quote">"</div>
-        <div class="review-text">The AI self-healing framework cut test maintenance by 72%. We release daily now. Game changer.</div>
-        <div class="reviewer">
-          <div class="reviewer-avatar">SP</div>
-          <div class="reviewer-info"><h4>Sarah Chen</h4><p>VP Engineering · E‑commerce</p></div>
-        </div>
-      </div>
-      <div class="review-card">
-        <div class="review-quote">"</div>
-        <div class="review-text">Their 6-month SDET program transformed our juniors into automation experts. 100% placement rate.</div>
-        <div class="reviewer">
-          <div class="reviewer-avatar">MK</div>
-          <div class="reviewer-info"><h4>Michael Kumar</h4><p>HR Director · Healthcare SaaS</p></div>
-        </div>
-      </div>
-      <div class="review-card">
-        <div class="review-quote">"</div>
-        <div class="review-text">Outsourcing with Tech1World saved us 60% on operational costs while doubling output. Exceptional quality.</div>
-        <div class="reviewer">
-          <div class="reviewer-avatar">AL</div>
-          <div class="reviewer-info"><h4>Alex Liu</h4><p>CEO · Logistics Startup</p></div>
-        </div>
-      </div>
-      <div class="review-card">
-        <div class="review-quote">"</div>
-        <div class="review-text">The BOT model gave us full IP ownership. Seamless transition, highly recommended.</div>
-        <div class="reviewer">
-          <div class="reviewer-avatar">PS</div>
-          <div class="reviewer-info"><h4>Priya Sharma</h4><p>Head of Engineering · Edtech</p></div>
-        </div>
-      </div>
-      <div class="review-card">
-        <div class="review-quote">"</div>
-        <div class="review-text">Their cloud team migrated our infrastructure with zero downtime. Impressive.</div>
-        <div class="reviewer">
-          <div class="reviewer-avatar">DJ</div>
-          <div class="reviewer-info"><h4>David Johnson</h4><p>CISO · Enterprise</p></div>
-        </div>
+<!-- ══ SDET ══ -->
+<section id="sdet" class="sec">
+<div class="wrap">
+  <div class="rv" style="display:flex;align-items:center;gap:.8rem;margin-bottom:1.6rem">
+    <div class="eyebrow">AI-First Quality Engineering</div><div class="eyebrow-num">03 / 06</div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:end;margin-bottom:3.5rem">
+    <div class="rl"><div class="sh"><span class="w">NEXT-GEN</span><br><span class="o">SDET</span><br><span class="g">INTELLIGENCE</span></div></div>
+    <div class="rr" style="padding-top:1rem"><p style="font-size:.88rem;line-height:2;color:var(--t2);margin-bottom:1.5rem">AI-augmented quality systems that learn, heal, predict, and prevent defects. Web, mobile, API, performance, security, accessibility — all AI-powered, all automated, all real-time.</p><div style="display:flex;gap:.8rem;flex-wrap:wrap"><a href="#programs" class="btn-p">View Programs ↗</a><a href="#proj" class="btn-g">Case Studies</a></div></div>
+  </div>
+  <div class="grid3" style="margin-bottom:1.2rem">
+    <div class="glass-panel scard rv" onclick="openM('c_sdet')"><div class="gs"></div><div class="ga" style="background:linear-gradient(180deg,var(--c1),transparent)"></div><div class="gcol" style="background:radial-gradient(var(--c1),transparent)"></div><div class="scard-ico">🤖</div><div class="scard-tag">AI Powered</div><div class="scard-title">AI Self-Healing Tests</div><div class="scard-body">ML-powered frameworks auto-repair broken selectors, predict flaky tests, generate cases from specs. Trained on your codebase, heals without human input.</div><div class="scard-chips"><span class="chip">Playwright</span><span class="chip">Healenium</span><span class="chip">Python</span><span class="chip">scikit-learn</span></div><div class="scard-cta">Explore →</div></div>
+    <div class="glass-panel scard rv d1" onclick="openM('c_mobile')"><div class="gs"></div><div class="ga" style="background:linear-gradient(180deg,var(--c2),transparent)"></div><div class="gcol" style="background:radial-gradient(var(--c2),transparent)"></div><div class="scard-ico">📱</div><div class="scard-tag">Cross-Platform</div><div class="scard-title">Mobile Testing</div><div class="scard-body">Native iOS/Android + hybrid. Appium, XCUITest, Espresso, BrowserStack real device farms with 1000+ device configurations.</div><div class="scard-chips"><span class="chip">Appium</span><span class="chip">XCUITest</span><span class="chip">Espresso</span><span class="chip">BrowserStack</span></div><div class="scard-cta">Explore →</div></div>
+    <div class="glass-panel scard rv d2" onclick="openM('c_perf')"><div class="gs"></div><div class="ga" style="background:linear-gradient(180deg,var(--c3),transparent)"></div><div class="gcol" style="background:radial-gradient(var(--c3),transparent)"></div><div class="scard-ico">⚡</div><div class="scard-tag">Load Testing</div><div class="scard-title">Performance & Load</div><div class="scard-body">k6, JMeter, Locust — baseline, stress, spike, endurance testing with CI/CD quality gates on every merge.</div><div class="scard-chips"><span class="chip">k6</span><span class="chip">JMeter</span><span class="chip">Grafana</span><span class="chip">Datadog</span></div><div class="scard-cta">Explore →</div></div>
+  </div>
+  <div class="grid3" style="margin-bottom:3rem">
+    <div class="glass-panel scard rv d3" onclick="openM('c_sec')"><div class="gs"></div><div class="ga" style="background:linear-gradient(180deg,var(--c4),transparent)"></div><div class="gcol" style="background:radial-gradient(var(--c4),transparent)"></div><div class="scard-ico">🛡</div><div class="scard-tag">Security SDET</div><div class="scard-title">Security Testing</div><div class="scard-body">DAST/SAST pipelines. OWASP ZAP, Burp Suite, SonarQube, Snyk. HIPAA, PCI-DSS, SOC2 automation.</div><div class="scard-chips"><span class="chip">OWASP ZAP</span><span class="chip">Snyk</span><span class="chip">SonarQube</span><span class="chip">Checkmarx</span></div><div class="scard-cta">Explore →</div></div>
+    <div class="glass-panel scard rv d4" onclick="openM('c_api')"><div class="gs"></div><div class="ga" style="background:linear-gradient(180deg,var(--c5),transparent)"></div><div class="gcol" style="background:radial-gradient(var(--c5),transparent)"></div><div class="scard-ico">🔗</div><div class="scard-tag">Contract Testing</div><div class="scard-title">API & Contract Testing</div><div class="scard-body">REST/GraphQL/gRPC contract testing with Pact, Postman, RestAssured. Schema validation on every deploy.</div><div class="scard-chips"><span class="chip">Pact</span><span class="chip">Postman</span><span class="chip">RestAssured</span><span class="chip">OpenAPI</span></div><div class="scard-cta">Explore →</div></div>
+    <div class="glass-panel scard rv d5" onclick="openM('c_a11y')"><div class="gs"></div><div class="ga" style="background:linear-gradient(180deg,var(--c6),transparent)"></div><div class="gcol" style="background:radial-gradient(var(--c6),transparent)"></div><div class="scard-ico">♿</div><div class="scard-tag">Accessibility</div><div class="scard-title">Accessibility (a11y)</div><div class="scard-body">WCAG 2.1 AA/AAA automation. axe-core, Lighthouse, NVDA/JAWS screen reader testing. Inclusive by default.</div><div class="scard-chips"><span class="chip">axe-core</span><span class="chip">Lighthouse</span><span class="chip">NVDA</span><span class="chip">WCAG 2.1</span></div><div class="scard-cta">Explore →</div></div>
+  </div>
+  <!-- Gauges -->
+  <div class="gauge-row rv">
+    <div class="glass-panel gm"><div class="gw"><svg class="gsvg" viewBox="0 0 80 80"><circle class="gbg" cx="40" cy="40" r="30"/><circle class="gfl" cx="40" cy="40" r="30" data-pct="98" stroke="url(#G1)"/></svg><div class="glb">98%</div></div><div class="gnm">Test Coverage</div></div>
+    <div class="glass-panel gm"><div class="gw"><svg class="gsvg" viewBox="0 0 80 80"><circle class="gbg" cx="40" cy="40" r="30"/><circle class="gfl" cx="40" cy="40" r="30" data-pct="99" stroke="url(#G2)"/></svg><div class="glb">99%</div></div><div class="gnm">Pass Rate</div></div>
+    <div class="glass-panel gm"><div class="gw"><svg class="gsvg" viewBox="0 0 80 80"><circle class="gbg" cx="40" cy="40" r="30"/><circle class="gfl" cx="40" cy="40" r="30" data-pct="72" stroke="url(#G3)"/></svg><div class="glb">72%</div></div><div class="gnm">QA Reduction</div></div>
+    <div class="glass-panel gm"><div class="gw"><svg class="gsvg" viewBox="0 0 80 80"><circle class="gbg" cx="40" cy="40" r="30"/><circle class="gfl" cx="40" cy="40" r="30" data-pct="95" stroke="url(#G4)"/></svg><div class="glb">95%</div></div><div class="gnm">Automation Rate</div></div>
+    <div class="glass-panel gm"><div class="gw"><svg class="gsvg" viewBox="0 0 80 80"><circle class="gbg" cx="40" cy="40" r="30"/><circle class="gfl" cx="40" cy="40" r="30" data-pct="88" stroke="url(#G5)"/></svg><div class="glb">88%</div></div><div class="gnm">Defect Prevention</div></div>
+  </div>
+  <!-- Pipeline -->
+  <div class="eyebrow rv">CI/CD Quality Pipeline</div>
+  <div class="pipe rv">
+    <div class="ps"><div class="ps-nd">💾</div><div class="ps-l">CODE COMMIT</div></div>
+    <div class="ps"><div class="ps-nd">🔍</div><div class="ps-l">SAST SCAN</div></div>
+    <div class="ps"><div class="ps-nd">🧪</div><div class="ps-l">UNIT TESTS</div></div>
+    <div class="ps"><div class="ps-nd">🔗</div><div class="ps-l">API CONTRACT</div></div>
+    <div class="ps"><div class="ps-nd">⚡</div><div class="ps-l">PERF GATES</div></div>
+    <div class="ps"><div class="ps-nd">🚀</div><div class="ps-l">DEPLOY</div></div>
+  </div>
+  <!-- Lab -->
+  <div class="lab rv">
+    <div class="lab-p">
+      <div class="lab-h"><div class="lab-dots"><div class="lab-dot lr"></div><div class="lab-dot ly"></div><div class="lab-dot lg"></div></div><div class="lab-t">sdet_ai_engine.py</div><div class="lab-s">● LIVE</div></div>
+      <div class="term" id="TERM"></div>
+    </div>
+    <div class="lab-p">
+      <div class="lab-h"><div class="lab-dots"><div class="lab-dot lr"></div><div class="lab-dot ly"></div><div class="lab-dot lg"></div></div><div class="lab-t">test_runner.sh</div><div class="lab-s" id="RSTAT">● 0/24</div></div>
+      <div class="run-body">
+        <div class="rbar"><div class="rfill" id="RFILL"></div></div>
+        <div class="rtests" id="RTESTS"></div>
+        <div class="rsum"><span style="color:#4ADE80" id="RSP">PASS: 0</span><span style="color:#F87171" id="RSF">FAIL: 0</span><span style="color:#FBBF24" id="RSS">SKIP: 0</span></div>
       </div>
     </div>
   </div>
+  <!-- Wins -->
+  <div class="wins-g">
+    <div class="glass-panel win-c rv" onclick="openM('cw1')"><div class="gs"></div><div class="win-ind">SDET · FINTECH · CASE 01</div><div class="win-t">AI Self-Healing Suite</div><div class="win-d">$2B fintech eliminated 72% QA cycle time with ML-driven self-healing. Zero production escapes over 6 months.</div><div class="win-n"><div><div class="wv">72%</div><div class="wl">QA Saved</div></div><div><div class="wv">0</div><div class="wl">Prod Escapes</div></div></div></div>
+    <div class="glass-panel win-c rv d1" onclick="openM('cw2')"><div class="gs"></div><div class="win-ind">SDET · E-COMMERCE · CASE 02</div><div class="win-t">10× Release Velocity</div><div class="win-d">European e-commerce went from fortnightly to daily releases with unified SDET pipelines across 8 microservices.</div><div class="win-n"><div><div class="wv">10×</div><div class="wl">Release Speed</div></div><div><div class="wv">99%</div><div class="wl">Coverage</div></div></div></div>
+    <div class="glass-panel win-c rv d2" onclick="openM('cw3')"><div class="gs"></div><div class="win-ind">SDET · HEALTHCARE · CASE 03</div><div class="win-t">HIPAA Security Testing</div><div class="win-d">US healthcare SaaS protecting 2M+ patient records achieved 100% HIPAA coverage, SOC2 certified.</div><div class="win-n"><div><div class="wv">100%</div><div class="wl">HIPAA</div></div><div><div class="wv">SOC2</div><div class="wl">Certified</div></div></div></div>
+  </div>
+</div>
 </section>
 
-<!-- SERVICES SECTION -->
-<section style="padding:4rem;">
-  <div class="sec-inner">
-    <div class="sec-label"><div class="sec-label-bar"></div><div class="sec-label-text">SERVICES</div></div>
-    <div class="sec-h"><span class="gradient">WHAT WE</span> BUILD</div>
-    <div class="svc-grid">
-      <div class="svc-card"><div class="svc-glow"></div><div class="svc-num">01</div><div class="svc-icon">🤖</div><div class="svc-title">AI & ML</div><div class="svc-desc">LLM integration, RAG systems, MLOps, computer vision.</div><div class="svc-cta">Explore →</div></div>
-      <div class="svc-card"><div class="svc-glow"></div><div class="svc-num">02</div><div class="svc-icon">☁️</div><div class="svc-title">Cloud</div><div class="svc-desc">Multi-cloud strategy, Kubernetes, Terraform, FinOps.</div><div class="svc-cta">Explore →</div></div>
-      <div class="svc-card"><div class="svc-glow"></div><div class="svc-num">03</div><div class="svc-icon">📊</div><div class="svc-title">Data</div><div class="svc-desc">Data lakes, streaming, ETL, dbt, Spark, Kafka.</div><div class="svc-cta">Explore →</div></div>
-      <div class="svc-card"><div class="svc-glow"></div><div class="svc-num">04</div><div class="svc-icon">🔐</div><div class="svc-title">DevSecOps</div><div class="svc-desc">Zero-trust, SIEM, compliance automation, shift-left.</div><div class="svc-cta">Explore →</div></div>
+<!-- ══ PROJECTS ══ -->
+<section id="proj" class="sec">
+<div class="wrap">
+  <div class="rv" style="display:flex;align-items:center;gap:.8rem;margin-bottom:1.6rem">
+    <div class="eyebrow">Featured Work</div><div class="eyebrow-num">04 / 06</div>
+  </div>
+  <div class="sh rv" style="font-size:clamp(3.5rem,7vw,9rem);margin-bottom:1rem"><span class="w">WORK THAT</span><br><span class="g">SPEAKS</span></div>
+  <div class="filter-row rv">
+    <button class="fbt on" data-f="all">All</button>
+    <button class="fbt" data-f="sdet">SDET</button>
+    <button class="fbt" data-f="out">Outsourcing</button>
+    <button class="fbt" data-f="ai">AI / ML</button>
+    <button class="fbt" data-f="cloud">Cloud</button>
+  </div>
+  <div class="proj-g">
+    <div class="glass-panel pj rv" data-cat="sdet" onclick="openM('p1')"><div class="gs"></div><div class="pj-th" style="background:linear-gradient(135deg,rgba(7,255,255,.07),rgba(155,89,255,.1))">🤖</div><div class="pj-b"><div class="pj-cat">SDET · FINTECH</div><div class="pj-t">AI Self-Healing Platform</div><div class="pj-d">ML-powered test suite for $2B global fintech. 72% QA reduction, zero prod escapes.</div><div class="pj-ft"><div class="pj-tags"><span class="pt">Playwright</span><span class="pt">Healenium</span></div><span class="pj-arr">↗</span></div></div></div>
+    <div class="glass-panel pj rv d1" data-cat="out" onclick="openM('p2')"><div class="gs"></div><div class="pj-th" style="background:linear-gradient(135deg,rgba(255,0,153,.07),rgba(155,89,255,.09))">🏢</div><div class="pj-b"><div class="pj-cat">BOT · SINGAPORE</div><div class="pj-t">45-Engineer Center</div><div class="pj-d">Offshore center built from scratch in 4 months. Transferred with full IP. 62% cost savings.</div><div class="pj-ft"><div class="pj-tags"><span class="pt">BOT</span><span class="pt">Full IP</span></div><span class="pj-arr">↗</span></div></div></div>
+    <div class="glass-panel pj rv d2" data-cat="sdet" onclick="openM('p3')"><div class="gs"></div><div class="pj-th" style="background:linear-gradient(135deg,rgba(155,89,255,.07),rgba(7,255,255,.09))">🚀</div><div class="pj-b"><div class="pj-cat">SDET · DEVOPS</div><div class="pj-t">10× Release Velocity</div><div class="pj-d">Unified CI/CD quality gates across 8 microservices. Daily deploys, 99.1% coverage.</div><div class="pj-ft"><div class="pj-tags"><span class="pt">ArgoCD</span><span class="pt">Cypress</span></div><span class="pj-arr">↗</span></div></div></div>
+    <div class="glass-panel pj rv" data-cat="ai" onclick="openM('p4')"><div class="gs"></div><div class="pj-th" style="background:linear-gradient(135deg,rgba(255,229,0,.07),rgba(0,255,136,.09))">📈</div><div class="pj-b"><div class="pj-cat">AI · RETAIL</div><div class="pj-t">Demand Forecasting AI</div><div class="pj-d">Transformer-based forecasting across 12 retail markets. 34% overstock reduction, $2.4M saved.</div><div class="pj-ft"><div class="pj-tags"><span class="pt">PyTorch</span><span class="pt">MLflow</span></div><span class="pj-arr">↗</span></div></div></div>
+    <div class="glass-panel pj rv d1" data-cat="out" onclick="openM('p5')"><div class="gs"></div><div class="pj-th" style="background:linear-gradient(135deg,rgba(255,85,0,.07),rgba(255,229,0,.09))">⚡</div><div class="pj-b"><div class="pj-cat">STAFF AUG · SAAS</div><div class="pj-t">120-Engineer Scale-Up</div><div class="pj-d">Tripled headcount in 6 months for Series D SaaS. 120 engineers, 0% attrition.</div><div class="pj-ft"><div class="pj-tags"><span class="pt">React</span><span class="pt">AWS</span></div><span class="pj-arr">↗</span></div></div></div>
+    <div class="glass-panel pj rv d2" data-cat="cloud" onclick="openM('p6')"><div class="gs"></div><div class="pj-th" style="background:linear-gradient(135deg,rgba(155,89,255,.07),rgba(7,255,255,.09))">🛡</div><div class="pj-b"><div class="pj-cat">SECURITY · HEALTHCARE</div><div class="pj-t">Zero-Trust & SDET</div><div class="pj-d">HIPAA zero-trust for healthcare SaaS protecting 2M+ records. SOC2 certified. Zero breaches.</div><div class="pj-ft"><div class="pj-tags"><span class="pt">OWASP ZAP</span><span class="pt">Vault</span></div><span class="pj-arr">↗</span></div></div></div>
+  </div>
+</div>
+</section>
+
+<!-- ══ PROGRAMS (SDET Internship) ══ -->
+<section id="programs" class="sec">
+<div class="wrap">
+  <div class="rv" style="display:flex;align-items:center;gap:.8rem;margin-bottom:1.6rem">
+    <div class="eyebrow">6‑Month SDET Programs</div><div class="eyebrow-num">05 / 06</div>
+  </div>
+  <div class="sh rv" style="font-size:clamp(3rem,6vw,7.5rem);margin-bottom:2.5rem"><span class="w">THE LOVE</span><br><span class="g">PROJECT</span></div>
+  <div class="prog-g">
+    <div class="glass-panel pc rv" onclick="downloadBrochure('automation')"><div class="gs"></div><div class="pc-open">open · 6 months</div><div class="pc-title">Automation Testing</div><div class="pc-desc">Selenium, Cypress, Playwright, Appium, TestNG, Cucumber, Docker, Jenkins. 5 live capstone projects.</div><div class="pc-phases"><span class="pc-ph">Selenium WebDriver (Java/Python)</span><span class="pc-ph">Cypress & Playwright</span><span class="pc-ph">Appium Mobile</span><span class="pc-ph">CI/CD with Jenkins</span></div><div class="pc-apply">📘 Download Brochure →</div><div class="pc-cert">certification</div></div>
+    <div class="glass-panel pc rv d1" onclick="downloadBrochure('manual')"><div class="gs"></div><div class="pc-open">open · 3 months</div><div class="pc-title">Manual Testing</div><div class="pc-desc">Test case design, JIRA, TestRail, exploratory testing, agile methodologies, 2 live projects.</div><div class="pc-phases"><span class="pc-ph">Test Case Design & Execution</span><span class="pc-ph">JIRA & Bug Tracking</span><span class="pc-ph">TestRail Management</span><span class="pc-ph">Exploratory Testing</span></div><div class="pc-apply">📘 Download Brochure →</div><div class="pc-cert">certification</div></div>
+    <div class="glass-panel pc rv d2" onclick="downloadBrochure('api')"><div class="gs"></div><div class="pc-open">open · 4 months</div><div class="pc-title">API Testing</div><div class="pc-desc">Postman, REST Assured, GraphQL, contract testing, mocking, 3 real-world APIs.</div><div class="pc-phases"><span class="pc-ph">Postman & Newman</span><span class="pc-ph">REST Assured (Java)</span><span class="pc-ph">GraphQL Testing</span><span class="pc-ph">Contract Testing (Pact)</span></div><div class="pc-apply">📘 Download Brochure →</div><div class="pc-cert">certification</div></div>
+    <div class="glass-panel pc rv d3" onclick="downloadBrochure('live')"><div class="gs"></div><div class="pc-open">open · 5 months</div><div class="pc-title">Live Projects</div><div class="pc-desc">E‑commerce, fintech, healthcare. Full CI/CD, Git, Jenkins, Docker. Team collaboration, production deployment.</div><div class="pc-phases"><span class="pc-ph">E‑commerce Platform</span><span class="pc-ph">Fintech Dashboard</span><span class="pc-ph">Healthcare Portal</span><span class="pc-ph">Production Deployment</span></div><div class="pc-apply">📘 Download Brochure →</div><div class="pc-cert">certification</div></div>
+  </div>
+  <!-- timeline preview -->
+  <div class="glass-panel prog-timeline rv">
+    <div class="ptl-title">Program Timeline · 6‑Month Intensive</div>
+    <div class="ptl-months">
+      <div class="ptlm"><div class="ptlmn">1</div><div class="ptlml">Month 1</div><div class="ptlmf">Fundamentals</div></div>
+      <div class="ptlm"><div class="ptlmn">2</div><div class="ptlml">Month 2</div><div class="ptlmf">Core Automation</div></div>
+      <div class="ptlm"><div class="ptlmn">3</div><div class="ptlml">Month 3</div><div class="ptlmf">Frameworks</div></div>
+      <div class="ptlm"><div class="ptlmn">4</div><div class="ptlml">Month 4</div><div class="ptlmf">Mobile/API</div></div>
+      <div class="ptlm"><div class="ptlmn">5</div><div class="ptlml">Month 5</div><div class="ptlmf">CI/CD</div></div>
+      <div class="ptlm"><div class="ptlmn">6</div><div class="ptlml">Month 6</div><div class="ptlmf">Capstone</div></div>
+    </div>
+    <div style="margin-top:2rem;display:flex;justify-content:center"><span class="eyebrow" style="margin:0">✨ 100% Placement Assistance · 1:1 Mentorship</span></div>
+  </div>
+</div>
+</section>
+
+<!-- ══ GLOBE / HQ ══ -->
+<section id="globe">
+<div class="wrap">
+  <div class="rv" style="display:flex;align-items:center;gap:.8rem;margin-bottom:1.6rem">
+    <div class="eyebrow">Global Headquarters</div><div class="eyebrow-num">06 / 06</div>
+  </div>
+  <div class="sh rv" style="font-size:clamp(3rem,5.5vw,7rem)"><span class="w">4 CONTINENTS</span><br><span class="g">1 PARTNER</span></div>
+  <div class="globe-stage rv">
+    <canvas id="GC" width="1200" height="480" style="position:absolute;inset:0;width:100%;height:100%"></canvas>
+    <div class="glass-panel globe-card">
+      <div class="globe-coord">32.7°N · 74.8°E</div>
+      <div class="globe-addr">HQ: Jammu, J&K, India<br>JDA Phase 2, Plot 37, Tara Vihar, Paloura, Jammu</div>
+      <div class="globe-lnk"><a href="mailto:info@tech1world.com">info@tech1world.com</a><a href="#contact">Proposal →</a></div>
     </div>
   </div>
+</div>
 </section>
 
-<!-- PROJECTS SECTION -->
-<section style="padding:4rem;">
-  <div class="sec-inner">
-    <div class="sec-label"><div class="sec-label-bar"></div><div class="sec-label-text">PROJECTS</div></div>
-    <div class="sec-h"><span class="gradient">FEATURED</span> WORK</div>
-    <div class="proj-grid">
-      <div class="proj-card"><div class="proj-thumb">🤖</div><div class="proj-body"><div class="proj-cat">SDET · FINTECH</div><div class="proj-title">AI Self-Healing Platform</div><div class="proj-desc">72% QA reduction, zero prod escapes for $2B fintech.</div><div class="proj-stats"><span class="proj-stat">72% ↓</span><span class="proj-stat">0 escapes</span></div></div></div>
-      <div class="proj-card"><div class="proj-thumb">🏢</div><div class="proj-body"><div class="proj-cat">BOT · SINGAPORE</div><div class="proj-title">45-Engineer Center</div><div class="proj-desc">62% cost savings, full transfer in 12 months.</div><div class="proj-stats"><span class="proj-stat">62% saved</span><span class="proj-stat">45 engineers</span></div></div></div>
-      <div class="proj-card"><div class="proj-thumb">📈</div><div class="proj-body"><div class="proj-cat">AI · RETAIL</div><div class="proj-title">Demand Forecasting</div><div class="proj-desc">34% overstock reduction, $2.4M annual savings.</div><div class="proj-stats"><span class="proj-stat">34% ↓</span><span class="proj-stat">$2.4M saved</span></div></div></div>
-    </div>
+<!-- ══ CONTACT ══ -->
+<section id="contact">
+<div class="wrap">
+  <div class="rv" style="display:flex;align-items:center;gap:.8rem;margin-bottom:1.6rem">
+    <div class="eyebrow">Let’s Build</div><div class="eyebrow-num">Contact</div>
   </div>
-</section>
-
-<!-- 3D GLOBE -->
-<section style="padding:4rem;">
-  <div class="sec-inner">
-    <div class="sec-label"><div class="sec-label-bar"></div><div class="sec-label-text">GLOBAL FOOTPRINT</div></div>
-    <div class="sec-h"><span class="gradient">4 CONTINENTS</span> 1 PARTNER</div>
-    <div class="globe-container" id="globeContainer"><canvas id="globeCanvas" style="width:100%;height:100%;"></canvas></div>
-  </div>
-</section>
-
-<!-- MAP SECTION -->
-<section style="padding:4rem;">
-  <div class="sec-inner">
-    <div class="sec-label"><div class="sec-label-bar"></div><div class="sec-label-text">OUR BASE</div></div>
-    <div class="sec-h"><span class="gradient">JAMMU</span> INDIA</div>
-    <div class="map-container">
-      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3349.482931961891!2d74.854021315396!3d32.726579780979!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391e84b6b1e7b6c5%3A0x6f1b6c3b8e0e7a!2sJDA%20Phase%202%20Plot%2037%20Tara%20Vihar%20Paloura%20Jammu!5e0!3m2!1sen!2sin!4v1710000000000!5m2!1sen!2sin" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-    </div>
-  </div>
-</section>
-
-<!-- CONTACT SECTION -->
-<section id="contact" style="padding:4rem;">
-  <div class="sec-inner">
-    <div class="sec-label"><div class="sec-label-bar"></div><div class="sec-label-text">CONNECT</div></div>
-    <div class="sec-h"><span class="gradient">START YOUR</span> JOURNEY</div>
-    
-    <div class="contact-grid">
-      <div>
-        <p style="font-size:1.1rem; color:rgba(255,255,255,0.7); margin-bottom:2rem;">Get a proposal from a senior engineer within 4 hours.</p>
-        <div class="email-buttons">
-          <button class="email-btn" onclick="window.location.href='mailto:hr@tech1world.com'">📧 hr@tech1world.com</button>
-          <button class="email-btn" onclick="window.location.href='mailto:ceo@tech1world.com'">📧 ceo@tech1world.com</button>
-          <button class="email-btn" onclick="window.location.href='mailto:careers@tech1world.com'">📧 careers@tech1world.com</button>
-        </div>
-        <div style="margin-top:2rem;">
-          <p style="color:rgba(255,255,255,0.5);">📍 JDA Phase 2, Plot 37, Tara Vihar, Paloura, Jammu</p>
-          <p style="color:rgba(255,255,255,0.5); margin-top:0.5rem;">⏰ Mon-Fri: 9AM-7PM IST · 24×7 enterprise support</p>
-        </div>
+  <div class="sh rv" style="font-size:clamp(3rem,6vw,7rem);margin-bottom:1rem"><span class="w">START YOUR</span><br><span class="g">JOURNEY</span></div>
+  <div class="cg">
+    <div class="rv">
+      <p class="ci">Whether you need an SDET squad, an offshore center, or to modernize your test infrastructure — Tech1World delivers. A senior engineer responds within 4 hours.</p>
+      <div class="c-rows">
+        <div class="c-row"><span class="c-ico">📧</span>ceo@tech1world.com</div>
+        <div class="c-row"><span class="c-ico">📧</span>hr@tech1world.com</div>
+        <div class="c-row"><span class="c-ico">📧</span>careers@tech1world.com</div>
+        <div class="c-row"><span class="c-ico">📧</span>info@tech1world.com</div>
+        <div class="c-row"><span class="c-ico">🌐</span>tech1world.com</div>
+        <div class="c-row"><span class="c-ico">📍</span>Jammu, J&K, India — Global HQ</div>
+        <div class="c-row"><span class="c-ico">📞</span>+91-9419281505</div>
       </div>
-      <div>
-        <form class="form" id="contactForm">
-          <input type="text" placeholder="Full Name *" required>
-          <input type="email" placeholder="Email Address *" required>
-          <select>
-            <option>SDET Program (Automation)</option>
-            <option>SDET Program (Manual)</option>
-            <option>SDET Program (API)</option>
-            <option>SDET Program (Live Projects)</option>
-            <option>Dedicated Team</option>
-            <option>Build-Operate-Transfer</option>
-          </select>
-          <textarea rows="4" placeholder="Tell us about your project or which program interests you..."></textarea>
-          <button type="submit">SEND MESSAGE →</button>
-          <div id="formSuccess" style="display:none; margin-top:1rem; color:#b0e0ff;">✓ Message received — we'll reply within 4 hours</div>
-        </form>
+      <div class="oh">
+        <div class="ohl">Office Hours</div>
+        <div class="oht">Mon–Fri: <span class="ohi">9:00 AM – 7:00 PM IST</span><br>Sat: <span class="ohi">10:00 AM – 2:00 PM IST</span><br>24×7 ops for enterprise SLAs</div>
       </div>
     </div>
+    <div class="rv">
+      <form class="cf" id="CF">
+        <div class="frow"><div class="fg"><label class="fl">Full Name *</label><input class="fi" placeholder="Jane Smith" required></div><div class="fg"><label class="fl">Company *</label><input class="fi" placeholder="Acme Corp" required></div></div>
+        <div class="frow"><div class="fg"><label class="fl">Email *</label><input class="fi" type="email" placeholder="jane@acmecorp.com" required></div><div class="fg"><label class="fl">Phone</label><input class="fi" type="tel" placeholder="+1 555 000 000"></div></div>
+        <div class="fg"><label class="fl">Service Interest *</label>
+          <select class="fsel" required><option value="">— Select a service —</option><option>SDET / QA Automation</option><option>Dedicated Team</option><option>Build-Operate-Transfer</option><option>Staff Augmentation</option><option>Managed Delivery</option><option>AI / ML Engineering</option><option>Cloud / DevOps</option><option>Security / DevSecOps</option></select>
+        </div>
+        <div class="fg"><label class="fl">Message</label><textarea class="fta" placeholder="Tell us about your project, team size, timeline, and key challenges..."></textarea></div>
+        <button type="submit" class="fsub">Send Message →</button>
+        <div class="fok" id="FOK">✓ Message received — a senior engineer will respond within 4 hours.</div>
+      </form>
+    </div>
   </div>
+</div>
 </section>
 
-<!-- FOOTER -->
 <footer>
-  <div class="logo" style="font-size:1rem;">TECH<span style="color:#b0e0ff;">1</span>WORLD</div>
-  <div class="footer-emails">
-    <a onclick="window.location.href='mailto:hr@tech1world.com'">hr@tech1world.com</a>
-    <a onclick="window.location.href='mailto:ceo@tech1world.com'">ceo@tech1world.com</a>
-    <a onclick="window.location.href='mailto:careers@tech1world.com'">careers@tech1world.com</a>
-  </div>
-  <div style="color:rgba(255,255,255,0.3);">© 2026 Tech1World · Quantum Script Terminal</div>
+  <div><div class="fb">TECH1WORLD</div><div class="fbs">SDET · OUTSOURCING · AI ENGINEERING</div></div>
+  <div class="flinks"><a href="#services">Services</a><a href="#out">Outsourcing</a><a href="#sdet">SDET</a><a href="#proj">Projects</a><a href="#programs">Programs</a><a href="#contact">Contact</a></div>
+  <div class="fcopy">© 2026 Tech1World. All rights reserved.</div>
 </footer>
+</div>
+
+<!-- MODAL -->
+<div class="mov" id="MODAL" onclick="if(event.target===this)closeM()"><div class="mbox"><div class="mhd"><div><div class="m-cat" id="MCAT"></div><div class="m-tit" id="MTITLE"></div></div><button class="m-cl" onclick="closeM()">✕</button></div><div class="mb"><div class="msts" id="MSTS"></div><div id="MBODY"></div><div class="mtch" id="MTECH"></div></div><div class="mfot" id="MFOOT"></div></div></div>
 
 <script>
-// ========== DYNAMIC BACKGROUND (FROST CANVAS) ==========
-const canvas = document.getElementById('FROST');
-if (canvas) {
-  const ctx = canvas.getContext('2d');
-  let w = canvas.width = window.innerWidth;
-  let h = canvas.height = window.innerHeight;
-  window.addEventListener('resize', () => { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; });
-  const particles = [];
-  for (let i = 0; i < 350; i++) {
-    particles.push({ x: Math.random() * w, y: Math.random() * h, vx: (Math.random()-0.5)*0.3, vy: (Math.random()-0.5)*0.3, size: Math.random()*2+0.5, opacity: Math.random()*0.5+0.2 });
-  }
-  function drawFrost() {
-    ctx.clearRect(0, 0, w, h);
-    particles.forEach(p => {
-      p.x += p.vx; p.y += p.vy;
-      if (p.x < 0) p.x = w; if (p.x > w) p.x = 0;
-      if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
-      ctx.fillStyle = `rgba(176,224,255,${p.opacity*0.3})`;
-      ctx.fill();
-    });
-    requestAnimationFrame(drawFrost);
-  }
-  drawFrost();
-}
-
-// ========== CURSOR ==========
-const cursor = document.getElementById('CURSOR');
-const cCore = cursor.querySelector('.cur-core');
-const cRing = cursor.querySelector('.cur-ring');
-const cIce = cursor.querySelector('.cur-ice');
-let mx = 0, my = 0, rx = 0, ry = 0, ix = 0, iy = 0;
-document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-function animCursor() {
-  rx += (mx - rx) * 0.15; ry += (my - ry) * 0.15;
-  ix += (mx - ix) * 0.06; iy += (my - iy) * 0.06;
-  cCore.style.left = mx + 'px'; cCore.style.top = my + 'px';
-  cRing.style.left = rx + 'px'; cRing.style.top = ry + 'px';
-  cIce.style.left = ix + 'px'; cIce.style.top = iy + 'px';
-  requestAnimationFrame(animCursor);
-}
-animCursor();
-document.querySelectorAll('a, button, .card, .model-card, .stat-box, .hs, .internship-card, .review-card, .email-btn').forEach(el => {
-  el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
-  el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+// ==================== CURSOR ====================
+const CUR=document.getElementById('CUR'), cd=CUR.querySelector('.cd'), cr=CUR.querySelector('.cr'), ca=CUR.querySelector('.ca');
+let mx=0,my=0,rx=0,ry=0,ax=0,ay=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+function animC(){rx+=(mx-rx)*.15;ry+=(my-ry)*.15;ax+=(mx-ax)*.06;ay+=(my-ay)*.06;
+  cd.style.left=mx+'px';cd.style.top=my+'px';cr.style.left=rx+'px';cr.style.top=ry+'px';ca.style.left=ax+'px';ca.style.top=ay+'px';
+  requestAnimationFrame(animC);}
+animC();
+document.querySelectorAll('a,button,.scard,.mcard,.pc,.pj,.win-c').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
 });
 
-// ========== LIVE DATA UPDATES ==========
-function updateLiveData() {
-  const nodes = 347 + Math.floor(Math.random() * 10) - 5;
-  const quanta = (1.2 + (Math.random() * 0.1 - 0.05)).toFixed(1);
-  const coverage = (98.3 + (Math.random() * 0.4 - 0.2)).toFixed(1);
-  const latency = 42 + Math.floor(Math.random() * 6) - 3;
-  const interns = 156 + Math.floor(Math.random() * 5) - 2;
-  document.getElementById('statNodes') && (document.getElementById('statNodes').innerText = nodes);
-  document.getElementById('statQuanta') && (document.getElementById('statQuanta').innerText = quanta + 'M');
-  document.getElementById('statCoverage') && (document.getElementById('statCoverage').innerText = coverage + '%');
-  document.getElementById('statLatency') && (document.getElementById('statLatency').innerText = latency + 'ms');
-  document.getElementById('statInterns') && (document.getElementById('statInterns').innerText = interns);
-}
-setInterval(updateLiveData, 2000);
-
-// ========== LOADER ==========
-let loadP = 0;
-const loadInterval = setInterval(() => {
-  loadP = Math.min(100, loadP + Math.random() * 3 + 0.5);
-  document.getElementById('LOAD_PCT') && (document.getElementById('LOAD_PCT').textContent = 'INITIALIZING · ' + Math.floor(loadP) + '%');
-  if (loadP >= 100) {
-    clearInterval(loadInterval);
-    gsap.to('#LOADER', { opacity: 0, duration: 1.2, onComplete: () => document.getElementById('LOADER').style.display = 'none' });
-  }
-}, 40);
-
-// ========== COUNTER ANIMATION ==========
-function animateCounters() {
-  document.querySelectorAll('[data-count]').forEach(el => {
-    const target = parseFloat(el.dataset.count);
-    const suffix = el.dataset.suffix || (target > 100 ? '+' : '%');
-    const dec = el.dataset.dec || 0;
-    let current = 0;
-    const step = target / 50;
-    const timer = setInterval(() => {
-      current = Math.min(current + step, target);
-      el.textContent = (dec ? current.toFixed(dec) : Math.floor(current)) + suffix;
-      if (current >= target) clearInterval(timer);
-    }, 20);
+// ==================== WORLD CANVAS (PARTICLES) ====================
+const canvas=document.getElementById('WORLD'), ctx=canvas.getContext('2d');
+let W=canvas.width=window.innerWidth, H=canvas.height=window.innerHeight;
+window.addEventListener('resize',()=>{W=canvas.width=window.innerWidth; H=canvas.height=window.innerHeight;});
+let particles=[];
+for(let i=0;i<140;i++) particles.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.2,vy:(Math.random()-.5)*.2,size:Math.random()*3+.5,phase:Math.random()*10});
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  particles.forEach(p=>{
+    p.x+=p.vx; p.y+=p.vy;
+    if(p.x<0||p.x>W)p.vx*=-1; if(p.y<0||p.y>H)p.vy*=-1;
+    ctx.beginPath(); ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+    ctx.fillStyle=`rgba(7,255,255,${.06+Math.sin(Date.now()*.002+p.phase)*.02})`;
+    ctx.fill();
+    // connect
+    particles.forEach(p2=>{let dx=p.x-p2.x,dy=p.y-p2.y,d=Math.sqrt(dx*dx+dy*dy); if(d<120){ ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(p2.x,p2.y); ctx.strokeStyle=`rgba(255,255,255,.02)`; ctx.lineWidth=.3; ctx.stroke(); }});
   });
+  requestAnimationFrame(draw);
 }
-const counterObs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { animateCounters(); counterObs.disconnect(); } });
-}, { threshold: 0.3 });
-document.querySelectorAll('[data-count]').forEach(el => counterObs.observe(el));
+draw();
 
-// ========== MARQUEE ==========
-const marqueeTrack = document.getElementById('marqueeTrack');
-if (marqueeTrack) {
-  const items = ['⚡ 350+ ENGINEERS', '❄️ 18+ COUNTRIES', '⚡ 99.8% SLA', '❄️ 72% QA REDUCTION', '⚡ AI SELF-HEALING', '❄️ QUANTUM SCRIPT', '⚡ 100% PLACEMENT', '❄️ 4.9/5 RATINGS'];
-  marqueeTrack.innerHTML = items.map(i => `<div class="marquee-item">${i}</div>`).join('') + items.map(i => `<div class="marquee-item">${i}</div>`).join('');
+// ==================== LOADER ====================
+const LOADER=document.getElementById('LOADER'), LBAR=document.getElementById('LBAR'), LSTAT=document.getElementById('LSTAT'), LPCT=document.getElementById('LPCT');
+let loadP=0, steps=['Initializing quantum systems…','Activating neural core…','Connecting global nodes…','Loading AI engine…','Systems online'];
+const si=setInterval(()=>{loadP=Math.min(100,loadP+Math.random()*2.5+.5); LBAR.style.width=loadP+'%'; LPCT.textContent=Math.floor(loadP); let idx=Math.floor(loadP/25); if(idx<steps.length)LSTAT.textContent=steps[idx]; if(loadP>=100){clearInterval(si); setTimeout(()=>{LOADER.style.opacity='0'; LOADER.style.transform='scale(1.05)'; setTimeout(()=>LOADER.style.display='none',800);},400);}},70);
+
+// ==================== PROGRESS BAR ====================
+const PROG=document.getElementById('PROG');
+window.addEventListener('scroll',()=>{let s=window.scrollY,h=document.documentElement.scrollHeight-window.innerHeight; PROG.style.width=(s/h*100)+'%';});
+
+// ==================== NAV SCROLL ====================
+const NAV=document.getElementById('NAV');
+window.addEventListener('scroll',()=>NAV.classList.toggle('stuck',window.scrollY>80));
+
+// ==================== REVEAL ON SCROLL ====================
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on');}),{threshold:.1});
+document.querySelectorAll('.rv,.rl,.rr').forEach(el=>io.observe(el));
+
+// ==================== COUNTERS ====================
+function animateCount(el){let t=+el.dataset.count,suf=el.dataset.suffix||'',dec=+(el.dataset.dec||0),dur=2200,st=performance.now(); (function f(now){let p=Math.min((now-st)/dur,1),v=t*p; el.textContent=(dec?v.toFixed(dec):Math.floor(v))+suf; if(p<1)requestAnimationFrame(f);})(performance.now());}
+const c_obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){animateCount(e.target);c_obs.unobserve(e.target);}});},{threshold:.5});
+document.querySelectorAll('[data-count]').forEach(el=>c_obs.observe(el));
+
+// ==================== GAUGES ====================
+const g_obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){let pct=+e.target.dataset.pct,circ=2*Math.PI*30,offset=circ-(pct/100*circ); e.target.style.strokeDashoffset=offset; g_obs.unobserve(e.target);}});},{threshold:.5});
+document.querySelectorAll('.gfl').forEach(g=>g_obs.observe(g));
+
+// ==================== TERMINAL (Live) ====================
+const TERM=document.getElementById('TERM');
+const code=[
+  {t:'<span class="cm"># Tech1World AI SDET Engine v4.0</span>'},
+  {t:'<span class="kw">from</span> <span class="fn">healenium</span> <span class="kw">import</span> <span class="cl">SelfHealingDriver</span>'},
+  {t:'<span class="kw">from</span> <span class="fn">t1w_ai</span> <span class="kw">import</span> <span class="cl">TestPredictor</span>'},
+  {t:''},
+  {t:'<span class="kw">@pytest.fixture</span>'},
+  {t:'<span class="kw">def</span> <span class="fn">driver</span>():'},
+  {t:'  <span class="kw">return</span> SelfHealingDriver.create(<span class="st">"chrome"</span>, ai_threshold=<span class="nm">0.85</span>)'},
+  {t:''},
+  {t:'<span class="kw">def</span> <span class="fn">test_checkout</span>(driver):'},
+  {t:'  predictor = TestPredictor(model=<span class="st">"t1w-bert-v3"</span>)'},
+  {t:'  risk = predictor.predict_failure(<span class="st">"checkout"</span>)'},
+  {t:'  <span class="kw">assert</span> risk < <span class="nm">0.15</span>'},
+  {t:'  driver.get(<span class="st">"https://app.example.com"</span>)'},
+  {t:'  elem = driver.find_element(<span class="st">"#pay-btn"</span>)'},
+  {t:'  elem.click()'},
+  {t:'  <span class="kw">assert</span> <span class="st">"confirmed"</span> <span class="kw">in</span> driver.title'},
+  {t:'  <span class="cm">  # ✓ PASS — 342ms</span>'},
+];
+let tIdx=0;
+function addTermLine(){
+  if(!TERM)return;
+  const l=document.createElement('div');l.className='tl';l.innerHTML=code[tIdx%code.length].t||'&nbsp;';
+  TERM.appendChild(l);tIdx++;
+  if(TERM.children>18)TERM.removeChild(TERM.firstChild);
+  setTimeout(addTermLine,tIdx%code.length===0?1400:200);
 }
+addTermLine();
 
-// ========== HERO GLOBE ==========
-const heroGlobe = document.getElementById('heroGlobeCanvas');
-if (heroGlobe) {
-  const ctx = heroGlobe.getContext('2d');
-  let angle = 0;
-  const points = [];
-  for (let i = 0; i < 80; i++) {
-    points.push({ lat: (Math.random() - 0.5) * Math.PI, lng: Math.random() * Math.PI * 2 });
-  }
-  function drawHeroGlobe() {
-    ctx.clearRect(0, 0, 500, 500);
-    const cx = 250, cy = 250, r = 200;
-    angle += 0.005;
-    ctx.strokeStyle = 'rgba(176,224,255,0.2)';
-    ctx.lineWidth = 0.5;
-    for (let i = 0; i <= 8; i++) {
-      const lat = (i/8 - 0.5) * Math.PI;
-      const ry = cy - r * Math.sin(lat);
-      const rx = r * Math.cos(lat);
-      ctx.beginPath(); ctx.ellipse(cx, ry, rx, rx*0.2, 0, 0, Math.PI*2); ctx.stroke();
-    }
-    ctx.fillStyle = '#b0e0ff';
-    points.forEach(p => {
-      const x = cx + r * Math.cos(p.lat) * Math.cos(p.lng + angle);
-      const y = cy - r * Math.sin(p.lat);
-      if (Math.cos(p.lat) * Math.cos(p.lng + angle) > -0.2) {
-        ctx.beginPath(); ctx.arc(x, y, 2, 0, Math.PI*2); ctx.fill();
-      }
-    });
-    requestAnimationFrame(drawHeroGlobe);
-  }
-  drawHeroGlobe();
+// ==================== TEST RUNNER (Live) ====================
+const testNames=['test_login_valid','test_checkout_flow','test_api_contract','test_mobile_android','test_perf_load','test_a11y','test_security','test_db_transaction','test_ui_regression','test_error_boundary','test_notifications','test_payment_stripe','test_auth_jwt','test_csv_export','test_admin_role'];
+const rfill=document.getElementById('RFILL'), rtests=document.getElementById('RTESTS'), rstat=document.getElementById('RSTAT'), rsp=document.getElementById('RSP'), rsf=document.getElementById('RSF'), rss=document.getElementById('RSS');
+let rtIdx=0,rp=0,rf=0,rsk=0;
+function runTest(){
+  if(!rtests)return;
+  if(rtIdx>=testNames.length){rtIdx=0;rp=0;rf=0;rsk=0;rtests.innerHTML='';rfill.style.width='0%';}
+  const r=Math.random(),status=r>.88?'pass':r>.94?'fail':'skip';
+  if(status==='pass')rp++; else if(status==='fail')rf++; else rsk++;
+  rfill.style.width=((rtIdx+1)/testNames.length*100)+'%';
+  rstat.textContent=`● ${rtIdx+1}/${testNames.length}`;
+  rsp.textContent=`PASS: ${rp}`; rsf.textContent=`FAIL: ${rf}`; rss.textContent=`SKIP: ${rsk}`;
+  const item=document.createElement('div');item.className='rt';
+  item.innerHTML=`<span class="${status==='pass'?'rtp':status==='fail'?'rtf':'rts'}">${status==='pass'?'✓':status==='fail'?'✗':'○'}</span><span class="rtn">${testNames[rtIdx]}</span><span class="rtm">${(Math.random()*400+60).toFixed(0)}ms</span>`;
+  rtests.appendChild(item);
+  if(rtests.children>8)rtests.removeChild(rtests.firstChild);
+  rtIdx++;setTimeout(runTest,280);
 }
+runTest();
 
-// ========== 3D GLOBE ==========
-const container = document.getElementById('globeContainer');
-if (container && typeof THREE !== 'undefined') {
-  const canvas = document.getElementById('globeCanvas');
-  const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x0a1428);
-  const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
-  camera.position.set(0, 0, 3.5);
-  const renderer = new THREE.WebGLRenderer({ canvas, alpha: false, antialias: true });
-  renderer.setSize(container.clientWidth, container.clientHeight);
-  renderer.setPixelRatio(window.devicePixelRatio);
-
-  const geo = new THREE.SphereGeometry(1.2, 64, 32);
-  const mat = new THREE.MeshPhongMaterial({ color: 0x8bb9d1, emissive: 0x1a2a40, wireframe: true, transparent: true, opacity: 0.3 });
-  const sphere = new THREE.Mesh(geo, mat);
-  scene.add(sphere);
-
-  const coreGeo = new THREE.SphereGeometry(0.3, 32, 16);
-  const coreMat = new THREE.MeshBasicMaterial({ color: 0xb0e0ff, transparent: true, opacity: 0.2 });
-  const core = new THREE.Mesh(coreGeo, coreMat);
-  sphere.add(core);
-
-  const particleGeo = new THREE.BufferGeometry();
-  const particleCount = 800;
-  const positions = new Float32Array(particleCount * 3);
-  for (let i = 0; i < particleCount; i++) {
-    const r = 1.5 + Math.random() * 0.5;
-    const theta = Math.random() * Math.PI * 2;
-    const phi = Math.acos(2 * Math.random() - 1);
-    positions[i*3] = r * Math.sin(phi) * Math.cos(theta);
-    positions[i*3+1] = r * Math.sin(phi) * Math.sin(theta);
-    positions[i*3+2] = r * Math.cos(phi);
-  }
-  particleGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-  const particleMat = new THREE.PointsMaterial({ color: 0xb0e0ff, size: 0.03, transparent: true, blending: THREE.AdditiveBlending });
-  const particles = new THREE.Points(particleGeo, particleMat);
-  sphere.add(particles);
-
-  const light = new THREE.DirectionalLight(0xffffff, 1); light.position.set(2, 2, 2); scene.add(light);
-  const ambient = new THREE.AmbientLight(0x404060); scene.add(ambient);
-
-  function animate() {
-    sphere.rotation.y += 0.001;
-    particles.rotation.y -= 0.0005;
-    renderer.render(scene, camera);
-    requestAnimationFrame(animate);
-  }
-  animate();
-  window.addEventListener('resize', () => {
-    camera.aspect = container.clientWidth / container.clientHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(container.clientWidth, container.clientHeight);
-  });
+// ==================== GLOBE ====================
+let gAngle=0;
+const gLocs=[{lat:32.7,lng:74.8,main:true},{lat:40.7,lng:-74},{lat:51.5,lng:-.1},{lat:-33.9,lng:151.2},{lat:25.2,lng:55.3},{lat:1.35,lng:103.8},{lat:52.5,lng:13.4},{lat:48.9,lng:2.35},{lat:35.7,lng:139.7},{lat:-23.5,lng:-46.6},{lat:59.3,lng:18.1}];
+function ll2xy(lat,lng,rot,r,cx,cy){const rl=lat*Math.PI/180,rg=(lng+rot)*Math.PI/180; return{x:cx+r*Math.cos(rl)*Math.cos(rg),y:cy-r*Math.sin(rl),vis:r*Math.cos(rl)*Math.sin(rg)>-r*.05};}
+const GC=document.getElementById('GC');
+function drawGlobe(){
+  if(!GC)return; const W=GC.width=GC.clientWidth, H=GC.height=GC.clientHeight, ctx=GC.getContext('2d'), cx=W/2, cy=H/2, r=H*.36;
+  ctx.clearRect(0,0,W,H);
+  const sg=ctx.createRadialGradient(cx,cy,0,cx,cy,r);
+  sg.addColorStop(0,'rgba(7,255,255,.04)');sg.addColorStop(.6,'rgba(7,255,255,.01)');sg.addColorStop(1,'transparent');
+  ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.fillStyle=sg;ctx.fill();
+  ctx.strokeStyle='rgba(255,255,255,.06)';ctx.lineWidth=.5;ctx.stroke();
+  for(let lat=-60;lat<=60;lat+=20){const ry=cy-(lat/90)*r,rx=Math.cos(lat*Math.PI/180)*r; ctx.beginPath(); ctx.ellipse(cx,ry,rx,rx*.07,0,0,Math.PI*2); ctx.strokeStyle='rgba(255,255,255,.03)'; ctx.stroke();}
+  for(let lng=0;lng<360;lng+=30){let pts=[]; for(let la=-80;la<=80;la+=10){let p=ll2xy(la,lng,gAngle,r,cx,cy); if(p.vis)pts.push(p);} if(pts.length>1){ctx.beginPath();ctx.moveTo(pts[0].x,pts[0].y);pts.slice(1).forEach(p=>ctx.lineTo(p.x,p.y)); ctx.strokeStyle='rgba(255,255,255,.02)';ctx.stroke();}}
+  const hq=ll2xy(32.7,74.8,gAngle,r,cx,cy);
+  gLocs.forEach((o,i)=>{let p=ll2xy(o.lat,o.lng,gAngle,r,cx,cy); if(!p.vis)return; if(o.main){ctx.beginPath();ctx.arc(p.x,p.y,18+Math.sin(Date.now()*.002+i)*8,0,2*Math.PI); ctx.strokeStyle='rgba(7,255,255,.15)';ctx.lineWidth=1;ctx.stroke();} ctx.beginPath();ctx.arc(p.x,p.y,o.main?4:2.2,0,2*Math.PI); ctx.fillStyle=o.main?'rgba(7,255,255,.9)':'rgba(255,255,255,.5)';ctx.fill();});
+  gAngle+=.12; requestAnimationFrame(drawGlobe);
 }
+drawGlobe();
 
-// ========== DETAILED PDF BROCHURE DOWNLOAD FUNCTION (NON-CORRUPT) ==========
-function downloadBrochure(type) {
-  const brochures = {
-    automation: `TECH1WORLD SDET PROGRAM - AUTOMATION TESTING
-
-╔══════════════════════════════════════════════════════════╗
-║                6-MONTH INTENSIVE PROGRAM                 ║
-║                AUTOMATION TESTING TRACK                  ║
-╚══════════════════════════════════════════════════════════╝
-
-DURATION: 6 Months (Full-time / Part-time options available)
-
-CURRICULUM OVERVIEW:
-────────────────────────────────────────────────────────────
-MODULE 1: Fundamentals (Weeks 1-4)
-  • Software Testing Life Cycle
-  • Test Case Design Techniques
-  • Bug Life Cycle & Reporting
-  • Agile & Scrum Methodologies
-
-MODULE 2: Core Automation (Weeks 5-12)
-  • Selenium WebDriver (Java/Python)
-  • WebDriver Architecture & Commands
-  • Locators, Waits, Page Object Model
-  • TestNG & JUnit Frameworks
-  • Data-Driven Testing
-  • Cross-Browser Testing
-
-MODULE 3: Advanced Frameworks (Weeks 13-18)
-  • Cypress Framework
-  • Playwright Framework
-  • BDD with Cucumber
-  • Behavior-Driven Development
-  • Gherkin Language
-
-MODULE 4: Mobile Automation (Weeks 19-22)
-  • Appium Setup & Configuration
-  • Mobile Gestures & Actions
-  • Hybrid App Testing
-  • Real Device Cloud Integration
-
-MODULE 5: CI/CD & Tools (Weeks 23-24)
-  • Jenkins Pipeline Setup
-  • Docker Containerization
-  • Git Version Control
-  • Maven/Gradle Build Tools
-
-CAPSTONE PROJECTS:
-────────────────────────────────────────────────────────────
-1. E-Commerce Platform Automation
-2. Banking Application Suite
-3. Healthcare Portal Testing
-4. API Test Framework Development
-5. Mobile App Automation Suite
-
-TECHNOLOGIES COVERED:
-────────────────────────────────────────────────────────────
-✓ Selenium WebDriver   ✓ Cypress            ✓ Playwright
-✓ Appium               ✓ TestNG             ✓ Cucumber
-✓ Jenkins              ✓ Docker             ✓ Git
-✓ Java/Python          ✓ Maven/Gradle       ✓ Allure Reports
-
-PLACEMENT ASSISTANCE:
-────────────────────────────────────────────────────────────
-• Resume & Portfolio Building
-• Mock Interview Sessions
-• 1:1 Mentorship with Industry Experts
-• Job Referral Program
-• 100% Placement Guarantee
-
-CERTIFICATION:
-────────────────────────────────────────────────────────────
-Upon successful completion, participants receive:
-• Tech1World Certified Automation Engineer
-• Project Completion Certificates (5 Projects)
-• Industry-Recognized Badges
-
-CONTACT INFORMATION:
-────────────────────────────────────────────────────────────
-📧 Email: hr@tech1world.com
-📞 Phone: +91-191-XXX-XXXX
-🌐 Website: www.tech1world.com
-
-────────────────────────────────────────────────────────────
-© 2026 Tech1World. All rights reserved.
-Version: 1.0 | Last Updated: March 2026`,
-
-    manual: `TECH1WORLD SDET PROGRAM - MANUAL TESTING
-
-╔══════════════════════════════════════════════════════════╗
-║                3-MONTH FOUNDATION PROGRAM                ║
-║                  MANUAL TESTING TRACK                     ║
-╚══════════════════════════════════════════════════════════╝
-
-DURATION: 3 Months (Full-time)
-
-CURRICULUM OVERVIEW:
-────────────────────────────────────────────────────────────
-MODULE 1: Testing Fundamentals (Weeks 1-3)
-  • What is Software Testing?
-  • Testing Principles & Best Practices
-  • Verification vs Validation
-  • Quality Assurance vs Quality Control
-
-MODULE 2: Test Design Techniques (Weeks 4-6)
-  • Black Box Testing Techniques
-    - Equivalence Partitioning
-    - Boundary Value Analysis
-    - Decision Table Testing
-    - State Transition Testing
-  • White Box Testing Basics
-  • Experience-Based Techniques
-
-MODULE 3: Test Management (Weeks 7-9)
-  • JIRA: Project Management & Bug Tracking
-    - Creating Issues
-    - Workflows & Transitions
-    - Dashboards & Reports
-  • TestRail: Test Case Management
-    - Test Suites & Cases
-    - Test Runs & Results
-    - Metrics & Reports
-
-MODULE 4: Agile & Exploratory (Weeks 10-12)
-  • Agile Testing Methodologies
-  • Scrum Ceremonies for Testers
-  • Exploratory Testing Sessions
-  • Session-Based Test Management
-  • Bug Advocacy & Reporting
-
-LIVE PROJECTS:
-────────────────────────────────────────────────────────────
-1. E-Commerce Application Testing
-2. CRM System Validation
-3. Mobile App Exploratory Testing
-
-TECHNOLOGIES COVERED:
-────────────────────────────────────────────────────────────
-✓ JIRA                  ✓ TestRail            ✓ Confluence
-✓ Agile/Scrum           ✓ Bug Tracking        ✓ Test Documentation
-
-PLACEMENT ASSISTANCE:
-────────────────────────────────────────────────────────────
-• Interview Preparation
-• Resume Building Workshop
-• Mock Interviews
-• Job Placement Support
-• 100% Assistance Guarantee
-
-CERTIFICATION:
-────────────────────────────────────────────────────────────
-• Tech1World Certified Manual Tester
-• Project Completion Certificates
-
-CONTACT INFORMATION:
-────────────────────────────────────────────────────────────
-📧 Email: hr@tech1world.com
-📞 Phone: +91-191-XXX-XXXX
-🌐 Website: www.tech1world.com
-
-────────────────────────────────────────────────────────────
-© 2026 Tech1World. All rights reserved.
-Version: 1.0 | Last Updated: March 2026`,
-
-    api: `TECH1WORLD SDET PROGRAM - API TESTING
-
-╔══════════════════════════════════════════════════════════╗
-║                4-MONTH SPECIALIZED PROGRAM               ║
-║                   API TESTING TRACK                       ║
-╚══════════════════════════════════════════════════════════╝
-
-DURATION: 4 Months (Full-time)
-
-CURRICULUM OVERVIEW:
-────────────────────────────────────────────────────────────
-MODULE 1: API Fundamentals (Weeks 1-3)
-  • What are APIs?
-  • REST Architecture
-  • HTTP Methods (GET, POST, PUT, DELETE)
-  • Status Codes & Headers
-  • JSON & XML Data Formats
-
-MODULE 2: Postman & Newman (Weeks 4-7)
-  • Postman Setup & Environment
-  • Creating Collections
-  • Variables & Environments
-  • Pre-request & Test Scripts
-  • Newman CLI & Reporting
-  • CI/CD Integration
-
-MODULE 3: REST Assured (Weeks 8-11)
-  • Java Setup & Dependencies
-  • REST Assured Basics
-  • Given-When-Then Syntax
-  • Validating Responses
-  • Authentication Methods
-  • Serialization/Deserialization
-
-MODULE 4: Advanced Topics (Weeks 12-14)
-  • GraphQL Testing
-  • Contract Testing with Pact
-  • Mocking with WireMock
-  • API Security Testing
-  • Performance Testing APIs
-  • OAuth & JWT Validation
-
-MODULE 5: Real-World Projects (Weeks 15-16)
-  • Payment Gateway API Testing
-  • Social Media API Integration
-  • E-Commerce API Suite
-
-TECHNOLOGIES COVERED:
-────────────────────────────────────────────────────────────
-✓ Postman              ✓ Newman              ✓ REST Assured
-✓ GraphQL              ✓ Pact                ✓ WireMock
-✓ Java                 ✓ Maven               ✓ Jenkins
-
-PLACEMENT ASSISTANCE:
-────────────────────────────────────────────────────────────
-• Portfolio Development
-• Technical Interview Prep
-• 1:1 Mentorship
-• Job Referral Network
-• 100% Placement Assistance
-
-CERTIFICATION:
-────────────────────────────────────────────────────────────
-• Tech1World Certified API Tester
-• Project Completion Certificates
-
-CONTACT INFORMATION:
-────────────────────────────────────────────────────────────
-📧 Email: hr@tech1world.com
-📞 Phone: +91-191-XXX-XXXX
-🌐 Website: www.tech1world.com
-
-────────────────────────────────────────────────────────────
-© 2026 Tech1World. All rights reserved.
-Version: 1.0 | Last Updated: March 2026`,
-
-    live: `TECH1WORLD SDET PROGRAM - LIVE PROJECTS
-
-╔══════════════════════════════════════════════════════════╗
-║                5-MONTH PRODUCTION PROGRAM                ║
-║                  LIVE PROJECTS TRACK                      ║
-╚══════════════════════════════════════════════════════════╝
-
-DURATION: 5 Months (Full-time)
-
-PROJECT 1: E-COMMERCE PLATFORM (Months 1-2)
-────────────────────────────────────────────────────────────
-Technologies:
-  • Frontend: React.js, Redux
-  • Backend: Node.js, Express
-  • Database: MongoDB
-  • Testing: Cypress, Jest
-
-Testing Scope:
-  • User Authentication Flow
-  • Product Catalog & Search
-  • Shopping Cart Functionality
-  • Payment Gateway Integration
-  • Order Management System
-  • Admin Dashboard
-
-Deliverables:
-  • Complete Test Strategy Document
-  • Automated Test Suite (Cypress)
-  • Performance Test Report
-  • Bug Tracking Dashboard
-
-PROJECT 2: FINTECH DASHBOARD (Months 2-4)
-────────────────────────────────────────────────────────────
-Technologies:
-  • Frontend: Angular, TypeScript
-  • Backend: Spring Boot, Java
-  • Database: PostgreSQL
-  • Testing: Selenium, REST Assured
-
-Testing Scope:
-  • User & Role Management
-  • Transaction Processing
-  • Report Generation
-  • Data Visualization
-  • Security & Compliance
-  • API Integration Testing
-
-Deliverables:
-  • API Test Suite (REST Assured)
-  • UI Automation (Selenium)
-  • Security Test Report
-  • CI/CD Pipeline Configuration
-
-PROJECT 3: HEALTHCARE PORTAL (Months 4-5)
-────────────────────────────────────────────────────────────
-Technologies:
-  • Frontend: Vue.js
-  • Backend: Python, Django
-  • Database: MySQL
-  • Testing: Playwright, Pytest
-
-Testing Scope:
-  • Patient Registration
-  • Appointment Scheduling
-  • Electronic Health Records
-  • Prescription Management
-  • HIPAA Compliance Testing
-  • Accessibility Testing
-
-Deliverables:
-  • Cross-Browser Test Suite
-  • Accessibility Compliance Report
-  • Load Test Results
-  • Final Project Presentation
-
-TECHNOLOGIES COVERED:
-────────────────────────────────────────────────────────────
-✓ React/Angular/Vue    ✓ Node.js/Spring/Django
-✓ MongoDB/PostgreSQL   ✓ Cypress/Selenium/Playwright
-✓ Jenkins              ✓ Git/GitHub            ✓ Docker
-✓ JIRA                 ✓ TestRail              ✓ Agile/Scrum
-
-PLACEMENT ASSISTANCE:
-────────────────────────────────────────────────────────────
-• Interview Preparation
-• Portfolio Review
-• Mock Technical Interviews
-• Job Referral Program
-• 100% Placement Guarantee
-
-CERTIFICATION:
-────────────────────────────────────────────────────────────
-• Tech1World Certified Full-Stack QA Engineer
-• Project Completion Certificates (3 Projects)
-• Industry Recognition Badges
-
-CONTACT INFORMATION:
-────────────────────────────────────────────────────────────
-📧 Email: hr@tech1world.com
-📞 Phone: +91-191-XXX-XXXX
-🌐 Website: www.tech1world.com
-
-────────────────────────────────────────────────────────────
-© 2026 Tech1World. All rights reserved.
-Version: 1.0 | Last Updated: March 2026`
-  };
-
-  const content = brochures[type] || brochures.automation;
-  const blob = new Blob([content], { type: 'application/pdf' });
-  const url = window.URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `Tech1World_${type}_program_brochure.pdf`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  window.URL.revokeObjectURL(url);
-  
-  // Visual feedback
-  alert(`✅ Downloading ${type} testing brochure with complete curriculum!`);
-}
-
-// ========== CONTACT FORM ==========
-document.getElementById('contactForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-  document.getElementById('formSuccess').style.display = 'block';
-  setTimeout(() => {
-    this.reset();
-    document.getElementById('formSuccess').style.display = 'none';
-  }, 3000);
-});
-
-// ========== PROGRESS BAR ==========
-const PROG_BAR = document.getElementById('PROGRESS');
-window.addEventListener('scroll', () => {
-  const s = window.scrollY, h = document.documentElement.scrollHeight - window.innerHeight;
-  PROG_BAR.style.width = (s / h * 100) + '%';
-});
-
-// ========== NAV SCROLL ==========
-const NAV = document.getElementById('NAV');
-window.addEventListener('scroll', () => NAV && NAV.classList.toggle('scrolled', window.scrollY > 60));
-
-// ========== CARD MOUSE FOLLOW ==========
-document.querySelectorAll('.card, .internship-card, .review-card').forEach(card => {
-  card.addEventListener('mousemove', e => {
-    const r = card.getBoundingClientRect();
-    const x = ((e.clientX - r.left) / r.width) * 100;
-    const y = ((e.clientY - r.top) / r.height) * 100;
-    card.style.setProperty('--x', x + '%');
-    card.style.setProperty('--y', y + '%');
+// ==================== PROJECT FILTERS ====================
+document.querySelectorAll('.fbt').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.fbt').forEach(b=>b.classList.remove('on'));
+    btn.classList.add('on');
+    let f=btn.dataset.f;
+    document.querySelectorAll('.pj').forEach(pj=>{pj.style.display=(f==='all'||pj.dataset.cat===f)?'flex':'none';});
   });
 });
+
+// ==================== MODAL (stub) ====================
+function openM(id){alert('Modal demo — full details in final version. (ID: '+id+')');}
+function closeM(){document.getElementById('MODAL').classList.remove('open');}
+function scrollS(id){document.getElementById(id).scrollIntoView({behavior:'smooth'});}
+
+// ==================== DOWNLOAD BROCHURE ====================
+function downloadBrochure(type){
+  let txt='';
+  if(type==='automation') txt='TECH1WORLD AUTOMATION TESTING PROGRAM\n\n6 months\nSelenium, Cypress, Playwright, Appium, TestNG, Cucumber, Docker, Jenkins\n5 capstone projects\n100% placement assistance';
+  else if(type==='manual') txt='TECH1WORLD MANUAL TESTING PROGRAM\n\n3 months\nTest case design, JIRA, TestRail, exploratory, agile\n2 live projects\n100% placement assistance';
+  else if(type==='api') txt='TECH1WORLD API TESTING PROGRAM\n\n4 months\nPostman, REST Assured, GraphQL, contract testing, mocking\n3 real-world APIs\n100% placement assistance';
+  else txt='TECH1WORLD LIVE PROJECTS PROGRAM\n\n5 months\nE‑commerce, fintech, healthcare, CI/CD, Git, Jenkins\nproduction deployment\n100% placement assistance';
+  const blob=new Blob([txt],{type:'application/pdf'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=type+'_brochure.pdf'; a.click(); URL.revokeObjectURL(url);
+  alert('✅ Downloading '+type+' brochure (PDF)');
+}
+
+// ==================== CONTACT FORM ====================
+document.getElementById('CF').addEventListener('submit',function(e){
+  e.preventDefault(); document.getElementById('FOK').style.display='block';
+  setTimeout(()=>{this.reset(); document.getElementById('FOK').style.display='none';},3000);
+});
+
+// ==================== MAGNETIC BUTTONS ====================
+document.querySelectorAll('.btn-p,.btn-g,.n-cta').forEach(btn=>{
+  btn.addEventListener('mousemove',e=>{let r=btn.getBoundingClientRect(); btn.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.12}px,${(e.clientY-r.top-r.height/2)*.12}px)`;});
+  btn.addEventListener('mouseleave',()=>btn.style.transform='');
+});
+
+// ==================== TOAST ====================
+function showToast(msg){let t=document.createElement('div');t.className='toast-item';t.textContent=msg; document.getElementById('TOAST').appendChild(t); setTimeout(()=>{t.style.opacity='0'; setTimeout(()=>t.remove(),400);},3500);}
 </script>
 </body>
 </html>
