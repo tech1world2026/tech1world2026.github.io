@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TECH1WORLD · NEBULA PRIME · AI Singularity</title>
+  <title>TECH1WORLD · QUANTUM SINGULARITY · ULTIMATE</title>
   
   <!-- Premium Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@200;300;400;500;600;700&family=General+Sans:wght@200;300;400;500;600;700&family=Staatliches&display=swap" rel="stylesheet">
@@ -14,6 +14,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.module.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   
   <style>
     /* ========== RESET & PREMIUM VARIABLES ========== */
@@ -257,12 +258,24 @@
     .logo {
       position: relative;
       z-index: 2;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
     }
 
     .logo svg {
       width: 60px;
       height: 60px;
       filter: drop-shadow(0 0 30px var(--primary));
+    }
+
+    .logo-text {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .nav-links {
@@ -281,6 +294,7 @@
       transition: color 0.3s;
       position: relative;
       padding: 0.5rem 0;
+      cursor: pointer;
     }
 
     .nav-links a::before {
@@ -888,6 +902,7 @@
       position: relative;
       z-index: 2;
       transition: transform 0.3s;
+      cursor: pointer;
     }
 
     .model-card:hover .model-link {
@@ -1031,7 +1046,7 @@
       font-size: 0.8rem;
       color: var(--text-dim);
       transition: all 0.4s;
-      cursor: default;
+      cursor: pointer;
       border-radius: 30px;
       background: rgba(255, 255, 255, 0.02);
       backdrop-filter: blur(10px);
@@ -1322,11 +1337,80 @@
       transform: translateX(-15px);
       transition: all 0.4s;
       display: inline-block;
+      cursor: pointer;
     }
 
     .service-card:hover .service-link {
       opacity: 1;
       transform: translateX(0);
+    }
+
+    /* ========== REVIEWS SECTION ========== */
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin: 5rem 0;
+    }
+
+    .review-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      padding: 3rem;
+      position: relative;
+      border-radius: 40px;
+      backdrop-filter: blur(20px);
+      transition: all 0.4s;
+    }
+
+    .review-card:hover {
+      transform: translateY(-10px);
+      border-color: var(--primary);
+      box-shadow: 0 30px 60px rgba(0, 255, 255, 0.2);
+    }
+
+    .review-rating {
+      color: var(--tertiary);
+      font-size: 1.2rem;
+      letter-spacing: 0.2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .review-text {
+      color: var(--text-dim);
+      font-size: 0.9rem;
+      line-height: 2;
+      margin-bottom: 2rem;
+      font-style: italic;
+    }
+
+    .review-author {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .review-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+
+    .review-info h4 {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .review-info p {
+      color: var(--text-more-dim);
+      font-size: 0.7rem;
     }
 
     /* ========== PROJECTS ========== */
@@ -1512,10 +1596,73 @@
       letter-spacing: 0.15em;
       transition: transform 0.3s;
       display: inline-block;
+      cursor: pointer;
     }
 
     .career-card:hover .career-link {
       transform: translateX(10px);
+    }
+
+    /* ========== BROCHURE SECTION ========== */
+    .brochure-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      margin: 5rem 0;
+    }
+
+    .brochure-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      padding: 3rem;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      border-radius: 40px;
+      backdrop-filter: blur(20px);
+      transition: all 0.5s;
+      text-align: center;
+    }
+
+    .brochure-card:hover {
+      transform: translateY(-10px);
+      border-color: var(--primary);
+      box-shadow: 0 30px 60px rgba(0, 255, 255, 0.2);
+    }
+
+    .brochure-icon {
+      font-size: 4rem;
+      margin-bottom: 2rem;
+    }
+
+    .brochure-title {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .brochure-desc {
+      color: var(--text-dim);
+      font-size: 0.85rem;
+      line-height: 1.8;
+      margin-bottom: 2rem;
+    }
+
+    .brochure-btn {
+      padding: 0.8rem 2rem;
+      border: 1px solid var(--primary);
+      background: transparent;
+      color: var(--primary);
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      border-radius: 40px;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+
+    .brochure-btn:hover {
+      background: var(--primary);
+      color: black;
     }
 
     /* ========== GLOBE SECTION ========== */
@@ -1582,6 +1729,7 @@
       color: var(--primary);
       font-size: 0.9rem;
       text-decoration: none;
+      cursor: pointer;
     }
 
     /* ========== CONTACT ========== */
@@ -1607,6 +1755,7 @@
       margin-bottom: 0.5rem;
       transition: all 0.4s;
       border-radius: 30px;
+      cursor: pointer;
     }
 
     .info-row:hover {
@@ -1752,6 +1901,7 @@
       letter-spacing: 0.15em;
       text-decoration: none;
       transition: color 0.3s;
+      cursor: pointer;
     }
 
     .footer-links a:hover {
@@ -1902,12 +2052,124 @@
       gap: 1rem;
     }
 
+    /* ========== PDF VIEWER ========== */
+    .pdf-viewer {
+      position: fixed;
+      inset: 0;
+      z-index: 9999999;
+      background: rgba(0, 0, 0, 0.98);
+      backdrop-filter: blur(50px);
+      display: none;
+      flex-direction: column;
+    }
+
+    .pdf-viewer.open {
+      display: flex;
+    }
+
+    .pdf-header {
+      padding: 2rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    .pdf-header h2 {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .pdf-close {
+      width: 50px;
+      height: 50px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      background: transparent;
+      color: var(--text-dim);
+      cursor: pointer;
+      transition: all 0.3s;
+      border-radius: 50%;
+      font-size: 1.2rem;
+    }
+
+    .pdf-close:hover {
+      border-color: var(--secondary);
+      color: var(--secondary);
+    }
+
+    .pdf-body {
+      flex: 1;
+      padding: 2rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .pdf-page {
+      background: white;
+      color: black;
+      padding: 3rem;
+      border-radius: 30px;
+      font-family: Arial, sans-serif;
+      margin-bottom: 2rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .pdf-page h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--primary-dark);
+    }
+
+    .pdf-page h2 {
+      font-size: 1.8rem;
+      margin: 2rem 0 1rem;
+      color: var(--secondary);
+    }
+
+    .pdf-page p {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: #333;
+      margin-bottom: 1rem;
+    }
+
+    .pdf-page ul {
+      margin: 1rem 0 1rem 2rem;
+    }
+
+    .pdf-page li {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: #333;
+    }
+
+    .pdf-download {
+      padding: 1rem 2rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: black;
+      border: none;
+      border-radius: 40px;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      margin-top: 2rem;
+      align-self: center;
+    }
+
     /* ========== RESPONSIVE ========== */
     @media (max-width: 1200px) {
       .hero-grid,
       .two-col,
       .bot-grid,
-      .contact-grid {
+      .contact-grid,
+      .reviews-grid,
+      .brochure-grid {
         grid-template-columns: 1fr;
       }
       .hero-orb {
@@ -1951,7 +2213,9 @@
       .services-grid,
       .proj-grid,
       .careers-grid,
-      .countries-grid {
+      .countries-grid,
+      .reviews-grid,
+      .brochure-grid {
         grid-template-columns: 1fr;
       }
       .pipeline {
@@ -1992,7 +2256,7 @@
         <div class="loader-orb-ring"></div>
       </div>
       <div class="loader-text">TECH1WORLD</div>
-      <div class="loader-sub">NEBULA PRIME · AI SINGULARITY</div>
+      <div class="loader-sub">QUANTUM SINGULARITY · INITIALIZING</div>
       <div class="loader-bar"><div class="loader-fill"></div></div>
       <div class="loader-percentage" id="loader-pct">0%</div>
     </div>
@@ -2013,17 +2277,20 @@
         <circle cx="50" cy="50" r="15" fill="none" stroke="url(#logoGrad)" stroke-width="2" />
         <text x="50" y="55" text-anchor="middle" fill="white" font-family="Arial" font-size="20">T1</text>
       </svg>
+      <div class="logo-text">TECH1WORLD</div>
     </div>
     <ul class="nav-links">
-      <li><a href="#home">Home</a></li>
-      <li><a href="#outsourcing">Outsourcing</a></li>
-      <li><a href="#sdet">SDET</a></li>
-      <li><a href="#services">Services</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#careers">Careers</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><a onclick="scrollToSection('home')">Home</a></li>
+      <li><a onclick="scrollToSection('outsourcing')">Outsourcing</a></li>
+      <li><a onclick="scrollToSection('sdet')">SDET</a></li>
+      <li><a onclick="scrollToSection('services')">Services</a></li>
+      <li><a onclick="scrollToSection('reviews')">Reviews</a></li>
+      <li><a onclick="scrollToSection('projects')">Projects</a></li>
+      <li><a onclick="scrollToSection('careers')">Careers</a></li>
+      <li><a onclick="scrollToSection('brochures')">Brochures</a></li>
+      <li><a onclick="scrollToSection('contact')">Contact</a></li>
     </ul>
-    <button class="nav-cta" onclick="document.querySelector('#contact').scrollIntoView({behavior:'smooth'})">Get Proposal →</button>
+    <button class="nav-cta" onclick="scrollToSection('contact')">Get Proposal →</button>
   </nav>
 
   <!-- HERO SECTION -->
@@ -2032,7 +2299,7 @@
       <div class="hero-left">
         <div class="hero-tag">
           <div class="hero-dot"></div>
-          <div class="hero-tag-text">NEBULA PRIME · AI SINGULARITY</div>
+          <div class="hero-tag-text">QUANTUM SINGULARITY · EST. 2020</div>
         </div>
         <h1 class="hero-title">
           <span class="hero-title-line"><span class="hero-title-word">PRECISION</span></span>
@@ -2041,8 +2308,8 @@
         </h1>
         <p class="hero-desc">Tech1World is the elite SDET and IT outsourcing partner for enterprises that demand exactness — AI-driven test automation, dedicated engineering teams, and mission-critical delivery across 18+ countries.</p>
         <div class="hero-actions">
-          <button class="btn-primary" onclick="document.querySelector('#outsourcing').scrollIntoView({behavior:'smooth'})">Explore Outsourcing →</button>
-          <button class="btn-secondary" onclick="document.querySelector('#sdet').scrollIntoView({behavior:'smooth'})">SDET Capabilities</button>
+          <button class="btn-primary" onclick="scrollToSection('outsourcing')">Explore Outsourcing →</button>
+          <button class="btn-secondary" onclick="scrollToSection('sdet')">SDET Capabilities</button>
         </div>
         <div class="hero-stats">
           <div class="stat-box"><div class="stat-number">350+</div><div class="stat-label">Engineers</div></div>
@@ -2060,7 +2327,7 @@
           <div class="orb-text">
             <div class="line1">TECH</div>
             <div class="line2">1WORLD</div>
-            <div class="line3">NEBULA PRIME</div>
+            <div class="line3">QUANTUM CORE</div>
           </div>
         </div>
       </div>
@@ -2102,7 +2369,7 @@
         <p class="desc-text">Tech1World blends onshore leadership with offshore engineering excellence across 18+ countries — four delivery structures engineered for different stages of business growth, from rapid staff augmentation to full Build-Operate-Transfer capability centers.</p>
         <p class="desc-text">Every engagement includes SLA guarantees, dedicated account management, real-time delivery dashboards, and 350+ pre-vetted engineers ready to deploy in 48 hours.</p>
         <div style="display:flex;gap:1rem;margin-top:2rem">
-          <button class="btn-primary" onclick="document.querySelector('#contact').scrollIntoView({behavior:'smooth'})">Start Outsourcing →</button>
+          <button class="btn-primary" onclick="scrollToSection('contact')">Start Outsourcing →</button>
           <button class="btn-secondary" onclick="openModal('compare')">Compare Models</button>
         </div>
       </div>
@@ -2192,15 +2459,24 @@
     <!-- Countries -->
     <div class="section-label" style="margin-top:5rem"><div class="label-line"></div><div class="label-text">Global Presence · 18+ Countries</div></div>
     <div class="countries-grid">
-      <div class="country-chip">🇮🇳 India</div><div class="country-chip">🇺🇸 USA</div>
-      <div class="country-chip">🇬🇧 UK</div><div class="country-chip">🇦🇺 Australia</div>
-      <div class="country-chip">🇦🇪 UAE</div><div class="country-chip">🇸🇬 Singapore</div>
-      <div class="country-chip">🇩🇪 Germany</div><div class="country-chip">🇫🇷 France</div>
-      <div class="country-chip">🇨🇦 Canada</div><div class="country-chip">🇯🇵 Japan</div>
-      <div class="country-chip">🇳🇱 Netherlands</div><div class="country-chip">🇸🇦 Saudi Arabia</div>
-      <div class="country-chip">🇿🇦 South Africa</div><div class="country-chip">🇧🇷 Brazil</div>
-      <div class="country-chip">🇲🇾 Malaysia</div><div class="country-chip">🇳🇿 New Zealand</div>
-      <div class="country-chip">🇸🇪 Sweden</div><div class="country-chip">🇧🇭 Bahrain</div>
+      <div class="country-chip" onclick="openCountryModal('India')">🇮🇳 India</div>
+      <div class="country-chip" onclick="openCountryModal('USA')">🇺🇸 USA</div>
+      <div class="country-chip" onclick="openCountryModal('UK')">🇬🇧 UK</div>
+      <div class="country-chip" onclick="openCountryModal('Australia')">🇦🇺 Australia</div>
+      <div class="country-chip" onclick="openCountryModal('UAE')">🇦🇪 UAE</div>
+      <div class="country-chip" onclick="openCountryModal('Singapore')">🇸🇬 Singapore</div>
+      <div class="country-chip" onclick="openCountryModal('Germany')">🇩🇪 Germany</div>
+      <div class="country-chip" onclick="openCountryModal('France')">🇫🇷 France</div>
+      <div class="country-chip" onclick="openCountryModal('Canada')">🇨🇦 Canada</div>
+      <div class="country-chip" onclick="openCountryModal('Japan')">🇯🇵 Japan</div>
+      <div class="country-chip" onclick="openCountryModal('Netherlands')">🇳🇱 Netherlands</div>
+      <div class="country-chip" onclick="openCountryModal('Saudi')">🇸🇦 Saudi Arabia</div>
+      <div class="country-chip" onclick="openCountryModal('SouthAfrica')">🇿🇦 South Africa</div>
+      <div class="country-chip" onclick="openCountryModal('Brazil')">🇧🇷 Brazil</div>
+      <div class="country-chip" onclick="openCountryModal('Malaysia')">🇲🇾 Malaysia</div>
+      <div class="country-chip" onclick="openCountryModal('NewZealand')">🇳🇿 New Zealand</div>
+      <div class="country-chip" onclick="openCountryModal('Sweden')">🇸🇪 Sweden</div>
+      <div class="country-chip" onclick="openCountryModal('Bahrain')">🇧🇭 Bahrain</div>
     </div>
   </section>
 
@@ -2211,18 +2487,18 @@
       <h2 class="section-title">NEXT-GEN<br><span class="title-accent">SDET</span><br>INTELLIGENCE</h2>
       <div>
         <p class="desc-text">Tech1World's SDET practice engineers intelligent quality systems that learn, heal, predict, and prevent defects before they reach production. Web, mobile, API, performance, security, accessibility — all AI-augmented, all automated, all real-time.</p>
-        <div style="margin-top:2rem"><button class="btn-primary" onclick="document.querySelector('#contact').scrollIntoView({behavior:'smooth'})">Build Your Suite →</button></div>
+        <div style="margin-top:2rem"><button class="btn-primary" onclick="scrollToSection('contact')">Build Your Suite →</button></div>
       </div>
     </div>
 
     <!-- Capabilities -->
     <div class="caps-grid">
-      <div class="cap-card"><div class="cap-number">01</div><div class="cap-icon">🤖</div><div class="cap-title">AI Self-Healing Tests</div><div class="cap-desc">ML-powered frameworks auto-repair broken selectors, predict flaky tests, generate cases from specs.</div><div class="cap-chips"><span class="chip">Playwright</span><span class="chip">Healenium</span><span class="chip">Python</span><span class="chip">scikit-learn</span></div></div>
-      <div class="cap-card"><div class="cap-number">02</div><div class="cap-icon">📱</div><div class="cap-title">Mobile & Cross-Platform</div><div class="cap-desc">Native iOS/Android + hybrid. Appium, XCUITest, Espresso, BrowserStack real device farms with 1000+ devices.</div><div class="cap-chips"><span class="chip">Appium</span><span class="chip">XCUITest</span><span class="chip">Espresso</span><span class="chip">BrowserStack</span></div></div>
-      <div class="cap-card"><div class="cap-number">03</div><div class="cap-icon">⚡</div><div class="cap-title">Performance & Load</div><div class="cap-desc">k6, JMeter, Locust — baseline, stress, spike, endurance testing with CI/CD quality gates on every merge.</div><div class="cap-chips"><span class="chip">k6</span><span class="chip">JMeter</span><span class="chip">Grafana</span><span class="chip">Datadog</span></div></div>
-      <div class="cap-card"><div class="cap-number">04</div><div class="cap-icon">🛡️</div><div class="cap-title">Security SDET</div><div class="cap-desc">DAST/SAST integrated pipelines. OWASP ZAP, Burp Suite, SonarQube, Snyk. HIPAA, PCI-DSS, SOC2 automation.</div><div class="cap-chips"><span class="chip">OWASP ZAP</span><span class="chip">Snyk</span><span class="chip">SonarQube</span><span class="chip">Checkmarx</span></div></div>
-      <div class="cap-card"><div class="cap-number">05</div><div class="cap-icon">🔗</div><div class="cap-title">API & Contract Testing</div><div class="cap-desc">REST/GraphQL/gRPC contract testing with Pact, Postman, RestAssured. Schema validation on every deploy.</div><div class="cap-chips"><span class="chip">Pact</span><span class="chip">Postman</span><span class="chip">RestAssured</span><span class="chip">OpenAPI</span></div></div>
-      <div class="cap-card"><div class="cap-number">06</div><div class="cap-icon">♿</div><div class="cap-title">Accessibility (a11y)</div><div class="cap-desc">WCAG 2.1 AA/AAA automation. axe-core, Lighthouse, NVDA/JAWS screen reader testing. Inclusive by default.</div><div class="cap-chips"><span class="chip">axe-core</span><span class="chip">Lighthouse</span><span class="chip">NVDA</span><span class="chip">WCAG 2.1</span></div></div>
+      <div class="cap-card" onclick="openModal('cap1')"><div class="cap-number">01</div><div class="cap-icon">🤖</div><div class="cap-title">AI Self-Healing Tests</div><div class="cap-desc">ML-powered frameworks auto-repair broken selectors, predict flaky tests, generate cases from specs.</div><div class="cap-chips"><span class="chip">Playwright</span><span class="chip">Healenium</span><span class="chip">Python</span><span class="chip">scikit-learn</span></div></div>
+      <div class="cap-card" onclick="openModal('cap2')"><div class="cap-number">02</div><div class="cap-icon">📱</div><div class="cap-title">Mobile & Cross-Platform</div><div class="cap-desc">Native iOS/Android + hybrid. Appium, XCUITest, Espresso, BrowserStack real device farms with 1000+ devices.</div><div class="cap-chips"><span class="chip">Appium</span><span class="chip">XCUITest</span><span class="chip">Espresso</span><span class="chip">BrowserStack</span></div></div>
+      <div class="cap-card" onclick="openModal('cap3')"><div class="cap-number">03</div><div class="cap-icon">⚡</div><div class="cap-title">Performance & Load</div><div class="cap-desc">k6, JMeter, Locust — baseline, stress, spike, endurance testing with CI/CD quality gates on every merge.</div><div class="cap-chips"><span class="chip">k6</span><span class="chip">JMeter</span><span class="chip">Grafana</span><span class="chip">Datadog</span></div></div>
+      <div class="cap-card" onclick="openModal('cap4')"><div class="cap-number">04</div><div class="cap-icon">🛡️</div><div class="cap-title">Security SDET</div><div class="cap-desc">DAST/SAST integrated pipelines. OWASP ZAP, Burp Suite, SonarQube, Snyk. HIPAA, PCI-DSS, SOC2 automation.</div><div class="cap-chips"><span class="chip">OWASP ZAP</span><span class="chip">Snyk</span><span class="chip">SonarQube</span><span class="chip">Checkmarx</span></div></div>
+      <div class="cap-card" onclick="openModal('cap5')"><div class="cap-number">05</div><div class="cap-icon">🔗</div><div class="cap-title">API & Contract Testing</div><div class="cap-desc">REST/GraphQL/gRPC contract testing with Pact, Postman, RestAssured. Schema validation on every deploy.</div><div class="cap-chips"><span class="chip">Pact</span><span class="chip">Postman</span><span class="chip">RestAssured</span><span class="chip">OpenAPI</span></div></div>
+      <div class="cap-card" onclick="openModal('cap6')"><div class="cap-number">06</div><div class="cap-icon">♿</div><div class="cap-title">Accessibility (a11y)</div><div class="cap-desc">WCAG 2.1 AA/AAA automation. axe-core, Lighthouse, NVDA/JAWS screen reader testing. Inclusive by default.</div><div class="cap-chips"><span class="chip">axe-core</span><span class="chip">Lighthouse</span><span class="chip">NVDA</span><span class="chip">WCAG 2.1</span></div></div>
     </div>
 
     <!-- Gauges -->
@@ -2258,6 +2534,80 @@
     </div>
   </section>
 
+  <!-- REVIEWS SECTION -->
+  <section id="reviews" class="container">
+    <div class="section-label"><div class="label-line"></div><div class="label-text">Client Success Stories</div></div>
+    <h2 class="section-title">TRUSTED BY <span class="title-accent">GLOBAL LEADERS</span></h2>
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="review-rating">★★★★★</div>
+        <div class="review-text">"Tech1World transformed our QA process. Their AI self-healing tests reduced our maintenance time by 80%. The CI/CD integration is seamless and the team is incredibly responsive."</div>
+        <div class="review-author">
+          <div class="review-avatar">MS</div>
+          <div class="review-info">
+            <h4>Michael Scott</h4>
+            <p>CTO · FinTech Startup</p>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-rating">★★★★★</div>
+        <div class="review-text">"The SDET internship program is world-class. Our team hired 5 graduates who are now leading our automation efforts. The curriculum is comprehensive and the placement support is exceptional."</div>
+        <div class="review-author">
+          <div class="review-avatar">JD</div>
+          <div class="review-info">
+            <h4>Jennifer Davis</h4>
+            <p>Engineering Manager · SaaS Co</p>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-rating">★★★★★</div>
+        <div class="review-text">"We've been using Tech1World's dedicated team for 2 years. The quality of engineers, the communication, and the delivery consistency are outstanding. They're an extension of our team."</div>
+        <div class="review-author">
+          <div class="review-avatar">AR</div>
+          <div class="review-info">
+            <h4>Alex Rivera</h4>
+            <p>VP Product · E-commerce</p>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-rating">★★★★★</div>
+        <div class="review-text">"The Build-Operate-Transfer model was perfect for us. Tech1World built our offshore center from scratch and seamlessly transferred operations. 60% cost savings without compromising quality."</div>
+        <div class="review-author">
+          <div class="review-avatar">RW</div>
+          <div class="review-info">
+            <h4>Rachel Wong</h4>
+            <p>COO · Healthcare SaaS</p>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-rating">★★★★★</div>
+        <div class="review-text">"Their API testing program is the most comprehensive I've seen. The hands-on experience with real-world projects prepared our team for production challenges immediately."</div>
+        <div class="review-author">
+          <div class="review-avatar">PK</div>
+          <div class="review-info">
+            <h4>Priya Kapoor</h4>
+            <p>QA Lead · FinTech</p>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-rating">★★★★★</div>
+        <div class="review-text">"The DevOps automation they implemented reduced our deployment time from hours to minutes. The CI/CD pipeline with quality gates caught issues before production every time."</div>
+        <div class="review-author">
+          <div class="review-avatar">TM</div>
+          <div class="review-info">
+            <h4>Tom Miller</h4>
+            <p>CTO · Series A Startup</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- PROJECTS SECTION -->
   <section id="projects" class="container">
     <div class="section-label"><div class="label-line"></div><div class="label-text">Featured Work</div></div>
@@ -2284,10 +2634,42 @@
     <div class="section-label"><div class="label-line"></div><div class="label-text">Careers & Growth</div></div>
     <h2 class="section-title">JOIN THE <span class="title-accent">OBSIDIAN</span></h2>
     <div class="careers-grid">
-      <div class="career-card"><div class="career-badge">OPEN NOW</div><div class="career-title">SDET Internship</div><div class="career-desc">3-month immersive program. Live enterprise test suites — Playwright, Selenium, Appium, CI/CD. Mentored by senior SDETs.</div><span class="career-link">Apply Now →</span></div>
-      <div class="career-card"><div class="career-badge">OPEN NOW</div><div class="career-title">AI/ML Internship</div><div class="career-desc">Work alongside ML engineers on real RAG systems, model fine-tuning, MLOps. Python, LangChain, Hugging Face.</div><span class="career-link">Apply Now →</span></div>
-      <div class="career-card"><div class="career-badge">OPEN NOW</div><div class="career-title">Cloud & DevOps</div><div class="career-desc">Hands-on Kubernetes, Terraform, CI/CD on AWS/GCP. Build real platform engineering alongside senior engineers.</div><span class="career-link">Apply Now →</span></div>
-      <div class="career-card"><div class="career-badge">COMING SOON</div><div class="career-title">Leadership Fasttrack</div><div class="career-desc">For senior engineers. 6-month program: outsourcing operations, account management, technical leadership at scale.</div><span class="career-link">Register Interest →</span></div>
+      <div class="career-card" onclick="openCareerModal('sdet')"><div class="career-badge">OPEN NOW</div><div class="career-title">SDET Internship</div><div class="career-desc">3-month immersive program. Live enterprise test suites — Playwright, Selenium, Appium, CI/CD. Mentored by senior SDETs.</div><span class="career-link">Apply Now →</span></div>
+      <div class="career-card" onclick="openCareerModal('aiml')"><div class="career-badge">OPEN NOW</div><div class="career-title">AI/ML Internship</div><div class="career-desc">Work alongside ML engineers on real RAG systems, model fine-tuning, MLOps. Python, LangChain, Hugging Face.</div><span class="career-link">Apply Now →</span></div>
+      <div class="career-card" onclick="openCareerModal('devops')"><div class="career-badge">OPEN NOW</div><div class="career-title">Cloud & DevOps</div><div class="career-desc">Hands-on Kubernetes, Terraform, CI/CD on AWS/GCP. Build real platform engineering alongside senior engineers.</div><span class="career-link">Apply Now →</span></div>
+      <div class="career-card" onclick="openCareerModal('leadership')"><div class="career-badge">COMING SOON</div><div class="career-title">Leadership Fasttrack</div><div class="career-desc">For senior engineers. 6-month program: outsourcing operations, account management, technical leadership at scale.</div><span class="career-link">Register Interest →</span></div>
+    </div>
+  </section>
+
+  <!-- BROCHURES SECTION -->
+  <section id="brochures" class="container">
+    <div class="section-label"><div class="label-line"></div><div class="label-text">Program Brochures</div></div>
+    <h2 class="section-title">DOWNLOAD <span class="title-accent">PDF</span> BROCHURES</h2>
+    <div class="brochure-grid">
+      <div class="brochure-card" onclick="generatePDF('automation')">
+        <div class="brochure-icon">🤖</div>
+        <div class="brochure-title">Automation Testing</div>
+        <div class="brochure-desc">6-month intensive program with Selenium, Cypress, Playwright, Appium, and 5 capstone projects.</div>
+        <button class="brochure-btn">Download PDF</button>
+      </div>
+      <div class="brochure-card" onclick="generatePDF('manual')">
+        <div class="brochure-icon">🔬</div>
+        <div class="brochure-title">Manual Testing</div>
+        <div class="brochure-desc">3-month foundation program with test case design, JIRA, TestRail, and 2 live projects.</div>
+        <button class="brochure-btn">Download PDF</button>
+      </div>
+      <div class="brochure-card" onclick="generatePDF('api')">
+        <div class="brochure-icon">🔌</div>
+        <div class="brochure-title">API Testing</div>
+        <div class="brochure-desc">4-month specialized program with Postman, REST Assured, GraphQL, and 3 real-world APIs.</div>
+        <button class="brochure-btn">Download PDF</button>
+      </div>
+      <div class="brochure-card" onclick="generatePDF('live')">
+        <div class="brochure-icon">🚀</div>
+        <div class="brochure-title">Live Projects</div>
+        <div class="brochure-desc">5-month production program with e-commerce, fintech, healthcare projects and CI/CD.</div>
+        <button class="brochure-btn">Download PDF</button>
+      </div>
     </div>
   </section>
 
@@ -2301,7 +2683,7 @@
         <div class="globe-card">
           <div class="globe-coord">32.7°N · 74.8°E</div>
           <div class="globe-addr">HQ: Jammu, J&K, India<br>📧 info@tech1world.com · 🌐 tech1world.com</div>
-          <div class="globe-links"><a href="mailto:info@tech1world.com">Email →</a><a href="#contact">Proposal →</a></div>
+          <div class="globe-links"><a onclick="copyEmail()">Email →</a><a onclick="scrollToSection('contact')">Proposal →</a></div>
         </div>
       </div>
     </div>
@@ -2314,10 +2696,10 @@
     <div class="contact-grid">
       <div class="contact-info">
         <p>Whether you need an SDET squad, a complete offshore engineering center, or to modernize your test infrastructure — Tech1World has the team, the tools, and the track record. Expect a response from a senior engineer within 4 hours.</p>
-        <div class="info-row"><span class="info-icon">📧</span> info@tech1world.com</div>
-        <div class="info-row"><span class="info-icon">🌐</span> tech1world.com</div>
-        <div class="info-row"><span class="info-icon">📍</span> Jammu, J&K, India — Global HQ</div>
-        <div class="info-row"><span class="info-icon">📞</span> +91-191-XXX-XXXX</div>
+        <div class="info-row" onclick="copyToClipboard('info@tech1world.com')"><span class="info-icon">📧</span> info@tech1world.com</div>
+        <div class="info-row" onclick="window.open('https://tech1world.com', '_blank')"><span class="info-icon">🌐</span> tech1world.com</div>
+        <div class="info-row" onclick="openMap()"><span class="info-icon">📍</span> Jammu, J&K, India — Global HQ</div>
+        <div class="info-row" onclick="copyToClipboard('+91-191-XXX-XXXX')"><span class="info-icon">📞</span> +91-191-XXX-XXXX</div>
         <div class="office-hours">
           <div class="hours-label">Office Hours</div>
           <div class="hours-time">Mon–Fri: <em>9:00 AM – 7:00 PM IST</em><br>Sat: <em>10:00 AM – 2:00 PM IST</em><br>24×7 ops for enterprise SLAs</div>
@@ -2358,13 +2740,15 @@
   <footer>
     <div class="footer-logo">TECH1WORLD</div>
     <div class="footer-links">
-      <a href="#home">Home</a>
-      <a href="#outsourcing">Outsourcing</a>
-      <a href="#sdet">SDET</a>
-      <a href="#services">Services</a>
-      <a href="#projects">Projects</a>
-      <a href="#careers">Careers</a>
-      <a href="#contact">Contact</a>
+      <a onclick="scrollToSection('home')">Home</a>
+      <a onclick="scrollToSection('outsourcing')">Outsourcing</a>
+      <a onclick="scrollToSection('sdet')">SDET</a>
+      <a onclick="scrollToSection('services')">Services</a>
+      <a onclick="scrollToSection('reviews')">Reviews</a>
+      <a onclick="scrollToSection('projects')">Projects</a>
+      <a onclick="scrollToSection('careers')">Careers</a>
+      <a onclick="scrollToSection('brochures')">Brochures</a>
+      <a onclick="scrollToSection('contact')">Contact</a>
     </div>
     <div class="footer-copy">© 2026 Tech1World. All rights reserved.</div>
   </footer>
@@ -2385,8 +2769,17 @@
     </div>
   </div>
 
+  <!-- PDF VIEWER -->
+  <div class="pdf-viewer" id="pdfViewer">
+    <div class="pdf-header">
+      <h2 id="pdfTitle">Program Brochure</h2>
+      <button class="pdf-close" onclick="closePDFViewer()">✕</button>
+    </div>
+    <div class="pdf-body" id="pdfBody"></div>
+  </div>
+
   <script>
-    // ========== THREE.JS NEBULA BACKGROUND ==========
+    // ========== THREE.JS QUANTUM BACKGROUND ==========
     const container = document.getElementById('canvas-container');
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x000000);
@@ -2509,7 +2902,7 @@
     });
 
     // Hover effect
-    document.querySelectorAll('a, button, .model-card, .cap-card, .service-card, .proj-card, .career-card, .country-chip').forEach(el => {
+    document.querySelectorAll('a, button, .model-card, .cap-card, .service-card, .proj-card, .career-card, .country-chip, .review-card, .brochure-card, .info-row, .nav-links a, .footer-links a').forEach(el => {
       el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
       el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
     });
@@ -2551,6 +2944,14 @@
       loaderPct.textContent = Math.floor(loadProgress) + '%';
     }, 200);
 
+    // ========== SCROLL TO SECTION ==========
+    function scrollToSection(id) {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
     // ========== PROJECT FILTER ==========
     function filterProjects(category, btn) {
       document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -2562,6 +2963,21 @@
           card.style.display = 'none';
         }
       });
+    }
+
+    // ========== COPY FUNCTIONS ==========
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert('Copied to clipboard: ' + text);
+      });
+    }
+
+    function copyEmail() {
+      copyToClipboard('info@tech1world.com');
+    }
+
+    function openMap() {
+      window.open('https://maps.google.com/?q=Jammu+India', '_blank');
     }
 
     // ========== GLOBE CANVAS ==========
@@ -2643,6 +3059,199 @@
       drawGlobe();
     }
 
+    // ========== PDF GENERATION ==========
+    function generatePDF(type) {
+      const pdfData = {
+        automation: {
+          title: 'Automation Testing Program',
+          duration: '6 Months',
+          curriculum: [
+            'Module 1: Software Testing Fundamentals (Weeks 1-4)',
+            '  • SDLC & STLC',
+            '  • Test Case Design Techniques',
+            '  • Agile & Scrum Methodologies',
+            '',
+            'Module 2: Core Automation (Weeks 5-12)',
+            '  • Selenium WebDriver (Java/Python)',
+            '  • Page Object Model',
+            '  • TestNG & JUnit Frameworks',
+            '  • Data-Driven Testing',
+            '',
+            'Module 3: Advanced Frameworks (Weeks 13-18)',
+            '  • Cypress & Playwright',
+            '  • BDD with Cucumber',
+            '  • Appium Mobile Testing',
+            '',
+            'Module 4: CI/CD & Tools (Weeks 19-24)',
+            '  • Jenkins Pipeline Setup',
+            '  • Docker Containerization',
+            '  • Git Version Control',
+            '',
+            'Capstone Projects:',
+            '  1. E-Commerce Platform Automation',
+            '  2. Banking Application Suite',
+            '  3. Healthcare Portal Testing',
+            '  4. API Test Framework Development',
+            '  5. Mobile App Automation Suite'
+          ],
+          technologies: ['Selenium', 'Cypress', 'Playwright', 'Appium', 'TestNG', 'Cucumber', 'Jenkins', 'Docker', 'Git']
+        },
+        manual: {
+          title: 'Manual Testing Program',
+          duration: '3 Months',
+          curriculum: [
+            'Module 1: Testing Fundamentals (Weeks 1-4)',
+            '  • Software Testing Life Cycle',
+            '  • Test Case Design Techniques',
+            '  • Bug Life Cycle & Reporting',
+            '',
+            'Module 2: Test Design (Weeks 5-8)',
+            '  • Black Box Testing Techniques',
+            '  • Boundary Value Analysis',
+            '  • Equivalence Partitioning',
+            '  • Decision Table Testing',
+            '',
+            'Module 3: Test Management (Weeks 9-12)',
+            '  • JIRA Project Management',
+            '  • TestRail Test Management',
+            '  • Agile Methodologies',
+            '  • 2 Live Projects'
+          ],
+          technologies: ['JIRA', 'TestRail', 'Agile', 'Scrum', 'Bug Tracking']
+        },
+        api: {
+          title: 'API Testing Program',
+          duration: '4 Months',
+          curriculum: [
+            'Module 1: API Fundamentals (Weeks 1-4)',
+            '  • REST Architecture',
+            '  • HTTP Methods & Status Codes',
+            '  • JSON & XML Data Formats',
+            '',
+            'Module 2: Postman & Newman (Weeks 5-8)',
+            '  • Collections & Environments',
+            '  • Pre-request & Test Scripts',
+            '  • Newman CLI & Reporting',
+            '  • CI/CD Integration',
+            '',
+            'Module 3: REST Assured (Weeks 9-12)',
+            '  • Java Setup & Dependencies',
+            '  • Given-When-Then Syntax',
+            '  • Authentication Methods',
+            '  • Serialization/Deserialization',
+            '',
+            'Module 4: Advanced Topics (Weeks 13-16)',
+            '  • GraphQL Testing',
+            '  • Contract Testing with Pact',
+            '  • Mocking with WireMock',
+            '  • 3 Real-World Projects'
+          ],
+          technologies: ['Postman', 'Newman', 'REST Assured', 'GraphQL', 'Pact', 'WireMock', 'Java']
+        },
+        live: {
+          title: 'Live Projects Program',
+          duration: '5 Months',
+          curriculum: [
+            'Project 1: E-Commerce Platform (Months 1-2)',
+            '  • React + Node.js + MongoDB',
+            '  • Cypress Automation',
+            '  • Payment Gateway Testing',
+            '',
+            'Project 2: Fintech Dashboard (Months 2-4)',
+            '  • Angular + Spring Boot + PostgreSQL',
+            '  • REST Assured API Suite',
+            '  • Selenium UI Automation',
+            '  • Security Testing',
+            '',
+            'Project 3: Healthcare Portal (Months 4-5)',
+            '  • Vue.js + Django + MySQL',
+            '  • Playwright Automation',
+            '  • HIPAA Compliance Testing',
+            '  • Accessibility Testing'
+          ],
+          technologies: ['React', 'Angular', 'Vue', 'Node.js', 'Spring Boot', 'Django', 'PostgreSQL', 'MongoDB']
+        }
+      };
+
+      const data = pdfData[type];
+      if (!data) return;
+
+      // Show PDF viewer
+      const viewer = document.getElementById('pdfViewer');
+      const title = document.getElementById('pdfTitle');
+      const body = document.getElementById('pdfBody');
+      
+      title.textContent = data.title + ' · ' + data.duration;
+      
+      let html = '';
+      data.curriculum.forEach(line => {
+        if (line.startsWith('Module') || line.startsWith('Project')) {
+          html += `<h2>${line}</h2>`;
+        } else if (line.startsWith('  •')) {
+          html += `<li>${line.substring(4)}</li>`;
+        } else if (line.startsWith('  1.') || line.startsWith('  2.') || line.startsWith('  3.') || line.startsWith('  4.') || line.startsWith('  5.')) {
+          html += `<li>${line.substring(4)}</li>`;
+        } else if (line === '') {
+          html += `<br>`;
+        } else {
+          html += `<p>${line}</p>`;
+        }
+      });
+      
+      html += `<h2>Technologies Covered</h2><ul>`;
+      data.technologies.forEach(tech => {
+        html += `<li>${tech}</li>`;
+      });
+      html += `</ul>`;
+      
+      html += `<h2>Placement Assistance</h2>`;
+      html += `<p>100% Placement Assistance with resume building, mock interviews, 1:1 mentorship, and job referrals through our network of 120+ hiring partners including Google, Microsoft, Amazon, JPMorgan, and more.</p>`;
+      
+      html += `<h2>Contact Information</h2>`;
+      html += `<p>📧 info@tech1world.com<br>🌐 tech1world.com<br>📍 Jammu, J&K, India — Global HQ</p>`;
+      
+      html += `<button class="pdf-download" onclick="downloadPDF('${type}')">Download PDF</button>`;
+      
+      body.innerHTML = html;
+      viewer.classList.add('open');
+    }
+
+    function downloadPDF(type) {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      
+      doc.setFillColor(0, 0, 0);
+      doc.rect(0, 0, 210, 297, 'F');
+      
+      doc.setTextColor(0, 255, 255);
+      doc.setFontSize(24);
+      doc.text(type === 'automation' ? 'Automation Testing Program' : 
+               type === 'manual' ? 'Manual Testing Program' :
+               type === 'api' ? 'API Testing Program' : 'Live Projects Program', 20, 30);
+      
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(12);
+      
+      let y = 50;
+      const lines = document.getElementById('pdfBody').innerText.split('\n');
+      lines.forEach(line => {
+        if (line.trim()) {
+          doc.text(line.trim(), 20, y);
+          y += 8;
+        }
+        if (y > 280) {
+          doc.addPage();
+          y = 20;
+        }
+      });
+      
+      doc.save(`${type}-brochure.pdf`);
+    }
+
+    function closePDFViewer() {
+      document.getElementById('pdfViewer').classList.remove('open');
+    }
+
     // ========== MODAL DATA ==========
     const modalData = {
       dedicated: { cat: 'Outsourcing · Model 01', title: 'Dedicated Teams', stats: [['3–50+','Team Sizes'],['99.8%','SLA'],['48hr','Onboarding']], body: '<p>Fully embedded engineering squads in your processes, culture, and toolchain. Teams assembled from our 350+ pre-vetted engineer bench across all specializations. We handle HR, payroll, and performance management — you build product.</p>', tech: ['Agile/Scrum','Daily Standups','Dedicated PM','99.8% SLA','Monthly Reports'], cta: 'Get a Proposal →' },
@@ -2650,16 +3259,22 @@
       staff: { cat: 'Outsourcing · Model 03', title: 'Staff Augmentation', stats: [['48hr','Deploy SLA'],['350+','On Bench'],['Monthly','Contracts']], body: '<p>On-demand access to 350+ pre-vetted specialists. Scale up during product sprints, down during quiet periods. No long-term commitment, no hiring overhead, no notice periods.</p>', tech: ['SDET/QA','AI/ML','Cloud/DevOps','Full-Stack','Security','Mobile'], cta: 'Get Started →' },
       managed: { cat: 'Outsourcing · Model 04', title: 'Managed Delivery', stats: [['Fixed','Pricing'],['24×7','Escalation'],['99.8%','On-Time']], body: '<p>We own the outcome. Fixed-price, outcome-driven delivery under iron-clad SLAs. From kickoff to production — Tech1World is accountable for the result.</p>', tech: ['Fixed-Price','Milestone Billing','Real-Time Dashboard','SLA Guarantees'], cta: 'Get a Proposal →' },
       compare: { cat: 'Model Comparison', title: 'All Four Models', stats: [['4','Models'],['350+','Engineers'],['48hr','Fastest SLA']], body: '<p><strong>Staff Augmentation:</strong> Immediate, flexible, no commitment.<br><br><strong>Dedicated Teams:</strong> Long-term, deep integration, consistent squad.<br><br><strong>BOT:</strong> Permanent offshore with full IP, 60%+ savings.<br><br><strong>Managed Delivery:</strong> Fixed-price, outcome-guaranteed delivery.</p>', tech: ['Cost','Commitment','Control','IP Ownership','Speed'], cta: 'Talk to an Architect →' },
-      svc1: { cat: 'Service', title: 'AI & ML Engineering', stats: [['50+','Models'],['12+','Industries'],['99%','Uptime']], body: '<p>LLM integration to production MLOps. RAG systems, fine-tuning, computer vision, NLP, demand forecasting, recommendation engines, anomaly detection.</p>', tech: ['PyTorch','TensorFlow','LangChain','MLflow','AWS SageMaker'], cta: 'Build AI Solutions →' },
-      svc2: { cat: 'Service', title: 'Cloud & Platform Engineering', stats: [['500+','Projects'],['40%','Cost Saved'],['99.99%','Uptime']], body: '<p>Multi-cloud strategy, Kubernetes orchestration, Terraform IaC, and GitOps. Cloud migration, platform engineering, FinOps.</p>', tech: ['Kubernetes','Terraform','AWS','GCP','Azure','ArgoCD'], cta: 'Modernize Your Cloud →' },
-      svc3: { cat: 'Service', title: 'Data Engineering', stats: [['$2.4M','Avg Saved'],['10×','Faster'],['Real-Time','Streaming']], body: '<p>Modern data stacks for real-time decision-making. Data lake architecture to streaming analytics.</p>', tech: ['Apache Spark','Kafka','dbt','Snowflake','Databricks'], cta: 'Build Your Data Platform →' },
-      svc4: { cat: 'Service', title: 'DevSecOps & Security', stats: [['100%','Compliance'],['Zero-Trust','Arch'],['24×7','SOC']], body: '<p>Security-first engineering across your SDLC. Zero-trust architecture, automated compliance, shift-left security testing.</p>', tech: ['HashiCorp Vault','OWASP ZAP','Snyk','Falco','Wiz'], cta: 'Secure Your Systems →' },
-      p1: { cat: 'SDET · Fintech', title: 'AI Self-Healing Platform', stats: [['72%','QA Reduction'],['98.4%','Pass'],['$1.2M','Saved/Yr']], body: '<p>ML-powered platform predicts failures before they happen, auto-repairs broken selectors using DOM similarity analysis, and generates new tests for each feature. Zero production escapes in 6 months for a global fintech processing $2B/year.</p>', tech: ['Playwright','Healenium','Python','scikit-learn','GitHub Actions','Allure'], cta: 'Start Similar Project →' },
-      p2: { cat: 'BOT · Singapore', title: 'Offshore Engineering Center', stats: [['45','Engineers'],['62%','Cost Saved'],['4mo','Build']], body: '<p>Built an offshore center in Jammu in 4 months — 45 engineers across AI, full-stack, and QA. After 12 months operation, transferred with complete documentation and zero attrition.</p>', tech: ['BOT Model','Agile Teams','Full IP Transfer'], cta: 'Build Your Center →' },
-      p3: { cat: 'SDET · DevOps', title: '10× Release Velocity', stats: [['10×','Releases'],['99.1%','Coverage'],['24×7','Monitoring']], body: '<p>End-to-end CI/CD automation with SDET gates. Daily releases from fortnightly cycle.</p>', tech: ['ArgoCD','Cypress','k6','Datadog','GitHub Actions'], cta: 'Accelerate Releases →' },
-      p4: { cat: 'AI · Retail', title: 'Demand Forecasting AI', stats: [['34%','Overstock Cut'],['$2.4M','Saved'],['12','Markets']], body: '<p>Transformer-based forecasting across 12 retail markets. Real-time inventory optimization. 34% overstock reduction.</p>', tech: ['PyTorch','MLflow','AWS SageMaker','Kubeflow','FastAPI'], cta: 'Build AI Solution →' },
-      p5: { cat: 'Staff Aug · SaaS', title: '120-Engineer Scale-Up', stats: [['120','Engineers'],['0%','Attrition'],['99%','Sprints']], body: '<p>Tripled engineering headcount in 6 months for Series D SaaS after $80M raise. Zero attrition over 18 months.</p>', tech: ['React','Node.js','Python','Playwright','Kubernetes','AWS'], cta: 'Scale Your Team →' },
-      p6: { cat: 'Security · Healthcare', title: 'Zero-Trust & SDET', stats: [['100%','HIPAA'],['SOC2','Certified'],['0','Breaches']], body: '<p>HIPAA-compliant security testing plus zero-trust infrastructure for healthcare SaaS protecting 2M+ patient records.</p>', tech: ['OWASP ZAP','SonarQube','Snyk','HashiCorp Vault','BeyondCorp'], cta: 'Secure Your Platform →' }
+      cap1: { cat: 'SDET Capability', title: 'AI Self-Healing Tests', stats: [['98%','Coverage'],['72%','Reduction'],['99%','Reliability']], body: '<p>ML-powered frameworks auto-repair broken selectors, predict flaky tests, generate cases from specs. Trained on your codebase, heals without human input.</p>', tech: ['Playwright','Healenium','Python','scikit-learn','TensorFlow'], cta: 'Learn More →' },
+      cap2: { cat: 'SDET Capability', title: 'Mobile & Cross-Platform', stats: [['1000+','Devices'],['98%','Coverage'],['24×7','Testing']], body: '<p>Native iOS/Android + hybrid. Appium, XCUITest, Espresso, BrowserStack real device farms with 1000+ device configurations. Cross-platform testing at scale.</p>', tech: ['Appium','XCUITest','Espresso','BrowserStack','Sauce Labs'], cta: 'Learn More →' },
+      cap3: { cat: 'SDET Capability', title: 'Performance & Load', stats: [['10k+','RPS'],['98%','SLA'],['24×7','Monitoring']], body: '<p>k6, JMeter, Locust — baseline, stress, spike, endurance testing with CI/CD quality gates on every merge. Real-time performance dashboards.</p>', tech: ['k6','JMeter','Locust','Grafana','Datadog','Prometheus'], cta: 'Learn More →' },
+      cap4: { cat: 'SDET Capability', title: 'Security SDET', stats: [['100%','Compliance'],['0','Breaches'],['24×7','Monitoring']], body: '<p>DAST/SAST integrated pipelines. OWASP ZAP, Burp Suite, SonarQube, Snyk. HIPAA, PCI-DSS, SOC2 automation. Zero-trust security testing.</p>', tech: ['OWASP ZAP','Snyk','SonarQube','Checkmarx','Burp Suite'], cta: 'Learn More →' },
+      cap5: { cat: 'SDET Capability', title: 'API & Contract Testing', stats: [['100%','Coverage'],['99.9%','Uptime'],['24×7','Monitoring']], body: '<p>REST/GraphQL/gRPC contract testing with Pact, Postman, RestAssured. Schema validation on every deploy. API security and performance testing.</p>', tech: ['Pact','Postman','RestAssured','OpenAPI','GraphQL','gRPC'], cta: 'Learn More →' },
+      cap6: { cat: 'SDET Capability', title: 'Accessibility (a11y)', stats: [['WCAG 2.1','AA/AAA'],['100%','Compliance'],['24×7','Testing']], body: '<p>WCAG 2.1 AA/AAA automation. axe-core, Lighthouse, NVDA/JAWS screen reader testing. Inclusive by default. Accessibility at every stage.</p>', tech: ['axe-core','Lighthouse','NVDA','JAWS','WCAG 2.1'], cta: 'Learn More →' },
+      svc1: { cat: 'Service', title: 'AI & ML Engineering', stats: [['50+','Models'],['12+','Industries'],['99%','Uptime']], body: '<p>LLM integration to production MLOps. RAG systems, fine-tuning, computer vision, NLP, demand forecasting, recommendation engines, anomaly detection.</p>', tech: ['PyTorch','TensorFlow','LangChain','MLflow','AWS SageMaker','Hugging Face'], cta: 'Build AI Solutions →' },
+      svc2: { cat: 'Service', title: 'Cloud & Platform Engineering', stats: [['500+','Projects'],['40%','Cost Saved'],['99.99%','Uptime']], body: '<p>Multi-cloud strategy, Kubernetes orchestration, Terraform IaC, and GitOps. Cloud migration, platform engineering, FinOps, cost optimization.</p>', tech: ['Kubernetes','Terraform','AWS','GCP','Azure','ArgoCD','Prometheus'], cta: 'Modernize Your Cloud →' },
+      svc3: { cat: 'Service', title: 'Data Engineering', stats: [['$2.4M','Avg Saved'],['10×','Faster'],['Real-Time','Streaming']], body: '<p>Modern data stacks for real-time decision-making. Data lake architecture to streaming analytics. ETL pipelines, data warehousing, BI.</p>', tech: ['Apache Spark','Kafka','dbt','Snowflake','Databricks','Airflow'], cta: 'Build Your Data Platform →' },
+      svc4: { cat: 'Service', title: 'DevSecOps & Security', stats: [['100%','Compliance'],['Zero-Trust','Arch'],['24×7','SOC']], body: '<p>Security-first engineering across your SDLC. Zero-trust architecture, automated compliance, shift-left security testing, threat modeling.</p>', tech: ['HashiCorp Vault','OWASP ZAP','Snyk','Falco','Wiz','Aqua'], cta: 'Secure Your Systems →' },
+      p1: { cat: 'SDET · Fintech', title: 'AI Self-Healing Platform', stats: [['72%','QA Reduction'],['98.4%','Pass Rate'],['$1.2M','Saved/Yr']], body: '<p>ML-powered platform predicts failures before they happen, auto-repairs broken selectors using DOM similarity analysis, and generates new tests for each feature. Zero production escapes in 6 months for a global fintech processing $2B/year.</p>', tech: ['Playwright','Healenium','Python','scikit-learn','GitHub Actions','Allure'], cta: 'Start Similar Project →' },
+      p2: { cat: 'BOT · Singapore', title: '45-Engineer Center', stats: [['45','Engineers'],['62%','Cost Saved'],['4mo','Build']], body: '<p>Built an offshore center in Jammu in 4 months — 45 engineers across AI, full-stack, and QA. After 12 months operation, transferred with complete documentation and zero attrition.</p>', tech: ['BOT Model','Agile Teams','Full IP Transfer','Knowledge Transfer'], cta: 'Build Your Center →' },
+      p3: { cat: 'SDET · DevOps', title: '10× Release Velocity', stats: [['10×','Releases'],['99.1%','Coverage'],['24×7','Monitoring']], body: '<p>End-to-end CI/CD automation with SDET gates. Daily releases from fortnightly cycle. Zero regression escapes. Full observability stack.</p>', tech: ['ArgoCD','Cypress','k6','Datadog','GitHub Actions','Prometheus'], cta: 'Accelerate Releases →' },
+      p4: { cat: 'AI · Retail', title: 'Demand Forecasting AI', stats: [['34%','Overstock Cut'],['$2.4M','Saved'],['12','Markets']], body: '<p>Transformer-based forecasting across 12 retail markets. Real-time inventory optimization. 34% overstock reduction, 99.3% forecast accuracy.</p>', tech: ['PyTorch','MLflow','AWS SageMaker','Kubeflow','FastAPI','Docker'], cta: 'Build AI Solution →' },
+      p5: { cat: 'Staff Aug · SaaS', title: '120-Engineer Scale-Up', stats: [['120','Engineers'],['0%','Attrition'],['99%','Sprints']], body: '<p>Tripled engineering headcount in 6 months for Series D SaaS after $80M raise. Zero attrition over 18 months. 99% of sprints delivered on time.</p>', tech: ['React','Node.js','Python','Playwright','Kubernetes','AWS','Terraform'], cta: 'Scale Your Team →' },
+      p6: { cat: 'Security · Healthcare', title: 'Zero-Trust & SDET', stats: [['100%','HIPAA'],['SOC2','Certified'],['0','Breaches']], body: '<p>HIPAA-compliant security testing plus zero-trust infrastructure for healthcare SaaS protecting 2M+ patient records. SOC2 Type II certified. Zero security breaches in 3 years.</p>', tech: ['OWASP ZAP','SonarQube','Snyk','HashiCorp Vault','BeyondCorp','Falco'], cta: 'Secure Your Platform →' }
     };
 
     function openModal(id) {
@@ -2670,7 +3285,37 @@
       document.getElementById('modalStats').innerHTML = data.stats.map(s => `<div class="modal-stat"><div class="value">${s[0]}</div><div class="label">${s[1]}</div></div>`).join('');
       document.getElementById('modalBody').innerHTML = data.body;
       document.getElementById('modalTech').innerHTML = data.tech.map(t => `<span>${t}</span>`).join('');
-      document.getElementById('modalFoot').innerHTML = `<button class="btn-primary" onclick="closeModal(); document.querySelector('#contact').scrollIntoView({behavior:'smooth'});">${data.cta}</button><button class="btn-secondary" onclick="closeModal()">Close</button>`;
+      document.getElementById('modalFoot').innerHTML = `<button class="btn-primary" onclick="closeModal(); scrollToSection('contact');">${data.cta}</button><button class="btn-secondary" onclick="closeModal()">Close</button>`;
+      document.getElementById('modal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function openCountryModal(country) {
+      document.getElementById('modalCat').textContent = 'Global Presence';
+      document.getElementById('modalTitle').textContent = country;
+      document.getElementById('modalStats').innerHTML = `<div class="modal-stat"><div class="value">📍</div><div class="label">Location</div></div><div class="modal-stat"><div class="value">🌍</div><div class="label">Region</div></div><div class="modal-stat"><div class="value">👥</div><div class="label">Engineers</div></div>`;
+      document.getElementById('modalBody').innerHTML = `<p>Tech1World has a strong presence in ${country} with dedicated delivery centers and local leadership. Our ${country} team consists of top-tier engineering talent working on cutting-edge SDET, AI, and cloud projects for global clients.</p>`;
+      document.getElementById('modalTech').innerHTML = `<span>Local Team</span><span>24×7 Support</span><span>Agile Delivery</span>`;
+      document.getElementById('modalFoot').innerHTML = `<button class="btn-primary" onclick="closeModal(); scrollToSection('contact');">Contact Local Team</button><button class="btn-secondary" onclick="closeModal()">Close</button>`;
+      document.getElementById('modal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function openCareerModal(career) {
+      const careers = {
+        sdet: { title: 'SDET Internship', desc: '3-month immersive program with hands-on experience in Playwright, Cypress, Selenium, and CI/CD pipelines. Work on real enterprise projects mentored by senior SDETs.' },
+        aiml: { title: 'AI/ML Internship', desc: 'Work on cutting-edge AI projects including LLM integration, RAG systems, and MLOps. Learn from experienced ML engineers on real production systems.' },
+        devops: { title: 'Cloud & DevOps Internship', desc: 'Hands-on experience with Kubernetes, Terraform, CI/CD pipelines, and cloud platforms. Build real platform engineering solutions.' },
+        leadership: { title: 'Leadership Fasttrack', desc: '6-month program for senior engineers to learn outsourcing operations, account management, and technical leadership at scale.' }
+      };
+      const data = careers[career];
+      if (!data) return;
+      document.getElementById('modalCat').textContent = 'Careers';
+      document.getElementById('modalTitle').textContent = data.title;
+      document.getElementById('modalStats').innerHTML = `<div class="modal-stat"><div class="value">🚀</div><div class="label">Growth</div></div><div class="modal-stat"><div class="value">👥</div><div class="label">Mentorship</div></div><div class="modal-stat"><div class="value">💼</div><div class="label">Placement</div></div>`;
+      document.getElementById('modalBody').innerHTML = `<p>${data.desc}</p><p>Join our elite team and work on world-class projects with Fortune 500 clients. 100% placement assistance for top performers.</p>`;
+      document.getElementById('modalTech').innerHTML = `<span>Hands-on</span><span>Mentorship</span><span>Real Projects</span><span>Career Growth</span>`;
+      document.getElementById('modalFoot').innerHTML = `<button class="btn-primary" onclick="closeModal(); generatePDF('${career}');">Apply Now</button><button class="btn-secondary" onclick="closeModal()">Close</button>`;
       document.getElementById('modal').classList.add('open');
       document.body.style.overflow = 'hidden';
     }
@@ -2697,13 +3342,17 @@
     });
 
     // ========== SMOOTH SCROLL ==========
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) target.scrollIntoView({ behavior: 'smooth' });
-      });
-    });
+    window.scrollToSection = scrollToSection;
+    window.openModal = openModal;
+    window.closeModal = closeModal;
+    window.filterProjects = filterProjects;
+    window.copyToClipboard = copyToClipboard;
+    window.copyEmail = copyEmail;
+    window.openMap = openMap;
+    window.generatePDF = generatePDF;
+    window.closePDFViewer = closePDFViewer;
+    window.openCountryModal = openCountryModal;
+    window.openCareerModal = openCareerModal;
   </script>
 </body>
 </html>
