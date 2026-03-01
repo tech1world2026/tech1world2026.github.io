@@ -1482,16 +1482,93 @@ function openM(id){alert('Modal demo — full details in final version. (ID: '+i
 function closeM(){document.getElementById('MODAL').classList.remove('open');}
 function scrollS(id){document.getElementById(id).scrollIntoView({behavior:'smooth'});}
 
-// ==================== DOWNLOAD BROCHURE ====================
-function downloadBrochure(type){
-  let txt='';
-  if(type==='automation') txt='TECH1WORLD AUTOMATION TESTING PROGRAM\n\n6 months\nSelenium, Cypress, Playwright, Appium, TestNG, Cucumber, Docker, Jenkins\n5 capstone projects\n100% placement assistance';
-  else if(type==='manual') txt='TECH1WORLD MANUAL TESTING PROGRAM\n\n3 months\nTest case design, JIRA, TestRail, exploratory, agile\n2 live projects\n100% placement assistance';
-  else if(type==='api') txt='TECH1WORLD API TESTING PROGRAM\n\n4 months\nPostman, REST Assured, GraphQL, contract testing, mocking\n3 real-world APIs\n100% placement assistance';
-  else txt='TECH1WORLD LIVE PROJECTS PROGRAM\n\n5 months\nE‑commerce, fintech, healthcare, CI/CD, Git, Jenkins\nproduction deployment\n100% placement assistance';
-  const blob=new Blob([txt],{type:'application/pdf'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=type+'_brochure.pdf'; a.click(); URL.revokeObjectURL(url);
-  alert('✅ Downloading '+type+' brochure (PDF)');
+<!-- PDF LIBRARY (PASTE THIS FIRST) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+
+// ==================== CONTACT FORM ====================
+document.getElementById('CF').addEventListener('submit',function(e){
+  e.preventDefault();
+  document.getElementById('FOK').style.display='block';
+  setTimeout(()=>{
+    this.reset();
+    document.getElementById('FOK').style.display='none';
+  },3000);
+});
+
+// ==================== MAGNETIC BUTTONS ====================
+document.querySelectorAll('.btn-p,.btn-g,.n-cta').forEach(btn=>{
+  btn.addEventListener('mousemove',e=>{
+    let r=btn.getBoundingClientRect();
+    btn.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.12}px,${(e.clientY-r.top-r.height/2)*.12}px)`;
+  });
+  btn.addEventListener('mouseleave',()=>btn.style.transform='');
+});
+
+// ==================== TOAST ====================
+function showToast(msg){
+  let t=document.createElement('div');
+  t.className='toast-item';
+  t.textContent=msg;
+  document.getElementById('TOAST').appendChild(t);
+  setTimeout(()=>{
+    t.style.opacity='0';
+    setTimeout(()=>t.remove(),400);
+  },3500);
 }
+
+
+// ==================== BROCHURE SYSTEM ====================
+
+let selectedProgram = '';
+
+function downloadBrochure(type){
+  selectedProgram = type;
+  document.getElementById('brochureModal').style.display='flex';
+}
+
+document.addEventListener("DOMContentLoaded", function(){
+
+  document.getElementById('brochureForm').addEventListener('submit', function(e){
+    e.preventDefault();
+
+    const name = document.getElementById('userName').value;
+    const email = document.getElementById('userEmail').value;
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    doc.text("TECH1WORLD PROGRAM BROCHURE", 20, 20);
+    doc.text("Name: " + name, 20, 35);
+    doc.text("Email: " + email, 20, 45);
+    doc.text("Program: " + selectedProgram, 20, 55);
+
+    doc.save(selectedProgram + "_brochure.pdf");
+
+    document.getElementById('brochureModal').style.display='none';
+    this.reset();
+  });
+
+});
+
+</script>
+
+
+<!-- BROCHURE MODAL (PASTE AFTER SCRIPT) -->
+<div id="brochureModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.8); z-index:9999; align-items:center; justify-content:center;">
+  <div style="background:#111; padding:30px; width:320px; border-radius:8px;">
+    <h3 style="color:white;">Download Brochure</h3>
+    <form id="brochureForm">
+      <input type="text" id="userName" placeholder="Full Name" required style="width:100%;margin-bottom:10px;padding:8px;">
+      <input type="email" id="userEmail" placeholder="Email" required style="width:100%;margin-bottom:10px;padding:8px;">
+      <button type="submit" style="width:100%;padding:10px;">Download PDF</button>
+    </form>
+  </div>
+</div>
+
+</body>
+</html>
 
 // ==================== CONTACT FORM ====================
 document.getElementById('CF').addEventListener('submit',function(e){
