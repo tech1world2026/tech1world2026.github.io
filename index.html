@@ -807,24 +807,7 @@ nav.sc {
   box-shadow: 0 0 16px rgba(0,255,255,.07) !important;
 }
 
-/* ============================================================
-   ENHANCED LOADER — Compact, centered, premium
-============================================================ */
-#loader {
-  background: radial-gradient(ellipse at 50% 40%, #0a1830 0%, #040c1a 40%, #020810 100%) !important;
-}
-#loader-canvas {
-  width: clamp(120px, 30vw, 180px) !important;
-  height: clamp(120px, 30vw, 180px) !important;
-  margin-bottom: 1rem !important;
-}
-.ld-name {
-  font-size: clamp(1.2rem, 4vw, 2.2rem) !important;
-  letter-spacing: .2em !important;
-  margin-bottom: 1rem !important;
-}
-.ld-bar { width: clamp(160px, 45vw, 260px) !important; }
-.ld-pct { font-size: .55rem !important; letter-spacing: .3em !important; margin-bottom: .5rem !important; }
+/* loader override removed */
 
 /* ============================================================
    GSAP REVEAL — scroll-triggered glass panel slides
@@ -1058,10 +1041,20 @@ body { background: #050e1e !important; }
 
 <!-- LOADER -->
 <div id="loader">
-  <canvas id="lc" width="180" height="180"></canvas>
+  <div class="ld-glass-orb">
+    <canvas id="lc" width="260" height="260"></canvas>
+    <div class="ld-orb-ring r1"></div>
+    <div class="ld-orb-ring r2"></div>
+    <div class="ld-orb-ring r3"></div>
+    <div class="ld-orb-shine"></div>
+  </div>
   <div class="ld-name">TECH1WORLD</div>
-  <div class="ld-pct" id="ld-pct">0%</div>
-  <div class="ld-bar"><div class="ld-fill" id="ld-fill"></div></div>
+  <div class="ld-tagline">ELITE ENGINEERING · EST. 2020</div>
+  <div class="ld-bar-wrap">
+    <div class="ld-bar"><div class="ld-fill" id="ld-fill"></div></div>
+    <div class="ld-pct" id="ld-pct">0%</div>
+  </div>
+  <div class="ld-status" id="ld-status">INITIALIZING SYSTEMS</div>
 </div>
 
 <!-- NAV -->
@@ -1723,75 +1716,225 @@ document.addEventListener('DOMContentLoaded',function(){
 })();
 
 /* ═══════════════════════════════════════════════════════════
-   LOADER — TECH1WORLD NAME ONLY (particle assembly)
+   LOADER — Liquid Glass Sphere 3D Effect
 ═══════════════════════════════════════════════════════════ */
 (function(){
   const cv = document.getElementById('lc');
+  if(!cv) return;
   const ctx = cv.getContext('2d');
   const W=cv.width, H=cv.height;
+  const cx=W/2, cy=H/2, R=88;
   let t=0, done=false;
 
-  /* Spinning rings */
-  function drawRings(tt){
-    const cx=W/2, cy=H/2;
-    const rings=[
-      {r:120,w:1.5,c:'rgba(0,255,255,.6)',spd:.008},
-      {r:96, w:1, c:'rgba(191,0,255,.5)',spd:-.013},
-      {r:72, w:.8,c:'rgba(255,107,0,.45)',spd:.018},
-      {r:52, w:.6,c:'rgba(0,255,136,.5)',spd:-.024},
-      {r:36, w:1.2,c:'rgba(0,255,255,.8)',spd:.03},
-    ];
-    rings.forEach((rg,i)=>{
-      const angle=tt*rg.spd;
-      ctx.strokeStyle=rg.c;
-      ctx.lineWidth=rg.w;
-      /* Dashed ring segments */
-      const segs=6+i*2;
-      for(let s=0;s<segs;s++){
-        const a1=angle+s*(Math.PI*2/segs);
-        const a2=a1+Math.PI/segs*.65;
-        ctx.beginPath();
-        ctx.arc(cx,cy,rg.r,a1,a2);
-        ctx.stroke();
-      }
+  /* Floating particles inside sphere */
+  const particles=[];
+  for(let i=0;i<55;i++){
+    const angle=Math.random()*Math.PI*2;
+    const radius=Math.random()*R*.85;
+    particles.push({
+      angle, radius,
+      z:Math.random()*2-1,
+      orbitSpeed:(Math.random()-.5)*.018,
+      vertSpeed:(Math.random()-.5)*.008,
+      size:Math.random()*2.2+.5,
+      hue:Math.random()*200+160,
+      bright:Math.random()*.7+.3,
+      phase:Math.random()*Math.PI*2
     });
-    /* Center pulse */
-    const pg=ctx.createRadialGradient(cx,cy,0,cx,cy,28);
-    const pulse=Math.sin(tt*.04)*.5+.5;
-    pg.addColorStop(0,`rgba(0,255,255,${.4+pulse*.4})`);
-    pg.addColorStop(.5,`rgba(191,0,255,${.15+pulse*.2})`);
-    pg.addColorStop(1,'transparent');
-    ctx.fillStyle=pg; ctx.beginPath(); ctx.arc(cx,cy,28,0,Math.PI*2); ctx.fill();
-    /* Inner core */
-    ctx.fillStyle=`rgba(255,255,255,${.7+pulse*.3})`;
-    ctx.beginPath(); ctx.arc(cx,cy,4+pulse*3,0,Math.PI*2); ctx.fill();
+  }
+
+  /* Liquid energy arcs */
+  const arcs=[];
+  for(let i=0;i<6;i++){
+    arcs.push({
+      startAngle:Math.random()*Math.PI*2,
+      span:Math.PI*.3+Math.random()*Math.PI*.5,
+      radius:R*(.55+Math.random()*.38),
+      tilt:Math.random()*Math.PI,
+      speed:(.008+Math.random()*.012)*(Math.random()>.5?1:-1),
+      hue:i*55+160,
+      width:.8+Math.random()*1.2
+    });
+  }
+
+  function drawSphere(tt){
+    ctx.clearRect(0,0,W,H);
+
+    /* === Deep glass sphere body === */
+    /* Outer glow aura */
+    const pulse=Math.sin(tt*.025)*.5+.5;
+    const aura=ctx.createRadialGradient(cx,cy,R*.7,cx,cy,R*1.6);
+    aura.addColorStop(0,`rgba(0,255,255,${.08+pulse*.06})`);
+    aura.addColorStop(.5,`rgba(191,0,255,${.04+pulse*.03})`);
+    aura.addColorStop(1,'transparent');
+    ctx.fillStyle=aura;
+    ctx.beginPath(); ctx.arc(cx,cy,R*1.6,0,Math.PI*2); ctx.fill();
+
+    /* Main sphere fill — deep liquid glass */
+    const sphereGrad=ctx.createRadialGradient(cx-R*.3,cy-R*.35,R*.05,cx,cy,R);
+    sphereGrad.addColorStop(0,`rgba(20,40,80,${.75+pulse*.1})`);
+    sphereGrad.addColorStop(.3,`rgba(8,20,50,.88)`);
+    sphereGrad.addColorStop(.7,`rgba(4,10,30,.92)`);
+    sphereGrad.addColorStop(1,`rgba(2,5,18,.95)`);
+    ctx.fillStyle=sphereGrad;
+    ctx.beginPath(); ctx.arc(cx,cy,R,0,Math.PI*2); ctx.fill();
+
+    /* Equator glow band */
+    const equatorY=cy+Math.sin(tt*.01)*8;
+    const eqGrad=ctx.createLinearGradient(cx-R,equatorY,cx+R,equatorY);
+    eqGrad.addColorStop(0,'transparent');
+    eqGrad.addColorStop(.3,`rgba(0,255,255,${.06+pulse*.04})`);
+    eqGrad.addColorStop(.5,`rgba(0,255,255,${.12+pulse*.06})`);
+    eqGrad.addColorStop(.7,`rgba(191,0,255,${.06+pulse*.04})`);
+    eqGrad.addColorStop(1,'transparent');
+    ctx.save();
+    ctx.beginPath(); ctx.arc(cx,cy,R,0,Math.PI*2); ctx.clip();
+    ctx.fillStyle=eqGrad;
+    ctx.fillRect(cx-R,equatorY-8,R*2,16);
+    ctx.restore();
+
+    /* === Internal particles === */
+    ctx.save();
+    ctx.beginPath(); ctx.arc(cx,cy,R*.97,0,Math.PI*2); ctx.clip();
+    particles.forEach(p=>{
+      p.angle+=p.orbitSpeed;
+      p.z+=p.vertSpeed;
+      if(Math.abs(p.z)>1) p.vertSpeed*=-1;
+      const depth=(p.z+1)/2; // 0=back, 1=front
+      const px=cx+Math.cos(p.angle+tt*.003)*p.radius*(0.7+depth*.3);
+      const py=cy+Math.sin(p.angle+tt*.003)*p.radius*.6+p.z*R*.35;
+      const twinkle=Math.sin(tt*.02+p.phase)*.4+.6;
+      const op=depth*.7*twinkle*p.bright;
+      const sz=p.size*(0.5+depth*.5);
+      /* Particle glow */
+      const pg2=ctx.createRadialGradient(px,py,0,px,py,sz*3);
+      pg2.addColorStop(0,`hsla(${p.hue},100%,75%,${op})`);
+      pg2.addColorStop(1,'transparent');
+      ctx.fillStyle=pg2;
+      ctx.beginPath(); ctx.arc(px,py,sz*3,0,Math.PI*2); ctx.fill();
+      /* Core dot */
+      ctx.fillStyle=`hsla(${p.hue},100%,88%,${op*.9})`;
+      ctx.beginPath(); ctx.arc(px,py,sz,0,Math.PI*2); ctx.fill();
+    });
+    ctx.restore();
+
+    /* === Liquid energy arcs === */
+    ctx.save();
+    ctx.beginPath(); ctx.arc(cx,cy,R*.96,0,Math.PI*2); ctx.clip();
+    arcs.forEach(a=>{
+      a.startAngle+=a.speed;
+      const hue=a.hue+tt*.1;
+      ctx.save();
+      ctx.translate(cx,cy);
+      ctx.rotate(a.tilt+tt*.003);
+      const arcGrad=ctx.createLinearGradient(
+        Math.cos(a.startAngle)*a.radius, Math.sin(a.startAngle)*a.radius,
+        Math.cos(a.startAngle+a.span)*a.radius, Math.sin(a.startAngle+a.span)*a.radius
+      );
+      arcGrad.addColorStop(0,'transparent');
+      arcGrad.addColorStop(.3,`hsla(${hue},100%,65%,.35)`);
+      arcGrad.addColorStop(.7,`hsla(${hue+40},100%,70%,.5)`);
+      arcGrad.addColorStop(1,'transparent');
+      ctx.strokeStyle=arcGrad;
+      ctx.lineWidth=a.width;
+      ctx.lineCap='round';
+      ctx.beginPath();
+      ctx.arc(0,0,a.radius,a.startAngle,a.startAngle+a.span);
+      ctx.stroke();
+      ctx.restore();
+    });
+    ctx.restore();
+
+    /* === Core nucleus === */
+    const corePulse=Math.sin(tt*.04)*.5+.5;
+    /* Outer core glow */
+    const coreGrad=ctx.createRadialGradient(cx,cy,0,cx,cy,22+corePulse*6);
+    coreGrad.addColorStop(0,`rgba(255,255,255,${.5+corePulse*.4})`);
+    coreGrad.addColorStop(.3,`rgba(0,255,255,${.4+corePulse*.3})`);
+    coreGrad.addColorStop(.6,`rgba(191,0,255,${.15+corePulse*.15})`);
+    coreGrad.addColorStop(1,'transparent');
+    ctx.fillStyle=coreGrad;
+    ctx.beginPath(); ctx.arc(cx,cy,22+corePulse*6,0,Math.PI*2); ctx.fill();
+    /* Core dot */
+    ctx.fillStyle=`rgba(255,255,255,${.85+corePulse*.15})`;
+    ctx.shadowColor='rgba(0,255,255,.8)';
+    ctx.shadowBlur=12;
+    ctx.beginPath(); ctx.arc(cx,cy,4+corePulse*2.5,0,Math.PI*2); ctx.fill();
+    ctx.shadowBlur=0;
+
+    /* === Glass sphere border + rim light === */
+    /* Inner rim glow */
+    const rimGrad=ctx.createRadialGradient(cx,cy,R*.88,cx,cy,R);
+    rimGrad.addColorStop(0,'transparent');
+    rimGrad.addColorStop(.5,`rgba(0,255,255,${.06+pulse*.04})`);
+    rimGrad.addColorStop(.8,`rgba(191,0,255,${.08+pulse*.04})`);
+    rimGrad.addColorStop(1,`rgba(0,255,255,${.15+pulse*.08})`);
+    ctx.fillStyle=rimGrad;
+    ctx.beginPath(); ctx.arc(cx,cy,R,0,Math.PI*2); ctx.fill();
+    /* Crisp border */
+    ctx.strokeStyle=`rgba(0,255,255,${.3+pulse*.2})`;
+    ctx.lineWidth=1;
+    ctx.beginPath(); ctx.arc(cx,cy,R,0,Math.PI*2); ctx.stroke();
+
+    /* === Primary glass highlight (top-left) === */
+    const hl=ctx.createRadialGradient(cx-R*.3,cy-R*.38,0,cx-R*.1,cy-R*.2,R*.5);
+    hl.addColorStop(0,`rgba(255,255,255,${.2+pulse*.06})`);
+    hl.addColorStop(.4,`rgba(255,255,255,.06)`);
+    hl.addColorStop(1,'transparent');
+    ctx.save();
+    ctx.beginPath(); ctx.arc(cx,cy,R,0,Math.PI*2); ctx.clip();
+    ctx.fillStyle=hl; ctx.fillRect(0,0,W,H);
+
+    /* Secondary bottom-right reflection */
+    const hl2=ctx.createRadialGradient(cx+R*.35,cy+R*.38,0,cx+R*.2,cy+R*.28,R*.3);
+    hl2.addColorStop(0,`rgba(191,0,255,${.1+pulse*.04})`);
+    hl2.addColorStop(1,'transparent');
+    ctx.fillStyle=hl2; ctx.fillRect(0,0,W,H);
+    ctx.restore();
+
+    /* === Chromatic aberration edge (top arc) === */
+    ctx.save();
+    ctx.beginPath(); ctx.arc(cx,cy,R,0,Math.PI*2); ctx.clip();
+    const caGrad=ctx.createLinearGradient(cx-R,cy-R,cx+R*.5,cy-R*.3);
+    caGrad.addColorStop(0,`rgba(0,255,255,${.12+pulse*.06})`);
+    caGrad.addColorStop(.5,`rgba(191,0,255,${.06})`);
+    caGrad.addColorStop(1,'transparent');
+    ctx.strokeStyle=caGrad;
+    ctx.lineWidth=2;
+    ctx.beginPath();
+    ctx.arc(cx,cy,R-.5,Math.PI*1.1,Math.PI*1.85);
+    ctx.stroke();
+    ctx.restore();
   }
 
   function animLoader(){
     if(done) return;
     t++;
-    ctx.clearRect(0,0,W,H);
-    drawRings(t);
+    drawSphere(t);
     requestAnimationFrame(animLoader);
   }
   animLoader();
 
-  /* Progress */
+  /* === Progress with status messages === */
+  const statuses=['INITIALIZING CORE','LOADING MODULES','SYNCING NETWORKS','CALIBRATING AI','SYSTEM READY'];
   let pct=0;
   const fill=document.getElementById('ld-fill');
   const pctEl=document.getElementById('ld-pct');
+  const statusEl=document.getElementById('ld-status');
   const iv=setInterval(()=>{
-    pct+=Math.random()*6+2;
+    pct+=Math.random()*4+1.5;
     if(pct>=100){
       pct=100; clearInterval(iv); done=true;
+      if(statusEl) statusEl.textContent='READY';
       setTimeout(()=>{
         document.getElementById('loader').classList.add('out');
-        setTimeout(()=>document.getElementById('loader').style.display='none',1600);
-      },400);
+        setTimeout(()=>document.getElementById('loader').style.display='none',1800);
+      },500);
     }
     fill.style.width=pct+'%';
     pctEl.textContent=Math.floor(pct)+'%';
-  },120);
+    if(statusEl) statusEl.textContent=statuses[Math.min(Math.floor(pct/22),statuses.length-1)];
+  },140);
 })();
 
 /* ═══════════════════════════════════════════════════════════
