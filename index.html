@@ -71,7 +71,7 @@ body.modal-open{cursor:auto}
   background:radial-gradient(ellipse at 50% 50%,transparent 45%,rgba(5,2,0,.5) 100%)}
 #scanlines{position:fixed;inset:0;z-index:1;pointer-events:none;
   background:repeating-linear-gradient(0,transparent,transparent 2px,rgba(0,0,0,.05) 2px,rgba(0,0,0,.05) 4px);
-  animation:scan 20s linear infinite}
+  animation:none}
 @keyframes scan{to{background-position:0 120px}}
 
 /* ===================== PROGRESS ===================== */
@@ -1392,6 +1392,12 @@ footer { background: rgba(5,2,1,.55) !important; border-top: 1px solid rgba(245,
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 gsap.registerPlugin(ScrollTrigger);
 
+document.addEventListener('visibilitychange',function(){
+  if(document.hidden) window._bgPaused=true;
+  else window._bgPaused=false;
+});
+
+
 function toggleMob(){
   var m=document.getElementById('mobmenu');
   var b=document.getElementById('hbg');
@@ -1441,7 +1447,7 @@ document.addEventListener('DOMContentLoaded',function(){
 
   /* === Stars layer === */
   const STARS = [];
-  for(let i=0;i<280;i++){
+  for(let i=0;i<120;i++){
     const x=Math.random(), y=Math.random();
     const bv = (Math.random()-.3)*2.4;
     let r,g,b;
@@ -1454,7 +1460,7 @@ document.addEventListener('DOMContentLoaded',function(){
   }
 
   /* === Neural nodes === */
-  const NN=[], NC=55;
+  const NN=[], NC=28;
   for(let i=0;i<NC;i++){
     NN.push({
       x:Math.random()*W, y:Math.random()*H,
@@ -1482,7 +1488,7 @@ document.addEventListener('DOMContentLoaded',function(){
   const GSTARS=[];
   const cx0=W*.7, cy0=H*.38, arms=3;
   for(let a=0;a<arms;a++){
-    for(let i=0;i<220;i++){
+    for(let i=0;i<80;i++){
       const t=i/220, r=t*Math.min(W,H)*.22;
       const angle=t*Math.PI*5 + (a/arms)*Math.PI*2;
       const jitter=(Math.random()-.5)*r*.35;
@@ -1499,13 +1505,14 @@ document.addEventListener('DOMContentLoaded',function(){
 
   /* === Shooting stars === */
   const SS=[];
-  for(let i=0;i<6;i++) SS.push({active:false,timer:Math.random()*400+i*80});
+  for(let i=0;i<3;i++) SS.push({active:false,timer:Math.random()*400+i*80});
 
   let mx=W*.5, my=H*.4;
   document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
 
   let t=0;
   function frame(){
+    if(window._bgPaused){setTimeout(()=>requestAnimationFrame(frame),500);return;}
     t++;
     ctx.clearRect(0,0,W,H);
 
@@ -1594,7 +1601,7 @@ document.addEventListener('DOMContentLoaded',function(){
         if(j<=i) return;
         const dx=a.x-b.x, dy=a.y-b.y;
         const dist=Math.sqrt(dx*dx+dy*dy);
-        if(dist>220) return;
+        if(dist>180) return;
         const op=(1-dist/220)*.18;
         /* Animated energy pulse along connection */
         const pulse=(t*.012+i*.3+j*.17)%1;
@@ -1691,7 +1698,7 @@ document.addEventListener('DOMContentLoaded',function(){
       }
     }
 
-    requestAnimationFrame(frame);
+    setTimeout(()=>requestAnimationFrame(frame),33);
   }
   frame();
 })();
@@ -1706,7 +1713,7 @@ document.addEventListener('DOMContentLoaded',function(){
   var W=cv.width,H=cv.height,cx=W/2,cy=H/2,R=92;
   var t=0,done=false;
   var particles=[];
-  for(var i=0;i<55;i++){
+  for(var i=0;i<30;i++){
     particles.push({
       angle:Math.random()*Math.PI*2,
       radius:Math.random()*R*.82,
@@ -1720,7 +1727,7 @@ document.addEventListener('DOMContentLoaded',function(){
     });
   }
   var arcs=[];
-  for(var j=0;j<6;j++){
+  for(var j=0;j<4;j++){
     arcs.push({
       startAngle:Math.random()*Math.PI*2,
       span:Math.PI*.3+Math.random()*Math.PI*.5,
@@ -1872,7 +1879,7 @@ document.addEventListener('DOMContentLoaded',function(){
     const m=new THREE.Mesh(new THREE.TorusGeometry(r,t,32,200),new THREE.MeshBasicMaterial({color:c,transparent:true,opacity:o}));
     m.rotation.x=rx; m.userData={sy,sz}; scene.add(m);
   });
-  for(let i=0;i<20;i++){
+  for(let i=0;i<8;i++){
     const g=new THREE.BufferGeometry();
     const th=Math.random()*Math.PI*2,ph=Math.acos(2*Math.random()-1);
     const r1=1.3,r2=2.2+Math.random()*1.8;
@@ -2017,7 +2024,7 @@ document.addEventListener('DOMContentLoaded',function(){
       ctx.fillStyle=p.c;ctx.shadowColor=p.c;ctx.shadowBlur=14;ctx.fill();ctx.shadowBlur=0;
       if(p.s>=5){ctx.font=`600 7.5px 'JetBrains Mono',monospace`;ctx.fillStyle='rgba(255,255,255,.75)';ctx.fillText(p.l,x2+p.s+3,y2+3);}
     });
-    ang+=.004;requestAnimationFrame(draw);
+    ang+=.004;setTimeout(()=>requestAnimationFrame(draw),40);
   }
   draw();
 })();
