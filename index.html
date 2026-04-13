@@ -8,11 +8,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-/* ============================================================
-   TECH1WORLD — PREMIUM REDESIGN
-   Aesthetic: Premium Academic-Tech — Deep Navy + Electric Amber
-   Fixed: navbar overlap, all links functional, advanced UI
-============================================================ */
 :root{
   --navy:#07111f;--navy1:#0c1c30;--navy2:#0f2240;--navy3:#162d52;--navy4:#1e3d6e;
   --amber:#f59e0b;--amber2:#fbbf24;--amber3:#fde68a;--amber-d:#d97706;
@@ -33,15 +28,11 @@ a{text-decoration:none;color:inherit}
 img{display:block;max-width:100%}
 button,input,select,textarea{font-family:inherit;outline:none;border:none}
 button{cursor:pointer}
-
-/* ── UTILITY ── */
 .con{max-width:1260px;margin:0 auto;padding:0 1.5rem}
 .sec{padding:5.5rem 0}
 .sec-alt{background:var(--gray)}
 .sec-dark{background:var(--navy)}
 .sec-navy2{background:var(--navy2)}
-
-/* Section Headers */
 .sec-label{font-family:'JetBrains Mono',monospace;font-size:.64rem;letter-spacing:.2rem;text-transform:uppercase;color:var(--amber);font-weight:600;display:block;margin-bottom:.6rem}
 .sec-title{font-family:'Sora',sans-serif;font-size:clamp(1.75rem,3.2vw,2.65rem);font-weight:800;line-height:1.1;color:var(--navy);margin-bottom:.75rem;letter-spacing:-.02em}
 .sec-title em{font-style:normal;background:linear-gradient(135deg,var(--amber),#ea580c);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
@@ -51,16 +42,12 @@ button{cursor:pointer}
 .sec-desc-light{color:rgba(255,255,255,.62)!important}
 .sec-head{margin-bottom:3.5rem;text-align:center}
 .sec-head .sec-desc{margin:0 auto}
-
-/* Reveal animations */
 .rv{opacity:0;transform:translateY(24px);transition:opacity .65s ease,transform .65s ease}
 .rv.vis{opacity:1;transform:none}
 .rvl{opacity:0;transform:translateX(-24px);transition:opacity .65s ease,transform .65s ease}
 .rvl.vis{opacity:1;transform:none}
 .rvr{opacity:0;transform:translateX(24px);transition:opacity .65s ease,transform .65s ease}
 .rvr.vis{opacity:1;transform:none}
-
-/* Buttons */
 .btn{display:inline-flex;align-items:center;gap:.48rem;padding:.72rem 1.6rem;border-radius:var(--r);font-weight:600;font-size:.87rem;border:none;cursor:pointer;transition:var(--tr);white-space:nowrap;letter-spacing:.01rem}
 .btn:active{transform:scale(.97)}
 .btn-primary{background:linear-gradient(135deg,var(--amber),#f97316);color:#fff;box-shadow:0 4px 18px rgba(245,158,11,.35)}
@@ -76,8 +63,6 @@ button{cursor:pointer}
 .btn-lg{padding:.9rem 2rem;font-size:.95rem}
 .btn-sm{padding:.44rem 1rem;font-size:.78rem}
 .btn-xs{padding:.32rem .75rem;font-size:.72rem}
-
-/* Badges */
 .badge{display:inline-flex;align-items:center;gap:.35rem;padding:.22rem .72rem;border-radius:40px;font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.08rem;text-transform:uppercase;font-weight:500}
 .badge-amber{background:rgba(245,158,11,.1);color:#92400e;border:1px solid rgba(245,158,11,.28)}
 .badge-cyan{background:rgba(6,182,212,.09);color:#0e7490;border:1px solid rgba(6,182,212,.22)}
@@ -86,15 +71,8 @@ button{cursor:pointer}
 .badge-violet{background:rgba(139,92,246,.09);color:#6d28d9;border:1px solid rgba(139,92,246,.22)}
 .badge-rose{background:rgba(244,63,94,.09);color:#9f1239;border:1px solid rgba(244,63,94,.22)}
 
-/* ============================================================
-   TOPBAR — fixed height so it doesn't hide content
-============================================================ */
-#topbar{
-  position:fixed;top:0;left:0;right:0;z-index:1001;
-  height:var(--topbar-h);
-  background:var(--navy);
-  display:flex;align-items:center;
-}
+/* TOPBAR */
+#topbar{position:fixed;top:0;left:0;right:0;z-index:1001;height:var(--topbar-h);background:var(--navy);display:flex;align-items:center}
 .topbar-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem;width:100%}
 .topbar-left,.topbar-right{display:flex;align-items:center;gap:1.4rem;flex-wrap:nowrap}
 .topbar-item{display:flex;align-items:center;gap:.38rem;color:rgba(255,255,255,.68);font-size:.74rem;white-space:nowrap;transition:color .2s}
@@ -104,100 +82,48 @@ button{cursor:pointer}
 .topbar-badge{background:var(--amber);color:var(--navy);font-family:'JetBrains Mono',monospace;font-size:.56rem;font-weight:700;letter-spacing:.06rem;padding:.18rem .6rem;border-radius:40px;white-space:nowrap;animation:tbpulse 2.5s ease-in-out infinite}
 @keyframes tbpulse{0%,100%{box-shadow:0 0 0 0 rgba(245,158,11,.5)}50%{box-shadow:0 0 0 5px rgba(245,158,11,0)}}
 
-/* ============================================================
-   NAVBAR — sits directly below topbar, no overlap
-============================================================ */
-#navbar{
-  position:fixed;
-  top:var(--topbar-h);/* starts right below topbar */
-  left:0;right:0;z-index:1000;
-  height:var(--nav-h);
-  background:rgba(7,17,31,.0);
-  transition:var(--tr);
-}
-#navbar.scrolled{
-  background:rgba(7,17,31,.97);
-  backdrop-filter:blur(22px);
-  box-shadow:0 2px 40px rgba(0,0,0,.35);
-  border-bottom:1px solid rgba(255,255,255,.06);
-}
+/* NAVBAR */
+#navbar{position:fixed;top:var(--topbar-h);left:0;right:0;z-index:1000;height:var(--nav-h);background:rgba(7,17,31,.0);transition:var(--tr)}
+#navbar.scrolled{background:rgba(7,17,31,.97);backdrop-filter:blur(22px);box-shadow:0 2px 40px rgba(0,0,0,.35);border-bottom:1px solid rgba(255,255,255,.06)}
 .nav-inner{display:flex;align-items:center;justify-content:space-between;height:var(--nav-h);gap:1rem}
-/* Logo */
 .nav-logo{display:flex;align-items:center;gap:.65rem;flex-shrink:0}
 .nav-logo-icon{width:42px;height:42px;background:linear-gradient(135deg,var(--amber),#f97316);border-radius:11px;display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-weight:900;font-size:.88rem;color:#fff;letter-spacing:.02rem;box-shadow:0 4px 14px rgba(245,158,11,.4)}
 .nav-logo-text{font-family:'Sora',sans-serif;font-weight:800;font-size:1.08rem;color:#fff;letter-spacing:.02rem}
 .nav-logo-text span{color:var(--amber)}
 .nav-logo-sub{font-family:'JetBrains Mono',monospace;font-size:.5rem;color:rgba(255,255,255,.45);letter-spacing:.12rem;text-transform:uppercase;display:block;line-height:1.2;margin-top:.08rem}
-/* Nav Links */
 .nav-links{display:flex;align-items:center;gap:.05rem;list-style:none}
 .nav-links>li>a{color:rgba(255,255,255,.78);font-size:.83rem;font-weight:500;padding:.44rem .75rem;border-radius:6px;transition:var(--tr);white-space:nowrap;display:flex;align-items:center;gap:.28rem}
 .nav-links>li>a:hover{color:#fff;background:rgba(255,255,255,.08)}
 .nav-links>li>a.active-link{color:var(--amber)}
-/* Dropdown */
 .nav-drop{position:relative}
 .nav-drop>a::after{content:'▾';font-size:.58rem;margin-left:.18rem;opacity:.7}
-.drop-menu{
-  position:absolute;top:calc(100% + 10px);left:0;
-  background:#fff;border-radius:var(--r2);
-  box-shadow:var(--sh2);border:1px solid var(--gray2);
-  padding:.5rem;min-width:230px;
-  opacity:0;visibility:hidden;
-  transform:translateY(-6px);
-  transition:var(--tr);z-index:100;
-  pointer-events:none;
-}
+.drop-menu{position:absolute;top:calc(100% + 10px);left:0;background:#fff;border-radius:var(--r2);box-shadow:var(--sh2);border:1px solid var(--gray2);padding:.5rem;min-width:230px;opacity:0;visibility:hidden;transform:translateY(-6px);transition:var(--tr);z-index:100;pointer-events:none}
 .nav-drop:hover .drop-menu{opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto}
-.drop-menu a{
-  display:flex;align-items:center;gap:.65rem;
-  padding:.62rem .88rem;border-radius:var(--r);
-  color:var(--navy);font-size:.83rem;font-weight:500;
-  transition:var(--tr);
-}
+.drop-menu a{display:flex;align-items:center;gap:.65rem;padding:.62rem .88rem;border-radius:var(--r);color:var(--navy);font-size:.83rem;font-weight:500;transition:var(--tr)}
 .drop-menu a:hover{background:var(--gray);color:var(--navy)}
 .drop-menu a i{width:18px;color:var(--amber);font-size:.82rem;flex-shrink:0}
 .drop-menu .drop-divider{height:1px;background:var(--gray2);margin:.3rem .5rem}
-/* Nav right */
 .nav-right{display:flex;align-items:center;gap:.6rem;flex-shrink:0}
-/* Hamburger */
 .hamburger{display:none;flex-direction:column;gap:5px;padding:.45rem;cursor:pointer;background:none;border:none}
 .hamburger span{display:block;width:22px;height:2px;background:rgba(255,255,255,.8);border-radius:2px;transition:var(--tr)}
 .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
 .hamburger.open span:nth-child(2){opacity:0}
 .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-
-/* Mobile nav overlay */
-#mob-nav{
-  position:fixed;inset:0;z-index:999;
-  background:var(--navy1);
-  display:none;flex-direction:column;
-  overflow-y:auto;
-  padding:calc(var(--total-top) + 1rem) 1.5rem 2rem;
-}
+#mob-nav{position:fixed;inset:0;z-index:999;background:var(--navy1);display:none;flex-direction:column;overflow-y:auto;padding:calc(var(--total-top) + 1rem) 1.5rem 2rem}
 #mob-nav.open{display:flex}
 .mob-nav-links{display:flex;flex-direction:column;gap:.2rem;margin-bottom:1.5rem}
 .mob-nav-links a{color:rgba(255,255,255,.78);font-size:1rem;font-weight:600;padding:.85rem 0;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between}
 .mob-nav-links a:hover{color:var(--amber)}
 .mob-nav-btns{display:flex;flex-direction:column;gap:.6rem}
 
-/* ============================================================
-   TICKER ANNOUNCEMENT
-============================================================ */
+/* TICKER */
 .ticker-bar{background:linear-gradient(90deg,var(--amber),#f97316);overflow:hidden;height:34px;display:flex;align-items:center}
 .ticker-inner{display:flex;gap:3.5rem;animation:ticker 30s linear infinite;white-space:nowrap;width:max-content}
 @keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .ticker-item{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.05rem;color:var(--navy);font-weight:700;display:flex;align-items:center;gap:.5rem}
 
-/* ============================================================
-   HERO — padding-top = topbar + navbar heights
-============================================================ */
-#hero{
-  min-height:100vh;
-  background:var(--navy);
-  position:relative;
-  display:flex;align-items:center;
-  overflow:hidden;
-  padding-top:var(--total-top);
-}
+/* HERO */
+#hero{min-height:100vh;background:var(--navy);position:relative;display:flex;align-items:center;overflow:hidden;padding-top:var(--total-top)}
 .hero-bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(245,158,11,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(245,158,11,.055) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 30%,transparent 70%)}
 .hero-orb1{position:absolute;top:-8%;right:-4%;width:580px;height:580px;background:radial-gradient(circle,rgba(245,158,11,.11) 0%,transparent 65%);animation:orb 9s ease-in-out infinite;pointer-events:none}
 .hero-orb2{position:absolute;bottom:-18%;left:-6%;width:500px;height:500px;background:radial-gradient(circle,rgba(6,182,212,.075) 0%,transparent 65%);animation:orb 12s ease-in-out infinite reverse;pointer-events:none}
@@ -210,14 +136,12 @@ button{cursor:pointer}
 .h-title{font-family:'Sora',sans-serif;font-size:clamp(2.4rem,5.5vw,4rem);font-weight:900;line-height:1.03;color:#fff;margin-bottom:1.15rem;letter-spacing:-.03em}
 .h-title .accent{background:linear-gradient(135deg,var(--amber),#f97316);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .h-desc{color:rgba(255,255,255,.68);font-size:1.02rem;line-height:1.88;max-width:520px;margin-bottom:2rem}
-/* Stats inline */
 .h-stats{display:flex;gap:0;margin-bottom:2.2rem;border:1px solid rgba(255,255,255,.1);border-radius:var(--r2);overflow:hidden;background:rgba(255,255,255,.04);backdrop-filter:blur(8px)}
 .h-stat{flex:1;padding:1.1rem .8rem;text-align:center;border-right:1px solid rgba(255,255,255,.08)}
 .h-stat:last-child{border-right:none}
 .h-stat-n{font-family:'Sora',sans-serif;font-size:1.65rem;font-weight:800;color:var(--amber);line-height:1}
 .h-stat-l{font-family:'JetBrains Mono',monospace;font-size:.52rem;color:rgba(255,255,255,.45);letter-spacing:.08rem;text-transform:uppercase;margin-top:.2rem}
 .h-btns{display:flex;gap:.8rem;flex-wrap:wrap}
-/* Hero right — terminal + cards */
 .h-right{display:flex;flex-direction:column;gap:1rem}
 .terminal{background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.1);border-radius:var(--r2);overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.4)}
 .terminal-bar{display:flex;align-items:center;gap:.42rem;padding:.75rem 1rem;background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.06)}
@@ -236,13 +160,10 @@ button{cursor:pointer}
 .h-card-lbl{font-family:'JetBrains Mono',monospace;font-size:.5rem;color:var(--amber);letter-spacing:.12rem;text-transform:uppercase;margin-bottom:.35rem}
 .h-card-val{font-family:'Sora',sans-serif;font-size:1rem;font-weight:700;color:#fff}
 .h-card-sub{font-size:.7rem;color:rgba(255,255,255,.48);margin-top:.12rem}
-/* Scroll cue */
 .scroll-cue{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;color:rgba(255,255,255,.35);font-size:.7rem;letter-spacing:.1rem;font-family:'JetBrains Mono',monospace;animation:scrollbounce 2s ease-in-out infinite}
 @keyframes scrollbounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
 
-/* ============================================================
-   STATS BAR
-============================================================ */
+/* STATS BAR */
 .stats-bar{background:var(--navy1);border-top:1px solid rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.05)}
 .stats-bar .stats-grid{display:grid;grid-template-columns:repeat(4,1fr)}
 .stat-cell{padding:2.2rem 1.5rem;text-align:center;border-right:1px solid rgba(255,255,255,.06);position:relative;overflow:hidden;transition:var(--tr)}
@@ -254,9 +175,7 @@ button{cursor:pointer}
 .stat-l{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12rem;text-transform:uppercase;color:rgba(255,255,255,.45);margin-top:.45rem}
 .stat-s{font-size:.75rem;color:rgba(255,255,255,.28);margin-top:.22rem}
 
-/* ============================================================
-   PROGRAMS
-============================================================ */
+/* PROGRAMS */
 .programs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
 .prog-card{background:#fff;border-radius:var(--r2);border:1.5px solid var(--gray2);padding:2rem;display:flex;flex-direction:column;position:relative;overflow:hidden;transition:var(--tr)}
 .prog-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3.5px;background:linear-gradient(90deg,var(--amber),#f97316);transform:scaleX(0);transform-origin:left;transition:transform .42s ease}
@@ -281,14 +200,10 @@ button{cursor:pointer}
 .prog-footer{display:flex;align-items:center;justify-content:space-between;margin-top:1.4rem;padding-top:1.1rem;border-top:1px solid var(--gray2)}
 .prog-price{font-family:'Sora',sans-serif;font-size:1.05rem;font-weight:800;color:var(--navy)}
 .prog-price small{font-size:.7rem;color:var(--slate);font-weight:400;font-family:'DM Sans',sans-serif}
-
-/* Short courses banner */
 .short-banner{background:var(--gray);border-radius:var(--r2);padding:1.8rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;border:1.5px solid var(--gray2);margin-top:2rem}
 .short-banner:hover{border-color:rgba(245,158,11,.3);box-shadow:var(--sh)}
 
-/* ============================================================
-   CURRICULUM
-============================================================ */
+/* CURRICULUM */
 .curr-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
 .curr-mod{background:#fff;border-radius:var(--r2);border:1.5px solid var(--gray2);overflow:hidden;transition:var(--tr)}
 .curr-mod:hover{border-color:rgba(245,158,11,.3)}
@@ -309,9 +224,7 @@ button{cursor:pointer}
 .curr-topics li i{color:var(--green);font-size:.72rem;flex-shrink:0}
 .curr-week{font-family:'JetBrains Mono',monospace;font-size:.56rem;color:var(--slate2);flex-shrink:0}
 
-/* ============================================================
-   WHY CHOOSE
-============================================================ */
+/* WHY CHOOSE */
 .why-2col{display:grid;grid-template-columns:1fr 1fr;gap:4.5rem;align-items:center}
 .why-points{display:flex;flex-direction:column;gap:1.2rem;margin-top:1.8rem}
 .why-pt{display:flex;gap:1rem;align-items:flex-start}
@@ -329,9 +242,7 @@ button{cursor:pointer}
 .why-card-t{font-family:'Sora',sans-serif;font-size:.9rem;font-weight:700;color:var(--navy);margin-bottom:.38rem}
 .why-card-d{color:var(--slate);font-size:.8rem;line-height:1.68}
 
-/* ============================================================
-   BROCHURES
-============================================================ */
+/* BROCHURES */
 .brochure-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
 .brochure-card{background:#fff;border-radius:var(--r2);border:1.5px solid var(--gray2);overflow:hidden;transition:var(--tr);display:flex;flex-direction:column}
 .brochure-card:hover{transform:translateY(-4px);box-shadow:var(--sh2);border-color:rgba(245,158,11,.3)}
@@ -353,9 +264,7 @@ button{cursor:pointer}
 .brochure-dl{display:flex;align-items:center;gap:.38rem;color:var(--amber);font-size:.8rem;font-weight:600;cursor:pointer;transition:color .2s;border:none;background:none;font-family:inherit}
 .brochure-dl:hover{color:var(--amber-d)}
 
-/* ============================================================
-   FACULTY
-============================================================ */
+/* FACULTY */
 .faculty-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.4rem}
 .faculty-card{background:#fff;border-radius:var(--r2);border:1.5px solid var(--gray2);padding:1.8rem;text-align:center;transition:var(--tr)}
 .faculty-card:hover{transform:translateY(-4px);box-shadow:var(--sh2);border-color:rgba(245,158,11,.3)}
@@ -366,9 +275,7 @@ button{cursor:pointer}
 .skill-tags{display:flex;flex-wrap:wrap;gap:.3rem;justify-content:center}
 .sk{font-family:'JetBrains Mono',monospace;font-size:.5rem;padding:.14rem .48rem;border-radius:20px;background:var(--gray);color:var(--slate);border:1px solid var(--gray2)}
 
-/* ============================================================
-   SCHEDULE TABLE
-============================================================ */
+/* SCHEDULE */
 .sched-wrap{overflow-x:auto;border-radius:var(--r2);box-shadow:var(--sh)}
 .sched-table{width:100%;border-collapse:collapse;min-width:760px}
 .sched-table thead tr{background:var(--navy)}
@@ -385,9 +292,7 @@ button{cursor:pointer}
 .sched-seats{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--slate)}
 .seats-low{color:var(--rose)!important;font-weight:700}
 
-/* ============================================================
-   PLACEMENT
-============================================================ */
+/* PLACEMENT */
 .company-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem}
 .company-card{background:#fff;border-radius:var(--r2);border:1.5px solid var(--gray2);padding:1.2rem;text-align:center;transition:var(--tr);min-height:68px;display:flex;align-items:center;justify-content:center}
 .company-card:hover{border-color:var(--amber);box-shadow:var(--sh);transform:translateY(-2px)}
@@ -398,9 +303,7 @@ button{cursor:pointer}
 .place-stat-n{font-family:'Sora',sans-serif;font-size:2.2rem;font-weight:900;color:var(--amber);line-height:1}
 .place-stat-l{font-size:.78rem;color:rgba(255,255,255,.55);margin-top:.38rem}
 
-/* ============================================================
-   TESTIMONIALS
-============================================================ */
+/* TESTIMONIALS */
 .testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
 .testi-card{background:#fff;border-radius:var(--r2);border:1.5px solid var(--gray2);padding:1.8rem;transition:var(--tr)}
 .testi-card:hover{box-shadow:var(--sh2);border-color:rgba(245,158,11,.3);transform:translateY(-3px)}
@@ -412,9 +315,7 @@ button{cursor:pointer}
 .testi-name{font-family:'Sora',sans-serif;font-size:.87rem;font-weight:700;color:var(--navy)}
 .testi-role{font-size:.72rem;color:var(--slate2)}
 
-/* ============================================================
-   ADMISSION FORM
-============================================================ */
+/* ADMISSION */
 .admission-sec{background:linear-gradient(135deg,var(--navy),var(--navy2));position:relative;overflow:hidden}
 .admission-sec::after{content:'';position:absolute;top:-30%;right:-10%;width:550px;height:550px;background:radial-gradient(circle,rgba(245,158,11,.07),transparent 65%);pointer-events:none}
 .form-2col{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:start}
@@ -439,9 +340,7 @@ button{cursor:pointer}
 .form-submit:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(245,158,11,.45)}
 .form-note{font-size:.71rem;color:var(--slate);text-align:center;margin-top:.75rem;display:flex;align-items:center;justify-content:center;gap:.38rem}
 
-/* ============================================================
-   FAQ
-============================================================ */
+/* FAQ */
 .faq-list{display:flex;flex-direction:column;gap:.8rem;max-width:780px;margin:0 auto}
 .faq-item{background:#fff;border-radius:var(--r2);border:1.5px solid var(--gray2);overflow:hidden;transition:var(--tr)}
 .faq-item:hover{border-color:rgba(245,158,11,.3)}
@@ -453,9 +352,7 @@ button{cursor:pointer}
 .faq-a{display:none;padding:1.15rem 1.5rem;color:var(--slate);font-size:.87rem;line-height:1.78;border-top:1px solid var(--gray2)}
 .faq-a.show{display:block;animation:slideDown .28s ease}
 
-/* ============================================================
-   CONTACT
-============================================================ */
+/* CONTACT */
 .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
 .contact-cards{display:flex;flex-direction:column;gap:1rem}
 .contact-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:var(--r2);padding:1.5rem;display:flex;gap:1rem;align-items:flex-start;transition:var(--tr)}
@@ -475,10 +372,12 @@ button{cursor:pointer}
 .c-fg select option{background:var(--navy2);color:#fff}
 .c-fg textarea{resize:vertical;min-height:105px}
 .social-row{display:flex;gap:.55rem;flex-wrap:wrap;margin-top:1.5rem;padding-top:1.4rem;border-top:1px solid rgba(255,255,255,.08)}
+.map-box{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:var(--r2);height:260px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.85rem;color:rgba(255,255,255,.38);margin-top:1.5rem;cursor:pointer;transition:var(--tr)}
+.map-box:hover{border-color:rgba(245,158,11,.3);color:rgba(255,255,255,.55)}
+.map-box i{font-size:2.2rem}
+.map-box span{font-size:.82rem;font-family:'JetBrains Mono',monospace;letter-spacing:.06rem}
 
-/* ============================================================
-   FOOTER
-============================================================ */
+/* FOOTER */
 footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
 .footer-top{padding:4rem 0 2.5rem}
 .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1.3fr;gap:3rem}
@@ -504,23 +403,18 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
 .footer-bot-links a{color:rgba(255,255,255,.35);font-size:.76rem;transition:color .2s}
 .footer-bot-links a:hover{color:var(--amber)}
 
-/* ============================================================
-   TOAST / MODAL / MISC
-============================================================ */
+/* TOAST / MISC */
 .toast{position:fixed;bottom:2rem;right:2rem;z-index:9999;background:var(--navy1);color:#fff;padding:.9rem 1.4rem;border-radius:var(--r);box-shadow:var(--sh2);border-left:4px solid var(--amber);font-size:.84rem;font-weight:500;transform:translateX(calc(100% + 3rem));transition:transform .4s cubic-bezier(.22,1,.36,1);max-width:340px;display:flex;align-items:center;gap:.6rem}
 .toast.show{transform:translateX(0)}
 .toast.toast-success{border-left-color:var(--green)}
 .toast.toast-info{border-left-color:var(--cyan)}
-/* Scroll to top */
+.toast.toast-error{border-left-color:var(--rose)}
 #scrollTop{position:fixed;bottom:2rem;left:2rem;z-index:999;width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--amber),#f97316);color:#fff;display:flex;align-items:center;justify-content:center;border:none;cursor:pointer;box-shadow:0 4px 18px rgba(245,158,11,.4);opacity:0;transform:translateY(10px);transition:var(--tr)}
 #scrollTop.show{opacity:1;transform:translateY(0)}
 #scrollTop:hover{transform:translateY(-3px) scale(1.06)}
-/* Progress bar */
 #prog-bar{position:fixed;top:0;left:0;z-index:10000;height:3px;background:linear-gradient(90deg,var(--amber),#f97316);width:0%;transition:width .12s}
 
-/* ============================================================
-   RESPONSIVE
-============================================================ */
+/* RESPONSIVE */
 @media(max-width:1100px){
   .programs-grid{grid-template-columns:1fr 1fr}
   .faculty-grid{grid-template-columns:repeat(2,1fr)}
@@ -530,7 +424,6 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
   .company-grid{grid-template-columns:repeat(4,1fr)}
   .testi-grid{grid-template-columns:1fr 1fr}
   .brochure-grid{grid-template-columns:1fr 1fr}
-  :root{--total-top:106px}
 }
 @media(max-width:768px){
   :root{--topbar-h:34px;--nav-h:60px;--total-top:94px}
@@ -544,7 +437,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
   .h-stats{grid-template-columns:repeat(2,1fr);display:grid}
   .h-stats .h-stat:nth-child(2){border-right:none}
   .place-stats{grid-template-columns:1fr}
-  .h-in,.hero-in{grid-template-columns:1fr}
+  .hero-in{grid-template-columns:1fr}
   .h-right{display:none}
   .footer-grid{grid-template-columns:1fr}
   .footer-bot{flex-direction:column;align-items:flex-start}
@@ -557,59 +450,46 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
   .stats-bar .stats-grid{grid-template-columns:1fr 1fr}
   .faculty-grid,.testi-grid{grid-template-columns:1fr}
   .h-btns{flex-direction:column;align-items:flex-start}
-  .acc-badges{gap:.38rem}
 }
-
-/* Map placeholder */
-.map-box{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:var(--r2);height:260px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.85rem;color:rgba(255,255,255,.38);margin-top:1.5rem;cursor:pointer;transition:var(--tr)}
-.map-box:hover{border-color:rgba(245,158,11,.3);color:rgba(255,255,255,.55)}
-.map-box i{font-size:2.2rem}
-.map-box span{font-size:.82rem;font-family:'JetBrains Mono',monospace;letter-spacing:.06rem}
 </style>
 </head>
 <body>
 
-<!-- ══ PROGRESS BAR ══ -->
 <div id="prog-bar"></div>
-<!-- ══ SCROLL TO TOP ══ -->
 <button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-chevron-up"></i></button>
 
-<!-- ════════════════════════════════════════
-     TOPBAR
-════════════════════════════════════════ -->
+<!-- TOPBAR -->
 <div id="topbar">
   <div class="con topbar-inner">
     <div class="topbar-left">
       <div class="topbar-item"><i class="fas fa-phone"></i><a href="tel:+918082151063">+91 8082151063</a></div>
-      <div class="topbar-item"><i class="fas fa-envelope"></i><a href="mailto:info@tech1world.com">info@tech1world.com</a></div>
+      <div class="topbar-item"><i class="fas fa-envelope"></i><a href="mailto:info@Tech1World.com">info@Tech1World.com</a></div>
       <div class="topbar-item"><i class="fas fa-clock"></i><span>Mon–Sat: 9AM–7PM IST</span></div>
     </div>
     <div class="topbar-right">
-      <span class="topbar-badge">🎓 Admissions Open — June 2026 Batch</span>
+      <span class="topbar-badge">🎓 Admissions Open — June 2025 Batch</span>
       <div class="topbar-item" style="gap:.5rem">
-        <a href="https://linkedin.com/company/tech1world" target="_blank" rel="noopener" style="color:rgba(255,255,255,.55);transition:color .2s" onmouseover="this.style.color='#fbbf24'" onmouseout="this.style.color='rgba(255,255,255,0.55)'"><i class="fab fa-linkedin-in"></i></a>
-        <a href="https://youtube.com/@tech1world" target="_blank" rel="noopener" style="color:rgba(255,255,255,.55);transition:color .2s" onmouseover="this.style.color='#fbbf24'" onmouseout="this.style.color='rgba(255,255,255,0.55)'"><i class="fab fa-youtube"></i></a>
+        <a href="https://linkedin.com/company/Tech1World" target="_blank" rel="noopener" style="color:rgba(255,255,255,.55);transition:color .2s" onmouseover="this.style.color='#fbbf24'" onmouseout="this.style.color='rgba(255,255,255,0.55)'"><i class="fab fa-linkedin-in"></i></a>
+        <a href="https://youtube.com/@Tech1World" target="_blank" rel="noopener" style="color:rgba(255,255,255,.55);transition:color .2s" onmouseover="this.style.color='#fbbf24'" onmouseout="this.style.color='rgba(255,255,255,0.55)'"><i class="fab fa-youtube"></i></a>
         <a href="https://wa.me/918082151063" target="_blank" rel="noopener" style="color:rgba(255,255,255,.55);transition:color .2s" onmouseover="this.style.color='#fbbf24'" onmouseout="this.style.color='rgba(255,255,255,0.55)'"><i class="fab fa-whatsapp"></i></a>
-        <a href="https://instagram.com/tech1world" target="_blank" rel="noopener" style="color:rgba(255,255,255,.55);transition:color .2s" onmouseover="this.style.color='#fbbf24'" onmouseout="this.style.color='rgba(255,255,255,0.55)'"><i class="fab fa-instagram"></i></a>
+        <a href="https://instagram.com/Tech1World" target="_blank" rel="noopener" style="color:rgba(255,255,255,.55);transition:color .2s" onmouseover="this.style.color='#fbbf24'" onmouseout="this.style.color='rgba(255,255,255,0.55)'"><i class="fab fa-instagram"></i></a>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ════════════════════════════════════════
-     NAVBAR
-════════════════════════════════════════ -->
+<!-- NAVBAR -->
 <nav id="navbar">
   <div class="con nav-inner">
-    <a href="#hero" class="nav-logo">
+    <a href="#hero" class="nav-logo" onclick="navScrollTo('hero')">
       <div class="nav-logo-icon">T1</div>
       <div>
-        <div class="nav-logo-text">Tech1<span>World</span></div>
+        <div class="nav-logo-text">Tecch1<span>World</span></div>
         <span class="nav-logo-sub">Institute of QA &amp; Testing</span>
       </div>
     </a>
     <ul class="nav-links" id="navLinks">
-      <li><a href="#hero" class="active-link">Home</a></li>
+      <li><a href="#hero" class="active-link" onclick="navScrollTo('hero')">Home</a></li>
       <li class="nav-drop">
         <a href="#programs">Programs</a>
         <div class="drop-menu">
@@ -619,7 +499,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
           <a href="#programs" onclick="navScrollTo('programs')"><i class="fas fa-code"></i>Full Stack Developer</a>
           <a href="#programs" onclick="navScrollTo('programs')"><i class="fas fa-tachometer-alt"></i>Performance &amp; Security</a>
           <div class="drop-divider"></div>
-          <a href="#programs" onclick="navScrollTo('programs')"><i class="fas fa-briefcase"></i>Internship Program (Free)</a>
+          <a href="#programs" onclick="navScrollTo('programs')"><i class="fas fa-briefcase"></i>Internship Program</a>
           <a href="#programs" onclick="navScrollTo('programs')"><i class="fas fa-certificate"></i>Short Courses (4–8 Weeks)</a>
         </div>
       </li>
@@ -646,10 +526,10 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
   </div>
 </nav>
 
-<!-- Mobile Nav -->
+<!-- MOBILE NAV -->
 <div id="mob-nav">
   <div class="mob-nav-links">
-    <a href="#hero" onclick="closeMob()">Home</a>
+    <a href="#hero" onclick="mobScrollTo('hero')">Home</a>
     <a href="#programs" onclick="mobScrollTo('programs')">Programs</a>
     <a href="#curriculum" onclick="mobScrollTo('curriculum')">Curriculum</a>
     <a href="#brochures" onclick="mobScrollTo('brochures')">Brochures</a>
@@ -665,15 +545,13 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
   </div>
 </div>
 
-<!-- ════════════════════════════════════════
-     TICKER
-════════════════════════════════════════ -->
+<!-- TICKER -->
 <div class="ticker-bar" style="margin-top:var(--total-top)">
   <div class="ticker-inner">
-    <span class="ticker-item">🎓 New Batch Starting: June 10, 2026</span>
+    <span class="ticker-item">🎓 New Batch Starting: June 10, 2025</span>
     <span class="ticker-item">🚀 100% Placement Assistance</span>
     <span class="ticker-item">🏆 ISTQB Certification Prep Included</span>
-    <span class="ticker-item">💼 50+ Hiring Partners</span>
+    <span class="ticker-item">💼 450+ Hiring Partners</span>
     <span class="ticker-item">⚡ Live Project Training</span>
     <span class="ticker-item">🌐 Online, Offline &amp; Hybrid</span>
     <span class="ticker-item">📜 Industry-Recognized Certificates</span>
@@ -681,7 +559,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
     <span class="ticker-item">🎓 New Batch Starting: June 10, 2025</span>
     <span class="ticker-item">🚀 100% Placement Assistance</span>
     <span class="ticker-item">🏆 ISTQB Certification Prep Included</span>
-    <span class="ticker-item">💼 50+ Hiring Partners</span>
+    <span class="ticker-item">💼 450+ Hiring Partners</span>
     <span class="ticker-item">⚡ Live Project Training</span>
     <span class="ticker-item">🌐 Online, Offline &amp; Hybrid</span>
     <span class="ticker-item">📜 Industry-Recognized Certificates</span>
@@ -689,9 +567,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
   </div>
 </div>
 
-<!-- ════════════════════════════════════════
-     HERO — padding-top is handled by position:relative + flex
-════════════════════════════════════════ -->
+<!-- HERO -->
 <section id="hero">
   <div class="hero-bg-grid"></div>
   <div class="hero-orb1"></div><div class="hero-orb2"></div><div class="hero-orb3"></div>
@@ -716,7 +592,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
         <div class="terminal">
           <div class="terminal-bar">
             <div class="t-dot t-r"></div><div class="t-dot t-y"></div><div class="t-dot t-g"></div>
-            <span class="terminal-title">selenium_regression_suite.py — Tech1World1World Lab</span>
+            <span class="terminal-title">selenium_regression_suite.py — Tech1World Lab</span>
           </div>
           <div class="terminal-body">
             <div><span class="tc4">$</span> <span class="tc1">python</span> <span class="tc4">-m pytest</span> <span class="tc6">--suite=regression</span> <span class="tc4">-v</span></div>
@@ -742,7 +618,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
   <div class="scroll-cue"><i class="fas fa-chevron-down"></i><span>scroll</span></div>
 </section>
 
-<!-- ════ STATS BAR ════ -->
+<!-- STATS BAR -->
 <section class="stats-bar">
   <div class="con">
     <div class="stats-grid">
@@ -754,9 +630,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
   </div>
 </section>
 
-<!-- ════════════════════════════════════════
-     PROGRAMS
-════════════════════════════════════════ -->
+<!-- PROGRAMS -->
 <section id="programs" class="sec">
   <div class="con">
     <div class="sec-head rv">
@@ -769,11 +643,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
         <div class="prog-featured-badge">⭐ Most Popular</div>
         <div class="prog-icon pi-cyan"><i class="fas fa-robot"></i></div>
         <div class="prog-title">Automation Testing with Selenium</div>
-        <div class="prog-meta">
-          <span class="badge badge-amber">5 Months</span>
-          <span class="badge badge-navy">Intermediate</span>
-          <span class="badge badge-cyan">Hybrid</span>
-        </div>
+        <div class="prog-meta"><span class="badge badge-amber">5 Months</span><span class="badge badge-navy">Intermediate</span><span class="badge badge-cyan">Hybrid</span></div>
         <p class="prog-desc">Master test automation using Selenium WebDriver with Java, TestNG, Cucumber BDD, Maven, Jenkins CI/CD and the complete automation ecosystem.</p>
         <ul class="prog-feats">
           <li>Core Java / Python for Testers</li>
@@ -792,11 +662,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
       <div class="prog-card rv" style="transition-delay:.08s">
         <div class="prog-icon pi-amber"><i class="fas fa-hand-pointer"></i></div>
         <div class="prog-title">Manual Testing &amp; QA</div>
-        <div class="prog-meta">
-          <span class="badge badge-amber">3 Months</span>
-          <span class="badge badge-green">Beginner Friendly</span>
-          <span class="badge badge-cyan">Hybrid</span>
-        </div>
+        <div class="prog-meta"><span class="badge badge-amber">3 Months</span><span class="badge badge-green">Beginner Friendly</span><span class="badge badge-cyan">Hybrid</span></div>
         <p class="prog-desc">Master software testing fundamentals — SDLC, STLC, test case design, bug tracking with JIRA, Agile methodology and industry QA practices.</p>
         <ul class="prog-feats">
           <li>SDLC, STLC &amp; Agile / Scrum</li>
@@ -815,11 +681,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
       <div class="prog-card rv" style="transition-delay:.16s">
         <div class="prog-icon pi-green"><i class="fas fa-infinity"></i></div>
         <div class="prog-title">DevOps Engineering</div>
-        <div class="prog-meta">
-          <span class="badge badge-amber">6 Months</span>
-          <span class="badge badge-navy">Advanced</span>
-          <span class="badge badge-green">Hybrid</span>
-        </div>
+        <div class="prog-meta"><span class="badge badge-amber">6 Months</span><span class="badge badge-navy">Advanced</span><span class="badge badge-green">Hybrid</span></div>
         <p class="prog-desc">Become a DevOps Engineer — Git, Docker, Kubernetes, Jenkins pipelines, AWS/Azure, Ansible, Terraform and complete CI/CD mastery.</p>
         <ul class="prog-feats">
           <li>Linux &amp; Shell Scripting</li>
@@ -838,11 +700,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
       <div class="prog-card rv" style="transition-delay:.24s">
         <div class="prog-icon pi-navy"><i class="fas fa-code"></i></div>
         <div class="prog-title">Full Stack Developer Program</div>
-        <div class="prog-meta">
-          <span class="badge badge-amber">8 Months</span>
-          <span class="badge badge-navy">Beginner→Advanced</span>
-          <span class="badge badge-cyan">Hybrid</span>
-        </div>
+        <div class="prog-meta"><span class="badge badge-amber">8 Months</span><span class="badge badge-navy">Beginner→Advanced</span><span class="badge badge-cyan">Hybrid</span></div>
         <p class="prog-desc">Complete full stack — HTML, CSS, JavaScript, React, Node.js, MongoDB, REST APIs, and cloud deployment with 5 real portfolio projects.</p>
         <ul class="prog-feats">
           <li>HTML5, CSS3, JavaScript ES6+</li>
@@ -861,11 +719,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
       <div class="prog-card rv" style="transition-delay:.32s">
         <div class="prog-icon pi-rose"><i class="fas fa-briefcase"></i></div>
         <div class="prog-title">Internship Program (Paid)</div>
-        <div class="prog-meta">
-          <span class="badge badge-amber">3–6 Months</span>
-          <span class="badge badge-green">Stipend Paid</span>
-          <span class="badge badge-cyan">Remote + Office</span>
-        </div>
+        <div class="prog-meta"><span class="badge badge-amber">3–6 Months</span><span class="badge badge-green">Stipend Paid</span><span class="badge badge-cyan">Remote + Office</span></div>
         <p class="prog-desc">Work on real client projects, earn a stipend and build your professional portfolio with industry-grade experience under senior engineer mentorship.</p>
         <ul class="prog-feats">
           <li>Real Client Project Assignments</li>
@@ -884,11 +738,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
       <div class="prog-card rv" style="transition-delay:.4s">
         <div class="prog-icon pi-violet"><i class="fas fa-tachometer-alt"></i></div>
         <div class="prog-title">Performance &amp; Security Testing</div>
-        <div class="prog-meta">
-          <span class="badge badge-amber">4 Months</span>
-          <span class="badge badge-navy">Advanced</span>
-          <span class="badge badge-cyan">Hybrid</span>
-        </div>
+        <div class="prog-meta"><span class="badge badge-amber">4 Months</span><span class="badge badge-navy">Advanced</span><span class="badge badge-cyan">Hybrid</span></div>
         <p class="prog-desc">Master non-functional testing — JMeter performance testing, load/stress testing, OWASP security testing and vulnerability assessment.</p>
         <ul class="prog-feats">
           <li>JMeter — Load &amp; Performance</li>
@@ -916,9 +766,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
   </div>
 </section>
 
-<!-- ════════════════════════════════════════
-     CURRICULUM
-════════════════════════════════════════ -->
+<!-- CURRICULUM -->
 <section id="curriculum" class="sec sec-alt">
   <div class="con">
     <div class="sec-head rv">
@@ -1020,7 +868,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
             <li><i class="fas fa-circle-check"></i><span>ISTQB Mock Exams &amp; Prep</span><span class="curr-week">Week 3</span></li>
             <li><i class="fas fa-circle-check"></i><span>Resume Building &amp; Interview Prep</span><span class="curr-week">Week 4</span></li>
             <li><i class="fas fa-circle-check"></i><span>HR Mock Rounds (3 rounds)</span><span class="curr-week">Week 4</span></li>
-            <li><i class="fas fa-circle-check"></i><span>Tech1World1World Certification Award</span><span class="curr-week">Final</span></li>
+            <li><i class="fas fa-circle-check"></i><span>Tech1World Certification Award</span><span class="curr-week">Final</span></li>
           </ul>
         </div>
       </div>
@@ -1028,14 +876,12 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
   </div>
 </section>
 
-<!-- ════════════════════════════════════════
-     WHY CHOOSE US
-════════════════════════════════════════ -->
+<!-- WHY CHOOSE -->
 <section id="about" class="sec">
   <div class="con">
     <div class="why-2col">
       <div class="rvl">
-        <span class="sec-label">Why Tech1World1World</span>
+        <span class="sec-label">Why Tech1World</span>
         <h2 class="sec-title">Built for Real <em>Industry Success</em></h2>
         <p class="sec-desc">We don't just teach theory — we build industry-ready professionals through hands-on training, live projects, and dedicated placement support that actually works.</p>
         <div class="why-points">
@@ -1057,9 +903,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
   </div>
 </section>
 
-<!-- ════════════════════════════════════════
-     BROCHURES
-════════════════════════════════════════ -->
+<!-- BROCHURES -->
 <section id="brochures" class="sec sec-alt">
   <div class="con">
     <div class="sec-head rv">
@@ -1069,36 +913,34 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
     </div>
     <div class="brochure-grid">
       <div class="brochure-card rv">
-        <div class="brochure-thumb t-navy"><span class="brochure-tag">PDF · 2.4 MB</span><div class="brochure-thumb-icon"><i class="fas fa-hand-pointer"></i></div><div class="brochure-thumb-name">Manual Testing</div></div>
-        <div class="brochure-body"><div class="brochure-title">Manual Testing &amp; QA Brochure</div><p class="brochure-desc">Complete 3-month syllabus, class schedule, fees structure, ISTQB prep details, and 2024 placement statistics.</p><div class="brochure-ft"><span class="brochure-size"><i class="fas fa-file-pdf" style="color:var(--rose)"></i> PDF · 2.4 MB</span><button class="brochure-dl" onclick="dlBrochure('Manual_Testing_Brochure.pdf')"><i class="fas fa-download"></i>Download</button></div></div>
+        <div class="brochure-thumb t-navy"><span class="brochure-tag">PDF</span><div class="brochure-thumb-icon"><i class="fas fa-hand-pointer"></i></div><div class="brochure-thumb-name">Manual Testing</div></div>
+        <div class="brochure-body"><div class="brochure-title">Manual Testing &amp; QA Brochure</div><p class="brochure-desc">Complete 3-month syllabus, class schedule, fees structure, ISTQB prep details, and 2024 placement statistics.</p><div class="brochure-ft"><span class="brochure-size"><i class="fas fa-file-pdf" style="color:var(--rose)"></i> PDF</span><button class="brochure-dl" onclick="dlBrochure('Manual_Testing_Brochure','Manual Testing & QA')"><i class="fas fa-download"></i>Download</button></div></div>
       </div>
       <div class="brochure-card rv" style="transition-delay:.08s">
-        <div class="brochure-thumb t-cyan"><span class="brochure-tag">PDF · 3.1 MB</span><div class="brochure-thumb-icon"><i class="fas fa-robot"></i></div><div class="brochure-thumb-name">Automation Testing</div></div>
-        <div class="brochure-body"><div class="brochure-title">Automation Testing — Selenium Brochure</div><p class="brochure-desc">5-month program: Java, Selenium, TestNG, Cucumber, API testing, tool list and live project scope.</p><div class="brochure-ft"><span class="brochure-size"><i class="fas fa-file-pdf" style="color:var(--rose)"></i> PDF · 3.1 MB</span><button class="brochure-dl" onclick="dlBrochure('Automation_Testing_Brochure.pdf')"><i class="fas fa-download"></i>Download</button></div></div>
+        <div class="brochure-thumb t-cyan"><span class="brochure-tag">PDF</span><div class="brochure-thumb-icon"><i class="fas fa-robot"></i></div><div class="brochure-thumb-name">Automation Testing</div></div>
+        <div class="brochure-body"><div class="brochure-title">Automation Testing — Selenium Brochure</div><p class="brochure-desc">5-month program: Java, Selenium, TestNG, Cucumber, API testing, tool list and live project scope.</p><div class="brochure-ft"><span class="brochure-size"><i class="fas fa-file-pdf" style="color:var(--rose)"></i> PDF</span><button class="brochure-dl" onclick="dlBrochure('Automation_Testing_Brochure','Automation Testing - Selenium')"><i class="fas fa-download"></i>Download</button></div></div>
       </div>
       <div class="brochure-card rv" style="transition-delay:.16s">
-        <div class="brochure-thumb t-green"><span class="brochure-tag">PDF · 2.8 MB</span><div class="brochure-thumb-icon"><i class="fas fa-infinity"></i></div><div class="brochure-thumb-name">DevOps Program</div></div>
-        <div class="brochure-body"><div class="brochure-title">DevOps Engineering Brochure</div><p class="brochure-desc">6-month DevOps roadmap: Docker, Kubernetes, AWS, Jenkins — with cloud lab access details and career outcomes.</p><div class="brochure-ft"><span class="brochure-size"><i class="fas fa-file-pdf" style="color:var(--rose)"></i> PDF · 2.8 MB</span><button class="brochure-dl" onclick="dlBrochure('DevOps_Program_Brochure.pdf')"><i class="fas fa-download"></i>Download</button></div></div>
+        <div class="brochure-thumb t-green"><span class="brochure-tag">PDF</span><div class="brochure-thumb-icon"><i class="fas fa-infinity"></i></div><div class="brochure-thumb-name">DevOps Program</div></div>
+        <div class="brochure-body"><div class="brochure-title">DevOps Engineering Brochure</div><p class="brochure-desc">6-month DevOps roadmap: Docker, Kubernetes, AWS, Jenkins — with cloud lab access details and career outcomes.</p><div class="brochure-ft"><span class="brochure-size"><i class="fas fa-file-pdf" style="color:var(--rose)"></i> PDF</span><button class="brochure-dl" onclick="dlBrochure('DevOps_Program_Brochure','DevOps Engineering')"><i class="fas fa-download"></i>Download</button></div></div>
       </div>
       <div class="brochure-card rv" style="transition-delay:.24s">
-        <div class="brochure-thumb t-amber"><span class="brochure-tag">PDF · 3.5 MB</span><div class="brochure-thumb-icon"><i class="fas fa-code"></i></div><div class="brochure-thumb-name">Full Stack Dev</div></div>
-        <div class="brochure-body"><div class="brochure-title">Full Stack Developer Brochure</div><p class="brochure-desc">8-month full stack journey: HTML to React, Node.js, cloud deployment with 5 portfolio projects.</p><div class="brochure-ft"><span class="brochure-size"><i class="fas fa-file-pdf" style="color:var(--rose)"></i> PDF · 3.5 MB</span><button class="brochure-dl" onclick="dlBrochure('FullStack_Developer_Brochure.pdf')"><i class="fas fa-download"></i>Download</button></div></div>
+        <div class="brochure-thumb t-amber"><span class="brochure-tag">PDF</span><div class="brochure-thumb-icon"><i class="fas fa-code"></i></div><div class="brochure-thumb-name">Full Stack Dev</div></div>
+        <div class="brochure-body"><div class="brochure-title">Full Stack Developer Brochure</div><p class="brochure-desc">8-month full stack journey: HTML to React, Node.js, cloud deployment with 5 portfolio projects.</p><div class="brochure-ft"><span class="brochure-size"><i class="fas fa-file-pdf" style="color:var(--rose)"></i> PDF</span><button class="brochure-dl" onclick="dlBrochure('FullStack_Developer_Brochure','Full Stack Developer')"><i class="fas fa-download"></i>Download</button></div></div>
       </div>
       <div class="brochure-card rv" style="transition-delay:.32s">
-        <div class="brochure-thumb t-rose"><span class="brochure-tag">PDF · 1.8 MB</span><div class="brochure-thumb-icon"><i class="fas fa-briefcase"></i></div><div class="brochure-thumb-name">Internship Program</div></div>
-        <div class="brochure-body"><div class="brochure-title">Internship Program Guide</div><p class="brochure-desc">Eligibility, stipend structure, project types, mentorship process, certificate samples and alumni stories.</p><div class="brochure-ft"><span class="brochure-size"><i class="fas fa-file-pdf" style="color:var(--rose)"></i> PDF · 1.8 MB</span><button class="brochure-dl" onclick="dlBrochure('Internship_Guide.pdf')"><i class="fas fa-download"></i>Download</button></div></div>
+        <div class="brochure-thumb t-rose"><span class="brochure-tag">PDF</span><div class="brochure-thumb-icon"><i class="fas fa-briefcase"></i></div><div class="brochure-thumb-name">Internship Program</div></div>
+        <div class="brochure-body"><div class="brochure-title">Internship Program Guide</div><p class="brochure-desc">Eligibility, stipend structure, project types, mentorship process, certificate samples and alumni stories.</p><div class="brochure-ft"><span class="brochure-size"><i class="fas fa-file-pdf" style="color:var(--rose)"></i> PDF</span><button class="brochure-dl" onclick="dlBrochure('Internship_Guide','Internship Program')"><i class="fas fa-download"></i>Download</button></div></div>
       </div>
       <div class="brochure-card rv" style="transition-delay:.4s">
-        <div class="brochure-thumb t-violet"><span class="brochure-tag">PDF · 4.2 MB</span><div class="brochure-thumb-icon"><i class="fas fa-building"></i></div><div class="brochure-thumb-name">Institute Prospectus</div></div>
-        <div class="brochure-body"><div class="brochure-title">Tech1World1World Prospectus 2025</div><p class="brochure-desc">All programs, faculty profiles, infrastructure, placement records, student testimonials and fee structure for 2025.</p><div class="brochure-ft"><span class="brochure-size"><i class="fas fa-file-pdf" style="color:var(--rose)"></i> PDF · 4.2 MB</span><button class="brochure-dl" onclick="dlBrochure('Institute_Prospectus_2025.pdf')"><i class="fas fa-download"></i>Download</button></div></div>
+        <div class="brochure-thumb t-violet"><span class="brochure-tag">PDF</span><div class="brochure-thumb-icon"><i class="fas fa-building"></i></div><div class="brochure-thumb-name">Institute Prospectus</div></div>
+        <div class="brochure-body"><div class="brochure-title">Tech1World Prospectus 2025</div><p class="brochure-desc">All programs, faculty profiles, infrastructure, placement records, student testimonials and fee structure for 2025.</p><div class="brochure-ft"><span class="brochure-size"><i class="fas fa-file-pdf" style="color:var(--rose)"></i> PDF</span><button class="brochure-dl" onclick="dlBrochure('Institute_Prospectus_2025','Institute Prospectus 2025')"><i class="fas fa-download"></i>Download</button></div></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ════════════════════════════════════════
-     FACULTY
-════════════════════════════════════════ -->
+<!-- FACULTY -->
 <section id="faculty" class="sec">
   <div class="con">
     <div class="sec-head rv">
@@ -1115,9 +957,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
   </div>
 </section>
 
-<!-- ════════════════════════════════════════
-     BATCH SCHEDULE
-════════════════════════════════════════ -->
+<!-- BATCH SCHEDULE -->
 <section class="sec sec-alt">
   <div class="con">
     <div class="sec-head rv">
@@ -1127,9 +967,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
     <div class="sched-wrap rv">
       <table class="sched-table">
         <thead>
-          <tr>
-            <th>Program</th><th>Start Date</th><th>Duration</th><th>Timing</th><th>Mode</th><th>Seats Left</th><th>Fee</th><th>Action</th>
-          </tr>
+          <tr><th>Program</th><th>Start Date</th><th>Duration</th><th>Timing</th><th>Mode</th><th>Seats Left</th><th>Fee</th><th>Action</th></tr>
         </thead>
         <tbody>
           <tr><td><div class="sched-prog">Manual Testing &amp; QA</div></td><td>June 10, 2025</td><td>3 Months</td><td>7–9 PM IST</td><td><span class="sched-mode mode-online"><i class="fas fa-wifi"></i> Online</span></td><td><span class="sched-seats seats-low">8 seats</span></td><td>₹18,000</td><td><a href="#admission" onclick="navScrollTo('admission')" class="btn btn-primary btn-xs">Join</a></td></tr>
@@ -1145,15 +983,13 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
   </div>
 </section>
 
-<!-- ════════════════════════════════════════
-     PLACEMENT
-════════════════════════════════════════ -->
+<!-- PLACEMENT -->
 <section id="placement" class="sec sec-dark">
   <div class="con">
     <div class="sec-head rv">
       <span class="sec-label" style="color:var(--amber)">Placements</span>
       <h2 class="sec-title sec-title-white">Our <em>Placement Partners</em></h2>
-      <p class="sec-desc sec-desc-light">450+ companies actively hire from Tech1World1World. Our alumni work at India's top tech MNCs and growing startups.</p>
+      <p class="sec-desc sec-desc-light">450+ companies actively hire from Tech1World. Our alumni work at India's top tech MNCs and growing startups.</p>
     </div>
     <div class="company-grid rv">
       <div class="company-card"><div class="company-name">Infosys</div></div>
@@ -1185,9 +1021,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
   </div>
 </section>
 
-<!-- ════════════════════════════════════════
-     TESTIMONIALS
-════════════════════════════════════════ -->
+<!-- TESTIMONIALS -->
 <section id="testimonials" class="sec sec-alt">
   <div class="con">
     <div class="sec-head rv">
@@ -1195,8 +1029,8 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
       <h2 class="sec-title">What Our <em>Students Say</em></h2>
     </div>
     <div class="testi-grid">
-      <div class="testi-card rv"><div class="testi-stars">★★★★★</div><p class="testi-text">Joined Tech1World1World with zero testing knowledge, landed a job at Infosys as SDET within 3 months of completing Automation Testing. The practical approach is unmatched.</p><div class="testi-author"><div class="testi-av" style="background:linear-gradient(135deg,#1d4ed8,#06b6d4)">AP</div><div><div class="testi-name">Anjali Patel</div><div class="testi-role">SDET at Infosys · Placed 2024</div></div></div></div>
-      <div class="testi-card rv" style="transition-delay:.08s"><div class="testi-stars">★★★★★</div><p class="testi-text">The DevOps program is phenomenal. Hands-on with Docker, Kubernetes and AWS every day. Got placed at HCL with ₹8.5 LPA — couldn't have done it without Tech1World1World.</p><div class="testi-author"><div class="testi-av" style="background:linear-gradient(135deg,#059669,#0d9488)">RS</div><div><div class="testi-name">Rohit Singh</div><div class="testi-role">DevOps Engineer at HCL · ₹8.5 LPA</div></div></div></div>
+      <div class="testi-card rv"><div class="testi-stars">★★★★★</div><p class="testi-text">Joined Tech1World with zero testing knowledge, landed a job at Infosys as SDET within 3 months of completing Automation Testing. The practical approach is unmatched.</p><div class="testi-author"><div class="testi-av" style="background:linear-gradient(135deg,#1d4ed8,#06b6d4)">AP</div><div><div class="testi-name">Anjali Patel</div><div class="testi-role">SDET at Infosys · Placed 2024</div></div></div></div>
+      <div class="testi-card rv" style="transition-delay:.08s"><div class="testi-stars">★★★★★</div><p class="testi-text">The DevOps program is phenomenal. Hands-on with Docker, Kubernetes and AWS every day. Got placed at HCL with ₹8.5 LPA — couldn't have done it without Tech1World.</p><div class="testi-author"><div class="testi-av" style="background:linear-gradient(135deg,#059669,#0d9488)">RS</div><div><div class="testi-name">Rohit Singh</div><div class="testi-role">DevOps Engineer at HCL · ₹8.5 LPA</div></div></div></div>
       <div class="testi-card rv" style="transition-delay:.16s"><div class="testi-stars">★★★★★</div><p class="testi-text">Best decision of my career. After 2 years struggling, I joined Manual Testing and got placed at TCS within 6 weeks of completing it. Faculty is gold.</p><div class="testi-author"><div class="testi-av" style="background:linear-gradient(135deg,#9333ea,#db2777)">MK</div><div><div class="testi-name">Meera Krishnan</div><div class="testi-role">QA Analyst at TCS · Placed 2024</div></div></div></div>
       <div class="testi-card rv" style="transition-delay:.24s"><div class="testi-stars">★★★★★</div><p class="testi-text">The internship program gave me real industry experience on a live banking project, a ₹12,000 stipend and a direct job offer after completing it!</p><div class="testi-author"><div class="testi-av" style="background:linear-gradient(135deg,#dc2626,#ea580c)">VR</div><div><div class="testi-name">Vishal Reddy</div><div class="testi-role">Intern → Full-Time at Capgemini</div></div></div></div>
       <div class="testi-card rv" style="transition-delay:.32s"><div class="testi-stars">★★★★★</div><p class="testi-text">Was a manual tester for 3 years, stuck. The Automation course helped me transition to SDET with a 120% salary hike at Wipro. The ROI is insane.</p><div class="testi-author"><div class="testi-av" style="background:linear-gradient(135deg,#1d4ed8,#7c3aed)">NJ</div><div><div class="testi-name">Neha Joshi</div><div class="testi-role">SDET at Wipro · 120% Salary Hike</div></div></div></div>
@@ -1205,9 +1039,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
   </div>
 </section>
 
-<!-- ════════════════════════════════════════
-     ADMISSION FORM
-════════════════════════════════════════ -->
+<!-- ADMISSION FORM -->
 <section id="admission" class="sec admission-sec">
   <div class="con">
     <div class="form-2col">
@@ -1265,9 +1097,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
   </div>
 </section>
 
-<!-- ════════════════════════════════════════
-     FAQ
-════════════════════════════════════════ -->
+<!-- FAQ -->
 <section class="sec sec-alt">
   <div class="con">
     <div class="sec-head rv">
@@ -1280,15 +1110,13 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
       <div class="faq-item rv" style="transition-delay:.08s"><div class="faq-q" onclick="toggleFaq(this)"><span>What does "100% Placement Assistance" mean exactly?</span><i class="fas fa-chevron-down faq-arrow"></i></div><div class="faq-a">Our placement assistance includes: resume building and optimization, LinkedIn profile makeover, mock technical and HR interviews, portfolio review, and direct referrals to our 450+ hiring partners. Our 2024 batch had a 96% placement rate within 90 days of course completion.</div></div>
       <div class="faq-item rv" style="transition-delay:.12s"><div class="faq-q" onclick="toggleFaq(this)"><span>Can I get an EMI for the course fee?</span><i class="fas fa-chevron-down faq-arrow"></i></div><div class="faq-a">Yes! We offer No Cost EMI (0% interest) through HDFC, ICICI, Axis, and Razorpay. Starting from ₹3,500/month for Manual Testing. You can also pay in 2–3 instalments directly to us with no extra charge. Contact our counselor for the exact EMI plan.</div></div>
       <div class="faq-item rv" style="transition-delay:.16s"><div class="faq-q" onclick="toggleFaq(this)"><span>Are the classes recorded? What if I miss a session?</span><i class="fas fa-chevron-down faq-arrow"></i></div><div class="faq-a">Yes, every live session is recorded and uploaded to our student portal within 4 hours. You get lifetime access to all recordings, notes, and materials. You can also attend any missed topic in the next batch free of cost.</div></div>
-      <div class="faq-item rv" style="transition-delay:.2s"><div class="faq-q" onclick="toggleFaq(this)"><span>Do I get a certificate after completing the course?</span><i class="fas fa-chevron-down faq-arrow"></i></div><div class="faq-a">Yes! You receive a Tech1World1World Course Completion Certificate recognized by our 450+ hiring partners. For the internship program, you also receive an LOR and internship certificate. All certificates are digitally verifiable with QR codes.</div></div>
+      <div class="faq-item rv" style="transition-delay:.2s"><div class="faq-q" onclick="toggleFaq(this)"><span>Do I get a certificate after completing the course?</span><i class="fas fa-chevron-down faq-arrow"></i></div><div class="faq-a">Yes! You receive a Tech1World Course Completion Certificate recognized by our 450+ hiring partners. For the internship program, you also receive an LOR and internship certificate. All certificates are digitally verifiable with QR codes.</div></div>
       <div class="faq-item rv" style="transition-delay:.24s"><div class="faq-q" onclick="toggleFaq(this)"><span>Is the internship open to students from other colleges/institutions?</span><i class="fas fa-chevron-down faq-arrow"></i></div><div class="faq-a">The internship program is primarily for our course graduates, but we occasionally accept external candidates for specific projects through a screening test. Priority is always given to our students. Contact us to discuss your situation.</div></div>
     </div>
   </div>
 </section>
 
-<!-- ════════════════════════════════════════
-     CONTACT
-════════════════════════════════════════ -->
+<!-- CONTACT -->
 <section id="contact" class="sec sec-dark">
   <div class="con">
     <div class="sec-head rv">
@@ -1300,7 +1128,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
       <div class="rvl">
         <div class="contact-cards">
           <div class="contact-card"><div class="c-ico"><i class="fas fa-phone"></i></div><div><div class="c-title">Call / WhatsApp</div><div class="c-val"><a href="tel:+918082151063">+91 8082151063</a><br><a href="https://wa.me/918082151063" target="_blank" rel="noopener">WhatsApp Chat →</a></div></div></div>
-          <div class="contact-card"><div class="c-ico"><i class="fas fa-envelope"></i></div><div><div class="c-title">Email Us</div><div class="c-val"><a href="mailto:info@Tech1World1world.com">info@Tech1World1world.com</a><br><a href="mailto:admissions@Tech1World1world.com">admissions@Tech1World1world.com</a></div></div></div>
+          <div class="contact-card"><div class="c-ico"><i class="fas fa-envelope"></i></div><div><div class="c-title">Email Us</div><div class="c-val"><a href="mailto:info@Tech1World.com">info@Tech1World.com</a><br><a href="mailto:admissions@Tech1World.com">admissions@Tech1World.com</a></div></div></div>
           <div class="contact-card"><div class="c-ico"><i class="fas fa-map-marker-alt"></i></div><div><div class="c-title">Visit Our Center</div><div class="c-val">123 Tech Park, 4th Floor<br>Koramangala, Bangalore — 560034<br><a href="https://maps.google.com?q=Koramangala+Bangalore" target="_blank" rel="noopener">Get Directions →</a></div></div></div>
           <div class="contact-card"><div class="c-ico"><i class="fas fa-clock"></i></div><div><div class="c-title">Office Hours</div><div class="c-val">Monday–Saturday: 9 AM – 7 PM IST<br>Sunday: WhatsApp support available</div></div></div>
         </div>
@@ -1310,30 +1138,28 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
         <div class="contact-form-box">
           <div class="cfb-title"><i class="fas fa-paper-plane" style="color:var(--amber)"></i>Send Us a Message</div>
           <form id="contactForm" onsubmit="submitContact(event)" novalidate>
-            <div class="c-fg"><label>Your Name</label><input type="text" placeholder="Full Name" required></div>
-            <div class="c-fg"><label>Email / Phone</label><input type="text" placeholder="Email or phone number" required></div>
+            <div class="c-fg"><label>Your Name</label><input type="text" id="c-name" placeholder="Full Name" required></div>
+            <div class="c-fg"><label>Email / Phone</label><input type="text" id="c-contact" placeholder="Email or phone number" required></div>
             <div class="c-fg"><label>Subject</label>
-              <select><option>Course Enquiry</option><option>Internship</option><option>Placement Support</option><option>Fee &amp; EMI</option><option>Corporate Training</option><option>Other</option></select>
+              <select id="c-subject"><option>Course Enquiry</option><option>Internship</option><option>Placement Support</option><option>Fee &amp; EMI</option><option>Corporate Training</option><option>Other</option></select>
             </div>
-            <div class="c-fg"><label>Message</label><textarea placeholder="Your question or message..."></textarea></div>
-            <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;padding:.85rem;font-size:.93rem"><i class="fas fa-paper-plane"></i>Send Message</button>
+            <div class="c-fg"><label>Message</label><textarea id="c-message" placeholder="Your question or message..."></textarea></div>
+            <button type="submit" class="btn btn-primary" id="contactBtn" style="width:100%;justify-content:center;padding:.85rem;font-size:.93rem"><i class="fas fa-paper-plane"></i>Send Message</button>
           </form>
         </div>
         <div class="social-row">
-          <a href="https://youtube.com/@Tech1World1world" target="_blank" rel="noopener" class="btn btn-outline-white btn-sm"><i class="fab fa-youtube"></i>YouTube</a>
-          <a href="https://linkedin.com/company/Tech1World1world" target="_blank" rel="noopener" class="btn btn-outline-white btn-sm"><i class="fab fa-linkedin-in"></i>LinkedIn</a>
-          <a href="https://instagram.com/Tech1World1world" target="_blank" rel="noopener" class="btn btn-outline-white btn-sm"><i class="fab fa-instagram"></i>Instagram</a>
+          <a href="https://youtube.com/@Tech1World" target="_blank" rel="noopener" class="btn btn-outline-white btn-sm"><i class="fab fa-youtube"></i>YouTube</a>
+          <a href="https://linkedin.com/company/Tech1World" target="_blank" rel="noopener" class="btn btn-outline-white btn-sm"><i class="fab fa-linkedin-in"></i>LinkedIn</a>
+          <a href="https://instagram.com/Tech1World" target="_blank" rel="noopener" class="btn btn-outline-white btn-sm"><i class="fab fa-instagram"></i>Instagram</a>
           <a href="https://wa.me/918082151063" target="_blank" rel="noopener" class="btn btn-outline-white btn-sm"><i class="fab fa-whatsapp"></i>WhatsApp</a>
-          <a href="https://t.me/Tech1World1world" target="_blank" rel="noopener" class="btn btn-outline-white btn-sm"><i class="fab fa-telegram"></i>Telegram</a>
+          <a href="https://t.me/Tech1World" target="_blank" rel="noopener" class="btn btn-outline-white btn-sm"><i class="fab fa-telegram"></i>Telegram</a>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ════════════════════════════════════════
-     FOOTER
-════════════════════════════════════════ -->
+<!-- FOOTER -->
 <footer>
   <div class="footer-top">
     <div class="con">
@@ -1341,21 +1167,18 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
         <div class="fb-brand">
           <a href="#hero" onclick="navScrollTo('hero')" style="display:inline-flex;align-items:center;gap:.65rem">
             <div class="nav-logo-icon">T1</div>
-            <div><div class="nav-logo-text">Tech1World1<span>World</span></div><span class="nav-logo-sub">Institute of QA &amp; Testing</span></div>
+            <div><div class="nav-logo-text">Tecch1<span style="color:var(--amber)">World</span></div><span class="nav-logo-sub">Institute of QA &amp; Testing</span></div>
           </a>
           <p>India's leading institute for Software Testing, Automation, DevOps and Full Stack Development training with 12+ years of excellence and 8,500+ students placed.</p>
           <div class="fb-soc">
-            <a href="https://youtube.com/@Tech1World1world" target="_blank" rel="noopener" class="soc-btn"><i class="fab fa-youtube"></i></a>
-            <a href="https://linkedin.com/company/Tech1World1world" target="_blank" rel="noopener" class="soc-btn"><i class="fab fa-linkedin-in"></i></a>
-            <a href="https://instagram.com/Tech1World1world" target="_blank" rel="noopener" class="soc-btn"><i class="fab fa-instagram"></i></a>
+            <a href="https://youtube.com/@Tech1World" target="_blank" rel="noopener" class="soc-btn"><i class="fab fa-youtube"></i></a>
+            <a href="https://linkedin.com/company/Tech1World" target="_blank" rel="noopener" class="soc-btn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://instagram.com/Tech1World" target="_blank" rel="noopener" class="soc-btn"><i class="fab fa-instagram"></i></a>
             <a href="https://wa.me/918082151063" target="_blank" rel="noopener" class="soc-btn"><i class="fab fa-whatsapp"></i></a>
-            <a href="https://t.me/Tech1World1world" target="_blank" rel="noopener" class="soc-btn"><i class="fab fa-telegram"></i></a>
+            <a href="https://t.me/Tech1World" target="_blank" rel="noopener" class="soc-btn"><i class="fab fa-telegram"></i></a>
           </div>
           <div class="fb-acc">
-            <div class="fb-acc-b">ISTQB</div>
-            <div class="fb-acc-b">ISO 9001</div>
-            <div class="fb-acc-b">NASSCOM</div>
-            <div class="fb-acc-b">12+ Years</div>
+            <div class="fb-acc-b">ISTQB</div><div class="fb-acc-b">ISO 9001</div><div class="fb-acc-b">NASSCOM</div><div class="fb-acc-b">12+ Years</div>
           </div>
         </div>
         <div class="fc">
@@ -1389,7 +1212,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
           </div>
           <div style="display:flex;flex-direction:column;gap:.5rem;margin-top:.5rem">
             <a href="tel:+918082151063" style="display:flex;align-items:center;gap:.5rem;color:rgba(255,255,255,.5);font-size:.8rem;transition:color .2s" onmouseover="this.style.color='#f59e0b'" onmouseout="this.style.color='rgba(255,255,255,0.5)'"><i class="fas fa-phone" style="color:var(--amber)"></i>+91 8082151063</a>
-            <a href="mailto:info@Tech1World1world.com" style="display:flex;align-items:center;gap:.5rem;color:rgba(255,255,255,.5);font-size:.8rem;transition:color .2s" onmouseover="this.style.color='#f59e0b'" onmouseout="this.style.color='rgba(255,255,255,0.5)'"><i class="fas fa-envelope" style="color:var(--amber)"></i>info@Tech1World1world.com</a>
+            <a href="mailto:info@Tech1World.com" style="display:flex;align-items:center;gap:.5rem;color:rgba(255,255,255,.5);font-size:.8rem;transition:color .2s" onmouseover="this.style.color='#f59e0b'" onmouseout="this.style.color='rgba(255,255,255,0.5)'"><i class="fas fa-envelope" style="color:var(--amber)"></i>info@Tech1World.com</a>
           </div>
         </div>
       </div>
@@ -1397,7 +1220,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
   </div>
   <div class="con">
     <div class="footer-bot">
-      <p>© 2025 Tech1World1World Institute. All Rights Reserved. | Bangalore, India</p>
+      <p>© 2025 Tech1World Institute. All Rights Reserved. | Bangalore, India</p>
       <div class="footer-bot-links">
         <a href="#" onclick="showToast('Privacy Policy — Available soon','info');return false">Privacy Policy</a>
         <a href="#" onclick="showToast('Terms of Service — Available soon','info');return false">Terms of Service</a>
@@ -1408,16 +1231,13 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
   </div>
 </footer>
 
-<!-- Toast -->
+<!-- TOAST -->
 <div class="toast" id="toast"><i id="toast-icon" class="fas fa-check-circle"></i><span id="toast-msg"></span></div>
 
-<!-- ════════════════════════════════════════
-     JAVASCRIPT
-════════════════════════════════════════ -->
 <script>
 'use strict';
 
-/* ── SCROLL PROGRESS BAR ── */
+/* ── PROGRESS BAR ── */
 window.addEventListener('scroll', function() {
   var scrolled = window.scrollY;
   var total = document.documentElement.scrollHeight - window.innerHeight;
@@ -1426,16 +1246,16 @@ window.addEventListener('scroll', function() {
   updateActiveNav();
   handleScrollTop();
   handleNavbar();
-}, {passive: true});
+}, {passive:true});
 
-/* ── NAVBAR SCROLL STATE ── */
+/* ── NAVBAR ── */
 function handleNavbar() {
   var nav = document.getElementById('navbar');
   if (window.scrollY > 60) nav.classList.add('scrolled');
   else nav.classList.remove('scrolled');
 }
 
-/* ── SCROLL TO TOP BUTTON ── */
+/* ── SCROLL TOP BTN ── */
 function handleScrollTop() {
   var btn = document.getElementById('scrollTop');
   if (window.scrollY > 400) btn.classList.add('show');
@@ -1449,28 +1269,25 @@ function navScrollTo(id) {
   if (!el) return;
   var offset = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--total-top')) || 106;
   var y = el.getBoundingClientRect().top + window.scrollY - offset - 12;
-  window.scrollTo({top: y, behavior: 'smooth'});
+  window.scrollTo({top: y, behavior:'smooth'});
 }
 function mobScrollTo(id) {
   closeMob();
   setTimeout(function() { navScrollTo(id); }, 280);
 }
 
-/* ── ALL ANCHOR LINKS smooth scroll ── */
+/* ── ANCHOR LINKS ── */
 document.querySelectorAll('a[href^="#"]').forEach(function(a) {
   a.addEventListener('click', function(e) {
     var id = this.getAttribute('href').slice(1);
     if (!id) return;
     var el = document.getElementById(id);
-    if (el) {
-      e.preventDefault();
-      navScrollTo(id);
-    }
+    if (el) { e.preventDefault(); navScrollTo(id); }
   });
 });
 
-/* ── ACTIVE NAV LINK ── */
-var navSections = ['hero','programs','curriculum','brochures','placement','about','contact'];
+/* ── ACTIVE NAV ── */
+var navSections = ['hero','programs','curriculum','brochures','placement','about','testimonials','admission','contact'];
 function updateActiveNav() {
   var offset = 120;
   var cur = '';
@@ -1508,10 +1325,7 @@ function revealAll() {
   });
 }
 window.addEventListener('load', function() {
-  revealAll();
-  handleNavbar();
-  handleScrollTop();
-  updateActiveNav();
+  revealAll(); handleNavbar(); handleScrollTop(); updateActiveNav();
 });
 setTimeout(revealAll, 200);
 
@@ -1540,7 +1354,7 @@ function runCounters() {
     });
   }
 }
-window.addEventListener('scroll', runCounters, {passive: true});
+window.addEventListener('scroll', runCounters, {passive:true});
 window.addEventListener('load', runCounters);
 
 /* ── CURRICULUM ACCORDION ── */
@@ -1570,10 +1384,7 @@ function toggleFaq(q) {
     fq.classList.remove('active');
     if (fq.nextElementSibling) fq.nextElementSibling.classList.remove('show');
   });
-  if (!isOpen) {
-    q.classList.add('active');
-    a.classList.add('show');
-  }
+  if (!isOpen) { q.classList.add('active'); a.classList.add('show'); }
 }
 
 /* ── TOAST ── */
@@ -1591,9 +1402,218 @@ function showToast(msg, type) {
   toastTimer = setTimeout(function() { toast.classList.remove('show'); }, 4500);
 }
 
-/* ── BROCHURE DOWNLOAD ── */
-function dlBrochure(name) {
-  showToast('📄 Downloading ' + name + ' — Thank you!', 'success');
+/* ── BROCHURE DOWNLOAD — generates a real PDF ── */
+function dlBrochure(key, title) {
+  // Build a minimal but complete PDF in memory
+  var now = new Date();
+  var dateStr = now.getFullYear() + ('0'+(now.getMonth()+1)).slice(-2) + ('0'+now.getDate()).slice(-2);
+
+  var content = buildPDFContent(title);
+  var pdfStr = buildPDF(content, title);
+  var bytes = new Uint8Array(pdfStr.length);
+  for (var i = 0; i < pdfStr.length; i++) bytes[i] = pdfStr.charCodeAt(i);
+  var blob = new Blob([bytes], {type:'application/pdf'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = key + '_Tech1World.pdf';
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(function() { URL.revokeObjectURL(url); a.remove(); }, 2000);
+  showToast('✅ Downloading: ' + title + ' Brochure', 'success');
+}
+
+function buildPDFContent(title) {
+  // Map program details
+  var details = {
+    'Manual Testing & QA': {dur:'3 Months', fee:'₹18,000', mode:'Online / Offline / Hybrid', level:'Beginner Friendly', topics:['SDLC, STLC & Agile/Scrum','Test Planning & Design','Black Box, White Box & Grey Box','JIRA, Bugzilla & TestRail','ISTQB Foundation Level Prep','Functional, Regression & UAT Testing','Live E-Commerce Project']},
+    'Automation Testing - Selenium': {dur:'5 Months', fee:'₹32,000', mode:'Online / Hybrid', level:'Intermediate', topics:['Core Java for Testers','Selenium WebDriver — Advanced','TestNG / JUnit + Cucumber BDD','Maven, Jenkins & CI/CD','API Testing with RestAssured','Page Object Model (POM)','Playwright & Cypress Basics']},
+    'DevOps Engineering': {dur:'6 Months', fee:'₹45,000', mode:'Online / Hybrid', level:'Advanced', topics:['Linux & Shell Scripting','Docker & Kubernetes','Jenkins, GitHub Actions','AWS / Azure Fundamentals','Ansible & Terraform (IaC)','Prometheus & Grafana Monitoring','SRE & Incident Management']},
+    'Full Stack Developer': {dur:'8 Months', fee:'₹55,000', mode:'Online / Hybrid', level:'Beginner to Advanced', topics:['HTML5, CSS3, JavaScript ES6+','React.js & Redux','Node.js & Express.js','MongoDB & SQL Databases','REST APIs & GraphQL','Testing with Jest & Cypress','AWS & Netlify Deployment']},
+    'Internship Program': {dur:'3–6 Months', fee:'Free (Stipend: ₹5K–₹15K/mo)', mode:'Remote + Office', level:'Open to All', topics:['Real Client Projects','Stipend: ₹5,000–₹15,000/month','1-on-1 Senior Mentor Guidance','Certificate + Letter of Recommendation','LinkedIn Profile Optimization','Direct Hiring Pathway','Open to Freshers & Students']},
+    'Institute Prospectus 2025': {dur:'All Programs', fee:'Varies by Program', mode:'Online / Offline / Hybrid', level:'All Levels', topics:['Manual Testing & QA — ₹18,000 (3M)','Automation Testing — ₹32,000 (5M)','DevOps Engineering — ₹45,000 (6M)','Full Stack Developer — ₹55,000 (8M)','Performance & Security — ₹28,000 (4M)','Internship Program — Free','Short Courses — 4–8 Weeks']}
+  };
+  return details[title] || details['Manual Testing & QA'];
+}
+
+function buildPDF(d, title) {
+  // Write a valid PDF 1.4
+  var lines = [];
+  var offsets = [];
+  var out = function(s){ lines.push(s); };
+
+  var body = '%PDF-1.4\n';
+
+  // Object 1 - catalog
+  offsets[1] = body.length;
+  body += '1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n';
+
+  // Object 2 - pages
+  offsets[2] = body.length;
+  body += '2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n';
+
+  // Object 3 - page
+  offsets[3] = body.length;
+  body += '3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 4 0 R /Resources << /Font << /F1 5 0 R /F2 6 0 R >> >> >>\nendobj\n';
+
+  // Build page content stream
+  var stream = buildPageStream(title, d);
+  var streamBytes = unescape(encodeURIComponent(stream));
+
+  // Object 4 - content stream
+  offsets[4] = body.length;
+  body += '4 0 obj\n<< /Length ' + streamBytes.length + ' >>\nstream\n' + stream + '\nendstream\nendobj\n';
+
+  // Object 5 - Helvetica font
+  offsets[5] = body.length;
+  body += '5 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>\nendobj\n';
+
+  // Object 6 - Helvetica-Bold font
+  offsets[6] = body.length;
+  body += '6 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>\nendobj\n';
+
+  // xref
+  var xrefOffset = body.length;
+  body += 'xref\n0 7\n0000000000 65535 f \n';
+  for (var i = 1; i <= 6; i++) {
+    body += pad(offsets[i], 10) + ' 00000 n \n';
+  }
+  body += 'trailer\n<< /Size 7 /Root 1 0 R >>\nstartxref\n' + xrefOffset + '\n%%EOF';
+  return body;
+}
+
+function pad(n, len) {
+  var s = String(n);
+  while (s.length < len) s = '0' + s;
+  return s;
+}
+
+function buildPageStream(title, d) {
+  var s = '';
+  var W = 595, M = 50;
+
+  // Dark header background
+  s += 'q\n';
+  s += '0.027 0.067 0.122 rg\n'; // --navy color
+  s += M + ' 700 ' + (W - M*2) + ' 120 re f\n';
+  s += 'Q\n';
+
+  // Amber accent bar
+  s += 'q\n';
+  s += '0.961 0.620 0.043 rg\n'; // --amber
+  s += M + ' 695 ' + (W - M*2) + ' 5 re f\n';
+  s += 'Q\n';
+
+  // Logo box
+  s += 'q\n';
+  s += '0.961 0.620 0.043 rg\n';
+  s += (M) + ' 730 44 44 re f\n';
+  s += 'Q\n';
+
+  // White text for header
+  s += 'BT\n';
+  s += '1 1 1 rg\n';
+  s += '/F2 11 Tf\n';
+  s += (M + 52) + ' 762 Td\n';
+  s += '(Tech1World Institute) Tj\n';
+  s += '/F1 8 Tf\n';
+  s += '0 -14 Td\n';
+  s += '(School of Software Testing & Quality Engineering) Tj\n';
+  s += 'ET\n';
+
+  // Logo T1
+  s += 'BT\n';
+  s += '1 1 1 rg\n';
+  s += '/F2 14 Tf\n';
+  s += (M + 10) + ' 747 Td\n';
+  s += '(T1) Tj\n';
+  s += 'ET\n';
+
+  // Title
+  s += 'BT\n';
+  s += '0.027 0.067 0.122 rg\n';
+  s += '/F2 20 Tf\n';
+  s += M + ' 670 Td\n';
+  // Truncate title for PDF safety
+  var safeTitle = title.replace(/[^\x20-\x7E]/g, '');
+  s += '(' + safeTitle + ') Tj\n';
+  s += 'ET\n';
+
+  // Amber underline
+  s += 'q\n';
+  s += '0.961 0.620 0.043 rg\n';
+  s += M + ' 662 120 3 re f\n';
+  s += 'Q\n';
+
+  // Info boxes
+  var boxY = 630;
+  var boxes = [
+    {label:'Duration', val: d.dur},
+    {label:'Fee', val: d.fee.replace(/[₹]/g,'Rs.')},
+    {label:'Mode', val: d.mode},
+    {label:'Level', val: d.level}
+  ];
+  var bw = (W - M*2 - 15) / 2;
+  boxes.forEach(function(b, i) {
+    var bx = M + (i % 2) * (bw + 15);
+    var by = boxY - Math.floor(i / 2) * 55;
+    // box
+    s += 'q\n0.945 0.953 0.961 rg\n';
+    s += bx + ' ' + by + ' ' + bw + ' 42 re f\nQ\n';
+    // amber left border
+    s += 'q\n0.961 0.620 0.043 rg\n';
+    s += bx + ' ' + by + ' 4 42 re f\nQ\n';
+    // label
+    s += 'BT\n0.392 0.455 0.545 rg\n/F1 7 Tf\n';
+    s += (bx+10) + ' ' + (by+28) + ' Td\n';
+    s += '(' + b.label.toUpperCase() + ') Tj\nET\n';
+    // value
+    s += 'BT\n0.027 0.067 0.122 rg\n/F2 10 Tf\n';
+    s += (bx+10) + ' ' + (by+12) + ' Td\n';
+    var safeVal = b.val.replace(/[^\x20-\x7E]/g,'').substring(0,35);
+    s += '(' + safeVal + ') Tj\nET\n';
+  });
+
+  // Curriculum heading
+  s += 'BT\n0.027 0.067 0.122 rg\n/F2 13 Tf\n';
+  s += M + ' 510 Td\n(Curriculum Highlights) Tj\nET\n';
+  s += 'q\n0.961 0.620 0.043 rg\n' + M + ' 504 140 2 re f\nQ\n';
+
+  // Topics
+  var topicY = 490;
+  d.topics.forEach(function(topic, i) {
+    var safeTopic = topic.replace(/[^\x20-\x7E]/g,'').substring(0,60);
+    // Bullet dot
+    s += 'q\n0.961 0.620 0.043 rg\n' + M + ' ' + (topicY+4) + ' 5 5 re f\nQ\n';
+    s += 'BT\n0.392 0.455 0.545 rg\n/F1 9 Tf\n';
+    s += (M+14) + ' ' + topicY + ' Td\n';
+    s += '(' + safeTopic + ') Tj\nET\n';
+    topicY -= 20;
+  });
+
+  // Placement stats bar
+  s += 'q\n0.027 0.067 0.122 rg\n' + M + ' 200 ' + (W-M*2) + ' 60 re f\nQ\n';
+  var stats = ['96% Placement Rate', 'Rs.5.2L Avg CTC', '450+ Hiring Partners'];
+  var sw = (W-M*2) / 3;
+  stats.forEach(function(stat, i) {
+    var sx = M + i*sw + sw/2;
+    s += 'BT\n1 1 1 rg\n/F2 10 Tf\n';
+    s += sx + ' 228 Td\n-40 0 Td\n';
+    s += '(' + stat + ') Tj\nET\n';
+  });
+
+  // Contact section
+  s += 'BT\n0.392 0.455 0.545 rg\n/F1 9 Tf\n' + M + ' 180 Td\n';
+  s += '(Phone: +91 8082151063   |   Email: info@Tech1World.com   |   Web: Tech1World.com) Tj\nET\n';
+  s += 'BT\n0.392 0.455 0.545 rg\n/F1 8 Tf\n' + M + ' 165 Td\n';
+  s += '(123 Tech Park, 4th Floor, Koramangala, Bangalore - 560034, India) Tj\nET\n';
+
+  // Footer line
+  s += 'q\n0.878 0.882 0.890 rg\n' + M + ' 155 ' + (W-M*2) + ' 1 re f\nQ\n';
+  s += 'BT\n0.620 0.663 0.714 rg\n/F1 7 Tf\n' + M + ' 142 Td\n';
+  s += '(Copyright 2025 Tech1World Institute. All rights reserved. ISTQB Aligned | ISO 9001:2015 | NASSCOM Member) Tj\nET\n';
+
+  return s;
 }
 
 /* ── ADMISSION FORM ── */
@@ -1601,22 +1621,18 @@ function submitAdm(e) {
   e.preventDefault();
   var ok = true;
   var fields = [
-    {id:'f-name', check: function(v){return v.trim().length > 1}},
-    {id:'f-phone', check: function(v){return /^[+\d][\d\s\-]{8,}$/.test(v.trim())}},
-    {id:'f-email', check: function(v){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)}},
-    {id:'f-qual', check: function(v){return v !== ''}},
-    {id:'f-prog', check: function(v){return v !== ''}}
+    {id:'f-name', check:function(v){return v.trim().length>1}},
+    {id:'f-phone', check:function(v){return /^[+\d][\d\s\-]{8,}$/.test(v.trim())}},
+    {id:'f-email', check:function(v){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)}},
+    {id:'f-qual', check:function(v){return v!==''}},
+    {id:'f-prog', check:function(v){return v!==''}}
   ];
   fields.forEach(function(f) {
     var el = document.getElementById(f.id);
     var fg = el.closest('.fg');
-    if (!f.check(el.value)) {
-      fg.classList.add('err');
-      ok = false;
-    } else {
-      fg.classList.remove('err');
-    }
-    el.addEventListener('input', function() { fg.classList.remove('err'); }, {once:true});
+    if (!f.check(el.value)) { fg.classList.add('err'); ok = false; }
+    else fg.classList.remove('err');
+    el.addEventListener('input', function(){ fg.classList.remove('err'); }, {once:true});
   });
   if (!ok) return;
   var btn = document.getElementById('admBtn');
@@ -1626,7 +1642,7 @@ function submitAdm(e) {
     btn.disabled = false;
     btn.innerHTML = '<i class="fas fa-rocket"></i> Register for Free Demo Class';
     document.getElementById('admForm').reset();
-    document.querySelectorAll('.fg').forEach(function(fg) { fg.classList.remove('err'); });
+    document.querySelectorAll('.fg').forEach(function(fg){ fg.classList.remove('err'); });
     showToast('🎉 Registration successful! Our counselor will call you within 2 hours.', 'success');
     navScrollTo('hero');
   }, 1600);
@@ -1635,38 +1651,31 @@ function submitAdm(e) {
 /* ── CONTACT FORM ── */
 function submitContact(e) {
   e.preventDefault();
-  var btn = e.target.querySelector('button[type="submit"]');
+  var btn = document.getElementById('contactBtn');
   btn.disabled = true;
   btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
   setTimeout(function() {
     btn.disabled = false;
     btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
     e.target.reset();
-    showToast('✅ Message sent! We\'ll respond within 4 hours.', 'success');
+    showToast('✅ Message sent! We will get back to you within 24 hours.', 'success');
   }, 1400);
 }
 
 /* ── NEWSLETTER ── */
 function subscribeNl() {
-  var el = document.getElementById('nlEmail');
-  if (!el) return;
-  var v = el.value.trim();
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) {
+  var email = document.getElementById('nlEmail').value.trim();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     showToast('Please enter a valid email address.', 'error');
-    el.focus();
     return;
   }
-  el.value = '';
-  showToast('📧 Subscribed! You\'ll receive updates and free resources.', 'success');
+  document.getElementById('nlEmail').value = '';
+  showToast('✅ Subscribed! You\'ll receive batch alerts and QA resources.', 'success');
 }
-
-/* ── CLOSE MOB NAV ON ESC ── */
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') closeMob();
-});
 
 /* ── INIT ── */
 handleNavbar();
+runCounters();
 </script>
 </body>
 </html>
