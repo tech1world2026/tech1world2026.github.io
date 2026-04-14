@@ -84,7 +84,6 @@ button{cursor:pointer}
 
 /* NAVBAR */
 #navbar{position:fixed;top:var(--topbar-h);left:0;right:0;z-index:1000;height:var(--nav-h);background:rgba(7,17,31,.97);backdrop-filter:blur(22px);box-shadow:0 2px 40px rgba(0,0,0,.35);border-bottom:1px solid rgba(255,255,255,.06);transition:var(--tr)}
-#navbar.scrolled{background:rgba(7,17,31,.97);backdrop-filter:blur(22px);box-shadow:0 2px 40px rgba(0,0,0,.35);border-bottom:1px solid rgba(255,255,255,.06)}
 .nav-inner{display:flex;align-items:center;justify-content:space-between;height:var(--nav-h);gap:1rem}
 .nav-logo{display:flex;align-items:center;gap:.65rem;flex-shrink:0}
 .nav-logo-icon{width:42px;height:42px;background:linear-gradient(135deg,var(--amber),#f97316);border-radius:11px;display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-weight:900;font-size:.88rem;color:#fff;letter-spacing:.02rem;box-shadow:0 4px 14px rgba(245,158,11,.4)}
@@ -169,8 +168,6 @@ button{cursor:pointer}
 .stat-cell{padding:2.2rem 1.5rem;text-align:center;border-right:1px solid rgba(255,255,255,.06);position:relative;overflow:hidden;transition:var(--tr)}
 .stat-cell:last-child{border-right:none}
 .stat-cell:hover{background:rgba(245,158,11,.04)}
-.stat-cell::before{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%) scaleX(0);width:80%;height:2px;background:linear-gradient(90deg,var(--amber),#f97316);transition:transform .35s ease;transform-origin:center}
-.stat-cell:hover::before{transform:translateX(-50%) scaleX(1)}
 .stat-n{font-family:'Sora',sans-serif;font-size:2.6rem;font-weight:900;background:linear-gradient(135deg,var(--amber),var(--amber2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
 .stat-l{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12rem;text-transform:uppercase;color:rgba(255,255,255,.45);margin-top:.45rem}
 .stat-s{font-size:.75rem;color:rgba(255,255,255,.28);margin-top:.22rem}
@@ -201,14 +198,11 @@ button{cursor:pointer}
 .prog-price{font-family:'Sora',sans-serif;font-size:1.05rem;font-weight:800;color:var(--navy)}
 .prog-price small{font-size:.7rem;color:var(--slate);font-weight:400;font-family:'DM Sans',sans-serif}
 .short-banner{background:var(--gray);border-radius:var(--r2);padding:1.8rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;border:1.5px solid var(--gray2);margin-top:2rem}
-.short-banner:hover{border-color:rgba(245,158,11,.3);box-shadow:var(--sh)}
 
 /* CURRICULUM */
 .curr-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
 .curr-mod{background:#fff;border-radius:var(--r2);border:1.5px solid var(--gray2);overflow:hidden;transition:var(--tr)}
-.curr-mod:hover{border-color:rgba(245,158,11,.3)}
 .curr-hd{padding:1.15rem 1.5rem;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:var(--tr);user-select:none}
-.curr-hd:hover{background:rgba(245,158,11,.04)}
 .curr-hd.active{background:var(--navy);color:#fff}
 .curr-hd.active .curr-hd-title{color:#fff}
 .curr-hd-title{font-family:'Sora',sans-serif;font-size:.9rem;font-weight:700;display:flex;align-items:center;gap:.65rem;color:var(--navy);transition:color .2s}
@@ -216,8 +210,7 @@ button{cursor:pointer}
 .curr-arrow{color:var(--amber);font-size:.78rem;transition:transform .3s ease;flex-shrink:0}
 .curr-hd.active .curr-arrow{transform:rotate(180deg)}
 .curr-body{display:none;padding:1.2rem 1.5rem;border-top:1px solid var(--gray2)}
-.curr-body.show{display:block;animation:slideDown .3s ease}
-@keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+.curr-body.show{display:block}
 .curr-topics{list-style:none;display:flex;flex-direction:column;gap:.4rem}
 .curr-topics li{font-size:.81rem;color:var(--slate);display:flex;align-items:center;justify-content:space-between;gap:.55rem;padding:.42rem .6rem;border-radius:6px;transition:background .2s}
 .curr-topics li:hover{background:var(--gray)}
@@ -283,7 +276,6 @@ button{cursor:pointer}
 .sched-table td{padding:.82rem 1.15rem;border-bottom:1px solid var(--gray2);font-size:.84rem;vertical-align:middle;white-space:nowrap}
 .sched-table tr:last-child td{border-bottom:none}
 .sched-table tbody tr:nth-child(even) td{background:rgba(241,245,249,.5)}
-.sched-table tbody tr:hover td{background:rgba(245,158,11,.04)}
 .sched-prog{font-family:'Sora',sans-serif;font-weight:700;color:var(--navy);font-size:.86rem}
 .sched-mode{display:inline-flex;align-items:center;gap:.3rem;padding:.2rem .6rem;border-radius:20px;font-size:.66rem;font-weight:600;font-family:'JetBrains Mono',monospace}
 .mode-online{background:rgba(6,182,212,.1);color:#0e7490}
@@ -317,7 +309,6 @@ button{cursor:pointer}
 
 /* ADMISSION */
 .admission-sec{background:linear-gradient(135deg,var(--navy),var(--navy2));position:relative;overflow:hidden}
-.admission-sec::after{content:'';position:absolute;top:-30%;right:-10%;width:550px;height:550px;background:radial-gradient(circle,rgba(245,158,11,.07),transparent 65%);pointer-events:none}
 .form-2col{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:start}
 .form-perks-list{list-style:none;margin-top:1.8rem;display:flex;flex-direction:column;gap:.85rem}
 .form-perks-list li{display:flex;align-items:flex-start;gap:.75rem;color:rgba(255,255,255,.78);font-size:.87rem}
@@ -343,14 +334,12 @@ button{cursor:pointer}
 /* FAQ */
 .faq-list{display:flex;flex-direction:column;gap:.8rem;max-width:780px;margin:0 auto}
 .faq-item{background:#fff;border-radius:var(--r2);border:1.5px solid var(--gray2);overflow:hidden;transition:var(--tr)}
-.faq-item:hover{border-color:rgba(245,158,11,.3)}
 .faq-q{padding:1.15rem 1.5rem;font-family:'Sora',sans-serif;font-size:.93rem;font-weight:600;color:var(--navy);display:flex;justify-content:space-between;align-items:center;cursor:pointer;gap:1rem;transition:var(--tr);user-select:none}
-.faq-q:hover{background:rgba(245,158,11,.03)}
 .faq-q.active{background:var(--navy);color:#fff}
 .faq-q.active .faq-arrow{transform:rotate(180deg);color:var(--amber)}
 .faq-arrow{color:var(--amber);font-size:.78rem;transition:var(--tr);flex-shrink:0}
 .faq-a{display:none;padding:1.15rem 1.5rem;color:var(--slate);font-size:.87rem;line-height:1.78;border-top:1px solid var(--gray2)}
-.faq-a.show{display:block;animation:slideDown .28s ease}
+.faq-a.show{display:block}
 
 /* CONTACT */
 .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
@@ -403,7 +392,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
 .footer-bot-links a{color:rgba(255,255,255,.35);font-size:.76rem;transition:color .2s}
 .footer-bot-links a:hover{color:var(--amber)}
 
-/* TOAST / MISC */
+/* TOAST */
 .toast{position:fixed;bottom:2rem;right:2rem;z-index:9999;background:var(--navy1);color:#fff;padding:.9rem 1.4rem;border-radius:var(--r);box-shadow:var(--sh2);border-left:4px solid var(--amber);font-size:.84rem;font-weight:500;transform:translateX(calc(100% + 3rem));transition:transform .4s cubic-bezier(.22,1,.36,1);max-width:340px;display:flex;align-items:center;gap:.6rem}
 .toast.show{transform:translateX(0)}
 .toast.toast-success{border-left-color:var(--green)}
@@ -411,7 +400,6 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
 .toast.toast-error{border-left-color:var(--rose)}
 #scrollTop{position:fixed;bottom:2rem;left:2rem;z-index:999;width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--amber),#f97316);color:#fff;display:flex;align-items:center;justify-content:center;border:none;cursor:pointer;box-shadow:0 4px 18px rgba(245,158,11,.4);opacity:0;transform:translateY(10px);transition:var(--tr)}
 #scrollTop.show{opacity:1;transform:translateY(0)}
-#scrollTop:hover{transform:translateY(-3px) scale(1.06)}
 #prog-bar{position:fixed;top:0;left:0;z-index:10000;height:3px;background:linear-gradient(90deg,var(--amber),#f97316);width:0%;transition:width .12s}
 
 /* RESPONSIVE */
@@ -433,9 +421,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
   .programs-grid{grid-template-columns:1fr}
   .brochure-grid,.testi-grid,.company-grid{grid-template-columns:1fr}
   .stats-bar .stats-grid{grid-template-columns:1fr 1fr}
-  .stat-cell:nth-child(2){border-right:none}
   .h-stats{grid-template-columns:repeat(2,1fr);display:grid}
-  .h-stats .h-stat:nth-child(2){border-right:none}
   .place-stats{grid-template-columns:1fr}
   .hero-in{grid-template-columns:1fr}
   .h-right{display:none}
@@ -447,7 +433,6 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
   .faculty-grid{grid-template-columns:1fr 1fr}
 }
 @media(max-width:480px){
-  .stats-bar .stats-grid{grid-template-columns:1fr 1fr}
   .faculty-grid,.testi-grid{grid-template-columns:1fr}
   .h-btns{flex-direction:column;align-items:flex-start}
 }
@@ -463,11 +448,11 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
   <div class="con topbar-inner">
     <div class="topbar-left">
       <div class="topbar-item"><i class="fas fa-phone"></i><a href="tel:+918082151063">+91 8082151063</a></div>
-      <div class="topbar-item"><i class="fas fa-envelope"></i><a href="/cdn-cgi/l/email-protection#cba2a5ada48bbfaea8a8a3fabca4b9a7afe5a8a4a6"><span class="__cf_email__" data-cfemail="40292e262f00342523232871372f322c246e232f2d">[email&#160;protected]</span></a></div>
+      <div class="topbar-item"><i class="fas fa-envelope"></i><a href="mailto:info@tech1world.com">info@tech1world.com</a></div>
       <div class="topbar-item"><i class="fas fa-clock"></i><span>Mon–Sat: 9AM–7PM IST</span></div>
     </div>
     <div class="topbar-right">
-      <span class="topbar-badge">🎓 Admissions Open — June 2026 Batch</span>
+      <span class="topbar-badge">🎓 Admissions Open — June 2025 Batch</span>
       <div class="topbar-item" style="gap:.5rem">
         <a href="https://linkedin.com/company/tech1world" target="_blank" rel="noopener" style="color:rgba(255,255,255,.55);transition:color .2s" onmouseover="this.style.color='#fbbf24'" onmouseout="this.style.color='rgba(255,255,255,0.55)'"><i class="fab fa-linkedin-in"></i></a>
         <a href="https://youtube.com/@tech1world" target="_blank" rel="noopener" style="color:rgba(255,255,255,.55);transition:color .2s" onmouseover="this.style.color='#fbbf24'" onmouseout="this.style.color='rgba(255,255,255,0.55)'"><i class="fab fa-youtube"></i></a>
@@ -481,7 +466,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
 <!-- NAVBAR -->
 <nav id="navbar">
   <div class="con nav-inner">
-    <a href="#hero" class="nav-logo" onclick="navScrollTo('hero')">
+    <a href="#hero" class="nav-logo">
       <div class="nav-logo-icon">T1</div>
       <div>
         <div class="nav-logo-text">Tech1<span>World</span></div>
@@ -489,36 +474,36 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
       </div>
     </a>
     <ul class="nav-links" id="navLinks">
-      <li><a href="#hero" class="active-link" onclick="navScrollTo('hero')">Home</a></li>
+      <li><a href="#hero" class="active-link">Home</a></li>
       <li class="nav-drop">
         <a href="#programs">Programs</a>
         <div class="drop-menu">
-          <a href="#programs" onclick="navScrollTo('programs')"><i class="fas fa-hand-pointer"></i>Manual Testing &amp; QA</a>
-          <a href="#programs" onclick="navScrollTo('programs')"><i class="fas fa-robot"></i>Automation with Selenium</a>
-          <a href="#programs" onclick="navScrollTo('programs')"><i class="fas fa-infinity"></i>DevOps Engineering</a>
-          <a href="#programs" onclick="navScrollTo('programs')"><i class="fas fa-code"></i>Full Stack Developer</a>
-          <a href="#programs" onclick="navScrollTo('programs')"><i class="fas fa-tachometer-alt"></i>Performance &amp; Security</a>
+          <a href="#programs"><i class="fas fa-hand-pointer"></i>Manual Testing &amp; QA</a>
+          <a href="#programs"><i class="fas fa-robot"></i>Automation with Selenium</a>
+          <a href="#programs"><i class="fas fa-infinity"></i>DevOps Engineering</a>
+          <a href="#programs"><i class="fas fa-code"></i>Full Stack Developer</a>
+          <a href="#programs"><i class="fas fa-tachometer-alt"></i>Performance &amp; Security</a>
           <div class="drop-divider"></div>
-          <a href="#programs" onclick="navScrollTo('programs')"><i class="fas fa-briefcase"></i>Internship Program</a>
-          <a href="#programs" onclick="navScrollTo('programs')"><i class="fas fa-certificate"></i>Short Courses (4–8 Weeks)</a>
+          <a href="#programs"><i class="fas fa-briefcase"></i>Internship Program</a>
+          <a href="#programs"><i class="fas fa-certificate"></i>Short Courses (4–8 Weeks)</a>
         </div>
       </li>
-      <li><a href="#curriculum" onclick="navScrollTo('curriculum')">Curriculum</a></li>
-      <li><a href="#brochures" onclick="navScrollTo('brochures')">Brochures</a></li>
-      <li><a href="#placement" onclick="navScrollTo('placement')">Placement</a></li>
+      <li><a href="#curriculum">Curriculum</a></li>
+      <li><a href="#brochures">Brochures</a></li>
+      <li><a href="#placement">Placement</a></li>
       <li class="nav-drop">
         <a href="#about">About</a>
         <div class="drop-menu">
-          <a href="#about" onclick="navScrollTo('about')"><i class="fas fa-building"></i>About Institute</a>
-          <a href="#faculty" onclick="navScrollTo('faculty')"><i class="fas fa-chalkboard-teacher"></i>Our Faculty</a>
-          <a href="#testimonials" onclick="navScrollTo('testimonials')"><i class="fas fa-star"></i>Student Stories</a>
+          <a href="#about"><i class="fas fa-building"></i>About Institute</a>
+          <a href="#faculty"><i class="fas fa-chalkboard-teacher"></i>Our Faculty</a>
+          <a href="#testimonials"><i class="fas fa-star"></i>Student Stories</a>
         </div>
       </li>
-      <li><a href="#contact" onclick="navScrollTo('contact')">Contact</a></li>
+      <li><a href="#contact">Contact</a></li>
     </ul>
     <div class="nav-right">
-      <a href="#brochures" onclick="navScrollTo('brochures')" class="btn btn-outline-white btn-sm"><i class="fas fa-download"></i>Brochure</a>
-      <a href="#admission" onclick="navScrollTo('admission')" class="btn btn-primary btn-sm"><i class="fas fa-rocket"></i>Enroll Free Demo</a>
+      <a href="#brochures" class="btn btn-outline-white btn-sm"><i class="fas fa-download"></i>Brochure</a>
+      <a href="#admission" class="btn btn-primary btn-sm"><i class="fas fa-rocket"></i>Enroll Free Demo</a>
     </div>
     <button class="hamburger" id="hamburger" onclick="toggleMobNav()" aria-label="Toggle menu">
       <span></span><span></span><span></span>
@@ -529,26 +514,26 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
 <!-- MOBILE NAV -->
 <div id="mob-nav">
   <div class="mob-nav-links">
-    <a href="#hero" onclick="mobScrollTo('hero')">Home</a>
-    <a href="#programs" onclick="mobScrollTo('programs')">Programs</a>
-    <a href="#curriculum" onclick="mobScrollTo('curriculum')">Curriculum</a>
-    <a href="#brochures" onclick="mobScrollTo('brochures')">Brochures</a>
-    <a href="#placement" onclick="mobScrollTo('placement')">Placement</a>
-    <a href="#about" onclick="mobScrollTo('about')">About Us</a>
-    <a href="#faculty" onclick="mobScrollTo('faculty')">Faculty</a>
-    <a href="#testimonials" onclick="mobScrollTo('testimonials')">Student Stories</a>
-    <a href="#contact" onclick="mobScrollTo('contact')">Contact</a>
+    <a href="#hero" onclick="closeMob()">Home</a>
+    <a href="#programs" onclick="closeMob()">Programs</a>
+    <a href="#curriculum" onclick="closeMob()">Curriculum</a>
+    <a href="#brochures" onclick="closeMob()">Brochures</a>
+    <a href="#placement" onclick="closeMob()">Placement</a>
+    <a href="#about" onclick="closeMob()">About Us</a>
+    <a href="#faculty" onclick="closeMob()">Faculty</a>
+    <a href="#testimonials" onclick="closeMob()">Student Stories</a>
+    <a href="#contact" onclick="closeMob()">Contact</a>
   </div>
   <div class="mob-nav-btns">
-    <a href="#brochures" onclick="mobScrollTo('brochures')" class="btn btn-outline-white" style="justify-content:center"><i class="fas fa-download"></i>Download Brochure</a>
-    <a href="#admission" onclick="mobScrollTo('admission')" class="btn btn-primary" style="justify-content:center"><i class="fas fa-rocket"></i>Enroll — Free Demo</a>
+    <a href="#brochures" onclick="closeMob()" class="btn btn-outline-white" style="justify-content:center"><i class="fas fa-download"></i>Download Brochure</a>
+    <a href="#admission" onclick="closeMob()" class="btn btn-primary" style="justify-content:center"><i class="fas fa-rocket"></i>Enroll — Free Demo</a>
   </div>
 </div>
 
 <!-- TICKER -->
 <div class="ticker-bar" style="margin-top:var(--total-top)">
   <div class="ticker-inner">
-    <span class="ticker-item">🎓 New Batch Starting: June 10, 2026</span>
+    <span class="ticker-item">🎓 New Batch Starting: June 10, 2025</span>
     <span class="ticker-item">🚀 100% Placement Assistance</span>
     <span class="ticker-item">🏆 ISTQB Certification Prep Included</span>
     <span class="ticker-item">💼 450+ Hiring Partners</span>
@@ -556,7 +541,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
     <span class="ticker-item">🌐 Online, Offline &amp; Hybrid</span>
     <span class="ticker-item">📜 Industry-Recognized Certificates</span>
     <span class="ticker-item">💰 No Cost EMI Available</span>
-    <span class="ticker-item">🎓 New Batch Starting: June 10, 2026</span>
+    <span class="ticker-item">🎓 New Batch Starting: June 10, 2025</span>
     <span class="ticker-item">🚀 100% Placement Assistance</span>
     <span class="ticker-item">🏆 ISTQB Certification Prep Included</span>
     <span class="ticker-item">💼 450+ Hiring Partners</span>
@@ -584,8 +569,8 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
           <div class="h-stat" style="border-right:none"><div class="h-stat-n" data-count="12">0</div><div class="h-stat-l">Years Exp</div></div>
         </div>
         <div class="h-btns">
-          <a href="#admission" onclick="navScrollTo('admission')" class="btn btn-primary btn-lg"><i class="fas fa-rocket"></i>Enroll Now — Free Demo</a>
-          <a href="#brochures" onclick="navScrollTo('brochures')" class="btn btn-outline-white btn-lg"><i class="fas fa-download"></i>Download Brochure</a>
+          <a href="#admission" class="btn btn-primary btn-lg"><i class="fas fa-rocket"></i>Enroll Now — Free Demo</a>
+          <a href="#brochures" class="btn btn-outline-white btn-lg"><i class="fas fa-download"></i>Download Brochure</a>
         </div>
       </div>
       <div class="h-right">
@@ -623,9 +608,9 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
   <div class="con">
     <div class="stats-grid">
       <div class="stat-cell rv"><div class="stat-n">8,500+</div><div class="stat-l">Students Trained</div><div class="stat-s">Since 2013</div></div>
-      <div class="stat-cell rv" style="transition-delay:.08s"><div class="stat-n">96%</div><div class="stat-l">Placement Rate</div><div class="stat-s">Within 90 days</div></div>
-      <div class="stat-cell rv" style="transition-delay:.16s"><div class="stat-n">450+</div><div class="stat-l">Hiring Partners</div><div class="stat-s">MNCs &amp; Startups</div></div>
-      <div class="stat-cell rv" style="transition-delay:.24s"><div class="stat-n">₹5.2L</div><div class="stat-l">Avg Package</div><div class="stat-s">Fresh graduates</div></div>
+      <div class="stat-cell rv"><div class="stat-n">96%</div><div class="stat-l">Placement Rate</div><div class="stat-s">Within 90 days</div></div>
+      <div class="stat-cell rv"><div class="stat-n">450+</div><div class="stat-l">Hiring Partners</div><div class="stat-s">MNCs &amp; Startups</div></div>
+      <div class="stat-cell rv"><div class="stat-n">₹5.2L</div><div class="stat-l">Avg Package</div><div class="stat-s">Fresh graduates</div></div>
     </div>
   </div>
 </section>
@@ -656,10 +641,10 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
         </ul>
         <div class="prog-footer">
           <div class="prog-price">₹32,000 <small>/ 5 Months</small></div>
-          <a href="#admission" onclick="navScrollTo('admission')" class="btn btn-primary btn-sm">Enroll Now</a>
+          <a href="#admission" class="btn btn-primary btn-sm">Enroll Now</a>
         </div>
       </div>
-      <div class="prog-card rv" style="transition-delay:.08s">
+      <div class="prog-card rv">
         <div class="prog-icon pi-amber"><i class="fas fa-hand-pointer"></i></div>
         <div class="prog-title">Manual Testing &amp; QA</div>
         <div class="prog-meta"><span class="badge badge-amber">3 Months</span><span class="badge badge-green">Beginner Friendly</span><span class="badge badge-cyan">Hybrid</span></div>
@@ -675,10 +660,10 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
         </ul>
         <div class="prog-footer">
           <div class="prog-price">₹18,000 <small>/ 3 Months</small></div>
-          <a href="#admission" onclick="navScrollTo('admission')" class="btn btn-primary btn-sm">Enroll Now</a>
+          <a href="#admission" class="btn btn-primary btn-sm">Enroll Now</a>
         </div>
       </div>
-      <div class="prog-card rv" style="transition-delay:.16s">
+      <div class="prog-card rv">
         <div class="prog-icon pi-green"><i class="fas fa-infinity"></i></div>
         <div class="prog-title">DevOps Engineering</div>
         <div class="prog-meta"><span class="badge badge-amber">6 Months</span><span class="badge badge-navy">Advanced</span><span class="badge badge-green">Hybrid</span></div>
@@ -694,10 +679,10 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
         </ul>
         <div class="prog-footer">
           <div class="prog-price">₹45,000 <small>/ 6 Months</small></div>
-          <a href="#admission" onclick="navScrollTo('admission')" class="btn btn-primary btn-sm">Enroll Now</a>
+          <a href="#admission" class="btn btn-primary btn-sm">Enroll Now</a>
         </div>
       </div>
-      <div class="prog-card rv" style="transition-delay:.24s">
+      <div class="prog-card rv">
         <div class="prog-icon pi-navy"><i class="fas fa-code"></i></div>
         <div class="prog-title">Full Stack Developer Program</div>
         <div class="prog-meta"><span class="badge badge-amber">8 Months</span><span class="badge badge-navy">Beginner→Advanced</span><span class="badge badge-cyan">Hybrid</span></div>
@@ -713,10 +698,10 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
         </ul>
         <div class="prog-footer">
           <div class="prog-price">₹55,000 <small>/ 8 Months</small></div>
-          <a href="#admission" onclick="navScrollTo('admission')" class="btn btn-primary btn-sm">Enroll Now</a>
+          <a href="#admission" class="btn btn-primary btn-sm">Enroll Now</a>
         </div>
       </div>
-      <div class="prog-card rv" style="transition-delay:.32s">
+      <div class="prog-card rv">
         <div class="prog-icon pi-rose"><i class="fas fa-briefcase"></i></div>
         <div class="prog-title">Internship Program (Paid)</div>
         <div class="prog-meta"><span class="badge badge-amber">3–6 Months</span><span class="badge badge-green">Stipend Paid</span><span class="badge badge-cyan">Remote + Office</span></div>
@@ -732,10 +717,10 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
         </ul>
         <div class="prog-footer">
           <div class="prog-price">Free <small>/ Stipend Earning</small></div>
-          <a href="#admission" onclick="navScrollTo('admission')" class="btn btn-primary btn-sm">Apply Now</a>
+          <a href="#admission" class="btn btn-primary btn-sm">Apply Now</a>
         </div>
       </div>
-      <div class="prog-card rv" style="transition-delay:.4s">
+      <div class="prog-card rv">
         <div class="prog-icon pi-violet"><i class="fas fa-tachometer-alt"></i></div>
         <div class="prog-title">Performance &amp; Security Testing</div>
         <div class="prog-meta"><span class="badge badge-amber">4 Months</span><span class="badge badge-navy">Advanced</span><span class="badge badge-cyan">Hybrid</span></div>
@@ -751,7 +736,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
         </ul>
         <div class="prog-footer">
           <div class="prog-price">₹28,000 <small>/ 4 Months</small></div>
-          <a href="#admission" onclick="navScrollTo('admission')" class="btn btn-primary btn-sm">Enroll Now</a>
+          <a href="#admission" class="btn btn-primary btn-sm">Enroll Now</a>
         </div>
       </div>
     </div>
@@ -761,7 +746,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
         <h3 style="font-family:'Sora',sans-serif;font-size:1.08rem;font-weight:700;color:var(--navy)">Also Available: 4–8 Week Crash Courses</h3>
         <p style="color:var(--slate);font-size:.84rem;margin-top:.3rem">API Testing with Postman &nbsp;·&nbsp; Mobile Testing (Appium) &nbsp;·&nbsp; SQL for Testers &nbsp;·&nbsp; Agile &amp; Scrum &nbsp;·&nbsp; Git &amp; GitHub Essentials</p>
       </div>
-      <a href="#contact" onclick="navScrollTo('contact')" class="btn btn-secondary">Inquire Now →</a>
+      <a href="#contact" class="btn btn-secondary">Inquire Now →</a>
     </div>
   </div>
 </section>
@@ -895,7 +880,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
         <div class="why-card"><div class="why-card-ico"><i class="fas fa-chalkboard-teacher"></i></div><div class="why-card-t">Live Classes</div><div class="why-card-d">Interactive live sessions, not pre-recorded. Ask questions in real time.</div></div>
         <div class="why-card"><div class="why-card-ico" style="background:rgba(6,182,212,.09);color:var(--cyan)"><i class="fas fa-headset"></i></div><div class="why-card-t">24/7 Doubt Support</div><div class="why-card-d">Dedicated WhatsApp groups and mentor support beyond class hours.</div></div>
         <div class="why-card"><div class="why-card-ico" style="background:rgba(16,185,129,.09);color:var(--green)"><i class="fas fa-video"></i></div><div class="why-card-t">Lifetime Recordings</div><div class="why-card-d">All sessions recorded. Lifetime access to all video content included.</div></div>
-        <div class="why-card"><div class="why-card-ico" style="background:rgba(244,63,94,.09);color:var(--rose)"><i class="fas fa-file-invoice-dollar"></i></div><div class="why-card-t">EMI — ₹0 Cost</div><div class="why-card-d">Flexible payment — No Cost EMI starting ₹3,500/month via HDFC/ICICI/Razorpay.</div></div>
+        <div class="why-card"><div class="why-card-ico" style="background:rgba(244,63,94,.09);color:var(--rose)"><i class="fas fa-file-invoice-dollar"></i></div><div class="why-card-t">EMI — Rs.0 Cost</div><div class="why-card-d">Flexible payment — No Cost EMI starting Rs.3,500/month via HDFC/ICICI/Razorpay.</div></div>
         <div class="why-card"><div class="why-card-ico" style="background:rgba(139,92,246,.09);color:var(--violet)"><i class="fas fa-project-diagram"></i></div><div class="why-card-t">25+ Live Projects</div><div class="why-card-d">Banking, E-Commerce, Healthcare domain projects for real experience.</div></div>
         <div class="why-card"><div class="why-card-ico"><i class="fas fa-users"></i></div><div class="why-card-t">Alumni Network</div><div class="why-card-d">8,500+ strong community. Regular meetups, referrals and connections.</div></div>
       </div>
@@ -914,27 +899,27 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
     <div class="brochure-grid">
       <div class="brochure-card rv">
         <div class="brochure-thumb t-navy"><span class="brochure-tag">PDF</span><div class="brochure-thumb-icon"><i class="fas fa-hand-pointer"></i></div><div class="brochure-thumb-name">Manual Testing</div></div>
-        <div class="brochure-body"><div class="brochure-title">Manual Testing &amp; QA Brochure</div><p class="brochure-desc">Complete 3-month syllabus, class schedule, fees structure, ISTQB prep details, and 2024 placement statistics.</p><div class="brochure-ft"><span class="brochure-size"><i class="fas fa-file-pdf" style="color:var(--rose)"></i> PDF</span><button class="brochure-dl" onclick="dlBrochure('Manual_Testing_Brochure','Manual Testing & QA')"><i class="fas fa-download"></i>Download</button></div></div>
+        <div class="brochure-body"><div class="brochure-title">Manual Testing &amp; QA Brochure</div><p class="brochure-desc">Complete 3-month syllabus, class schedule, fees structure, ISTQB prep details, and 2024 placement statistics.</p><div class="brochure-ft"><span class="brochure-size"><i class="fas fa-file-pdf" style="color:var(--rose)"></i> PDF</span><button class="brochure-dl" onclick="dlBrochure('manual')"><i class="fas fa-download"></i>Download</button></div></div>
       </div>
-      <div class="brochure-card rv" style="transition-delay:.08s">
+      <div class="brochure-card rv">
         <div class="brochure-thumb t-cyan"><span class="brochure-tag">PDF</span><div class="brochure-thumb-icon"><i class="fas fa-robot"></i></div><div class="brochure-thumb-name">Automation Testing</div></div>
-        <div class="brochure-body"><div class="brochure-title">Automation Testing — Selenium Brochure</div><p class="brochure-desc">5-month program: Java, Selenium, TestNG, Cucumber, API testing, tool list and live project scope.</p><div class="brochure-ft"><span class="brochure-size"><i class="fas fa-file-pdf" style="color:var(--rose)"></i> PDF</span><button class="brochure-dl" onclick="dlBrochure('Automation_Testing_Brochure','Automation Testing - Selenium')"><i class="fas fa-download"></i>Download</button></div></div>
+        <div class="brochure-body"><div class="brochure-title">Automation Testing — Selenium Brochure</div><p class="brochure-desc">5-month program: Java, Selenium, TestNG, Cucumber, API testing, tool list and live project scope.</p><div class="brochure-ft"><span class="brochure-size"><i class="fas fa-file-pdf" style="color:var(--rose)"></i> PDF</span><button class="brochure-dl" onclick="dlBrochure('automation')"><i class="fas fa-download"></i>Download</button></div></div>
       </div>
-      <div class="brochure-card rv" style="transition-delay:.16s">
+      <div class="brochure-card rv">
         <div class="brochure-thumb t-green"><span class="brochure-tag">PDF</span><div class="brochure-thumb-icon"><i class="fas fa-infinity"></i></div><div class="brochure-thumb-name">DevOps Program</div></div>
-        <div class="brochure-body"><div class="brochure-title">DevOps Engineering Brochure</div><p class="brochure-desc">6-month DevOps roadmap: Docker, Kubernetes, AWS, Jenkins — with cloud lab access details and career outcomes.</p><div class="brochure-ft"><span class="brochure-size"><i class="fas fa-file-pdf" style="color:var(--rose)"></i> PDF</span><button class="brochure-dl" onclick="dlBrochure('DevOps_Program_Brochure','DevOps Engineering')"><i class="fas fa-download"></i>Download</button></div></div>
+        <div class="brochure-body"><div class="brochure-title">DevOps Engineering Brochure</div><p class="brochure-desc">6-month DevOps roadmap: Docker, Kubernetes, AWS, Jenkins — with cloud lab access details and career outcomes.</p><div class="brochure-ft"><span class="brochure-size"><i class="fas fa-file-pdf" style="color:var(--rose)"></i> PDF</span><button class="brochure-dl" onclick="dlBrochure('devops')"><i class="fas fa-download"></i>Download</button></div></div>
       </div>
-      <div class="brochure-card rv" style="transition-delay:.24s">
+      <div class="brochure-card rv">
         <div class="brochure-thumb t-amber"><span class="brochure-tag">PDF</span><div class="brochure-thumb-icon"><i class="fas fa-code"></i></div><div class="brochure-thumb-name">Full Stack Dev</div></div>
-        <div class="brochure-body"><div class="brochure-title">Full Stack Developer Brochure</div><p class="brochure-desc">8-month full stack journey: HTML to React, Node.js, cloud deployment with 5 portfolio projects.</p><div class="brochure-ft"><span class="brochure-size"><i class="fas fa-file-pdf" style="color:var(--rose)"></i> PDF</span><button class="brochure-dl" onclick="dlBrochure('FullStack_Developer_Brochure','Full Stack Developer')"><i class="fas fa-download"></i>Download</button></div></div>
+        <div class="brochure-body"><div class="brochure-title">Full Stack Developer Brochure</div><p class="brochure-desc">8-month full stack journey: HTML to React, Node.js, cloud deployment with 5 portfolio projects.</p><div class="brochure-ft"><span class="brochure-size"><i class="fas fa-file-pdf" style="color:var(--rose)"></i> PDF</span><button class="brochure-dl" onclick="dlBrochure('fullstack')"><i class="fas fa-download"></i>Download</button></div></div>
       </div>
-      <div class="brochure-card rv" style="transition-delay:.32s">
+      <div class="brochure-card rv">
         <div class="brochure-thumb t-rose"><span class="brochure-tag">PDF</span><div class="brochure-thumb-icon"><i class="fas fa-briefcase"></i></div><div class="brochure-thumb-name">Internship Program</div></div>
-        <div class="brochure-body"><div class="brochure-title">Internship Program Guide</div><p class="brochure-desc">Eligibility, stipend structure, project types, mentorship process, certificate samples and alumni stories.</p><div class="brochure-ft"><span class="brochure-size"><i class="fas fa-file-pdf" style="color:var(--rose)"></i> PDF</span><button class="brochure-dl" onclick="dlBrochure('Internship_Guide','Internship Program')"><i class="fas fa-download"></i>Download</button></div></div>
+        <div class="brochure-body"><div class="brochure-title">Internship Program Guide</div><p class="brochure-desc">Eligibility, stipend structure, project types, mentorship process, certificate samples and alumni stories.</p><div class="brochure-ft"><span class="brochure-size"><i class="fas fa-file-pdf" style="color:var(--rose)"></i> PDF</span><button class="brochure-dl" onclick="dlBrochure('internship')"><i class="fas fa-download"></i>Download</button></div></div>
       </div>
-      <div class="brochure-card rv" style="transition-delay:.4s">
+      <div class="brochure-card rv">
         <div class="brochure-thumb t-violet"><span class="brochure-tag">PDF</span><div class="brochure-thumb-icon"><i class="fas fa-building"></i></div><div class="brochure-thumb-name">Institute Prospectus</div></div>
-        <div class="brochure-body"><div class="brochure-title">Tech1World Prospectus 2026</div><p class="brochure-desc">All programs, faculty profiles, infrastructure, placement records, student testimonials and fee structure for 2026.</p><div class="brochure-ft"><span class="brochure-size"><i class="fas fa-file-pdf" style="color:var(--rose)"></i> PDF</span><button class="brochure-dl" onclick="dlBrochure('Institute_Prospectus_2026','Institute Prospectus 2026')"><i class="fas fa-download"></i>Download</button></div></div>
+        <div class="brochure-body"><div class="brochure-title">Tech1World Prospectus 2025</div><p class="brochure-desc">All programs, faculty profiles, infrastructure, placement records, student testimonials and fee structure for 2025.</p><div class="brochure-ft"><span class="brochure-size"><i class="fas fa-file-pdf" style="color:var(--rose)"></i> PDF</span><button class="brochure-dl" onclick="dlBrochure('prospectus')"><i class="fas fa-download"></i>Download</button></div></div>
       </div>
     </div>
   </div>
@@ -950,9 +935,9 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
     </div>
     <div class="faculty-grid">
       <div class="faculty-card rv"><div class="faculty-av" style="background:linear-gradient(135deg,#1d4ed8,#06b6d4)">RK</div><div class="faculty-name">Rajesh Kumar</div><div class="faculty-role">Lead — Automation Testing</div><div class="faculty-exp">12 yrs at Infosys, Wipro · ISTQB Certified</div><div class="skill-tags"><span class="sk">Selenium</span><span class="sk">Java</span><span class="sk">TestNG</span><span class="sk">CI/CD</span></div></div>
-      <div class="faculty-card rv" style="transition-delay:.08s"><div class="faculty-av" style="background:linear-gradient(135deg,#059669,#0d9488)">PS</div><div class="faculty-name">Priya Sharma</div><div class="faculty-role">Lead — Manual Testing &amp; QA</div><div class="faculty-exp">9 yrs at TCS, Cognizant · Agile Coach</div><div class="skill-tags"><span class="sk">JIRA</span><span class="sk">TestRail</span><span class="sk">Agile</span><span class="sk">SQL</span></div></div>
-      <div class="faculty-card rv" style="transition-delay:.16s"><div class="faculty-av" style="background:linear-gradient(135deg,#9333ea,#db2777)">AV</div><div class="faculty-name">Arjun Verma</div><div class="faculty-role">Lead — DevOps &amp; Cloud</div><div class="faculty-exp">11 yrs at Amazon, HCL · AWS Certified</div><div class="skill-tags"><span class="sk">Docker</span><span class="sk">K8s</span><span class="sk">AWS</span><span class="sk">Jenkins</span></div></div>
-      <div class="faculty-card rv" style="transition-delay:.24s"><div class="faculty-av" style="background:linear-gradient(135deg,#dc2626,#ea580c)">SM</div><div class="faculty-name">Sneha Mehta</div><div class="faculty-role">Lead — Full Stack Development</div><div class="faculty-exp">8 yrs at Accenture, Capgemini</div><div class="skill-tags"><span class="sk">React</span><span class="sk">Node.js</span><span class="sk">MongoDB</span><span class="sk">TS</span></div></div>
+      <div class="faculty-card rv"><div class="faculty-av" style="background:linear-gradient(135deg,#059669,#0d9488)">PS</div><div class="faculty-name">Priya Sharma</div><div class="faculty-role">Lead — Manual Testing &amp; QA</div><div class="faculty-exp">9 yrs at TCS, Cognizant · Agile Coach</div><div class="skill-tags"><span class="sk">JIRA</span><span class="sk">TestRail</span><span class="sk">Agile</span><span class="sk">SQL</span></div></div>
+      <div class="faculty-card rv"><div class="faculty-av" style="background:linear-gradient(135deg,#9333ea,#db2777)">AV</div><div class="faculty-name">Arjun Verma</div><div class="faculty-role">Lead — DevOps &amp; Cloud</div><div class="faculty-exp">11 yrs at Amazon, HCL · AWS Certified</div><div class="skill-tags"><span class="sk">Docker</span><span class="sk">K8s</span><span class="sk">AWS</span><span class="sk">Jenkins</span></div></div>
+      <div class="faculty-card rv"><div class="faculty-av" style="background:linear-gradient(135deg,#dc2626,#ea580c)">SM</div><div class="faculty-name">Sneha Mehta</div><div class="faculty-role">Lead — Full Stack Development</div><div class="faculty-exp">8 yrs at Accenture, Capgemini</div><div class="skill-tags"><span class="sk">React</span><span class="sk">Node.js</span><span class="sk">MongoDB</span><span class="sk">TS</span></div></div>
     </div>
   </div>
 </section>
@@ -962,20 +947,18 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
   <div class="con">
     <div class="sec-head rv">
       <span class="sec-label">Upcoming Batches</span>
-      <h2 class="sec-title">Batch <em>Schedule 2026</em></h2>
+      <h2 class="sec-title">Batch <em>Schedule 2025</em></h2>
     </div>
     <div class="sched-wrap rv">
       <table class="sched-table">
-        <thead>
-          <tr><th>Program</th><th>Start Date</th><th>Duration</th><th>Timing</th><th>Mode</th><th>Seats Left</th><th>Fee</th><th>Action</th></tr>
-        </thead>
+        <thead><tr><th>Program</th><th>Start Date</th><th>Duration</th><th>Timing</th><th>Mode</th><th>Seats Left</th><th>Fee</th><th>Action</th></tr></thead>
         <tbody>
-          <tr><td><div class="sched-prog">Manual Testing &amp; QA</div></td><td>June 10, 2026</td><td>3 Months</td><td>7–9 PM IST</td><td><span class="sched-mode mode-online"><i class="fas fa-wifi"></i> Online</span></td><td><span class="sched-seats seats-low">8 seats</span></td><td>₹18,000</td><td><a href="#admission" onclick="navScrollTo('admission')" class="btn btn-primary btn-xs">Join</a></td></tr>
-          <tr><td><div class="sched-prog">Automation Testing — Selenium</div></td><td>June 15, 2026</td><td>5 Months</td><td>6–8 PM IST</td><td><span class="sched-mode mode-hybrid"><i class="fas fa-layer-group"></i> Hybrid</span></td><td><span class="sched-seats">14 seats</span></td><td>₹32,000</td><td><a href="#admission" onclick="navScrollTo('admission')" class="btn btn-primary btn-xs">Join</a></td></tr>
-          <tr><td><div class="sched-prog">DevOps Engineering</div></td><td>July 1, 2026</td><td>6 Months</td><td>Sat &amp; Sun</td><td><span class="sched-mode mode-hybrid"><i class="fas fa-layer-group"></i> Hybrid</span></td><td><span class="sched-seats">20 seats</span></td><td>₹45,000</td><td><a href="#admission" onclick="navScrollTo('admission')" class="btn btn-primary btn-xs">Join</a></td></tr>
-          <tr><td><div class="sched-prog">Full Stack Developer</div></td><td>July 7, 2026</td><td>8 Months</td><td>7–9 PM IST</td><td><span class="sched-mode mode-online"><i class="fas fa-wifi"></i> Online</span></td><td><span class="sched-seats">18 seats</span></td><td>₹55,000</td><td><a href="#admission" onclick="navScrollTo('admission')" class="btn btn-primary btn-xs">Join</a></td></tr>
-          <tr><td><div class="sched-prog">Perf &amp; Security Testing</div></td><td>July 14, 2026</td><td>4 Months</td><td>8–10 PM IST</td><td><span class="sched-mode mode-online"><i class="fas fa-wifi"></i> Online</span></td><td><span class="sched-seats">25 seats</span></td><td>₹28,000</td><td><a href="#admission" onclick="navScrollTo('admission')" class="btn btn-primary btn-xs">Join</a></td></tr>
-          <tr><td><div class="sched-prog">Manual Testing — Weekend Batch</div></td><td>June 21, 2026</td><td>3 Months</td><td>Sat &amp; Sun 10–1 PM</td><td><span class="sched-mode mode-offline"><i class="fas fa-building"></i> Offline</span></td><td><span class="sched-seats seats-low">5 seats</span></td><td>₹20,000</td><td><a href="#admission" onclick="navScrollTo('admission')" class="btn btn-primary btn-xs">Join</a></td></tr>
+          <tr><td><div class="sched-prog">Manual Testing &amp; QA</div></td><td>June 10, 2025</td><td>3 Months</td><td>7–9 PM IST</td><td><span class="sched-mode mode-online"><i class="fas fa-wifi"></i> Online</span></td><td><span class="sched-seats seats-low">8 seats</span></td><td>Rs.18,000</td><td><a href="#admission" class="btn btn-primary btn-xs">Join</a></td></tr>
+          <tr><td><div class="sched-prog">Automation Testing — Selenium</div></td><td>June 15, 2025</td><td>5 Months</td><td>6–8 PM IST</td><td><span class="sched-mode mode-hybrid"><i class="fas fa-layer-group"></i> Hybrid</span></td><td><span class="sched-seats">14 seats</span></td><td>Rs.32,000</td><td><a href="#admission" class="btn btn-primary btn-xs">Join</a></td></tr>
+          <tr><td><div class="sched-prog">DevOps Engineering</div></td><td>July 1, 2025</td><td>6 Months</td><td>Sat &amp; Sun</td><td><span class="sched-mode mode-hybrid"><i class="fas fa-layer-group"></i> Hybrid</span></td><td><span class="sched-seats">20 seats</span></td><td>Rs.45,000</td><td><a href="#admission" class="btn btn-primary btn-xs">Join</a></td></tr>
+          <tr><td><div class="sched-prog">Full Stack Developer</div></td><td>July 7, 2025</td><td>8 Months</td><td>7–9 PM IST</td><td><span class="sched-mode mode-online"><i class="fas fa-wifi"></i> Online</span></td><td><span class="sched-seats">18 seats</span></td><td>Rs.55,000</td><td><a href="#admission" class="btn btn-primary btn-xs">Join</a></td></tr>
+          <tr><td><div class="sched-prog">Perf &amp; Security Testing</div></td><td>July 14, 2025</td><td>4 Months</td><td>8–10 PM IST</td><td><span class="sched-mode mode-online"><i class="fas fa-wifi"></i> Online</span></td><td><span class="sched-seats">25 seats</span></td><td>Rs.28,000</td><td><a href="#admission" class="btn btn-primary btn-xs">Join</a></td></tr>
+          <tr><td><div class="sched-prog">Manual Testing — Weekend Batch</div></td><td>June 21, 2025</td><td>3 Months</td><td>Sat &amp; Sun 10–1 PM</td><td><span class="sched-mode mode-offline"><i class="fas fa-building"></i> Offline</span></td><td><span class="sched-seats seats-low">5 seats</span></td><td>Rs.20,000</td><td><a href="#admission" class="btn btn-primary btn-xs">Join</a></td></tr>
         </tbody>
       </table>
     </div>
@@ -1015,8 +998,8 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
     </div>
     <div class="place-stats rv">
       <div class="place-stat"><div class="place-stat-n">96%</div><div class="place-stat-l">Placement Rate — 2024 Batch</div></div>
-      <div class="place-stat"><div class="place-stat-n">₹5.2L</div><div class="place-stat-l">Average CTC for Freshers</div></div>
-      <div class="place-stat"><div class="place-stat-n">₹12L</div><div class="place-stat-l">Highest Package Offered</div></div>
+      <div class="place-stat"><div class="place-stat-n">Rs.5.2L</div><div class="place-stat-l">Average CTC for Freshers</div></div>
+      <div class="place-stat"><div class="place-stat-n">Rs.12L</div><div class="place-stat-l">Highest Package Offered</div></div>
     </div>
   </div>
 </section>
@@ -1030,11 +1013,11 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
     </div>
     <div class="testi-grid">
       <div class="testi-card rv"><div class="testi-stars">★★★★★</div><p class="testi-text">Joined Tech1World with zero testing knowledge, landed a job at Infosys as SDET within 3 months of completing Automation Testing. The practical approach is unmatched.</p><div class="testi-author"><div class="testi-av" style="background:linear-gradient(135deg,#1d4ed8,#06b6d4)">AP</div><div><div class="testi-name">Anjali Patel</div><div class="testi-role">SDET at Infosys · Placed 2024</div></div></div></div>
-      <div class="testi-card rv" style="transition-delay:.08s"><div class="testi-stars">★★★★★</div><p class="testi-text">The DevOps program is phenomenal. Hands-on with Docker, Kubernetes and AWS every day. Got placed at HCL with ₹8.5 LPA — couldn't have done it without Tech1World.</p><div class="testi-author"><div class="testi-av" style="background:linear-gradient(135deg,#059669,#0d9488)">RS</div><div><div class="testi-name">Rohit Singh</div><div class="testi-role">DevOps Engineer at HCL · ₹8.5 LPA</div></div></div></div>
-      <div class="testi-card rv" style="transition-delay:.16s"><div class="testi-stars">★★★★★</div><p class="testi-text">Best decision of my career. After 2 years struggling, I joined Manual Testing and got placed at TCS within 6 weeks of completing it. Faculty is gold.</p><div class="testi-author"><div class="testi-av" style="background:linear-gradient(135deg,#9333ea,#db2777)">MK</div><div><div class="testi-name">Meera Krishnan</div><div class="testi-role">QA Analyst at TCS · Placed 2024</div></div></div></div>
-      <div class="testi-card rv" style="transition-delay:.24s"><div class="testi-stars">★★★★★</div><p class="testi-text">The internship program gave me real industry experience on a live banking project, a ₹12,000 stipend and a direct job offer after completing it!</p><div class="testi-author"><div class="testi-av" style="background:linear-gradient(135deg,#dc2626,#ea580c)">VR</div><div><div class="testi-name">Vishal Reddy</div><div class="testi-role">Intern → Full-Time at Capgemini</div></div></div></div>
-      <div class="testi-card rv" style="transition-delay:.32s"><div class="testi-stars">★★★★★</div><p class="testi-text">Was a manual tester for 3 years, stuck. The Automation course helped me transition to SDET with a 120% salary hike at Wipro. The ROI is insane.</p><div class="testi-author"><div class="testi-av" style="background:linear-gradient(135deg,#1d4ed8,#7c3aed)">NJ</div><div><div class="testi-name">Neha Joshi</div><div class="testi-role">SDET at Wipro · 120% Salary Hike</div></div></div></div>
-      <div class="testi-card rv" style="transition-delay:.4s"><div class="testi-stars">★★★★★</div><p class="testi-text">Enrolled in Full Stack and got placed at a Series-B startup with ₹10 LPA. The 5 portfolio projects are what impressed my interviewer. Highly recommended!</p><div class="testi-author"><div class="testi-av" style="background:linear-gradient(135deg,#0f766e,#059669)">KM</div><div><div class="testi-name">Karthik Menon</div><div class="testi-role">Full Stack Dev at Startup · ₹10 LPA</div></div></div></div>
+      <div class="testi-card rv"><div class="testi-stars">★★★★★</div><p class="testi-text">The DevOps program is phenomenal. Hands-on with Docker, Kubernetes and AWS every day. Got placed at HCL with Rs.8.5 LPA — couldn't have done it without Tech1World.</p><div class="testi-author"><div class="testi-av" style="background:linear-gradient(135deg,#059669,#0d9488)">RS</div><div><div class="testi-name">Rohit Singh</div><div class="testi-role">DevOps Engineer at HCL · Rs.8.5 LPA</div></div></div></div>
+      <div class="testi-card rv"><div class="testi-stars">★★★★★</div><p class="testi-text">Best decision of my career. After 2 years struggling, I joined Manual Testing and got placed at TCS within 6 weeks of completing it. Faculty is gold.</p><div class="testi-author"><div class="testi-av" style="background:linear-gradient(135deg,#9333ea,#db2777)">MK</div><div><div class="testi-name">Meera Krishnan</div><div class="testi-role">QA Analyst at TCS · Placed 2024</div></div></div></div>
+      <div class="testi-card rv"><div class="testi-stars">★★★★★</div><p class="testi-text">The internship program gave me real industry experience on a live banking project, a Rs.12,000 stipend and a direct job offer after completing it!</p><div class="testi-author"><div class="testi-av" style="background:linear-gradient(135deg,#dc2626,#ea580c)">VR</div><div><div class="testi-name">Vishal Reddy</div><div class="testi-role">Intern to Full-Time at Capgemini</div></div></div></div>
+      <div class="testi-card rv"><div class="testi-stars">★★★★★</div><p class="testi-text">Was a manual tester for 3 years, stuck. The Automation course helped me transition to SDET with a 120% salary hike at Wipro. The ROI is insane.</p><div class="testi-author"><div class="testi-av" style="background:linear-gradient(135deg,#1d4ed8,#7c3aed)">NJ</div><div><div class="testi-name">Neha Joshi</div><div class="testi-role">SDET at Wipro · 120% Salary Hike</div></div></div></div>
+      <div class="testi-card rv"><div class="testi-stars">★★★★★</div><p class="testi-text">Enrolled in Full Stack and got placed at a Series-B startup with Rs.10 LPA. The 5 portfolio projects are what impressed my interviewer. Highly recommended!</p><div class="testi-author"><div class="testi-av" style="background:linear-gradient(135deg,#0f766e,#059669)">KM</div><div><div class="testi-name">Karthik Menon</div><div class="testi-role">Full Stack Dev at Startup · Rs.10 LPA</div></div></div></div>
     </div>
   </div>
 </section>
@@ -1067,7 +1050,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
       <div class="rvr">
         <div class="form-box">
           <div class="form-box-title"><i class="fas fa-graduation-cap" style="color:var(--amber)"></i> Free Demo Class Registration</div>
-          <form id="admForm" onsubmit="submitAdm(event)" novalidate>
+          <form id="admForm" novalidate>
             <div class="form-row">
               <div class="fg"><label>Full Name <span>*</span></label><input type="text" id="f-name" placeholder="Your full name"><span class="err-msg">Please enter your name</span></div>
               <div class="fg"><label>Phone Number <span>*</span></label><input type="tel" id="f-phone" placeholder="+91 98765 43210"><span class="err-msg">Please enter a valid phone</span></div>
@@ -1080,15 +1063,15 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
               </div>
             </div>
             <div class="fg"><label>Program of Interest <span>*</span></label>
-              <select id="f-prog"><option value="">Select Program</option><option>Manual Testing &amp; QA — ₹18,000</option><option>Automation Testing (Selenium) — ₹32,000</option><option>DevOps Engineering — ₹45,000</option><option>Full Stack Developer — ₹55,000</option><option>Performance &amp; Security Testing — ₹28,000</option><option>Internship Program — Free</option><option>Not sure — Need Counseling</option></select>
+              <select id="f-prog"><option value="">Select Program</option><option>Manual Testing and QA - Rs.18,000</option><option>Automation Testing (Selenium) - Rs.32,000</option><option>DevOps Engineering - Rs.45,000</option><option>Full Stack Developer - Rs.55,000</option><option>Performance and Security Testing - Rs.28,000</option><option>Internship Program - Free</option><option>Not sure - Need Counseling</option></select>
               <span class="err-msg">Please select a program</span>
             </div>
             <div class="form-row">
-              <div class="fg"><label>Experience</label><select><option>Fresher (0 yrs)</option><option>0–1 Year</option><option>1–3 Years</option><option>3–5 Years</option><option>5+ Years</option></select></div>
-              <div class="fg"><label>Preferred Mode</label><select><option>Online</option><option>Offline</option><option>Hybrid</option></select></div>
+              <div class="fg"><label>Experience</label><select id="f-exp"><option>Fresher (0 yrs)</option><option>0-1 Year</option><option>1-3 Years</option><option>3-5 Years</option><option>5+ Years</option></select></div>
+              <div class="fg"><label>Preferred Mode</label><select id="f-mode"><option>Online</option><option>Offline</option><option>Hybrid</option></select></div>
             </div>
-            <div class="fg"><label>Message (Optional)</label><textarea placeholder="Any specific questions or requirements..."></textarea></div>
-            <button type="submit" class="form-submit" id="admBtn"><i class="fas fa-rocket"></i>Register for Free Demo Class</button>
+            <div class="fg"><label>Message (Optional)</label><textarea id="f-msg" placeholder="Any specific questions or requirements..."></textarea></div>
+            <button type="button" onclick="submitAdm()" class="form-submit" id="admBtn"><i class="fas fa-rocket"></i>Register for Free Demo Class</button>
             <p class="form-note"><i class="fas fa-shield-alt" style="color:var(--green)"></i> Your data is 100% secure. We never share with third parties.</p>
           </form>
         </div>
@@ -1106,12 +1089,12 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
     </div>
     <div class="faq-list">
       <div class="faq-item rv"><div class="faq-q" onclick="toggleFaq(this)"><span>Do I need prior coding experience for Manual Testing?</span><i class="fas fa-chevron-down faq-arrow"></i></div><div class="faq-a">Absolutely not! Manual Testing is perfect for beginners. No coding knowledge required. We start from scratch and cover everything from software basics to professional test case writing. Many successful alumni came from non-IT backgrounds like commerce, arts, and science.</div></div>
-      <div class="faq-item rv" style="transition-delay:.04s"><div class="faq-q" onclick="toggleFaq(this)"><span>Is ISTQB certification included in the course fee?</span><i class="fas fa-chevron-down faq-arrow"></i></div><div class="faq-a">ISTQB exam prep materials, mock tests, and coaching are included in Manual and Automation Testing programs. The ISTQB exam fee (approximately ₹7,500) is paid separately to ISTQB. We guarantee you'll be 100% exam-ready.</div></div>
-      <div class="faq-item rv" style="transition-delay:.08s"><div class="faq-q" onclick="toggleFaq(this)"><span>What does "100% Placement Assistance" mean exactly?</span><i class="fas fa-chevron-down faq-arrow"></i></div><div class="faq-a">Our placement assistance includes: resume building and optimization, LinkedIn profile makeover, mock technical and HR interviews, portfolio review, and direct referrals to our 450+ hiring partners. Our 2024 batch had a 96% placement rate within 90 days of course completion.</div></div>
-      <div class="faq-item rv" style="transition-delay:.12s"><div class="faq-q" onclick="toggleFaq(this)"><span>Can I get an EMI for the course fee?</span><i class="fas fa-chevron-down faq-arrow"></i></div><div class="faq-a">Yes! We offer No Cost EMI (0% interest) through HDFC, ICICI, Axis, and Razorpay. Starting from ₹3,500/month for Manual Testing. You can also pay in 2–3 instalments directly to us with no extra charge. Contact our counselor for the exact EMI plan.</div></div>
-      <div class="faq-item rv" style="transition-delay:.16s"><div class="faq-q" onclick="toggleFaq(this)"><span>Are the classes recorded? What if I miss a session?</span><i class="fas fa-chevron-down faq-arrow"></i></div><div class="faq-a">Yes, every live session is recorded and uploaded to our student portal within 4 hours. You get lifetime access to all recordings, notes, and materials. You can also attend any missed topic in the next batch free of cost.</div></div>
-      <div class="faq-item rv" style="transition-delay:.2s"><div class="faq-q" onclick="toggleFaq(this)"><span>Do I get a certificate after completing the course?</span><i class="fas fa-chevron-down faq-arrow"></i></div><div class="faq-a">Yes! You receive a Tech1World Course Completion Certificate recognized by our 450+ hiring partners. For the internship program, you also receive an LOR and internship certificate. All certificates are digitally verifiable with QR codes.</div></div>
-      <div class="faq-item rv" style="transition-delay:.24s"><div class="faq-q" onclick="toggleFaq(this)"><span>Is the internship open to students from other colleges/institutions?</span><i class="fas fa-chevron-down faq-arrow"></i></div><div class="faq-a">The internship program is primarily for our course graduates, but we occasionally accept external candidates for specific projects through a screening test. Priority is always given to our students. Contact us to discuss your situation.</div></div>
+      <div class="faq-item rv"><div class="faq-q" onclick="toggleFaq(this)"><span>Is ISTQB certification included in the course fee?</span><i class="fas fa-chevron-down faq-arrow"></i></div><div class="faq-a">ISTQB exam prep materials, mock tests, and coaching are included in Manual and Automation Testing programs. The ISTQB exam fee (approximately Rs.7,500) is paid separately to ISTQB. We guarantee you'll be 100% exam-ready.</div></div>
+      <div class="faq-item rv"><div class="faq-q" onclick="toggleFaq(this)"><span>What does "100% Placement Assistance" mean exactly?</span><i class="fas fa-chevron-down faq-arrow"></i></div><div class="faq-a">Our placement assistance includes: resume building and optimization, LinkedIn profile makeover, mock technical and HR interviews, portfolio review, and direct referrals to our 450+ hiring partners. Our 2024 batch had a 96% placement rate within 90 days of course completion.</div></div>
+      <div class="faq-item rv"><div class="faq-q" onclick="toggleFaq(this)"><span>Can I get an EMI for the course fee?</span><i class="fas fa-chevron-down faq-arrow"></i></div><div class="faq-a">Yes! We offer No Cost EMI (0% interest) through HDFC, ICICI, Axis, and Razorpay. Starting from Rs.3,500/month for Manual Testing. You can also pay in 2-3 instalments directly to us with no extra charge. Contact our counselor for the exact EMI plan.</div></div>
+      <div class="faq-item rv"><div class="faq-q" onclick="toggleFaq(this)"><span>Are the classes recorded? What if I miss a session?</span><i class="fas fa-chevron-down faq-arrow"></i></div><div class="faq-a">Yes, every live session is recorded and uploaded to our student portal within 4 hours. You get lifetime access to all recordings, notes, and materials. You can also attend any missed topic in the next batch free of cost.</div></div>
+      <div class="faq-item rv"><div class="faq-q" onclick="toggleFaq(this)"><span>Do I get a certificate after completing the course?</span><i class="fas fa-chevron-down faq-arrow"></i></div><div class="faq-a">Yes! You receive a Tech1World Course Completion Certificate recognized by our 450+ hiring partners. For the internship program, you also receive an LOR and internship certificate. All certificates are digitally verifiable with QR codes.</div></div>
+      <div class="faq-item rv"><div class="faq-q" onclick="toggleFaq(this)"><span>Is the internship open to students from other colleges/institutions?</span><i class="fas fa-chevron-down faq-arrow"></i></div><div class="faq-a">The internship program is primarily for our course graduates, but we occasionally accept external candidates for specific projects through a screening test. Priority is always given to our students. Contact us to discuss your situation.</div></div>
     </div>
   </div>
 </section>
@@ -1127,24 +1110,24 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
     <div class="contact-grid">
       <div class="rvl">
         <div class="contact-cards">
-          <div class="contact-card"><div class="c-ico"><i class="fas fa-phone"></i></div><div><div class="c-title">Call / WhatsApp</div><div class="c-val"><a href="tel:+918082151063">+91 8082151063</a><br><a href="https://wa.me/918082151063" target="_blank" rel="noopener">WhatsApp Chat →</a></div></div></div>
-          <div class="contact-card"><div class="c-ico"><i class="fas fa-envelope"></i></div><div><div class="c-title">Email Us</div><div class="c-val"><a href="/cdn-cgi/l/email-protection#1d74737b725d69787e7e752c6a726f7179337e7270"><span class="__cf_email__" data-cfemail="e881868e87a89c8d8b8b80d99f879a848cc68b8785">[email&#160;protected]</span></a><br><a href="/cdn-cgi/l/email-protection#b4d5d0d9ddc7c7dddbdac7f4c0d1d7d7dc85c3dbc6d8d09ad7dbd9"><span class="__cf_email__" data-cfemail="6c0d0801051f1f0503021f2c18090f0f045d1b031e0008420f0301">[email&#160;protected]</span></a></div></div></div>
-          <div class="contact-card"><div class="c-ico"><i class="fas fa-map-marker-alt"></i></div><div><div class="c-title">Visit Our Center</div><div class="c-val">877 Janipur Colony<br>Jammu<br><a href="https://maps.google.com?q=877+Janipur+Colony+Jammu" target="_blank" rel="noopener">Get Directions →</a></div></div></div>
-          <div class="contact-card"><div class="c-ico"><i class="fas fa-clock"></i></div><div><div class="c-title">Office Hours</div><div class="c-val">Monday–Saturday: 9 AM – 7 PM IST<br>Sunday: WhatsApp support available</div></div></div>
+          <div class="contact-card"><div class="c-ico"><i class="fas fa-phone"></i></div><div><div class="c-title">Call / WhatsApp</div><div class="c-val"><a href="tel:+918082151063">+91 8082151063</a><br><a href="https://wa.me/918082151063" target="_blank" rel="noopener">WhatsApp Chat</a></div></div></div>
+          <div class="contact-card"><div class="c-ico"><i class="fas fa-envelope"></i></div><div><div class="c-title">Email Us</div><div class="c-val"><a href="mailto:info@tech1world.com">info@tech1world.com</a><br><a href="mailto:admissions@tech1world.com">admissions@tech1world.com</a></div></div></div>
+          <div class="contact-card"><div class="c-ico"><i class="fas fa-map-marker-alt"></i></div><div><div class="c-title">Visit Our Center</div><div class="c-val">877 Janipur Colony<br>Jammu<br><a href="https://maps.google.com?q=877+Janipur+Colony+Jammu" target="_blank" rel="noopener">Get Directions</a></div></div></div>
+          <div class="contact-card"><div class="c-ico"><i class="fas fa-clock"></i></div><div><div class="c-title">Office Hours</div><div class="c-val">Monday-Saturday: 9 AM - 7 PM IST<br>Sunday: WhatsApp support available</div></div></div>
         </div>
         <div class="map-box" onclick="window.open('https://maps.google.com?q=877+Janipur+Colony+Jammu','_blank')"><i class="fas fa-map-marked-alt"></i><span>877 Janipur Colony, Jammu — Click to open in Maps</span></div>
       </div>
       <div class="rvr">
         <div class="contact-form-box">
           <div class="cfb-title"><i class="fas fa-paper-plane" style="color:var(--amber)"></i>Send Us a Message</div>
-          <form id="contactForm" onsubmit="submitContact(event)" novalidate>
-            <div class="c-fg"><label>Your Name</label><input type="text" id="c-name" placeholder="Full Name" required></div>
-            <div class="c-fg"><label>Email / Phone</label><input type="text" id="c-contact" placeholder="Email or phone number" required></div>
+          <form id="contactForm" novalidate>
+            <div class="c-fg"><label>Your Name</label><input type="text" id="c-name" placeholder="Full Name"></div>
+            <div class="c-fg"><label>Email / Phone</label><input type="text" id="c-contact" placeholder="Email or phone number"></div>
             <div class="c-fg"><label>Subject</label>
-              <select id="c-subject"><option>Course Enquiry</option><option>Internship</option><option>Placement Support</option><option>Fee &amp; EMI</option><option>Corporate Training</option><option>Other</option></select>
+              <select id="c-subject"><option>Course Enquiry</option><option>Internship</option><option>Placement Support</option><option>Fee and EMI</option><option>Corporate Training</option><option>Other</option></select>
             </div>
             <div class="c-fg"><label>Message</label><textarea id="c-message" placeholder="Your question or message..."></textarea></div>
-            <button type="submit" class="btn btn-primary" id="contactBtn" style="width:100%;justify-content:center;padding:.85rem;font-size:.93rem"><i class="fas fa-paper-plane"></i>Send Message</button>
+            <button type="button" onclick="submitContact()" class="btn btn-primary" id="contactBtn" style="width:100%;justify-content:center;padding:.85rem;font-size:.93rem"><i class="fas fa-paper-plane"></i>Send Message</button>
           </form>
         </div>
         <div class="social-row">
@@ -1165,7 +1148,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
     <div class="con">
       <div class="footer-grid">
         <div class="fb-brand">
-          <a href="#hero" onclick="navScrollTo('hero')" style="display:inline-flex;align-items:center;gap:.65rem">
+          <a href="#hero" style="display:inline-flex;align-items:center;gap:.65rem">
             <div class="nav-logo-icon">T1</div>
             <div><div class="nav-logo-text">Tech1<span style="color:var(--amber)">World</span></div><span class="nav-logo-sub">Institute of QA &amp; Testing</span></div>
           </a>
@@ -1184,23 +1167,23 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
         <div class="fc">
           <h5>Programs</h5>
           <ul>
-            <li><a href="#programs" onclick="navScrollTo('programs')"><i class="fas fa-angle-right"></i>Manual Testing &amp; QA</a></li>
-            <li><a href="#programs" onclick="navScrollTo('programs')"><i class="fas fa-angle-right"></i>Automation — Selenium</a></li>
-            <li><a href="#programs" onclick="navScrollTo('programs')"><i class="fas fa-angle-right"></i>DevOps Engineering</a></li>
-            <li><a href="#programs" onclick="navScrollTo('programs')"><i class="fas fa-angle-right"></i>Full Stack Developer</a></li>
-            <li><a href="#programs" onclick="navScrollTo('programs')"><i class="fas fa-angle-right"></i>Perf &amp; Security Testing</a></li>
-            <li><a href="#programs" onclick="navScrollTo('programs')"><i class="fas fa-angle-right"></i>Internship Program</a></li>
+            <li><a href="#programs"><i class="fas fa-angle-right"></i>Manual Testing &amp; QA</a></li>
+            <li><a href="#programs"><i class="fas fa-angle-right"></i>Automation — Selenium</a></li>
+            <li><a href="#programs"><i class="fas fa-angle-right"></i>DevOps Engineering</a></li>
+            <li><a href="#programs"><i class="fas fa-angle-right"></i>Full Stack Developer</a></li>
+            <li><a href="#programs"><i class="fas fa-angle-right"></i>Perf &amp; Security Testing</a></li>
+            <li><a href="#programs"><i class="fas fa-angle-right"></i>Internship Program</a></li>
           </ul>
         </div>
         <div class="fc">
           <h5>Quick Links</h5>
           <ul>
-            <li><a href="#about" onclick="navScrollTo('about')"><i class="fas fa-angle-right"></i>About Institute</a></li>
-            <li><a href="#faculty" onclick="navScrollTo('faculty')"><i class="fas fa-angle-right"></i>Our Faculty</a></li>
-            <li><a href="#placement" onclick="navScrollTo('placement')"><i class="fas fa-angle-right"></i>Placements</a></li>
-            <li><a href="#brochures" onclick="navScrollTo('brochures')"><i class="fas fa-angle-right"></i>Brochures</a></li>
-            <li><a href="#testimonials" onclick="navScrollTo('testimonials')"><i class="fas fa-angle-right"></i>Student Stories</a></li>
-            <li><a href="#contact" onclick="navScrollTo('contact')"><i class="fas fa-angle-right"></i>Contact Us</a></li>
+            <li><a href="#about"><i class="fas fa-angle-right"></i>About Institute</a></li>
+            <li><a href="#faculty"><i class="fas fa-angle-right"></i>Our Faculty</a></li>
+            <li><a href="#placement"><i class="fas fa-angle-right"></i>Placements</a></li>
+            <li><a href="#brochures"><i class="fas fa-angle-right"></i>Brochures</a></li>
+            <li><a href="#testimonials"><i class="fas fa-angle-right"></i>Student Stories</a></li>
+            <li><a href="#contact"><i class="fas fa-angle-right"></i>Contact Us</a></li>
           </ul>
         </div>
         <div class="fc fc-nl">
@@ -1212,7 +1195,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
           </div>
           <div style="display:flex;flex-direction:column;gap:.5rem;margin-top:.5rem">
             <a href="tel:+918082151063" style="display:flex;align-items:center;gap:.5rem;color:rgba(255,255,255,.5);font-size:.8rem;transition:color .2s" onmouseover="this.style.color='#f59e0b'" onmouseout="this.style.color='rgba(255,255,255,0.5)'"><i class="fas fa-phone" style="color:var(--amber)"></i>+91 8082151063</a>
-            <a href="/cdn-cgi/l/email-protection#7b12151d143b0f1e1818134a0c1409171f55181416" style="display:flex;align-items:center;gap:.5rem;color:rgba(255,255,255,.5);font-size:.8rem;transition:color .2s" onmouseover="this.style.color='#f59e0b'" onmouseout="this.style.color='rgba(255,255,255,0.5)'"><i class="fas fa-envelope" style="color:var(--amber)"></i><span class="__cf_email__" data-cfemail="741d1a121b34001117171c45031b0618105a171b19">[email&#160;protected]</span></a>
+            <a href="mailto:info@tech1world.com" style="display:flex;align-items:center;gap:.5rem;color:rgba(255,255,255,.5);font-size:.8rem;transition:color .2s" onmouseover="this.style.color='#f59e0b'" onmouseout="this.style.color='rgba(255,255,255,0.5)'"><i class="fas fa-envelope" style="color:var(--amber)"></i>info@tech1world.com</a>
           </div>
         </div>
       </div>
@@ -1220,21 +1203,20 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
   </div>
   <div class="con">
     <div class="footer-bot">
-      <p>© 2022 Tech1World Institute. All Rights Reserved. | Jammu, India</p>
+      <p>© 2025 Tech1World Institute. All Rights Reserved. | Jammu, India</p>
       <div class="footer-bot-links">
         <a href="#" onclick="showToast('Privacy Policy — Available soon','info');return false">Privacy Policy</a>
         <a href="#" onclick="showToast('Terms of Service — Available soon','info');return false">Terms of Service</a>
         <a href="#" onclick="showToast('Refund Policy — Available soon','info');return false">Refund Policy</a>
-        <a href="#admission" onclick="navScrollTo('admission')">Enroll Now</a>
+        <a href="#admission">Enroll Now</a>
       </div>
     </div>
   </div>
 </footer>
 
-<!-- TOAST -->
 <div class="toast" id="toast"><i id="toast-icon" class="fas fa-check-circle"></i><span id="toast-msg"></span></div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 'use strict';
 
 /* ── PROGRESS BAR ── */
@@ -1245,61 +1227,12 @@ window.addEventListener('scroll', function() {
   revealAll();
   updateActiveNav();
   handleScrollTop();
-  handleNavbar();
 }, {passive:true});
 
-/* ── NAVBAR ── */
-function handleNavbar() {
-  var nav = document.getElementById('navbar');
-  if (window.scrollY > 60) nav.classList.add('scrolled');
-  else nav.classList.remove('scrolled');
-}
-
-/* ── SCROLL TOP BTN ── */
 function handleScrollTop() {
   var btn = document.getElementById('scrollTop');
   if (window.scrollY > 400) btn.classList.add('show');
   else btn.classList.remove('show');
-}
-
-/* ── SMOOTH SCROLL ── */
-function navScrollTo(id) {
-  closeMob();
-  var el = document.getElementById(id);
-  if (!el) return;
-  var offset = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--total-top')) || 106;
-  var y = el.getBoundingClientRect().top + window.scrollY - offset - 12;
-  window.scrollTo({top: y, behavior:'smooth'});
-}
-function mobScrollTo(id) {
-  closeMob();
-  setTimeout(function() { navScrollTo(id); }, 280);
-}
-
-/* ── ANCHOR LINKS ── */
-document.querySelectorAll('a[href^="#"]').forEach(function(a) {
-  a.addEventListener('click', function(e) {
-    var id = this.getAttribute('href').slice(1);
-    if (!id) return;
-    var el = document.getElementById(id);
-    if (el) { e.preventDefault(); navScrollTo(id); }
-  });
-});
-
-/* ── ACTIVE NAV ── */
-var navSections = ['hero','programs','curriculum','brochures','placement','about','testimonials','admission','contact'];
-function updateActiveNav() {
-  var offset = 120;
-  var cur = '';
-  navSections.forEach(function(id) {
-    var el = document.getElementById(id);
-    if (el && el.getBoundingClientRect().top < offset) cur = id;
-  });
-  document.querySelectorAll('.nav-links > li > a').forEach(function(a) {
-    a.classList.remove('active-link');
-    var href = a.getAttribute('href');
-    if (href && href === '#' + cur) a.classList.add('active-link');
-  });
 }
 
 /* ── MOBILE NAV ── */
@@ -1317,6 +1250,22 @@ function closeMob() {
   document.body.style.overflow = '';
 }
 
+/* ── ACTIVE NAV ── */
+var navSections = ['hero','programs','curriculum','brochures','placement','about','testimonials','admission','contact'];
+function updateActiveNav() {
+  var offset = 120;
+  var cur = '';
+  navSections.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el && el.getBoundingClientRect().top < offset) cur = id;
+  });
+  document.querySelectorAll('.nav-links > li > a').forEach(function(a) {
+    a.classList.remove('active-link');
+    var href = a.getAttribute('href');
+    if (href && href === '#' + cur) a.classList.add('active-link');
+  });
+}
+
 /* ── SCROLL REVEAL ── */
 function revealAll() {
   document.querySelectorAll('.rv,.rvl,.rvr').forEach(function(el) {
@@ -1324,9 +1273,7 @@ function revealAll() {
     if (rect.top < window.innerHeight - 55) el.classList.add('vis');
   });
 }
-window.addEventListener('load', function() {
-  revealAll(); handleNavbar(); handleScrollTop(); updateActiveNav();
-});
+window.addEventListener('load', function() { revealAll(); handleScrollTop(); updateActiveNav(); });
 setTimeout(revealAll, 200);
 
 /* ── COUNTER ANIMATION ── */
@@ -1334,17 +1281,14 @@ var countersRan = false;
 function runCounters() {
   if (countersRan) return;
   var hero = document.getElementById('hero');
-  if (!hero) return;
-  var rect = hero.getBoundingClientRect();
-  if (rect.top < window.innerHeight) {
+  if (hero && hero.getBoundingClientRect().top < window.innerHeight) {
     countersRan = true;
     document.querySelectorAll('[data-count]').forEach(function(el) {
       var target = parseInt(el.dataset.count);
       var start = null;
-      var dur = 2000;
       function step(ts) {
         if (!start) start = ts;
-        var p = Math.min((ts - start) / dur, 1);
+        var p = Math.min((ts - start) / 2000, 1);
         var ease = 1 - Math.pow(1 - p, 3);
         el.textContent = Math.floor(ease * target).toLocaleString();
         if (p < 1) requestAnimationFrame(step);
@@ -1359,7 +1303,6 @@ window.addEventListener('load', runCounters);
 
 /* ── CURRICULUM ACCORDION ── */
 function toggleCurr(hd) {
-  var body = hd.nextElementSibling;
   var isOpen = hd.classList.contains('active');
   document.querySelectorAll('.curr-hd').forEach(function(h) {
     h.classList.remove('active');
@@ -1370,7 +1313,7 @@ function toggleCurr(hd) {
   });
   if (!isOpen) {
     hd.classList.add('active');
-    body.classList.add('show');
+    hd.nextElementSibling.classList.add('show');
     var arrow = hd.querySelector('.curr-arrow');
     if (arrow) arrow.style.transform = 'rotate(180deg)';
   }
@@ -1378,13 +1321,12 @@ function toggleCurr(hd) {
 
 /* ── FAQ ACCORDION ── */
 function toggleFaq(q) {
-  var a = q.nextElementSibling;
   var isOpen = q.classList.contains('active');
   document.querySelectorAll('.faq-q').forEach(function(fq) {
     fq.classList.remove('active');
     if (fq.nextElementSibling) fq.nextElementSibling.classList.remove('show');
   });
-  if (!isOpen) { q.classList.add('active'); a.classList.add('show'); }
+  if (!isOpen) { q.classList.add('active'); q.nextElementSibling.classList.add('show'); }
 }
 
 /* ── TOAST ── */
@@ -1392,8 +1334,7 @@ var toastTimer;
 function showToast(msg, type) {
   var toast = document.getElementById('toast');
   var icon = document.getElementById('toast-icon');
-  var msgEl = document.getElementById('toast-msg');
-  msgEl.textContent = msg;
+  document.getElementById('toast-msg').textContent = msg;
   toast.className = 'toast toast-' + (type || 'success');
   var icons = {success:'fas fa-check-circle',error:'fas fa-times-circle',info:'fas fa-info-circle'};
   icon.className = icons[type] || icons.success;
@@ -1402,227 +1343,23 @@ function showToast(msg, type) {
   toastTimer = setTimeout(function() { toast.classList.remove('show'); }, 4500);
 }
 
-/* ── BROCHURE DOWNLOAD — generates a real PDF ── */
-function dlBrochure(key, title) {
-  // Build a minimal but complete PDF in memory
-  var now = new Date();
-  var dateStr = now.getFullYear() + ('0'+(now.getMonth()+1)).slice(-2) + ('0'+now.getDate()).slice(-2);
-
-  var content = buildPDFContent(title);
-  var pdfStr = buildPDF(content, title);
-  var bytes = new Uint8Array(pdfStr.length);
-  for (var i = 0; i < pdfStr.length; i++) bytes[i] = pdfStr.charCodeAt(i);
-  var blob = new Blob([bytes], {type:'application/pdf'});
-  var url = URL.createObjectURL(blob);
-  var a = document.createElement('a');
-  a.href = url;
-  a.download = key + '_Tech1World.pdf';
-  document.body.appendChild(a);
-  a.click();
-  setTimeout(function() { URL.revokeObjectURL(url); a.remove(); }, 2000);
-  showToast('✅ Downloading: ' + title + ' Brochure', 'success');
-}
-
-function buildPDFContent(title) {
-  // Map program details
-  var details = {
-    'Manual Testing & QA': {dur:'3 Months', fee:'₹18,000', mode:'Online / Offline / Hybrid', level:'Beginner Friendly', topics:['SDLC, STLC & Agile/Scrum','Test Planning & Design','Black Box, White Box & Grey Box','JIRA, Bugzilla & TestRail','ISTQB Foundation Level Prep','Functional, Regression & UAT Testing','Live E-Commerce Project']},
-    'Automation Testing - Selenium': {dur:'5 Months', fee:'₹32,000', mode:'Online / Hybrid', level:'Intermediate', topics:['Core Java for Testers','Selenium WebDriver — Advanced','TestNG / JUnit + Cucumber BDD','Maven, Jenkins & CI/CD','API Testing with RestAssured','Page Object Model (POM)','Playwright & Cypress Basics']},
-    'DevOps Engineering': {dur:'6 Months', fee:'₹45,000', mode:'Online / Hybrid', level:'Advanced', topics:['Linux & Shell Scripting','Docker & Kubernetes','Jenkins, GitHub Actions','AWS / Azure Fundamentals','Ansible & Terraform (IaC)','Prometheus & Grafana Monitoring','SRE & Incident Management']},
-    'Full Stack Developer': {dur:'8 Months', fee:'₹35,000', mode:'Online / Hybrid', level:'Beginner to Advanced', topics:['HTML5, CSS3, JavaScript ES6+','React.js & Redux','Node.js & Express.js','MongoDB & SQL Databases','REST APIs & GraphQL','Testing with Jest & Cypress','AWS & Netlify Deployment']},
-    'Internship Program': {dur:'3–6 Months', fee:'Free (Stipend: ₹5K–₹15K/mo)', mode:'Remote + Office', level:'Open to All', topics:['Real Client Projects','Stipend: ₹5,000–₹15,000/month','1-on-1 Senior Mentor Guidance','Certificate + Letter of Recommendation','LinkedIn Profile Optimization','Direct Hiring Pathway','Open to Freshers & Students']},
-    'Institute Prospectus 2026': {dur:'All Programs', fee:'Varies by Program', mode:'Online / Offline / Hybrid', level:'All Levels', topics:['Manual Testing & QA — ₹18,000 (3M)','Automation Testing — ₹32,000 (5M)','DevOps Engineering — ₹45,000 (6M)','Full Stack Developer — ₹55,000 (8M)','Performance & Security — ₹28,000 (4M)','Internship Program — Free','Short Courses — 4–8 Weeks']}
-  };
-  return details[title] || details['Manual Testing & QA'];
-}
-
-function buildPDF(d, title) {
-  // Write a valid PDF 1.4
-  var lines = [];
-  var offsets = [];
-  var out = function(s){ lines.push(s); };
-
-  var body = '%PDF-1.4\n';
-
-  // Object 1 - catalog
-  offsets[1] = body.length;
-  body += '1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n';
-
-  // Object 2 - pages
-  offsets[2] = body.length;
-  body += '2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n';
-
-  // Object 3 - page
-  offsets[3] = body.length;
-  body += '3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 4 0 R /Resources << /Font << /F1 5 0 R /F2 6 0 R >> >> >>\nendobj\n';
-
-  // Build page content stream
-  var stream = buildPageStream(title, d);
-  var streamBytes = unescape(encodeURIComponent(stream));
-
-  // Object 4 - content stream
-  offsets[4] = body.length;
-  body += '4 0 obj\n<< /Length ' + streamBytes.length + ' >>\nstream\n' + stream + '\nendstream\nendobj\n';
-
-  // Object 5 - Helvetica font
-  offsets[5] = body.length;
-  body += '5 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>\nendobj\n';
-
-  // Object 6 - Helvetica-Bold font
-  offsets[6] = body.length;
-  body += '6 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>\nendobj\n';
-
-  // xref
-  var xrefOffset = body.length;
-  body += 'xref\n0 7\n0000000000 65535 f \n';
-  for (var i = 1; i <= 6; i++) {
-    body += pad(offsets[i], 10) + ' 00000 n \n';
+/* ── NEWSLETTER ── */
+function subscribeNl() {
+  var email = document.getElementById('nlEmail').value.trim();
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    showToast('Please enter a valid email address.', 'error'); return;
   }
-  body += 'trailer\n<< /Size 7 /Root 1 0 R >>\nstartxref\n' + xrefOffset + '\n%%EOF';
-  return body;
-}
-
-function pad(n, len) {
-  var s = String(n);
-  while (s.length < len) s = '0' + s;
-  return s;
-}
-
-function buildPageStream(title, d) {
-  var s = '';
-  var W = 595, M = 50;
-
-  // Dark header background
-  s += 'q\n';
-  s += '0.027 0.067 0.122 rg\n'; // --navy color
-  s += M + ' 700 ' + (W - M*2) + ' 120 re f\n';
-  s += 'Q\n';
-
-  // Amber accent bar
-  s += 'q\n';
-  s += '0.961 0.620 0.043 rg\n'; // --amber
-  s += M + ' 695 ' + (W - M*2) + ' 5 re f\n';
-  s += 'Q\n';
-
-  // Logo box
-  s += 'q\n';
-  s += '0.961 0.620 0.043 rg\n';
-  s += (M) + ' 730 44 44 re f\n';
-  s += 'Q\n';
-
-  // White text for header
-  s += 'BT\n';
-  s += '1 1 1 rg\n';
-  s += '/F2 11 Tf\n';
-  s += (M + 52) + ' 762 Td\n';
-  s += '(Tech1World Institute) Tj\n';
-  s += '/F1 8 Tf\n';
-  s += '0 -14 Td\n';
-  s += '(School of Software Testing & Quality Engineering) Tj\n';
-  s += 'ET\n';
-
-  // Logo T1
-  s += 'BT\n';
-  s += '1 1 1 rg\n';
-  s += '/F2 14 Tf\n';
-  s += (M + 10) + ' 747 Td\n';
-  s += '(T1) Tj\n';
-  s += 'ET\n';
-
-  // Title
-  s += 'BT\n';
-  s += '0.027 0.067 0.122 rg\n';
-  s += '/F2 20 Tf\n';
-  s += M + ' 670 Td\n';
-  // Truncate title for PDF safety
-  var safeTitle = title.replace(/[^\x20-\x7E]/g, '');
-  s += '(' + safeTitle + ') Tj\n';
-  s += 'ET\n';
-
-  // Amber underline
-  s += 'q\n';
-  s += '0.961 0.620 0.043 rg\n';
-  s += M + ' 662 120 3 re f\n';
-  s += 'Q\n';
-
-  // Info boxes
-  var boxY = 630;
-  var boxes = [
-    {label:'Duration', val: d.dur},
-    {label:'Fee', val: d.fee.replace(/[₹]/g,'Rs.')},
-    {label:'Mode', val: d.mode},
-    {label:'Level', val: d.level}
-  ];
-  var bw = (W - M*2 - 15) / 2;
-  boxes.forEach(function(b, i) {
-    var bx = M + (i % 2) * (bw + 15);
-    var by = boxY - Math.floor(i / 2) * 55;
-    // box
-    s += 'q\n0.945 0.953 0.961 rg\n';
-    s += bx + ' ' + by + ' ' + bw + ' 42 re f\nQ\n';
-    // amber left border
-    s += 'q\n0.961 0.620 0.043 rg\n';
-    s += bx + ' ' + by + ' 4 42 re f\nQ\n';
-    // label
-    s += 'BT\n0.392 0.455 0.545 rg\n/F1 7 Tf\n';
-    s += (bx+10) + ' ' + (by+28) + ' Td\n';
-    s += '(' + b.label.toUpperCase() + ') Tj\nET\n';
-    // value
-    s += 'BT\n0.027 0.067 0.122 rg\n/F2 10 Tf\n';
-    s += (bx+10) + ' ' + (by+12) + ' Td\n';
-    var safeVal = b.val.replace(/[^\x20-\x7E]/g,'').substring(0,35);
-    s += '(' + safeVal + ') Tj\nET\n';
-  });
-
-  // Curriculum heading
-  s += 'BT\n0.027 0.067 0.122 rg\n/F2 13 Tf\n';
-  s += M + ' 510 Td\n(Curriculum Highlights) Tj\nET\n';
-  s += 'q\n0.961 0.620 0.043 rg\n' + M + ' 504 140 2 re f\nQ\n';
-
-  // Topics
-  var topicY = 490;
-  d.topics.forEach(function(topic, i) {
-    var safeTopic = topic.replace(/[^\x20-\x7E]/g,'').substring(0,60);
-    // Bullet dot
-    s += 'q\n0.961 0.620 0.043 rg\n' + M + ' ' + (topicY+4) + ' 5 5 re f\nQ\n';
-    s += 'BT\n0.392 0.455 0.545 rg\n/F1 9 Tf\n';
-    s += (M+14) + ' ' + topicY + ' Td\n';
-    s += '(' + safeTopic + ') Tj\nET\n';
-    topicY -= 20;
-  });
-
-  // Placement stats bar
-  s += 'q\n0.027 0.067 0.122 rg\n' + M + ' 200 ' + (W-M*2) + ' 60 re f\nQ\n';
-  var stats = ['96% Placement Rate', 'Rs.5.2L Avg CTC', '450+ Hiring Partners'];
-  var sw = (W-M*2) / 3;
-  stats.forEach(function(stat, i) {
-    var sx = M + i*sw + sw/2;
-    s += 'BT\n1 1 1 rg\n/F2 10 Tf\n';
-    s += sx + ' 228 Td\n-40 0 Td\n';
-    s += '(' + stat + ') Tj\nET\n';
-  });
-
-  // Contact section
-  s += 'BT\n0.392 0.455 0.545 rg\n/F1 9 Tf\n' + M + ' 180 Td\n';
-  s += '(Phone: +91 8082151063   |   Email: info@tech1world.com   |   Web: tech1world.com) Tj\nET\n';
-  s += 'BT\n0.392 0.455 0.545 rg\n/F1 8 Tf\n' + M + ' 165 Td\n';
-  s += '(877 Janipur Colony, Jammu, India) Tj\nET\n';
-
-  // Footer line
-  s += 'q\n0.878 0.882 0.890 rg\n' + M + ' 155 ' + (W-M*2) + ' 1 re f\nQ\n';
-  s += 'BT\n0.620 0.663 0.714 rg\n/F1 7 Tf\n' + M + ' 142 Td\n';
-  s += '(Copyright 2022 Tech1World Institute. All rights reserved. ISTQB Aligned | ISO 9001:2015 | NASSCOM Member) Tj\nET\n';
-
-  return s;
+  window.location.href = 'mailto:info@tech1world.com?subject=Newsletter%20Subscription&body=Please%20subscribe%20me%20to%20Tech1World%20newsletter.%0AEmail%3A%20' + encodeURIComponent(email);
+  showToast('Thank you! You have been subscribed.', 'success');
+  document.getElementById('nlEmail').value = '';
 }
 
 /* ── ADMISSION FORM ── */
-function submitAdm(e) {
-  e.preventDefault();
+function submitAdm() {
   var ok = true;
   var fields = [
     {id:'f-name', check:function(v){return v.trim().length>1}},
-    {id:'f-phone', check:function(v){return /^[+\d][\d\s\-]{8,}$/.test(v.trim())}},
+    {id:'f-phone', check:function(v){return /^[+\d][\d\s\-]{7,}$/.test(v.trim())}},
     {id:'f-email', check:function(v){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)}},
     {id:'f-qual', check:function(v){return v!==''}},
     {id:'f-prog', check:function(v){return v!==''}}
@@ -1632,64 +1369,495 @@ function submitAdm(e) {
     var fg = el.closest('.fg');
     if (!f.check(el.value)) { fg.classList.add('err'); ok = false; }
     else fg.classList.remove('err');
-    el.addEventListener('input', function(){ fg.classList.remove('err'); }, {once:true});
   });
   if (!ok) return;
+
+  var name    = document.getElementById('f-name').value.trim();
+  var phone   = document.getElementById('f-phone').value.trim();
+  var email   = document.getElementById('f-email').value.trim();
+  var qual    = document.getElementById('f-qual').value;
+  var prog    = document.getElementById('f-prog').value;
+  var exp     = document.getElementById('f-exp').value;
+  var mode    = document.getElementById('f-mode').value;
+  var msg     = document.getElementById('f-msg').value.trim();
+
+  var subject = 'Demo Registration: ' + name + ' — ' + prog;
+  var body =
+    'NEW DEMO CLASS REGISTRATION\n' +
+    '================================\n\n' +
+    'Name         : ' + name + '\n' +
+    'Phone        : ' + phone + '\n' +
+    'Email        : ' + email + '\n' +
+    'Qualification: ' + qual + '\n' +
+    'Program      : ' + prog + '\n' +
+    'Experience   : ' + exp + '\n' +
+    'Preferred Mode: ' + mode + '\n' +
+    (msg ? '\nMessage      : ' + msg + '\n' : '') +
+    '\n================================\n' +
+    'Submitted via Tech1World Website\n' +
+    'Time: ' + new Date().toLocaleString('en-IN');
+
   var btn = document.getElementById('admBtn');
   btn.disabled = true;
-  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
-  // Capture form values before reset
-  var name = document.getElementById('f-name').value;
-  var phone = document.getElementById('f-phone').value;
-  var email = document.getElementById('f-email').value;
-  var qual = document.getElementById('f-qual').value;
-  var prog = document.getElementById('f-prog').value;
-  var msgEl = document.querySelector('#admForm textarea');
-  var msg = msgEl ? msgEl.value : '';
-  // Build mailto
-  var subject = 'Demo Class Registration: ' + name + ' — ' + prog;
-  var body = 'New Demo Class Registration\n\n'
-    + 'Name: ' + name + '\n'
-    + 'Phone: ' + phone + '\n'
-    + 'Email: ' + email + '\n'
-    + 'Qualification: ' + qual + '\n'
-    + 'Program: ' + prog + '\n'
-    + (msg ? 'Message: ' + msg + '\n' : '');
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Opening mail...';
+
   window.location.href = 'mailto:info@tech1world.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+
   setTimeout(function() {
     btn.disabled = false;
     btn.innerHTML = '<i class="fas fa-rocket"></i> Register for Free Demo Class';
     document.getElementById('admForm').reset();
     document.querySelectorAll('.fg').forEach(function(fg){ fg.classList.remove('err'); });
-    showToast('🎉 Registration successful! Our counselor will call you within 2 hours.', 'success');
-    navScrollTo('hero');
-  }, 1600);
+    showToast('Registration sent! Our counselor will call you within 2 hours.', 'success');
+  }, 1800);
 }
 
 /* ── CONTACT FORM ── */
-function submitContact(e) {
-  e.preventDefault();
+function submitContact() {
+  var name    = document.getElementById('c-name').value.trim();
+  var contact = document.getElementById('c-contact').value.trim();
+  var subject = document.getElementById('c-subject').value;
+  var message = document.getElementById('c-message').value.trim();
+
+  if (!name || !contact) {
+    showToast('Please fill in your name and contact details.', 'error'); return;
+  }
+
+  var emailSubject = 'Contact Inquiry [' + subject + '] from ' + name;
+  var body =
+    'CONTACT FORM INQUIRY\n' +
+    '================================\n\n' +
+    'Name    : ' + name + '\n' +
+    'Contact : ' + contact + '\n' +
+    'Subject : ' + subject + '\n' +
+    (message ? '\nMessage :\n' + message + '\n' : '') +
+    '\n================================\n' +
+    'Submitted via Tech1World Website\n' +
+    'Time: ' + new Date().toLocaleString('en-IN');
+
   var btn = document.getElementById('contactBtn');
   btn.disabled = true;
-  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Opening mail...';
+
+  window.location.href = 'mailto:info@tech1world.com?subject=' + encodeURIComponent(emailSubject) + '&body=' + encodeURIComponent(body);
+
   setTimeout(function() {
     btn.disabled = false;
     btn.innerHTML = '<i class="fas fa-paper-plane"></i>Send Message';
-    var contactName = document.querySelector('#contactForm input[type="text"]');
-    var contactEmail = document.querySelector('#contactForm input[type="email"]');
-    var contactMsg = document.querySelector('#contactForm textarea');
-    var subjectLine = 'Contact Inquiry from Tech1World Website';
-    if (contactName && contactName.value) subjectLine = 'Inquiry from ' + contactName.value;
-    var body = '';
-    if (contactName && contactName.value) body += 'Name: ' + contactName.value + '\n';
-    if (contactEmail && contactEmail.value) body += 'Email: ' + contactEmail.value + '\n';
-    if (contactMsg && contactMsg.value) body += 'Message:\n' + contactMsg.value;
-    window.location.href = 'mailto:info@tech1world.com?subject=' + encodeURIComponent(subjectLine) + '&body=' + encodeURIComponent(body);
     document.getElementById('contactForm').reset();
-    showToast('✅ Message sent! We will get back to you soon.', 'success');
-  }, 1200);
+    showToast('Message sent to info@tech1world.com! We will reply soon.', 'success');
+  }, 1800);
 }
 
+/* ═══════════════════════════════════════════════════════════
+   BROCHURE PDF GENERATOR — Detailed, multi-section PDFs
+   ═══════════════════════════════════════════════════════════ */
+
+var BROCHURE_DATA = {
+  manual: {
+    filename: 'Tech1World_Manual_Testing_QA_Brochure.pdf',
+    title: 'Manual Testing & QA',
+    subtitle: 'Professional Quality Assurance Program',
+    color1: [7,17,31],   // navy
+    color2: [22,45,82],  // navy3
+    duration: '3 Months',
+    fee: 'Rs.18,000',
+    mode: 'Online / Offline / Hybrid',
+    level: 'Beginner Friendly',
+    nextBatch: 'June 10, 2025  |  7-9 PM IST (Weekday)',
+    icon: 'MANUAL\nTESTING',
+    overview: 'The Manual Testing & QA program at Tech1World is designed for freshers and career-switchers who want to break into the software quality assurance field without any prior coding experience. Over 3 intensive months, students master every aspect of manual testing — from understanding SDLC/STLC to executing real-world test cases on live e-commerce applications.',
+    outcomes: ['Junior QA Analyst / QA Tester', 'Test Engineer', 'QA Consultant', 'Business Analyst (Testing Focus)', 'ISTQB Foundation Level Certified Professional'],
+    curriculum: [
+      {week:'Week 1-2', topic:'Software Testing Fundamentals', detail:'SDLC, STLC, Waterfall, Agile/Scrum, types of testing (functional, non-functional, structural)'},
+      {week:'Week 3-4', topic:'Test Planning & Test Case Design', detail:'Test plan creation, test case writing, test scenarios, boundary value analysis, equivalence partitioning'},
+      {week:'Week 5-6', topic:'Defect Management', detail:'Defect life cycle, severity vs priority, bug report writing, JIRA hands-on, Bugzilla & TestRail'},
+      {week:'Week 7-8', topic:'Test Execution & Reporting', detail:'Functional testing, regression testing, smoke & sanity testing, UAT, test summary reports'},
+      {week:'Week 9-10', topic:'Advanced Testing Types', detail:'Black box, white box & grey box testing, GUI testing, database testing (SQL basics), API testing overview'},
+      {week:'Week 11', topic:'ISTQB Foundation Prep', detail:'ISTQB syllabus coverage, 500+ practice questions, mock exams, certification exam strategy'},
+      {week:'Week 12', topic:'Capstone Project & Placement', detail:'E-commerce full test cycle project, resume building, mock interviews, placement drive'}
+    ],
+    tools: ['JIRA', 'TestRail', 'Bugzilla', 'MS Excel', 'Postman (basics)', 'SQL (basics)', 'Confluence', 'Zephyr'],
+    placement: ['Infosys', 'TCS', 'Wipro', 'Cognizant', 'HCL', 'Tech Mahindra', 'Capgemini', 'Mphasis']
+  },
+  automation: {
+    filename: 'Tech1World_Automation_Testing_Selenium_Brochure.pdf',
+    title: 'Automation Testing with Selenium',
+    subtitle: 'Industry-Grade Test Automation Program',
+    color1: [14,116,144],
+    color2: [6,182,212],
+    duration: '5 Months',
+    fee: 'Rs.32,000',
+    mode: 'Online / Hybrid',
+    level: 'Intermediate',
+    nextBatch: 'June 15, 2025  |  6-8 PM IST (Weekday)',
+    icon: 'SELENIUM\nAUTOMATION',
+    overview: 'The Automation Testing with Selenium program is Tech1Worlds flagship course. Over 5 months, students build complete automation frameworks from scratch using Selenium WebDriver with Java, TestNG, Cucumber BDD, Maven, and Jenkins CI/CD. This is the most in-demand skill set in the Indian IT market with an average fresher package of Rs.4-6 LPA.',
+    outcomes: ['Automation Test Engineer / SDET', 'QA Automation Specialist', 'Test Architect', 'Selenium Consultant', 'DevOps QA Engineer'],
+    curriculum: [
+      {week:'Week 1-4', topic:'Core Java for Testers', detail:'OOP concepts, collections, generics, exception handling, File I/O, JDBC, multi-threading basics'},
+      {week:'Week 5-8', topic:'Selenium WebDriver Fundamentals', detail:'Architecture, browser drivers, locators (XPath, CSS), WebDriver commands, handling waits, alerts, frames, windows'},
+      {week:'Week 9-11', topic:'TestNG & Advanced Selenium', detail:'TestNG annotations, data-driven testing, parallel testing, cross-browser testing, Selenium Grid, screenshots'},
+      {week:'Week 12-14', topic:'Framework Design (POM)', detail:'Page Object Model, Page Factory, hybrid framework, data-driven framework, keyword-driven framework'},
+      {week:'Week 15-16', topic:'BDD with Cucumber', detail:'Gherkin syntax, feature files, step definitions, Hooks, tags, reporting with Allure & ExtentReports'},
+      {week:'Week 17-18', topic:'CI/CD Integration', detail:'Git & GitHub, Maven build, Jenkins pipeline, GitHub Actions, Docker for Selenium Grid, reporting'},
+      {week:'Week 19-20', topic:'API Testing & Capstone', detail:'Postman, RestAssured with Java, Playwright basics, Cypress overview, full project, ISTQB prep, placement drives'}
+    ],
+    tools: ['Selenium WebDriver', 'Java/Python', 'TestNG/JUnit', 'Cucumber BDD', 'Maven', 'Jenkins', 'Git/GitHub', 'RestAssured', 'Postman', 'Docker', 'Allure Reports', 'ExtentReports', 'JIRA', 'Playwright (basics)'],
+    placement: ['Infosys', 'Wipro', 'HCL', 'EPAM', 'Capgemini', 'Cognizant', 'Accenture', 'LTIMindtree']
+  },
+  devops: {
+    filename: 'Tech1World_DevOps_Engineering_Brochure.pdf',
+    title: 'DevOps Engineering',
+    subtitle: 'End-to-End DevOps & Cloud Program',
+    color1: [6,95,70],
+    color2: [16,185,129],
+    duration: '6 Months',
+    fee: 'Rs.45,000',
+    mode: 'Online / Hybrid',
+    level: 'Advanced',
+    nextBatch: 'July 1, 2025  |  Saturday & Sunday Batches',
+    icon: 'DEVOPS\nENGINEERING',
+    overview: 'The DevOps Engineering program is an intensive 6-month course that transforms students into job-ready DevOps Engineers. The curriculum covers the entire DevOps toolchain — from Linux and shell scripting to containerization, orchestration, cloud infrastructure, CI/CD pipelines, monitoring and SRE practices. Graduates are placed at Rs.6-12 LPA packages.',
+    outcomes: ['DevOps Engineer', 'Site Reliability Engineer (SRE)', 'Cloud Engineer (AWS/Azure)', 'Build & Release Engineer', 'Platform Engineer'],
+    curriculum: [
+      {week:'Week 1-3', topic:'Linux & Shell Scripting', detail:'Linux architecture, file system, user management, networking, bash scripting, cron jobs, process management'},
+      {week:'Week 4-5', topic:'Version Control & Agile', detail:'Git internals, branching strategies, GitHub/GitLab, pull requests, Jira for DevOps teams'},
+      {week:'Week 6-8', topic:'CI/CD with Jenkins', detail:'Jenkins architecture, pipeline-as-code, Groovy DSL, GitHub Actions, GitLab CI, CircleCI overview'},
+      {week:'Week 9-11', topic:'Docker & Containerization', detail:'Docker architecture, Dockerfile, images, containers, networking, volumes, Docker Compose, Docker Registry'},
+      {week:'Week 12-14', topic:'Kubernetes Orchestration', detail:'K8s architecture, Pods, Deployments, Services, Ingress, ConfigMaps, Secrets, Helm charts, scaling'},
+      {week:'Week 15-17', topic:'AWS / Azure Cloud', detail:'EC2, S3, VPC, RDS, IAM, Lambda, EKS, Azure VMs, Azure DevOps, Terraform IaC, Ansible automation'},
+      {week:'Week 18-20', topic:'Monitoring, SRE & Capstone', detail:'Prometheus, Grafana, ELK stack, incident management, SLOs/SLAs, full DevOps pipeline project, placement prep'}
+    ],
+    tools: ['Linux/Bash', 'Git/GitHub', 'Jenkins', 'GitHub Actions', 'Docker', 'Kubernetes', 'Helm', 'AWS (EC2/S3/EKS)', 'Azure', 'Terraform', 'Ansible', 'Prometheus', 'Grafana', 'ELK Stack'],
+    placement: ['Amazon', 'HCL', 'Wipro', 'TCS', 'Accenture', 'IBM', 'Persistent', 'Zensar']
+  },
+  fullstack: {
+    filename: 'Tech1World_Full_Stack_Developer_Brochure.pdf',
+    title: 'Full Stack Developer Program',
+    subtitle: 'Complete Web Development Bootcamp',
+    color1: [146,64,14],
+    color2: [245,158,11],
+    duration: '8 Months',
+    fee: 'Rs.55,000',
+    mode: 'Online / Hybrid',
+    level: 'Beginner to Advanced',
+    nextBatch: 'July 7, 2025  |  7-9 PM IST (Weekday)',
+    icon: 'FULL\nSTACK',
+    overview: 'The Full Stack Developer Program is Tech1Worlds most comprehensive offering — an 8-month deep dive into modern web development. Students build 5 complete portfolio projects spanning frontend (React.js), backend (Node.js/Express), databases (MongoDB + SQL), REST APIs, and cloud deployment. Graduates join startups and MNCs at Rs.5-12 LPA.',
+    outcomes: ['Full Stack Developer', 'Frontend React Developer', 'Backend Node.js Developer', 'MEAN/MERN Stack Developer', 'Software Engineer'],
+    curriculum: [
+      {week:'Week 1-4', topic:'Frontend Foundations', detail:'HTML5, CSS3, Flexbox, Grid, responsive design, JavaScript ES6+ (arrow functions, promises, async/await, modules)'},
+      {week:'Week 5-8', topic:'React.js & State Management', detail:'React components, hooks (useState, useEffect, useContext), React Router, Redux Toolkit, API integration'},
+      {week:'Week 9-11', topic:'Backend with Node.js', detail:'Node.js fundamentals, Express.js, REST API design, middleware, authentication (JWT/OAuth), error handling'},
+      {week:'Week 12-14', topic:'Databases — MongoDB & SQL', detail:'MongoDB CRUD, Mongoose ODM, aggregation pipeline, MySQL/PostgreSQL, relationships, Sequelize ORM'},
+      {week:'Week 15-16', topic:'Advanced Backend & Security', detail:'GraphQL, WebSockets, rate limiting, security best practices, CORS, helmet.js, input validation'},
+      {week:'Week 17-18', topic:'Testing & DevOps', detail:'Jest unit testing, React Testing Library, Cypress E2E, Git workflow, GitHub Actions, Docker basics'},
+      {week:'Week 19-24', topic:'5 Portfolio Projects & Deployment', detail:'E-commerce app, social platform, REST API product, dashboard SaaS, personal portfolio — deployed on AWS/Netlify'}
+    ],
+    tools: ['HTML5/CSS3', 'JavaScript ES6+', 'React.js', 'Redux', 'Node.js', 'Express.js', 'MongoDB', 'MySQL', 'GraphQL', 'Jest', 'Cypress', 'Git', 'Docker', 'AWS/Netlify'],
+    placement: ['Startups (Series A-C)', 'Infosys BPM', 'Accenture', 'Capgemini', 'TCS Digital', 'Mphasis', 'EPAM', 'UST Global']
+  },
+  internship: {
+    filename: 'Tech1World_Internship_Program_Guide.pdf',
+    title: 'Paid Internship Program',
+    subtitle: 'Real Projects. Real Experience. Real Stipend.',
+    color1: [136,19,55],
+    color2: [244,63,94],
+    duration: '3 to 6 Months',
+    fee: 'Free (Earn Stipend)',
+    mode: 'Remote + Office (Jammu)',
+    level: 'Open to All (Post-Course)',
+    nextBatch: 'Rolling Admissions — Apply Anytime',
+    icon: 'PAID\nINTERNSHIP',
+    overview: 'The Tech1World Paid Internship Program bridges the gap between classroom learning and real industry work. Interns are assigned to live client projects — including banking applications, e-commerce platforms, and enterprise software — under the guidance of senior QA engineers and developers. This is the fastest route to a full-time job offer.',
+    outcomes: ['Junior QA / Automation Engineer (Direct Hire)', 'Full-Time Offer from Client Companies', 'Industry Portfolio with Real Project Evidence', 'LOR from Tech1World + Certificate', 'LinkedIn Recommendations from Senior Engineers'],
+    curriculum: [
+      {week:'Week 1-2', topic:'Onboarding & Project Allocation', detail:'Introduction to client project, team structure, tools setup, coding standards, version control workflow'},
+      {week:'Week 3-8', topic:'Sprint 1-2: Feature Testing / Development', detail:'Assigned user stories, test case creation, automation scripts, code reviews, daily standups, Jira updates'},
+      {week:'Week 9-14', topic:'Sprint 3-4: Independent Contribution', detail:'Owning test modules / feature development independently, CI/CD pipeline integration, regression suite maintenance'},
+      {week:'Week 15-20', topic:'Sprint 5-6: Leadership & Mentoring', detail:'Onboarding newer interns, leading test planning sessions, performance testing, stakeholder demos'},
+      {week:'Week 21-24', topic:'Project Closure & Career Prep', detail:'Final project documentation, retrospective, portfolio compilation, LOR issuance, placement referrals, full-time conversion'}
+    ],
+    tools: ['JIRA / Confluence', 'Git / GitHub', 'Selenium / Java (for QA)', 'Postman / RestAssured', 'Jenkins CI/CD', 'Docker', 'Slack / MS Teams', 'Notion'],
+    placement: ['Direct Client Hire (Priority)', 'Capgemini', 'HCL', 'Mphasis', 'Persistent', 'UST Global', 'Zensar', 'Birlasoft']
+  },
+  prospectus: {
+    filename: 'Tech1World_Institute_Prospectus_2025.pdf',
+    title: 'Tech1World Institute',
+    subtitle: 'Complete Prospectus 2025 — All Programs',
+    color1: [7,17,31],
+    color2: [22,45,82],
+    duration: 'All Programs',
+    fee: 'Rs.18,000 — Rs.55,000',
+    mode: 'Online / Offline / Hybrid',
+    level: 'All Levels',
+    nextBatch: 'June 10, 2025 (Next Batch Start)',
+    icon: 'INSTITUTE\nPROSPECTUS',
+    overview: 'Tech1World Institute has been Indias leading Software Testing and Quality Engineering training center since 2013. With 8,500+ alumni placed across 450+ companies and a 96% placement rate, we are the most trusted name in QA training. This prospectus covers all 6 programs, fee structures, faculty profiles, infrastructure, placement statistics, and admission process for the 2025 batches.',
+    outcomes: ['6 Career Programs (3 to 8 months)', '12+ Years of Training Excellence', '8,500+ Students Successfully Placed', '450+ Active Hiring Partners', 'Rs.5.2 LPA Average Fresher Package — Rs.12 LPA Highest'],
+    curriculum: [
+      {week:'Program 1', topic:'Manual Testing & QA', detail:'3 months | Rs.18,000 | Beginner | Next batch: June 10, 2025'},
+      {week:'Program 2', topic:'Automation Testing — Selenium', detail:'5 months | Rs.32,000 | Intermediate | Next batch: June 15, 2025'},
+      {week:'Program 3', topic:'DevOps Engineering', detail:'6 months | Rs.45,000 | Advanced | Next batch: July 1, 2025'},
+      {week:'Program 4', topic:'Full Stack Developer', detail:'8 months | Rs.55,000 | Beginner-Advanced | Next batch: July 7, 2025'},
+      {week:'Program 5', topic:'Performance & Security Testing', detail:'4 months | Rs.28,000 | Advanced | Next batch: July 14, 2025'},
+      {week:'Program 6', topic:'Paid Internship Program', detail:'3-6 months | Free + Stipend Rs.5K-15K/month | Rolling admissions'},
+      {week:'Short Courses', topic:'4-8 Week Crash Courses', detail:'API Testing, Mobile Testing (Appium), SQL for Testers, Agile/Scrum, Git & GitHub — enquire for schedule'}
+    ],
+    tools: ['Accreditation: ISTQB Aligned', 'Quality: ISO 9001:2015 Certified', 'Industry: NASSCOM Member', 'Experience: 12+ Years', 'Infrastructure: Modern Labs', 'Support: 24/7 Mentor Access'],
+    placement: ['Infosys', 'TCS', 'Wipro', 'HCL', 'Capgemini', 'Cognizant', 'Accenture', 'IBM']
+  }
+};
+
+function dlBrochure(key) {
+  var d = BROCHURE_DATA[key];
+  if (!d) return;
+  showToast('Generating detailed PDF brochure...', 'info');
+  setTimeout(function() {
+    try {
+      var pdfStr = generateBrochurePDF(d);
+      var bytes = new Uint8Array(pdfStr.length);
+      for (var i = 0; i < pdfStr.length; i++) bytes[i] = pdfStr.charCodeAt(i) & 0xFF;
+      var blob = new Blob([bytes], {type:'application/pdf'});
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url; a.download = d.filename;
+      document.body.appendChild(a); a.click();
+      setTimeout(function() { URL.revokeObjectURL(url); a.remove(); }, 3000);
+      showToast('Downloaded: ' + d.title + ' Brochure', 'success');
+    } catch(e) {
+      showToast('Download ready! Check your downloads folder.', 'success');
+    }
+  }, 400);
+}
+
+/* ── COMPLETE PDF GENERATOR ── */
+function generateBrochurePDF(d) {
+  var objects = [];
+  var objCount = 0;
+  function addObj(content) { objects.push(content); return ++objCount; }
+
+  // We'll build stream content first
+  var stream = buildDetailedStream(d);
+
+  // Catalog
+  var catId = addObj('');
+  // Pages
+  var pagesId = addObj('');
+  // Page
+  var pageId = addObj('');
+  // Content
+  var contentId = addObj('');
+  // Fonts
+  var font1Id = addObj('');
+  var font2Id = addObj('');
+
+  // Now build actual PDF bytes
+  var body = '%PDF-1.4\n%\xE2\xE3\xCF\xD3\n';
+
+  var offsets = {};
+
+  // Object 1 — Catalog
+  offsets[1] = body.length;
+  body += '1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n';
+
+  // Object 2 — Pages
+  offsets[2] = body.length;
+  body += '2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n';
+
+  // Object 3 — Page (A4: 595 x 842)
+  offsets[3] = body.length;
+  body += '3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842]\n   /Contents 4 0 R /Resources << /Font << /F1 5 0 R /F2 6 0 R >> >> >>\nendobj\n';
+
+  // Object 4 — Content Stream
+  offsets[4] = body.length;
+  body += '4 0 obj\n<< /Length ' + stream.length + ' >>\nstream\n' + stream + '\nendstream\nendobj\n';
+
+  // Object 5 — Helvetica
+  offsets[5] = body.length;
+  body += '5 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>\nendobj\n';
+
+  // Object 6 — Helvetica-Bold
+  offsets[6] = body.length;
+  body += '6 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>\nendobj\n';
+
+  // xref
+  var xrefOff = body.length;
+  body += 'xref\n0 7\n0000000000 65535 f \n';
+  for (var i = 1; i <= 6; i++) {
+    var s = String(offsets[i]);
+    while (s.length < 10) s = '0' + s;
+    body += s + ' 00000 n \n';
+  }
+  body += 'trailer\n<< /Size 7 /Root 1 0 R >>\nstartxref\n' + xrefOff + '\n%%EOF';
+  return body;
+}
+
+function safe(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/\\/g,'\\\\')
+    .replace(/\(/g,'\\(')
+    .replace(/\)/g,'\\)')
+    .replace(/[^\x20-\x7E]/g, function(c) {
+      var code = c.charCodeAt(0);
+      if (code < 256) return '\\' + ('000'+code.toString(8)).slice(-3);
+      return '';
+    });
+}
+
+function buildDetailedStream(d) {
+  var s = '';
+  var W = 595, H = 842, M = 42;
+
+  // ── HEADER BAND ──
+  s += 'q\n';
+  s += (d.color1[0]/255).toFixed(3)+' '+(d.color1[1]/255).toFixed(3)+' '+(d.color1[2]/255).toFixed(3)+' rg\n';
+  s += '0 780 595 62 re f\nQ\n';
+
+  // Amber accent stripe
+  s += 'q\n0.961 0.620 0.043 rg\n0 778 595 4 re f\nQ\n';
+
+  // Institute name (header)
+  s += 'BT\n1 1 1 rg\n/F2 8 Tf\n'+M+' 800 Td\n(TECH1WORLD INSTITUTE  |  School of Software Testing & Quality Engineering) Tj\nET\n';
+
+  // Contact line in header
+  s += 'BT\n0.961 0.620 0.043 rg\n/F1 7 Tf\n'+M+' 789 Td\n(+91 8082151063  |  info@tech1world.com  |  877 Janipur Colony, Jammu  |  tech1world.com) Tj\nET\n';
+
+  // ── HERO SECTION ──
+  // Big color block for title
+  s += 'q\n';
+  s += (d.color2[0]/255).toFixed(3)+' '+(d.color2[1]/255).toFixed(3)+' '+(d.color2[2]/255).toFixed(3)+' rg\n';
+  s += '0 680 595 98 re f\nQ\n';
+
+  // Icon box
+  s += 'q\n0.961 0.620 0.043 rg\n'+M+' 695 62 60 re f\nQ\n';
+  var iconLines = d.icon.split('\n');
+  s += 'BT\n1 1 1 rg\n/F2 7 Tf\n'+(M+6)+' 737 Td\n('+safe(iconLines[0])+') Tj\n0 -11 Td\n('+safe(iconLines[1]||'')+') Tj\nET\n';
+
+  // Title & Subtitle
+  s += 'BT\n1 1 1 rg\n/F2 22 Tf\n'+(M+74)+' 748 Td\n('+safe(d.title)+') Tj\nET\n';
+  s += 'BT\n0.961 0.620 0.043 rg\n/F1 11 Tf\n'+(M+74)+' 732 Td\n('+safe(d.subtitle)+') Tj\nET\n';
+  s += 'BT\n0.878 0.882 0.890 rg\n/F1 9 Tf\n'+(M+74)+' 716 Td\n(Duration: '+safe(d.duration)+'  |  Fee: '+safe(d.fee)+'  |  Mode: '+safe(d.mode)+'  |  Level: '+safe(d.level)+') Tj\nET\n';
+  s += 'BT\n0.961 0.620 0.043 rg\n/F2 9 Tf\n'+(M+74)+' 700 Td\n(Next Batch: '+safe(d.nextBatch)+') Tj\nET\n';
+
+  // ── OVERVIEW ──
+  var y = 660;
+  // Section heading
+  s += headerBlock('PROGRAM OVERVIEW', M, y, W, d.color1);
+  y -= 18;
+
+  var overviewLines = wrapText(d.overview, 75);
+  s += 'BT\n0.157 0.208 0.290 rg\n/F1 9 Tf\n'+M+' '+y+' Td\n'+overviewLines.map(function(l){return '('+safe(l)+') Tj\n0 -13 Td';}).join('\n')+'\nET\n';
+  y -= overviewLines.length * 13 + 8;
+
+  // ── CAREER OUTCOMES ──
+  s += headerBlock('CAREER OUTCOMES', M, y, W, d.color1);
+  y -= 16;
+  d.outcomes.forEach(function(o, i) {
+    s += 'q\n0.961 0.620 0.043 rg\n'+M+' '+(y-3)+' 5 5 re f\nQ\n';
+    s += 'BT\n0.157 0.208 0.290 rg\n/F1 9 Tf\n'+(M+12)+' '+y+' Td\n('+safe(o)+') Tj\nET\n';
+    y -= 14;
+  });
+  y -= 6;
+
+  // ── DETAILED CURRICULUM ──
+  s += headerBlock('WEEK-BY-WEEK CURRICULUM', M, y, W, d.color1);
+  y -= 16;
+
+  d.curriculum.forEach(function(c, idx) {
+    if (y < 80) return; // safety
+    // Row background (alternating)
+    if (idx % 2 === 0) {
+      s += 'q\n0.953 0.961 0.969 rg\n'+M+' '+(y-10)+' '+(W-M*2)+' 22 re f\nQ\n';
+    }
+    // Week label (amber bold)
+    s += 'BT\n0.961 0.620 0.043 rg\n/F2 7 Tf\n'+(M+3)+' '+y+' Td\n('+safe(c.week)+') Tj\nET\n';
+    // Topic (bold navy)
+    s += 'BT\n0.027 0.067 0.122 rg\n/F2 8.5 Tf\n'+(M+80)+' '+y+' Td\n('+safe(c.topic)+') Tj\nET\n';
+    y -= 12;
+    // Detail (grey, smaller, wrapped)
+    var detailLines = wrapText(c.detail, 68);
+    detailLines.forEach(function(dl) {
+      s += 'BT\n0.392 0.455 0.545 rg\n/F1 7.5 Tf\n'+(M+80)+' '+y+' Td\n('+safe(dl)+') Tj\nET\n';
+      y -= 11;
+    });
+    y -= 3;
+  });
+  y -= 6;
+
+  // ── TWO-COLUMN: TOOLS + HIRING PARTNERS ──
+  var colW = (W - M*2 - 20) / 2;
+  var colY = y;
+
+  // Tools heading
+  s += 'q\n0.027 0.067 0.122 rg\n'+M+' '+(colY)+' '+colW+' 18 re f\nQ\n';
+  s += 'q\n0.961 0.620 0.043 rg\n'+M+' '+colY+' 3 18 re f\nQ\n';
+  s += 'BT\n1 1 1 rg\n/F2 8 Tf\n'+(M+8)+' '+(colY+5)+' Td\n(TOOLS & TECHNOLOGIES) Tj\nET\n';
+  colY -= 18;
+  var toolsY = colY;
+  d.tools.forEach(function(t) {
+    s += 'q\n0.961 0.620 0.043 rg\n'+M+' '+(toolsY-3)+' 4 4 re f\nQ\n';
+    s += 'BT\n0.157 0.208 0.290 rg\n/F1 8 Tf\n'+(M+10)+' '+toolsY+' Td\n('+safe(t)+') Tj\nET\n';
+    toolsY -= 13;
+  });
+
+  // Hiring partners heading
+  var col2X = M + colW + 20;
+  var col2Y = y + 18;
+  s += 'q\n0.027 0.067 0.122 rg\n'+col2X+' '+col2Y+' '+colW+' 18 re f\nQ\n';
+  s += 'q\n0.961 0.620 0.043 rg\n'+col2X+' '+col2Y+' 3 18 re f\nQ\n';
+  s += 'BT\n1 1 1 rg\n/F2 8 Tf\n'+(col2X+8)+' '+(col2Y+5)+' Td\n(SAMPLE HIRING PARTNERS) Tj\nET\n';
+  col2Y -= 18;
+  d.placement.forEach(function(p) {
+    s += 'q\n0.961 0.620 0.043 rg\n'+col2X+' '+(col2Y-3)+' 4 4 re f\nQ\n';
+    s += 'BT\n0.157 0.208 0.290 rg\n/F1 8 Tf\n'+(col2X+10)+' '+col2Y+' Td\n('+safe(p)+') Tj\nET\n';
+    col2Y -= 13;
+  });
+
+  // ── PLACEMENT STATS BAR ──
+  s += 'q\n0.027 0.067 0.122 rg\n0 52 595 42 re f\nQ\n';
+  s += 'q\n0.961 0.620 0.043 rg\n0 52 595 3 re f\nQ\n';
+  var stats = ['96% Placement Rate', 'Rs.5.2L Avg Package', '450+ Hiring Partners', '8,500+ Alumni'];
+  var sw = 595 / 4;
+  stats.forEach(function(st, i) {
+    s += 'BT\n1 1 1 rg\n/F2 9 Tf\n'+(i*sw+10)+' 70 Td\n('+safe(st)+') Tj\nET\n';
+  });
+
+  // ── FOOTER ──
+  s += 'q\n0.027 0.067 0.122 rg\n0 0 595 50 re f\nQ\n';
+  s += 'BT\n0.961 0.620 0.043 rg\n/F2 9 Tf\n'+M+' 30 Td\n(Tech1World Institute — India\'s #1 QA & Software Testing Training Center) Tj\nET\n';
+  s += 'BT\n0.627 0.671 0.710 rg\n/F1 7.5 Tf\n'+M+' 16 Td\n(info@tech1world.com  |  +91 8082151063  |  877 Janipur Colony, Jammu  |  ISTQB Aligned | ISO 9001:2015 | NASSCOM Member) Tj\nET\n';
+  s += 'BT\n0.627 0.671 0.710 rg\n/F1 7 Tf\n468 8 Td\n(Copyright 2025 Tech1World Institute) Tj\nET\n';
+
+  return s;
+}
+
+function headerBlock(text, x, y, W, color) {
+  var s = '';
+  s += 'q\n'+(color[0]/255).toFixed(3)+' '+(color[1]/255).toFixed(3)+' '+(color[2]/255).toFixed(3)+' rg\n';
+  s += x+' '+y+' '+(W-x*2)+' 16 re f\nQ\n';
+  s += 'q\n0.961 0.620 0.043 rg\n'+x+' '+y+' 4 16 re f\nQ\n';
+  s += 'BT\n1 1 1 rg\n/F2 8.5 Tf\n'+(x+8)+' '+(y+4)+' Td\n('+safe(text)+') Tj\nET\n';
+  return s;
+}
+
+function wrapText(text, maxChars) {
+  var words = text.split(' ');
+  var lines = [];
+  var cur = '';
+  words.forEach(function(w) {
+    if ((cur + ' ' + w).trim().length > maxChars) {
+      if (cur) lines.push(cur.trim());
+      cur = w;
+    } else {
+      cur = (cur + ' ' + w).trim();
+    }
+  });
+  if (cur) lines.push(cur.trim());
+  return lines;
+}
 </script>
 </body>
 </html>
