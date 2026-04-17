@@ -1,917 +1,530 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Tech1World Institute — School of Software Testing &amp; Quality Engineering</title>
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
-
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
 <style>
-
 :root{
-
   --navy:#07111f;--navy1:#0c1c30;--navy2:#0f2240;--navy3:#162d52;--navy4:#1e3d6e;
-
   --amber:#f59e0b;--amber2:#fbbf24;--amber3:#fde68a;--amber-d:#d97706;
-
   --cyan:#06b6d4;--green:#10b981;--rose:#f43f5e;--violet:#8b5cf6;
-
   --slate:#64748b;--slate2:#94a3b8;--slate3:#cbd5e1;
-
   --white:#f8fafc;--gray:#f1f5f9;--gray2:#e2e8f0;
-
   --r:8px;--r2:14px;--r3:22px;
-
   --sh:0 4px 24px rgba(7,17,31,.12);--sh2:0 16px 56px rgba(7,17,31,.22);
-
   --tr:all .26s cubic-bezier(.22,1,.36,1);
-
   --topbar-h:38px;--nav-h:68px;--total-top:106px;
-
 }
-
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-
 html{scroll-behavior:smooth}
-
 body{font-family:'DM Sans',sans-serif;background:#fff;color:var(--navy);line-height:1.65;overflow-x:hidden}
-
 a{text-decoration:none;color:inherit}
-
 img{display:block;max-width:100%}
-
 button,input,select,textarea{font-family:inherit;outline:none;border:none}
-
 button{cursor:pointer}
-
 .con{max-width:1260px;margin:0 auto;padding:0 1.5rem}
-
 .sec{padding:5.5rem 0}.sec-alt{background:var(--gray)}.sec-dark{background:var(--navy)}
-
 .sec-label{font-family:'JetBrains Mono',monospace;font-size:.64rem;letter-spacing:.2rem;text-transform:uppercase;color:var(--amber);font-weight:600;display:block;margin-bottom:.6rem}
-
 .sec-title{font-family:'Sora',sans-serif;font-size:clamp(1.75rem,3.2vw,2.65rem);font-weight:800;line-height:1.1;color:var(--navy);margin-bottom:.75rem;letter-spacing:-.02em}
-
 .sec-title em{font-style:normal;background:linear-gradient(135deg,var(--amber),#ea580c);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-
 .sec-title-white{color:#fff!important}
-
 .sec-title-white em{background:linear-gradient(135deg,var(--amber),var(--amber2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-
 .sec-desc{color:var(--slate);font-size:.93rem;max-width:540px;line-height:1.82}
-
 .sec-desc-light{color:rgba(255,255,255,.62)!important}
-
 .sec-head{margin-bottom:3.5rem;text-align:center}
-
 .sec-head .sec-desc{margin:0 auto}
-
 .rv{opacity:0;transform:translateY(24px);transition:opacity .65s ease,transform .65s ease}
-
 .rv.vis{opacity:1;transform:none}
-
 .rvl{opacity:0;transform:translateX(-24px);transition:opacity .65s ease,transform .65s ease}
-
 .rvl.vis{opacity:1;transform:none}
-
 .rvr{opacity:0;transform:translateX(24px);transition:opacity .65s ease,transform .65s ease}
-
 .rvr.vis{opacity:1;transform:none}
-
 .btn{display:inline-flex;align-items:center;gap:.48rem;padding:.72rem 1.6rem;border-radius:var(--r);font-weight:600;font-size:.87rem;border:none;cursor:pointer;transition:var(--tr);white-space:nowrap}
-
 .btn:active{transform:scale(.97)}
-
 .btn-primary{background:linear-gradient(135deg,var(--amber),#f97316);color:#fff;box-shadow:0 4px 18px rgba(245,158,11,.35)}
-
 .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(245,158,11,.5)}
-
 .btn-secondary{background:var(--navy);color:#fff}
-
 .btn-secondary:hover{background:var(--navy3);transform:translateY(-2px)}
-
 .btn-outline-white{border:1.5px solid rgba(255,255,255,.35);color:#fff;background:transparent}
-
 .btn-outline-white:hover{background:rgba(255,255,255,.1)}
-
 .btn-lg{padding:.9rem 2rem;font-size:.95rem}
-
 .btn-sm{padding:.44rem 1rem;font-size:.78rem}
-
 .btn-xs{padding:.32rem .75rem;font-size:.72rem}
-
 .badge{display:inline-flex;align-items:center;gap:.35rem;padding:.22rem .72rem;border-radius:40px;font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.08rem;text-transform:uppercase;font-weight:500}
-
 .badge-amber{background:rgba(245,158,11,.1);color:#92400e;border:1px solid rgba(245,158,11,.28)}
-
 .badge-cyan{background:rgba(6,182,212,.09);color:#0e7490;border:1px solid rgba(6,182,212,.22)}
-
 .badge-green{background:rgba(16,185,129,.09);color:#065f46;border:1px solid rgba(16,185,129,.22)}
-
 .badge-navy{background:rgba(7,17,31,.07);color:var(--navy);border:1px solid rgba(7,17,31,.14)}
-
 .badge-violet{background:rgba(139,92,246,.09);color:#6d28d9;border:1px solid rgba(139,92,246,.22)}
-
 .badge-rose{background:rgba(244,63,94,.09);color:#9f1239;border:1px solid rgba(244,63,94,.22)}
 
 /* TOPBAR */
-
 #topbar{position:fixed;top:0;left:0;right:0;z-index:1001;height:var(--topbar-h);background:var(--navy);display:flex;align-items:center}
-
 .topbar-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem;width:100%}
-
 .topbar-left,.topbar-right{display:flex;align-items:center;gap:1.4rem;flex-wrap:nowrap}
-
 .topbar-item{display:flex;align-items:center;gap:.38rem;color:rgba(255,255,255,.68);font-size:.74rem;white-space:nowrap;transition:color .2s}
-
 .topbar-item a{color:rgba(255,255,255,.68);transition:color .2s}
-
 .topbar-item a:hover,.topbar-item:hover{color:var(--amber)}
-
 .topbar-item i{color:var(--amber);font-size:.7rem}
-
 .topbar-badge{background:var(--amber);color:var(--navy);font-family:'JetBrains Mono',monospace;font-size:.56rem;font-weight:700;letter-spacing:.06rem;padding:.18rem .6rem;border-radius:40px;white-space:nowrap;animation:tbpulse 2.5s ease-in-out infinite}
-
 @keyframes tbpulse{0%,100%{box-shadow:0 0 0 0 rgba(245,158,11,.5)}50%{box-shadow:0 0 0 5px rgba(245,158,11,0)}}
 
 /* NAVBAR */
-
-#navbar{position:fixed;top:var(--topbar-h);left:0;right:0;z-index:1000;height:var(--nav-h);background:rgba(7,17,31,.97);backdrop-filter:blur(22px);box-shadow:0 2px 40px rgba(0,0,0,.35);border-bottom:1px solid rgba(255,255,255,.06)}
-
+#navbar{position:fixed;top:var(--topbar-h);left:0;right:0;z-index:1000;height:var(--nav-h);background:rgba(7,17,31,.97);backdrop-filter:blur(22px);box-shadow:0 2px 40px rgba(0,0,0,.35);border-bottom:1px solid rgba(255,255,255,.06);transition:top .3s ease}
+#navbar.scrolled{background:rgba(7,17,31,.99)}
 .nav-inner{display:flex;align-items:center;justify-content:space-between;height:var(--nav-h);gap:1rem}
-
 .nav-logo{display:flex;align-items:center;gap:.65rem;flex-shrink:0}
-
 .nav-logo-icon{width:42px;height:42px;background:linear-gradient(135deg,var(--amber),#f97316);border-radius:11px;display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-weight:900;font-size:.88rem;color:#fff}
-
 .nav-logo-text{font-family:'Sora',sans-serif;font-weight:800;font-size:1.08rem;color:#fff}
-
 .nav-logo-text span{color:var(--amber)}
-
 .nav-logo-sub{font-family:'JetBrains Mono',monospace;font-size:.5rem;color:rgba(255,255,255,.45);letter-spacing:.12rem;text-transform:uppercase;display:block;line-height:1.2;margin-top:.08rem}
-
 .nav-links{display:flex;align-items:center;gap:.05rem;list-style:none}
-
 .nav-links>li>a{color:rgba(255,255,255,.78);font-size:.83rem;font-weight:500;padding:.44rem .75rem;border-radius:6px;transition:var(--tr);white-space:nowrap;display:flex;align-items:center;gap:.28rem}
-
 .nav-links>li>a:hover{color:#fff;background:rgba(255,255,255,.08)}
-
 .nav-links>li>a.active-link{color:var(--amber)}
-
 .nav-drop{position:relative}
-
 .nav-drop>a::after{content:'▾';font-size:.58rem;margin-left:.18rem;opacity:.7}
-
 .drop-menu{position:absolute;top:calc(100% + 10px);left:0;background:#fff;border-radius:var(--r2);box-shadow:var(--sh2);border:1px solid var(--gray2);padding:.5rem;min-width:230px;opacity:0;visibility:hidden;transform:translateY(-6px);transition:var(--tr);z-index:100;pointer-events:none}
-
 .nav-drop:hover .drop-menu{opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto}
-
 .drop-menu a{display:flex;align-items:center;gap:.65rem;padding:.62rem .88rem;border-radius:var(--r);color:var(--navy);font-size:.83rem;font-weight:500;transition:var(--tr)}
-
 .drop-menu a:hover{background:var(--gray)}
-
 .drop-menu a i{width:18px;color:var(--amber);font-size:.82rem;flex-shrink:0}
-
 .drop-menu .drop-divider{height:1px;background:var(--gray2);margin:.3rem .5rem}
-
 .nav-right{display:flex;align-items:center;gap:.6rem;flex-shrink:0}
-
 .hamburger{display:none;flex-direction:column;gap:5px;padding:.45rem;cursor:pointer;background:none;border:none}
-
 .hamburger span{display:block;width:22px;height:2px;background:rgba(255,255,255,.8);border-radius:2px;transition:var(--tr)}
-
 .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
-
 .hamburger.open span:nth-child(2){opacity:0}
-
 .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-
 #mob-nav{position:fixed;inset:0;z-index:999;background:var(--navy1);display:none;flex-direction:column;overflow-y:auto;padding:calc(var(--total-top) + 1rem) 1.5rem 2rem}
-
 #mob-nav.open{display:flex}
-
 .mob-nav-links{display:flex;flex-direction:column;gap:.2rem;margin-bottom:1.5rem}
-
 .mob-nav-links a{color:rgba(255,255,255,.78);font-size:1rem;font-weight:600;padding:.85rem 0;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between}
-
 .mob-nav-links a:hover{color:var(--amber)}
-
 .mob-nav-btns{display:flex;flex-direction:column;gap:.6rem}
 
 /* TICKER */
-
 .ticker-bar{background:linear-gradient(90deg,var(--amber),#f97316);overflow:hidden;height:34px;display:flex;align-items:center}
-
-.ticker-inner{display:flex;gap:3.5rem;animation:ticker 30s linear infinite;white-space:nowrap;width:max-content}
-
+.ticker-inner{display:flex;gap:3.5rem;animation:ticker 38s linear infinite;white-space:nowrap;width:max-content}
 @keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-
 .ticker-item{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.05rem;color:var(--navy);font-weight:700;display:flex;align-items:center;gap:.5rem}
 
 /* HERO */
-
 #hero{min-height:100vh;background:var(--navy);position:relative;display:flex;align-items:center;overflow:hidden;padding-top:var(--total-top)}
-
 .hero-bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(245,158,11,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(245,158,11,.055) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 30%,transparent 70%)}
-
 .hero-orb1{position:absolute;top:-8%;right:-4%;width:580px;height:580px;background:radial-gradient(circle,rgba(245,158,11,.11) 0%,transparent 65%);animation:orb 9s ease-in-out infinite;pointer-events:none}
-
 .hero-orb2{position:absolute;bottom:-18%;left:-6%;width:500px;height:500px;background:radial-gradient(circle,rgba(6,182,212,.075) 0%,transparent 65%);animation:orb 12s ease-in-out infinite reverse;pointer-events:none}
-
 .hero-orb3{position:absolute;top:40%;right:25%;width:300px;height:300px;background:radial-gradient(circle,rgba(139,92,246,.05) 0%,transparent 65%);animation:orb 7s ease-in-out infinite;pointer-events:none}
-
 @keyframes orb{0%,100%{transform:scale(.88);opacity:.65}50%{transform:scale(1.12);opacity:1}}
-
 .hero-in{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:center;position:relative;z-index:2;padding:3rem 0 4rem}
-
 .h-eyebrow{display:inline-flex;align-items:center;gap:.5rem;padding:.32rem 1rem;border-radius:40px;background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.3);font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.12rem;text-transform:uppercase;color:var(--amber);margin-bottom:1.3rem}
-
 .h-eyebrow::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 1.8s ease-in-out infinite;flex-shrink:0}
-
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.7)}}
-
 .h-title{font-family:'Sora',sans-serif;font-size:clamp(2.4rem,5.5vw,4rem);font-weight:900;line-height:1.03;color:#fff;margin-bottom:1.15rem;letter-spacing:-.03em}
-
 .h-title .accent{background:linear-gradient(135deg,var(--amber),#f97316);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-
 .h-desc{color:rgba(255,255,255,.68);font-size:1.02rem;line-height:1.88;max-width:520px;margin-bottom:2rem}
-
 .h-stats{display:flex;gap:0;margin-bottom:2.2rem;border:1px solid rgba(255,255,255,.1);border-radius:var(--r2);overflow:hidden;background:rgba(255,255,255,.04);backdrop-filter:blur(8px)}
-
 .h-stat{flex:1;padding:1.1rem .8rem;text-align:center;border-right:1px solid rgba(255,255,255,.08)}
-
 .h-stat:last-child{border-right:none}
-
 .h-stat-n{font-family:'Sora',sans-serif;font-size:1.65rem;font-weight:800;color:var(--amber);line-height:1}
-
 .h-stat-l{font-family:'JetBrains Mono',monospace;font-size:.52rem;color:rgba(255,255,255,.45);letter-spacing:.08rem;text-transform:uppercase;margin-top:.2rem}
-
 .h-btns{display:flex;gap:.8rem;flex-wrap:wrap}
-
 .h-right{display:flex;flex-direction:column;gap:1rem}
-
 .terminal{background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.1);border-radius:var(--r2);overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.4)}
-
 .terminal-bar{display:flex;align-items:center;gap:.42rem;padding:.75rem 1rem;background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.06)}
-
 .t-dot{width:10px;height:10px;border-radius:50%}
-
 .t-r{background:#f43f5e}.t-y{background:#f59e0b}.t-g{background:#10b981}
-
 .terminal-title{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:rgba(255,255,255,.35);letter-spacing:.06rem;margin-left:.4rem}
-
 .terminal-body{padding:1.1rem 1.25rem;font-family:'JetBrains Mono',monospace;font-size:.78rem;line-height:1.9}
-
 .tc1{color:#06b6d4}.tc2{color:#10b981}.tc3{color:#f59e0b}.tc4{color:rgba(255,255,255,.35)}.tc5{color:#f43f5e}.tc6{color:#a78bfa}
-
 .cursor{display:inline-block;width:8px;height:14px;background:var(--amber);vertical-align:middle;margin-left:2px;animation:blink .9s step-end infinite}
-
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
-
 .h-float-cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem}
-
 .h-card{background:rgba(255,255,255,.06);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.1);border-radius:var(--r2);padding:1rem 1.1rem;animation:float 5.5s ease-in-out infinite}
-
 .h-card:nth-child(2){animation-delay:1.8s}
-
 .h-card:nth-child(3){animation-delay:3.5s}
-
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-
 .h-card-lbl{font-family:'JetBrains Mono',monospace;font-size:.5rem;color:var(--amber);letter-spacing:.12rem;text-transform:uppercase;margin-bottom:.35rem}
-
 .h-card-val{font-family:'Sora',sans-serif;font-size:1rem;font-weight:700;color:#fff}
-
 .h-card-sub{font-size:.7rem;color:rgba(255,255,255,.48);margin-top:.12rem}
-
 .scroll-cue{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;color:rgba(255,255,255,.35);font-size:.7rem;letter-spacing:.1rem;font-family:'JetBrains Mono',monospace;animation:scrollbounce 2s ease-in-out infinite}
-
 @keyframes scrollbounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
 
 /* STATS BAR */
-
 .stats-bar{background:var(--navy1);border-top:1px solid rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.05)}
-
 .stats-bar .stats-grid{display:grid;grid-template-columns:repeat(4,1fr)}
-
-.stat-cell{padding:2.2rem 1.5rem;text-align:center;border-right:1px solid rgba(255,255,255,.06);transition:var(--tr)}
-
+.stat-cell{padding:2.2rem 1.5rem;text-align:center;border-right:1px solid rgba(255,255,255,.06);transition:var(--tr);position:relative}
 .stat-cell:last-child{border-right:none}
-
 .stat-cell:hover{background:rgba(245,158,11,.04)}
-
+.stat-cell::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%) scaleX(0);width:80%;height:2px;background:linear-gradient(90deg,var(--amber),#f97316);transition:transform .35s ease;transform-origin:center}
+.stat-cell:hover::after{transform:translateX(-50%) scaleX(1)}
 .stat-n{font-family:'Sora',sans-serif;font-size:2.6rem;font-weight:900;background:linear-gradient(135deg,var(--amber),var(--amber2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
-
 .stat-l{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12rem;text-transform:uppercase;color:rgba(255,255,255,.45);margin-top:.45rem}
-
 .stat-s{font-size:.75rem;color:rgba(255,255,255,.28);margin-top:.22rem}
 
 /* PROGRAMS */
-
 .programs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
-
 .prog-card{background:#fff;border-radius:var(--r2);border:1.5px solid var(--gray2);padding:2rem;display:flex;flex-direction:column;position:relative;overflow:hidden;transition:var(--tr)}
-
 .prog-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3.5px;background:linear-gradient(90deg,var(--amber),#f97316);transform:scaleX(0);transform-origin:left;transition:transform .42s ease}
-
 .prog-card:hover{transform:translateY(-5px);box-shadow:var(--sh2);border-color:rgba(245,158,11,.35)}
-
 .prog-card:hover::before{transform:scaleX(1)}
-
 .prog-card.featured{border-color:rgba(245,158,11,.4);background:linear-gradient(160deg,rgba(245,158,11,.03),#fff 40%)}
-
 .prog-card.featured::before{transform:scaleX(1)}
-
 .prog-featured-badge{position:absolute;top:1rem;right:1rem;background:linear-gradient(135deg,var(--amber),#f97316);color:#fff;font-family:'JetBrains Mono',monospace;font-size:.52rem;font-weight:700;letter-spacing:.07rem;text-transform:uppercase;padding:.2rem .6rem;border-radius:20px}
-
 .prog-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:1.1rem}
-
 .pi-amber{background:linear-gradient(135deg,rgba(245,158,11,.15),rgba(249,115,22,.08));color:var(--amber)}
-
 .pi-cyan{background:rgba(6,182,212,.1);color:var(--cyan)}
-
 .pi-green{background:rgba(16,185,129,.1);color:var(--green)}
-
 .pi-navy{background:rgba(7,17,31,.07);color:var(--navy)}
-
 .pi-rose{background:rgba(244,63,94,.09);color:var(--rose)}
-
 .pi-violet{background:rgba(139,92,246,.09);color:var(--violet)}
-
 .prog-title{font-family:'Sora',sans-serif;font-size:1.02rem;font-weight:700;color:var(--navy);margin-bottom:.5rem}
-
 .prog-meta{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.9rem}
-
 .prog-desc{color:var(--slate);font-size:.83rem;line-height:1.72;flex:1}
-
 .prog-feats{list-style:none;margin:1rem 0;display:flex;flex-direction:column;gap:.35rem}
-
 .prog-feats li{font-size:.8rem;color:var(--slate);display:flex;align-items:flex-start;gap:.5rem}
-
 .prog-feats li::before{content:'✓';color:var(--green);font-weight:800;flex-shrink:0;margin-top:.05rem}
-
 .prog-footer{display:flex;align-items:center;justify-content:space-between;margin-top:1.4rem;padding-top:1.1rem;border-top:1px solid var(--gray2)}
-
 .prog-price{font-family:'Sora',sans-serif;font-size:1.05rem;font-weight:800;color:var(--navy)}
-
 .prog-price small{font-size:.7rem;color:var(--slate);font-weight:400}
-
 .short-banner{background:var(--gray);border-radius:var(--r2);padding:1.8rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;border:1.5px solid var(--gray2);margin-top:2rem}
 
 /* CURRICULUM */
-
 .curr-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
-
 .curr-mod{background:#fff;border-radius:var(--r2);border:1.5px solid var(--gray2);overflow:hidden;transition:var(--tr)}
-
 .curr-hd{padding:1.15rem 1.5rem;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:var(--tr);user-select:none}
-
 .curr-hd.active{background:var(--navy);color:#fff}
-
 .curr-hd.active .curr-hd-title{color:#fff}
-
 .curr-hd-title{font-family:'Sora',sans-serif;font-size:.9rem;font-weight:700;display:flex;align-items:center;gap:.65rem;color:var(--navy);transition:color .2s}
-
 .curr-hd-icon{color:var(--amber);font-size:.95rem}
-
 .curr-arrow{color:var(--amber);font-size:.78rem;transition:transform .3s ease;flex-shrink:0}
-
 .curr-hd.active .curr-arrow{transform:rotate(180deg)}
-
 .curr-body{display:none;padding:1.2rem 1.5rem;border-top:1px solid var(--gray2)}
-
 .curr-body.show{display:block}
-
 .curr-topics{list-style:none;display:flex;flex-direction:column;gap:.4rem}
-
 .curr-topics li{font-size:.81rem;color:var(--slate);display:flex;align-items:center;justify-content:space-between;gap:.55rem;padding:.42rem .6rem;border-radius:6px;transition:background .2s}
-
 .curr-topics li:hover{background:var(--gray)}
-
 .curr-topics li i{color:var(--green);font-size:.72rem;flex-shrink:0}
-
 .curr-week{font-family:'JetBrains Mono',monospace;font-size:.56rem;color:var(--slate2);flex-shrink:0}
 
 /* WHY */
-
 .why-2col{display:grid;grid-template-columns:1fr 1fr;gap:4.5rem;align-items:center}
-
 .why-points{display:flex;flex-direction:column;gap:1.2rem;margin-top:1.8rem}
-
 .why-pt{display:flex;gap:1rem;align-items:flex-start}
-
 .why-ico{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0}
-
 .why-ico-amber{background:linear-gradient(135deg,var(--amber),#f97316);color:#fff}
-
 .why-ico-green{background:rgba(16,185,129,.1);color:var(--green)}
-
 .why-ico-cyan{background:rgba(6,182,212,.09);color:var(--cyan)}
-
 .why-ico-rose{background:rgba(244,63,94,.09);color:var(--rose)}
-
 .why-pt-title{font-family:'Sora',sans-serif;font-weight:700;color:var(--navy);margin-bottom:.2rem;font-size:.92rem}
-
 .why-pt-desc{color:var(--slate);font-size:.82rem;line-height:1.7}
-
 .why-cards{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-
 .why-card{background:#fff;border-radius:var(--r2);padding:1.6rem;border:1.5px solid var(--gray2);transition:var(--tr)}
-
 .why-card:hover{border-color:var(--amber);box-shadow:var(--sh);transform:translateY(-3px)}
-
 .why-card-ico{width:44px;height:44px;border-radius:11px;background:linear-gradient(135deg,rgba(245,158,11,.12),rgba(249,115,22,.07));color:var(--amber);display:flex;align-items:center;justify-content:center;font-size:1.05rem;margin-bottom:.9rem}
-
 .why-card-t{font-family:'Sora',sans-serif;font-size:.9rem;font-weight:700;color:var(--navy);margin-bottom:.38rem}
-
 .why-card-d{color:var(--slate);font-size:.8rem;line-height:1.68}
 
 /* BROCHURES */
-
 .brochure-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
-
 .brochure-card{background:#fff;border-radius:var(--r2);border:1.5px solid var(--gray2);overflow:hidden;transition:var(--tr);display:flex;flex-direction:column}
-
 .brochure-card:hover{transform:translateY(-4px);box-shadow:var(--sh2);border-color:rgba(245,158,11,.3)}
-
 .brochure-thumb{height:150px;display:flex;align-items:center;justify-content:center;position:relative;flex-direction:column;gap:.6rem}
-
 .brochure-thumb.t-navy{background:linear-gradient(135deg,var(--navy),var(--navy3))}
-
 .brochure-thumb.t-amber{background:linear-gradient(135deg,#92400e,var(--amber))}
-
 .brochure-thumb.t-cyan{background:linear-gradient(135deg,#0e7490,var(--cyan))}
-
 .brochure-thumb.t-green{background:linear-gradient(135deg,#065f46,var(--green))}
-
 .brochure-thumb.t-violet{background:linear-gradient(135deg,#4c1d95,var(--violet))}
-
 .brochure-thumb.t-rose{background:linear-gradient(135deg,#881337,var(--rose))}
-
 .brochure-thumb-icon{font-size:1.9rem;color:rgba(255,255,255,.88)}
-
 .brochure-thumb-name{font-family:'Sora',sans-serif;font-size:.72rem;font-weight:700;color:rgba(255,255,255,.85)}
-
 .brochure-tag{position:absolute;top:.65rem;right:.65rem;background:rgba(0,0,0,.3);color:rgba(255,255,255,.85);font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.08rem;padding:.18rem .5rem;border-radius:20px;border:1px solid rgba(255,255,255,.2)}
-
 .brochure-body{padding:1.3rem;flex:1;display:flex;flex-direction:column}
-
 .brochure-title{font-family:'Sora',sans-serif;font-size:.9rem;font-weight:700;color:var(--navy);margin-bottom:.35rem}
-
 .brochure-desc{color:var(--slate);font-size:.77rem;line-height:1.65;flex:1}
-
 .brochure-ft{display:flex;align-items:center;justify-content:space-between;margin-top:1rem;padding-top:.85rem;border-top:1px solid var(--gray2)}
-
 .brochure-size{font-family:'JetBrains Mono',monospace;font-size:.56rem;color:var(--slate2);display:flex;align-items:center;gap:.3rem}
-
 .brochure-dl{display:flex;align-items:center;gap:.38rem;color:var(--amber);font-size:.8rem;font-weight:600;cursor:pointer;transition:color .2s;border:none;background:none;font-family:inherit}
-
 .brochure-dl:hover{color:var(--amber-d)}
 
 /* FACULTY */
-
 .faculty-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.4rem}
-
 .faculty-card{background:#fff;border-radius:var(--r2);border:1.5px solid var(--gray2);padding:1.8rem;text-align:center;transition:var(--tr)}
-
 .faculty-card:hover{transform:translateY(-4px);box-shadow:var(--sh2);border-color:rgba(245,158,11,.3)}
-
 .faculty-av{width:78px;height:78px;border-radius:50%;margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-size:1.4rem;font-weight:800;color:#fff;border:3px solid rgba(245,158,11,.2)}
-
 .faculty-name{font-family:'Sora',sans-serif;font-size:.95rem;font-weight:700;color:var(--navy);margin-bottom:.18rem}
-
 .faculty-role{font-size:.76rem;color:var(--amber);font-weight:600;margin-bottom:.28rem}
-
 .faculty-exp{font-size:.73rem;color:var(--slate);margin-bottom:.85rem}
-
 .skill-tags{display:flex;flex-wrap:wrap;gap:.3rem;justify-content:center}
-
 .sk{font-family:'JetBrains Mono',monospace;font-size:.5rem;padding:.14rem .48rem;border-radius:20px;background:var(--gray);color:var(--slate);border:1px solid var(--gray2)}
 
 /* SCHEDULE */
-
 .sched-wrap{overflow-x:auto;border-radius:var(--r2);box-shadow:var(--sh)}
-
 .sched-table{width:100%;border-collapse:collapse;min-width:760px}
-
 .sched-table thead tr{background:var(--navy)}
-
 .sched-table th{padding:.9rem 1.15rem;text-align:left;font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.1rem;text-transform:uppercase;color:rgba(255,255,255,.7);font-weight:500;white-space:nowrap}
-
 .sched-table td{padding:.82rem 1.15rem;border-bottom:1px solid var(--gray2);font-size:.84rem;vertical-align:middle;white-space:nowrap}
-
 .sched-table tr:last-child td{border-bottom:none}
-
 .sched-table tbody tr:nth-child(even) td{background:rgba(241,245,249,.5)}
-
+.sched-table tbody tr:hover td{background:rgba(245,158,11,.04)}
 .sched-prog{font-family:'Sora',sans-serif;font-weight:700;color:var(--navy);font-size:.86rem}
-
 .sched-mode{display:inline-flex;align-items:center;gap:.3rem;padding:.2rem .6rem;border-radius:20px;font-size:.66rem;font-weight:600;font-family:'JetBrains Mono',monospace}
-
 .mode-online{background:rgba(6,182,212,.1);color:#0e7490}
-
 .mode-offline{background:rgba(16,185,129,.1);color:#065f46}
-
 .mode-hybrid{background:rgba(139,92,246,.1);color:#6d28d9}
-
 .sched-seats{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--slate)}
-
 .seats-low{color:var(--rose)!important;font-weight:700}
 
 /* PLACEMENT */
-
 .company-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem}
-
 .company-card{background:#fff;border-radius:var(--r2);border:1.5px solid var(--gray2);padding:1.2rem;text-align:center;transition:var(--tr);min-height:68px;display:flex;align-items:center;justify-content:center}
-
 .company-card:hover{border-color:var(--amber);box-shadow:var(--sh);transform:translateY(-2px)}
-
 .company-name{font-family:'Sora',sans-serif;font-size:.82rem;font-weight:700;color:var(--navy)}
-
 .place-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-top:3rem}
-
 .place-stat{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:var(--r2);padding:2rem;text-align:center;transition:var(--tr)}
-
 .place-stat:hover{background:rgba(245,158,11,.06);border-color:rgba(245,158,11,.2)}
-
 .place-stat-n{font-family:'Sora',sans-serif;font-size:2.2rem;font-weight:900;color:var(--amber);line-height:1}
-
 .place-stat-l{font-size:.78rem;color:rgba(255,255,255,.55);margin-top:.38rem}
 
 /* TESTIMONIALS */
-
 .testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
-
 .testi-card{background:#fff;border-radius:var(--r2);border:1.5px solid var(--gray2);padding:1.8rem;transition:var(--tr)}
-
 .testi-card:hover{box-shadow:var(--sh2);border-color:rgba(245,158,11,.3);transform:translateY(-3px)}
-
 .testi-stars{color:var(--amber);font-size:.88rem;letter-spacing:.1rem;margin-bottom:.85rem}
-
 .testi-text{color:var(--slate);font-size:.84rem;line-height:1.82;font-style:italic;margin-bottom:1.1rem}
-
 .testi-text::before{content:'"';font-size:2.8rem;color:rgba(245,158,11,.14);font-family:'Sora',sans-serif;line-height:.85;display:block;margin-bottom:.3rem}
-
 .testi-author{display:flex;align-items:center;gap:.75rem}
-
 .testi-av{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:.82rem;flex-shrink:0}
-
 .testi-name{font-family:'Sora',sans-serif;font-size:.87rem;font-weight:700;color:var(--navy)}
-
 .testi-role{font-size:.72rem;color:var(--slate2)}
 
 /* ADMISSION */
-
 .admission-sec{background:linear-gradient(135deg,var(--navy),var(--navy2));position:relative;overflow:hidden}
-
 .form-2col{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:start}
-
 .form-perks-list{list-style:none;margin-top:1.8rem;display:flex;flex-direction:column;gap:.85rem}
-
 .form-perks-list li{display:flex;align-items:flex-start;gap:.75rem;color:rgba(255,255,255,.78);font-size:.87rem}
-
 .form-perks-list li i{color:var(--amber);flex-shrink:0;margin-top:.12rem}
-
 .acc-badges{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1.5rem}
-
 .acc-badge{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:.28rem .7rem;font-family:'JetBrains Mono',monospace;font-size:.54rem;letter-spacing:.07rem;color:rgba(255,255,255,.48);text-transform:uppercase}
-
 .form-box{background:#fff;border-radius:var(--r2);padding:2.2rem;box-shadow:0 24px 70px rgba(0,0,0,.32)}
-
 .form-box-title{font-family:'Sora',sans-serif;font-size:1.25rem;font-weight:800;color:var(--navy);margin-bottom:1.5rem;display:flex;align-items:center;gap:.6rem}
-
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
-
 .fg{display:flex;flex-direction:column;gap:.38rem;margin-bottom:.9rem}
-
 .fg label{font-size:.76rem;font-weight:600;color:var(--navy)}
-
 .fg label span{color:var(--rose)}
-
 .fg input,.fg select,.fg textarea{padding:.68rem .95rem;border:1.5px solid var(--gray2);border-radius:var(--r);font-size:.87rem;color:var(--navy);transition:var(--tr);background:#fff;width:100%}
-
 .fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--amber);box-shadow:0 0 0 3px rgba(245,158,11,.1);outline:none}
-
 .fg textarea{resize:vertical;min-height:85px}
-
 .fg.err input,.fg.err select,.fg.err textarea{border-color:var(--rose)}
-
 .err-msg{font-size:.7rem;color:var(--rose);display:none}
-
 .fg.err .err-msg{display:block}
-
 .form-submit{width:100%;padding:.9rem;background:linear-gradient(135deg,var(--amber),#f97316);color:#fff;font-size:.95rem;font-weight:700;border:none;border-radius:var(--r);cursor:pointer;transition:var(--tr);display:flex;align-items:center;justify-content:center;gap:.55rem;font-family:'Sora',sans-serif;margin-top:.4rem}
-
 .form-submit:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(245,158,11,.45)}
-
-.form-submit:disabled{opacity:.7;cursor:not-allowed;transform:none}
-
+.form-submit:disabled{opacity:.7;cursor:not-allowed;transform:none!important}
 .form-note{font-size:.71rem;color:var(--slate);text-align:center;margin-top:.75rem;display:flex;align-items:center;justify-content:center;gap:.38rem}
 
 /* FAQ */
-
 .faq-list{display:flex;flex-direction:column;gap:.8rem;max-width:780px;margin:0 auto}
-
 .faq-item{background:#fff;border-radius:var(--r2);border:1.5px solid var(--gray2);overflow:hidden;transition:var(--tr)}
-
 .faq-q{padding:1.15rem 1.5rem;font-family:'Sora',sans-serif;font-size:.93rem;font-weight:600;color:var(--navy);display:flex;justify-content:space-between;align-items:center;cursor:pointer;gap:1rem;transition:var(--tr);user-select:none}
-
 .faq-q.active{background:var(--navy);color:#fff}
-
 .faq-q.active .faq-arrow{transform:rotate(180deg);color:var(--amber)}
-
 .faq-arrow{color:var(--amber);font-size:.78rem;transition:var(--tr);flex-shrink:0}
-
 .faq-a{display:none;padding:1.15rem 1.5rem;color:var(--slate);font-size:.87rem;line-height:1.78;border-top:1px solid var(--gray2)}
-
 .faq-a.show{display:block}
 
 /* CONTACT */
-
 .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
-
 .contact-cards{display:flex;flex-direction:column;gap:1rem}
-
 .contact-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:var(--r2);padding:1.5rem;display:flex;gap:1rem;align-items:flex-start;transition:var(--tr)}
-
 .contact-card:hover{border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.04)}
-
 .c-ico{width:44px;height:44px;border-radius:11px;background:linear-gradient(135deg,rgba(245,158,11,.2),rgba(249,115,22,.12));color:var(--amber);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
-
 .c-title{font-family:'Sora',sans-serif;font-size:.87rem;font-weight:700;color:#fff;margin-bottom:.22rem}
-
 .c-val{font-size:.82rem;color:rgba(255,255,255,.6);line-height:1.6}
-
 .c-val a{color:var(--amber);transition:color .2s}
-
 .c-val a:hover{color:var(--amber2)}
-
 .contact-form-box{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:var(--r2);padding:2rem}
-
 .cfb-title{font-family:'Sora',sans-serif;font-size:1.05rem;font-weight:700;color:#fff;margin-bottom:1.5rem;display:flex;align-items:center;gap:.55rem}
-
 .c-fg{display:flex;flex-direction:column;gap:.38rem;margin-bottom:.9rem}
-
 .c-fg label{font-size:.75rem;font-weight:600;color:rgba(255,255,255,.65)}
-
 .c-fg input,.c-fg select,.c-fg textarea{padding:.68rem .95rem;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.12);border-radius:var(--r);color:#fff;font-size:.87rem;transition:var(--tr);width:100%}
-
 .c-fg input::placeholder,.c-fg textarea::placeholder{color:rgba(255,255,255,.3)}
-
 .c-fg input:focus,.c-fg select:focus,.c-fg textarea:focus{border-color:rgba(245,158,11,.5);background:rgba(245,158,11,.06);outline:none}
-
 .c-fg select option{background:var(--navy2);color:#fff}
-
 .c-fg textarea{resize:vertical;min-height:105px}
-
 .c-btn{width:100%;padding:.85rem;font-size:.93rem;display:flex;align-items:center;justify-content:center;gap:.5rem}
-
+.c-btn:disabled{opacity:.7;cursor:not-allowed}
 .social-row{display:flex;gap:.55rem;flex-wrap:wrap;margin-top:1.5rem;padding-top:1.4rem;border-top:1px solid rgba(255,255,255,.08)}
-
-.map-box{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:var(--r2);height:260px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.85rem;color:rgba(255,255,255,.38);margin-top:1.5rem;cursor:pointer;transition:var(--tr)}
-
+.map-box{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:var(--r2);height:200px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.85rem;color:rgba(255,255,255,.38);margin-top:1.5rem;cursor:pointer;transition:var(--tr)}
 .map-box:hover{border-color:rgba(245,158,11,.3);color:rgba(255,255,255,.55)}
-
 .map-box i{font-size:2.2rem}
-
 .map-box span{font-size:.82rem;font-family:'JetBrains Mono',monospace;letter-spacing:.06rem}
 
 /* FOOTER */
-
 footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
-
 .footer-top{padding:4rem 0 2.5rem}
-
 .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1.3fr;gap:3rem}
-
 .fb-brand p{color:rgba(255,255,255,.45);font-size:.8rem;line-height:1.78;max-width:230px;margin:1rem 0}
-
 .fb-soc{display:flex;gap:.5rem;flex-wrap:wrap}
-
 .soc-btn{width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.55);font-size:.82rem;transition:var(--tr)}
-
 .soc-btn:hover{background:var(--amber);color:#fff;border-color:var(--amber);transform:translateY(-2px)}
-
 .fb-acc{display:flex;gap:.45rem;flex-wrap:wrap;margin-top:1rem}
-
 .fb-acc-b{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:5px;padding:.26rem .65rem;font-family:'JetBrains Mono',monospace;font-size:.53rem;letter-spacing:.07rem;color:rgba(255,255,255,.42);text-transform:uppercase}
-
 .fc h5{font-family:'Sora',sans-serif;font-size:.8rem;font-weight:700;color:#fff;letter-spacing:.04rem;margin-bottom:.95rem;text-transform:uppercase}
-
 .fc ul{list-style:none;display:flex;flex-direction:column;gap:.55rem}
-
 .fc ul li a{color:rgba(255,255,255,.45);font-size:.8rem;transition:color .2s;display:flex;align-items:center;gap:.38rem}
-
 .fc ul li a:hover{color:var(--amber)}
-
 .fc ul li a i{font-size:.65rem;color:var(--amber)}
-
 .fc-nl p{color:rgba(255,255,255,.45);font-size:.78rem;margin-bottom:.8rem;line-height:1.7}
-
 .nl-form{display:flex;gap:.5rem;margin-bottom:.9rem}
-
 .nl-form input{flex:1;padding:.65rem .95rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:var(--r);color:#fff;font-size:.84rem}
-
 .nl-form input:focus{outline:none;border-color:rgba(245,158,11,.45)}
-
 .nl-form input::placeholder{color:rgba(255,255,255,.3)}
-
 .footer-bot{border-top:1px solid rgba(255,255,255,.05);padding:1.35rem 0;display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
-
 .footer-bot p{color:rgba(255,255,255,.35);font-size:.76rem;font-family:'JetBrains Mono',monospace}
-
 .footer-bot-links{display:flex;gap:1.4rem;flex-wrap:wrap}
-
 .footer-bot-links a{color:rgba(255,255,255,.35);font-size:.76rem;transition:color .2s}
-
 .footer-bot-links a:hover{color:var(--amber)}
 
 /* TOAST */
-
 .toast{position:fixed;bottom:2rem;right:2rem;z-index:9999;background:var(--navy1);color:#fff;padding:.9rem 1.4rem;border-radius:var(--r);box-shadow:var(--sh2);border-left:4px solid var(--amber);font-size:.84rem;font-weight:500;transform:translateX(calc(100% + 3rem));transition:transform .4s cubic-bezier(.22,1,.36,1);max-width:340px;display:flex;align-items:center;gap:.6rem}
-
 .toast.show{transform:translateX(0)}
-
 .toast.toast-success{border-left-color:var(--green)}
-
 .toast.toast-info{border-left-color:var(--cyan)}
-
 .toast.toast-error{border-left-color:var(--rose)}
-
 #scrollTop{position:fixed;bottom:2rem;left:2rem;z-index:999;width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--amber),#f97316);color:#fff;display:flex;align-items:center;justify-content:center;border:none;cursor:pointer;box-shadow:0 4px 18px rgba(245,158,11,.4);opacity:0;transform:translateY(10px);transition:var(--tr)}
-
 #scrollTop.show{opacity:1;transform:translateY(0)}
-
 #prog-bar{position:fixed;top:0;left:0;z-index:10000;height:3px;background:linear-gradient(90deg,var(--amber),#f97316);width:0%;transition:width .12s}
 
-/* BROCHURE DOWNLOAD GATE MODAL */
-
-#dlModal{position:fixed;inset:0;z-index:10000;background:rgba(7,17,31,.82);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;padding:1.5rem}
-
+/* DOWNLOAD GATE MODAL */
+#dlModal{position:fixed;inset:0;z-index:10500;background:rgba(7,17,31,.85);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:1rem}
 #dlModal.open{display:flex}
-
-.dlm-box{background:#fff;border-radius:var(--r3);width:100%;max-width:500px;overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,.4);animation:slideUp .35s cubic-bezier(.22,1,.36,1)}
-
-@keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
-
-.dlm-head{background:linear-gradient(135deg,var(--navy),var(--navy2));padding:1.6rem 2rem 1.4rem;display:flex;align-items:flex-start;justify-content:space-between;gap:1rem}
-
-.dlm-head-info h3{font-family:'Sora',sans-serif;font-size:1.12rem;font-weight:800;color:#fff;margin-bottom:.25rem}
-
-.dlm-head-info p{font-size:.78rem;color:rgba(255,255,255,.6);display:flex;align-items:center;gap:.4rem}
-
-.dlm-head-info p i{color:var(--amber)}
-
-.dlm-close{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.7);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:var(--tr);font-size:.82rem}
-
-.dlm-close:hover{background:rgba(255,255,255,.2);color:#fff}
-
-.dlm-body{padding:1.8rem 2rem}
-
-.dlm-note{background:rgba(245,158,11,.07);border:1px solid rgba(245,158,11,.22);border-radius:var(--r);padding:.75rem 1rem;font-size:.78rem;color:#78350f;display:flex;align-items:flex-start;gap:.5rem;margin-bottom:1.4rem}
-
-.dlm-note i{color:var(--amber);flex-shrink:0;margin-top:.08rem}
-
-.dlm-row{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
-
-.dlm-fg{display:flex;flex-direction:column;gap:.32rem;margin-bottom:.8rem}
-
+.dlm-box{background:#fff;border-radius:20px;width:100%;max-width:480px;overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,.45);animation:dlmIn .35s cubic-bezier(.22,1,.36,1)}
+@keyframes dlmIn{from{opacity:0;transform:translateY(28px) scale(.97)}to{opacity:1;transform:none}}
+.dlm-head{background:linear-gradient(135deg,var(--navy),var(--navy2));padding:1.5rem 1.8rem 1.3rem;position:relative}
+.dlm-head h3{font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:800;color:#fff;margin-bottom:.3rem}
+.dlm-head p{font-size:.78rem;color:rgba(255,255,255,.6);display:flex;align-items:center;gap:.4rem}
+.dlm-head p i{color:var(--amber)}
+.dlm-close{position:absolute;top:1rem;right:1rem;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.7);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.82rem;transition:all .2s}
+.dlm-close:hover{background:rgba(255,255,255,.22);color:#fff}
+.dlm-body{padding:1.6rem 1.8rem}
+.dlm-note{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:8px;padding:.7rem 1rem;font-size:.78rem;color:#78350f;display:flex;align-items:flex-start;gap:.5rem;margin-bottom:1.2rem}
+.dlm-note i{color:var(--amber);flex-shrink:0;margin-top:.1rem}
+.dlm-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.dlm-fg{display:flex;flex-direction:column;gap:.32rem;margin-bottom:.75rem}
 .dlm-fg label{font-size:.74rem;font-weight:600;color:var(--navy)}
-
 .dlm-fg label span{color:var(--rose)}
-
-.dlm-fg input,.dlm-fg select{padding:.65rem .9rem;border:1.5px solid var(--gray2);border-radius:var(--r);font-size:.86rem;color:var(--navy);transition:var(--tr);background:#fff;width:100%}
-
+.dlm-fg input,.dlm-fg select{padding:.62rem .9rem;border:1.5px solid var(--gray2);border-radius:8px;font-size:.86rem;color:var(--navy);transition:all .22s;background:#fff;width:100%}
 .dlm-fg input:focus,.dlm-fg select:focus{border-color:var(--amber);box-shadow:0 0 0 3px rgba(245,158,11,.1);outline:none}
+.dlm-fg.err input,.dlm-fg.err select{border-color:var(--rose)}
+.dlm-err-msg{font-size:.68rem;color:var(--rose);display:none;margin-top:.15rem}
+.dlm-fg.err .dlm-err-msg{display:block}
+.dlm-submit{width:100%;padding:.85rem;background:linear-gradient(135deg,var(--amber),#f97316);color:#fff;font-size:.93rem;font-weight:700;border:none;border-radius:8px;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:.5rem;font-family:'Sora',sans-serif;margin-top:.2rem}
+.dlm-submit:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(245,158,11,.42)}
+.dlm-submit:disabled{opacity:.6;cursor:not-allowed;transform:none!important}
+.dlm-privacy{font-size:.7rem;color:var(--slate2);text-align:center;margin-top:.65rem;display:flex;align-items:center;justify-content:center;gap:.35rem}
+@media(max-width:480px){.dlm-row{grid-template-columns:1fr}}
 
-.dlm-submit{width:100%;padding:.88rem;background:linear-gradient(135deg,var(--amber),#f97316);color:#fff;font-size:.93rem;font-weight:700;border:none;border-radius:var(--r);cursor:pointer;transition:var(--tr);display:flex;align-items:center;justify-content:center;gap:.5rem;font-family:'Sora',sans-serif;margin-top:.4rem}
+/* WHATSAPP FLOAT */
+#wa-float{position:fixed;bottom:5.5rem;right:1.5rem;z-index:998;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.4rem;box-shadow:0 4px 20px rgba(37,211,102,.4);animation:waPulse 2.5s ease-in-out infinite;text-decoration:none;transition:transform .2s}
+#wa-float:hover{transform:scale(1.1)}
+@keyframes waPulse{0%,100%{box-shadow:0 4px 20px rgba(37,211,102,.4)}50%{box-shadow:0 4px 32px rgba(37,211,102,.7)}}
 
-.dlm-submit:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(245,158,11,.45)}
-
-.dlm-submit:disabled{opacity:.7;cursor:not-allowed;transform:none}
-
-.dlm-privacy{font-size:.7rem;color:var(--slate2);text-align:center;margin-top:.6rem;display:flex;align-items:center;justify-content:center;gap:.35rem}
+/* MODAL OVERLAY CLICK CLOSE */
+#dlModal{cursor:pointer}
+.dlm-box{cursor:default}
 
 /* RESPONSIVE */
-
 @media(max-width:1100px){
-
   .programs-grid{grid-template-columns:1fr 1fr}
-
   .faculty-grid{grid-template-columns:repeat(2,1fr)}
-
   .footer-grid{grid-template-columns:1fr 1fr}
-
   .curr-grid{grid-template-columns:1fr}
-
   .why-2col,.form-2col,.contact-grid{grid-template-columns:1fr;gap:2.5rem}
-
   .company-grid{grid-template-columns:repeat(4,1fr)}
-
   .testi-grid{grid-template-columns:1fr 1fr}
-
   .brochure-grid{grid-template-columns:1fr 1fr}
-
 }
-
 @media(max-width:768px){
-
   :root{--topbar-h:34px;--nav-h:60px;--total-top:94px}
-
   .nav-links,.nav-right{display:none}
-
   .hamburger{display:flex}
-
   .topbar-right{display:none}
-
   .programs-grid{grid-template-columns:1fr}
-
   .brochure-grid,.testi-grid,.company-grid{grid-template-columns:1fr}
-
   .stats-bar .stats-grid{grid-template-columns:1fr 1fr}
-
   .h-stats{grid-template-columns:repeat(2,1fr);display:grid}
-
   .place-stats{grid-template-columns:1fr}
-
   .hero-in{grid-template-columns:1fr}
-
   .h-right{display:none}
-
   .footer-grid{grid-template-columns:1fr}
-
   .footer-bot{flex-direction:column;align-items:flex-start}
-
   .form-row{grid-template-columns:1fr}
-
   .nl-form{flex-direction:column}
-
   .why-cards{grid-template-columns:1fr}
-
   .faculty-grid{grid-template-columns:1fr 1fr}
-
-  .dlm-row{grid-template-columns:1fr}
-
 }
-
 @media(max-width:480px){
-
   .faculty-grid,.testi-grid{grid-template-columns:1fr}
-
   .h-btns{flex-direction:column;align-items:flex-start}
-
 }
 
+/* Input validation error shake */
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.shake{animation:shake .3s ease}
 </style>
-
 </head>
-
 <body>
 
 <div id="prog-bar"></div>
+<button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Scroll to top"><i class="fas fa-chevron-up"></i></button>
 
-<button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-chevron-up"></i></button>
-
-<!-- BROCHURE DOWNLOAD GATE MODAL -->
-<div id="dlModal" role="dialog" aria-modal="true" aria-labelledby="dlModalTitle">
-  <div class="dlm-box">
+<!-- DOWNLOAD GATE MODAL -->
+<div id="dlModal" role="dialog" aria-modal="true" aria-labelledby="dlm-title">
+  <div class="dlm-box" onclick="event.stopPropagation()">
     <div class="dlm-head">
-      <div class="dlm-head-info">
-        <h3 id="dlModalTitle">&#128229; Get Your Free Brochure</h3>
-        <p><i class="fas fa-file-pdf"></i><span id="dlm-brochure-name">Program Brochure</span></p>
-      </div>
+      <h3 id="dlm-title">&#128229; Get Your Free Brochure</h3>
+      <p><i class="fas fa-file-pdf"></i> <span id="dlm-brochure-name">Program Brochure</span></p>
       <button class="dlm-close" onclick="closeDlModal()" aria-label="Close">&times;</button>
     </div>
     <div class="dlm-body">
-      <div class="dlm-note"><i class="fas fa-info-circle"></i> Enter your details below to instantly download the brochure. Our counselor may reach out to assist you.</div>
+      <div class="dlm-note"><i class="fas fa-info-circle"></i> Enter your details to instantly download. Our counselor will reach out with an exclusive scholarship offer.</div>
       <div class="dlm-row">
-        <div class="dlm-fg"><label>Full Name <span>*</span></label><input type="text" id="dlm-name" placeholder="Your name"></div>
-        <div class="dlm-fg"><label>Phone Number <span>*</span></label><input type="tel" id="dlm-phone" placeholder="+91 98765 43210"></div>
+        <div class="dlm-fg" id="dlm-fg-name">
+          <label>Full Name <span>*</span></label>
+          <input type="text" id="dlm-name" placeholder="Your name" autocomplete="name">
+          <span class="dlm-err-msg">Name is required</span>
+        </div>
+        <div class="dlm-fg" id="dlm-fg-phone">
+          <label>Phone <span>*</span></label>
+          <input type="tel" id="dlm-phone" placeholder="+91 98765 43210" autocomplete="tel">
+          <span class="dlm-err-msg">Valid phone required</span>
+        </div>
       </div>
-      <div class="dlm-fg"><label>Email Address <span>*</span></label><input type="email" id="dlm-email" placeholder="you@email.com"></div>
+      <div class="dlm-fg" id="dlm-fg-email">
+        <label>Email Address <span>*</span></label>
+        <input type="email" id="dlm-email" placeholder="you@email.com" autocomplete="email">
+        <span class="dlm-err-msg">Valid email required</span>
+      </div>
       <div class="dlm-row">
         <div class="dlm-fg"><label>Qualification</label>
           <select id="dlm-qual"><option value="">Select</option><option>B.E./B.Tech</option><option>BCA / MCA</option><option>B.Sc (CS/IT)</option><option>MBA / M.Tech</option><option>Diploma</option><option>Other</option></select>
         </div>
         <div class="dlm-fg"><label>Experience</label>
-          <select id="dlm-exp"><option>Fresher (0 yrs)</option><option>0-1 Year</option><option>1-3 Years</option><option>3-5 Years</option><option>5+ Years</option></select>
+          <select id="dlm-exp"><option>Fresher</option><option>0-1 Year</option><option>1-3 Years</option><option>3-5 Years</option><option>5+ Years</option></select>
         </div>
       </div>
       <button class="dlm-submit" id="dlmBtn" onclick="submitDlForm()"><i class="fas fa-download"></i>Submit &amp; Download Brochure</button>
-      <p class="dlm-privacy"><i class="fas fa-shield-alt" style="color:var(--green)"></i> Your data is 100% secure. We never share with third parties.</p>
+      <p class="dlm-privacy"><i class="fas fa-shield-alt" style="color:var(--green)"></i> 100% secure &mdash; never shared with third parties</p>
     </div>
   </div>
 </div>
+
+<a href="https://wa.me/918082151063?text=Hi%20Tech1World%2C%20I%20am%20interested%20in%20your%20courses." target="_blank" rel="noopener noreferrer" id="wa-float" aria-label="Chat on WhatsApp"><i class="fab fa-whatsapp"></i></a>
 
 <!-- TOPBAR -->
 <div id="topbar">
@@ -924,19 +537,19 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
     <div class="topbar-right">
       <span class="topbar-badge">&#127891; Admissions Open &mdash; June 2026 Batch</span>
       <div class="topbar-item" style="gap:.5rem">
-        <a href="https://linkedin.com/company/tech1world" target="_blank" rel="noopener" style="color:rgba(255,255,255,.55);transition:color .2s" onmouseover="this.style.color='#fbbf24'" onmouseout="this.style.color='rgba(255,255,255,0.55)'"><i class="fab fa-linkedin-in"></i></a>
-        <a href="https://youtube.com/@tech1world" target="_blank" rel="noopener" style="color:rgba(255,255,255,.55);transition:color .2s" onmouseover="this.style.color='#fbbf24'" onmouseout="this.style.color='rgba(255,255,255,0.55)'"><i class="fab fa-youtube"></i></a>
-        <a href="https://wa.me/918082151063" target="_blank" rel="noopener" style="color:rgba(255,255,255,.55);transition:color .2s" onmouseover="this.style.color='#fbbf24'" onmouseout="this.style.color='rgba(255,255,255,0.55)'"><i class="fab fa-whatsapp"></i></a>
-        <a href="https://www.instagram.com/tech1world.official/" target="_blank" rel="noopener" style="color:rgba(255,255,255,.55);transition:color .2s" onmouseover="this.style.color='#fbbf24'" onmouseout="this.style.color='rgba(255,255,255,0.55)'"><i class="fab fa-instagram"></i></a>
+        <a href="https://linkedin.com/company/tech1world" target="_blank" rel="noopener noreferrer" style="color:rgba(255,255,255,.55);transition:color .2s" onmouseover="this.style.color='#fbbf24'" onmouseout="this.style.color='rgba(255,255,255,0.55)'" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        <a href="https://youtube.com/@tech1world" target="_blank" rel="noopener noreferrer" style="color:rgba(255,255,255,.55);transition:color .2s" onmouseover="this.style.color='#fbbf24'" onmouseout="this.style.color='rgba(255,255,255,0.55)'" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        <a href="https://wa.me/918082151063" target="_blank" rel="noopener noreferrer" style="color:rgba(255,255,255,.55);transition:color .2s" onmouseover="this.style.color='#fbbf24'" onmouseout="this.style.color='rgba(255,255,255,0.55)'" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://instagram.com/tech1world" target="_blank" rel="noopener noreferrer" style="color:rgba(255,255,255,.55);transition:color .2s" onmouseover="this.style.color='#fbbf24'" onmouseout="this.style.color='rgba(255,255,255,0.55)'" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
       </div>
     </div>
   </div>
 </div>
 
 <!-- NAVBAR -->
-<nav id="navbar">
+<nav id="navbar" role="navigation" aria-label="Main navigation">
   <div class="con nav-inner">
-    <a href="#hero" class="nav-logo">
+    <a href="#hero" class="nav-logo" aria-label="Tech1World Home">
       <div class="nav-logo-icon">T1</div>
       <div>
         <div class="nav-logo-text">Tech1<span>World</span></div>
@@ -975,14 +588,14 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
       <a href="#brochures" class="btn btn-outline-white btn-sm"><i class="fas fa-download"></i>Brochure</a>
       <a href="#admission" class="btn btn-primary btn-sm"><i class="fas fa-rocket"></i>Enroll Free Demo</a>
     </div>
-    <button class="hamburger" id="hamburger" onclick="toggleMobNav()" aria-label="Toggle menu">
+    <button class="hamburger" id="hamburger" onclick="toggleMobNav()" aria-label="Toggle menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
   </div>
 </nav>
 
 <!-- MOBILE NAV -->
-<div id="mob-nav">
+<div id="mob-nav" role="dialog" aria-modal="true" aria-label="Mobile navigation">
   <div class="mob-nav-links">
     <a href="#hero" onclick="closeMob()">Home</a>
     <a href="#programs" onclick="closeMob()">Programs</a>
@@ -1001,7 +614,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
 </div>
 
 <!-- TICKER -->
-<div class="ticker-bar" style="margin-top:var(--total-top)">
+<div class="ticker-bar" style="margin-top:var(--total-top)" aria-hidden="true">
   <div class="ticker-inner">
     <span class="ticker-item">&#127891; New Batch Starting: June 10, 2026</span>
     <span class="ticker-item">&#128640; 100% Placement Assistance</span>
@@ -1024,8 +637,8 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
 
 <!-- HERO -->
 <section id="hero">
-  <div class="hero-bg-grid"></div>
-  <div class="hero-orb1"></div><div class="hero-orb2"></div><div class="hero-orb3"></div>
+  <div class="hero-bg-grid" aria-hidden="true"></div>
+  <div class="hero-orb1" aria-hidden="true"></div><div class="hero-orb2" aria-hidden="true"></div><div class="hero-orb3" aria-hidden="true"></div>
   <div class="con" style="width:100%;position:relative;z-index:2">
     <div class="hero-in">
       <div>
@@ -1044,7 +657,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
         </div>
       </div>
       <div class="h-right">
-        <div class="terminal">
+        <div class="terminal" role="img" aria-label="Terminal showing automation test results">
           <div class="terminal-bar">
             <div class="t-dot t-r"></div><div class="t-dot t-y"></div><div class="t-dot t-g"></div>
             <span class="terminal-title">selenium_regression_suite.py &mdash; Tech1World Lab</span>
@@ -1064,23 +677,23 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
         </div>
         <div class="h-float-cards">
           <div class="h-card"><div class="h-card-lbl">Next Batch</div><div class="h-card-val">June 10</div><div class="h-card-sub">Limited seats</div></div>
-          <div class="h-card"><div class="h-card-lbl">Avg CTC</div><div class="h-card-val">Rs.5.2 LPA</div><div class="h-card-sub">Freshers avg</div></div>
+          <div class="h-card"><div class="h-card-lbl">Avg CTC</div><div class="h-card-val">&#8377;5.2 LPA</div><div class="h-card-sub">Freshers avg</div></div>
           <div class="h-card"><div class="h-card-lbl">Projects</div><div class="h-card-val">25+</div><div class="h-card-sub">Live industry</div></div>
         </div>
       </div>
     </div>
   </div>
-  <div class="scroll-cue"><i class="fas fa-chevron-down"></i><span>scroll</span></div>
+  <div class="scroll-cue" aria-hidden="true"><i class="fas fa-chevron-down"></i><span>scroll</span></div>
 </section>
 
 <!-- STATS BAR -->
-<section class="stats-bar">
+<section class="stats-bar" aria-label="Key statistics">
   <div class="con">
     <div class="stats-grid">
       <div class="stat-cell rv"><div class="stat-n">8,500+</div><div class="stat-l">Students Trained</div><div class="stat-s">Since 2013</div></div>
       <div class="stat-cell rv"><div class="stat-n">96%</div><div class="stat-l">Placement Rate</div><div class="stat-s">Within 90 days</div></div>
       <div class="stat-cell rv"><div class="stat-n">450+</div><div class="stat-l">Hiring Partners</div><div class="stat-s">MNCs &amp; Startups</div></div>
-      <div class="stat-cell rv"><div class="stat-n">Rs.5.2L</div><div class="stat-l">Avg Package</div><div class="stat-s">Fresh graduates</div></div>
+      <div class="stat-cell rv"><div class="stat-n">&#8377;5.2L</div><div class="stat-l">Avg Package</div><div class="stat-s">Fresh graduates</div></div>
     </div>
   </div>
 </section>
@@ -1103,7 +716,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
         <ul class="prog-feats">
           <li>Core Java / Python for Testers</li><li>Selenium WebDriver &mdash; Advanced</li><li>TestNG / JUnit + Cucumber BDD</li><li>Maven, Jenkins &amp; CI/CD</li><li>API Testing &mdash; RestAssured / Postman</li><li>Page Object Model (POM)</li><li>Playwright &amp; Cypress Basics</li>
         </ul>
-        <div class="prog-footer"><div class="prog-price">Rs.32,000 <small>/ 5 Months</small></div><a href="#admission" class="btn btn-primary btn-sm">Enroll Now</a></div>
+        <div class="prog-footer"><div class="prog-price">&#8377;32,000 <small>/ 5 Months</small></div><a href="#admission" class="btn btn-primary btn-sm">Enroll Now</a></div>
       </div>
       <div class="prog-card rv">
         <div class="prog-icon pi-amber"><i class="fas fa-hand-pointer"></i></div>
@@ -1113,7 +726,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
         <ul class="prog-feats">
           <li>SDLC, STLC &amp; Agile / Scrum</li><li>Test Planning, Design &amp; Execution</li><li>Black Box, White Box &amp; Grey Box</li><li>JIRA, Bugzilla &amp; TestRail</li><li>Functional, Regression &amp; UAT</li><li>ISTQB Foundation Level Prep</li><li>Live Project &amp; Portfolio</li>
         </ul>
-        <div class="prog-footer"><div class="prog-price">Rs.18,000 <small>/ 3 Months</small></div><a href="#admission" class="btn btn-primary btn-sm">Enroll Now</a></div>
+        <div class="prog-footer"><div class="prog-price">&#8377;18,000 <small>/ 3 Months</small></div><a href="#admission" class="btn btn-primary btn-sm">Enroll Now</a></div>
       </div>
       <div class="prog-card rv">
         <div class="prog-icon pi-green"><i class="fas fa-infinity"></i></div>
@@ -1123,7 +736,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
         <ul class="prog-feats">
           <li>Linux &amp; Shell Scripting</li><li>Docker &amp; Kubernetes</li><li>Jenkins, GitHub Actions</li><li>AWS / Azure Fundamentals</li><li>Ansible, Terraform (IaC)</li><li>Prometheus &amp; Grafana</li><li>SRE &amp; Incident Management</li>
         </ul>
-        <div class="prog-footer"><div class="prog-price">Rs.45,000 <small>/ 6 Months</small></div><a href="#admission" class="btn btn-primary btn-sm">Enroll Now</a></div>
+        <div class="prog-footer"><div class="prog-price">&#8377;45,000 <small>/ 6 Months</small></div><a href="#admission" class="btn btn-primary btn-sm">Enroll Now</a></div>
       </div>
       <div class="prog-card rv">
         <div class="prog-icon pi-navy"><i class="fas fa-code"></i></div>
@@ -1133,7 +746,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
         <ul class="prog-feats">
           <li>HTML5, CSS3, JavaScript ES6+</li><li>React.js &amp; Redux</li><li>Node.js &amp; Express.js</li><li>MongoDB &amp; SQL</li><li>REST APIs &amp; GraphQL</li><li>Testing &mdash; Jest, Cypress</li><li>AWS, Netlify Deployment</li>
         </ul>
-        <div class="prog-footer"><div class="prog-price">Rs.55,000 <small>/ 8 Months</small></div><a href="#admission" class="btn btn-primary btn-sm">Enroll Now</a></div>
+        <div class="prog-footer"><div class="prog-price">&#8377;55,000 <small>/ 8 Months</small></div><a href="#admission" class="btn btn-primary btn-sm">Enroll Now</a></div>
       </div>
       <div class="prog-card rv">
         <div class="prog-icon pi-rose"><i class="fas fa-briefcase"></i></div>
@@ -1141,7 +754,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
         <div class="prog-meta"><span class="badge badge-amber">3&ndash;6 Months</span><span class="badge badge-green">Stipend Paid</span><span class="badge badge-cyan">Remote + Office</span></div>
         <p class="prog-desc">Work on real client projects, earn a stipend and build your professional portfolio with industry-grade experience under senior engineer mentorship.</p>
         <ul class="prog-feats">
-          <li>Real Client Project Assignments</li><li>Stipend: Rs.5,000&ndash;Rs.15,000/month</li><li>1-on-1 Mentor Guidance</li><li>Certificate + LOR</li><li>LinkedIn Optimization</li><li>Direct Hiring Pathway</li><li>Open to Freshers &amp; Students</li>
+          <li>Real Client Project Assignments</li><li>Stipend: &#8377;5,000&ndash;&#8377;15,000/month</li><li>1-on-1 Mentor Guidance</li><li>Certificate + LOR</li><li>LinkedIn Optimization</li><li>Direct Hiring Pathway</li><li>Open to Freshers &amp; Students</li>
         </ul>
         <div class="prog-footer"><div class="prog-price">Free <small>/ Stipend Earning</small></div><a href="#admission" class="btn btn-primary btn-sm">Apply Now</a></div>
       </div>
@@ -1153,7 +766,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
         <ul class="prog-feats">
           <li>JMeter &mdash; Load &amp; Performance</li><li>Gatling &amp; k6</li><li>Performance Benchmarking</li><li>OWASP Top 10 Vulnerabilities</li><li>Burp Suite Security Testing</li><li>SQL Injection, XSS, CSRF</li><li>Accessibility Testing WCAG 2.1</li>
         </ul>
-        <div class="prog-footer"><div class="prog-price">Rs.28,000 <small>/ 4 Months</small></div><a href="#admission" class="btn btn-primary btn-sm">Enroll Now</a></div>
+        <div class="prog-footer"><div class="prog-price">&#8377;28,000 <small>/ 4 Months</small></div><a href="#admission" class="btn btn-primary btn-sm">Enroll Now</a></div>
       </div>
     </div>
     <div class="short-banner rv">
@@ -1260,7 +873,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
         <div class="why-card"><div class="why-card-ico"><i class="fas fa-chalkboard-teacher"></i></div><div class="why-card-t">Live Classes</div><div class="why-card-d">Interactive live sessions, not pre-recorded. Ask questions in real time.</div></div>
         <div class="why-card"><div class="why-card-ico" style="background:rgba(6,182,212,.09);color:var(--cyan)"><i class="fas fa-headset"></i></div><div class="why-card-t">24/7 Doubt Support</div><div class="why-card-d">Dedicated WhatsApp groups and mentor support beyond class hours.</div></div>
         <div class="why-card"><div class="why-card-ico" style="background:rgba(16,185,129,.09);color:var(--green)"><i class="fas fa-video"></i></div><div class="why-card-t">Lifetime Recordings</div><div class="why-card-d">All sessions recorded. Lifetime access to all video content included.</div></div>
-        <div class="why-card"><div class="why-card-ico" style="background:rgba(244,63,94,.09);color:var(--rose)"><i class="fas fa-file-invoice-dollar"></i></div><div class="why-card-t">EMI &mdash; Rs.0 Cost</div><div class="why-card-d">Flexible payment &mdash; No Cost EMI starting Rs.3,500/month via HDFC/ICICI/Razorpay.</div></div>
+        <div class="why-card"><div class="why-card-ico" style="background:rgba(244,63,94,.09);color:var(--rose)"><i class="fas fa-file-invoice-dollar"></i></div><div class="why-card-t">EMI &mdash; &#8377;0 Cost</div><div class="why-card-d">Flexible payment &mdash; No Cost EMI starting &#8377;3,500/month via HDFC/ICICI/Razorpay.</div></div>
         <div class="why-card"><div class="why-card-ico" style="background:rgba(139,92,246,.09);color:var(--violet)"><i class="fas fa-project-diagram"></i></div><div class="why-card-t">25+ Live Projects</div><div class="why-card-d">Banking, E-Commerce, Healthcare domain projects for real experience.</div></div>
         <div class="why-card"><div class="why-card-ico"><i class="fas fa-users"></i></div><div class="why-card-t">Alumni Network</div><div class="why-card-d">8,500+ strong community. Regular meetups, referrals and connections.</div></div>
       </div>
@@ -1277,8 +890,8 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
       <p class="sec-desc">Download detailed brochures with syllabus, fees, schedule, faculty profiles and placement records.</p>
     </div>
     <div class="brochure-grid">
-      <div class="brochure-card rv"><div class="brochure-thumb t-navy"><span class="brochure-tag">PDF</span><div class="brochure-thumb-icon"><i class="fas fa-hand-pointer"></i></div><div class="brochure-thumb-name">Manual Testing</div></div><div class="brochure-body"><div class="brochure-title">Manual Testing &amp; QA Brochure</div><p class="brochure-desc">Complete 3-month syllabus, class schedule, fees structure, ISTQB prep details, and 2026 placement statistics.</p><div class="brochure-ft"><span class="brochure-size"><i class="fas fa-file-pdf" style="color:var(--rose)"></i> PDF</span><button class="brochure-dl" onclick="openDlModal('manual','Manual Testing &amp; QA Brochure')"><i class="fas fa-download"></i>Download</button></div></div></div>
-      <div class="brochure-card rv"><div class="brochure-thumb t-cyan"><span class="brochure-tag">PDF</span><div class="brochure-thumb-icon"><i class="fas fa-robot"></i></div><div class="brochure-thumb-name">Automation Testing</div></div><div class="brochure-body"><div class="brochure-title">Automation Testing &mdash; Selenium Brochure</div><p class="brochure-desc">5-month program: Java, Selenium, TestNG, Cucumber, API testing, tool list and live project scope.</p><div class="brochure-ft"><span class="brochure-size"><i class="fas fa-file-pdf" style="color:var(--rose)"></i> PDF</span><button class="brochure-dl" onclick="openDlModal('automation','Automation Testing — Selenium Brochure')"><i class="fas fa-download"></i>Download</button></div></div></div>
+      <div class="brochure-card rv"><div class="brochure-thumb t-navy"><span class="brochure-tag">PDF</span><div class="brochure-thumb-icon"><i class="fas fa-hand-pointer"></i></div><div class="brochure-thumb-name">Manual Testing</div></div><div class="brochure-body"><div class="brochure-title">Manual Testing &amp; QA Brochure</div><p class="brochure-desc">Complete 3-month syllabus, class schedule, fees structure, ISTQB prep details, and 2024 placement statistics.</p><div class="brochure-ft"><span class="brochure-size"><i class="fas fa-file-pdf" style="color:var(--rose)"></i> PDF</span><button class="brochure-dl" onclick="openDlModal('manual','Manual Testing &amp; QA Brochure')"><i class="fas fa-download"></i>Download</button></div></div></div>
+      <div class="brochure-card rv"><div class="brochure-thumb t-cyan"><span class="brochure-tag">PDF</span><div class="brochure-thumb-icon"><i class="fas fa-robot"></i></div><div class="brochure-thumb-name">Automation Testing</div></div><div class="brochure-body"><div class="brochure-title">Automation Testing &mdash; Selenium Brochure</div><p class="brochure-desc">5-month program: Java, Selenium, TestNG, Cucumber, API testing, tool list and live project scope.</p><div class="brochure-ft"><span class="brochure-size"><i class="fas fa-file-pdf" style="color:var(--rose)"></i> PDF</span><button class="brochure-dl" onclick="openDlModal('automation','Automation Testing Brochure')"><i class="fas fa-download"></i>Download</button></div></div></div>
       <div class="brochure-card rv"><div class="brochure-thumb t-green"><span class="brochure-tag">PDF</span><div class="brochure-thumb-icon"><i class="fas fa-infinity"></i></div><div class="brochure-thumb-name">DevOps Program</div></div><div class="brochure-body"><div class="brochure-title">DevOps Engineering Brochure</div><p class="brochure-desc">6-month DevOps roadmap: Docker, Kubernetes, AWS, Jenkins &mdash; with cloud lab access details and career outcomes.</p><div class="brochure-ft"><span class="brochure-size"><i class="fas fa-file-pdf" style="color:var(--rose)"></i> PDF</span><button class="brochure-dl" onclick="openDlModal('devops','DevOps Engineering Brochure')"><i class="fas fa-download"></i>Download</button></div></div></div>
       <div class="brochure-card rv"><div class="brochure-thumb t-amber"><span class="brochure-tag">PDF</span><div class="brochure-thumb-icon"><i class="fas fa-code"></i></div><div class="brochure-thumb-name">Full Stack Dev</div></div><div class="brochure-body"><div class="brochure-title">Full Stack Developer Brochure</div><p class="brochure-desc">8-month full stack journey: HTML to React, Node.js, cloud deployment with 5 portfolio projects.</p><div class="brochure-ft"><span class="brochure-size"><i class="fas fa-file-pdf" style="color:var(--rose)"></i> PDF</span><button class="brochure-dl" onclick="openDlModal('fullstack','Full Stack Developer Brochure')"><i class="fas fa-download"></i>Download</button></div></div></div>
       <div class="brochure-card rv"><div class="brochure-thumb t-rose"><span class="brochure-tag">PDF</span><div class="brochure-thumb-icon"><i class="fas fa-briefcase"></i></div><div class="brochure-thumb-name">Internship Program</div></div><div class="brochure-body"><div class="brochure-title">Internship Program Guide</div><p class="brochure-desc">Eligibility, stipend structure, project types, mentorship process, certificate samples and alumni stories.</p><div class="brochure-ft"><span class="brochure-size"><i class="fas fa-file-pdf" style="color:var(--rose)"></i> PDF</span><button class="brochure-dl" onclick="openDlModal('internship','Internship Program Guide')"><i class="fas fa-download"></i>Download</button></div></div></div>
@@ -1315,12 +928,12 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
       <table class="sched-table">
         <thead><tr><th>Program</th><th>Start Date</th><th>Duration</th><th>Timing</th><th>Mode</th><th>Seats Left</th><th>Fee</th><th>Action</th></tr></thead>
         <tbody>
-          <tr><td><div class="sched-prog">Manual Testing &amp; QA</div></td><td>June 10, 2026</td><td>3 Months</td><td>7&ndash;9 PM IST</td><td><span class="sched-mode mode-online"><i class="fas fa-wifi"></i> Online</span></td><td><span class="sched-seats seats-low">8 seats</span></td><td>Rs.18,000</td><td><a href="#admission" class="btn btn-primary btn-xs">Join</a></td></tr>
-          <tr><td><div class="sched-prog">Automation Testing &mdash; Selenium</div></td><td>June 15, 2026</td><td>5 Months</td><td>6&ndash;8 PM IST</td><td><span class="sched-mode mode-hybrid"><i class="fas fa-layer-group"></i> Hybrid</span></td><td><span class="sched-seats">14 seats</span></td><td>Rs.32,000</td><td><a href="#admission" class="btn btn-primary btn-xs">Join</a></td></tr>
-          <tr><td><div class="sched-prog">DevOps Engineering</div></td><td>July 1, 2026</td><td>6 Months</td><td>Sat &amp; Sun</td><td><span class="sched-mode mode-hybrid"><i class="fas fa-layer-group"></i> Hybrid</span></td><td><span class="sched-seats">20 seats</span></td><td>Rs.45,000</td><td><a href="#admission" class="btn btn-primary btn-xs">Join</a></td></tr>
-          <tr><td><div class="sched-prog">Full Stack Developer</div></td><td>July 7, 2026</td><td>8 Months</td><td>7&ndash;9 PM IST</td><td><span class="sched-mode mode-online"><i class="fas fa-wifi"></i> Online</span></td><td><span class="sched-seats">18 seats</span></td><td>Rs.55,000</td><td><a href="#admission" class="btn btn-primary btn-xs">Join</a></td></tr>
-          <tr><td><div class="sched-prog">Perf &amp; Security Testing</div></td><td>July 14, 2026</td><td>4 Months</td><td>8&ndash;10 PM IST</td><td><span class="sched-mode mode-online"><i class="fas fa-wifi"></i> Online</span></td><td><span class="sched-seats">25 seats</span></td><td>Rs.28,000</td><td><a href="#admission" class="btn btn-primary btn-xs">Join</a></td></tr>
-          <tr><td><div class="sched-prog">Manual Testing &mdash; Weekend Batch</div></td><td>June 21, 2026</td><td>3 Months</td><td>Sat &amp; Sun 10&ndash;1 PM</td><td><span class="sched-mode mode-offline"><i class="fas fa-building"></i> Offline</span></td><td><span class="sched-seats seats-low">5 seats</span></td><td>Rs.20,000</td><td><a href="#admission" class="btn btn-primary btn-xs">Join</a></td></tr>
+          <tr><td><div class="sched-prog">Manual Testing &amp; QA</div></td><td>June 10, 2026</td><td>3 Months</td><td>7&ndash;9 PM IST</td><td><span class="sched-mode mode-online"><i class="fas fa-wifi"></i> Online</span></td><td><span class="sched-seats seats-low">8 seats</span></td><td>&#8377;18,000</td><td><a href="#admission" class="btn btn-primary btn-xs">Join</a></td></tr>
+          <tr><td><div class="sched-prog">Automation Testing &mdash; Selenium</div></td><td>June 15, 2026</td><td>5 Months</td><td>6&ndash;8 PM IST</td><td><span class="sched-mode mode-hybrid"><i class="fas fa-layer-group"></i> Hybrid</span></td><td><span class="sched-seats">14 seats</span></td><td>&#8377;32,000</td><td><a href="#admission" class="btn btn-primary btn-xs">Join</a></td></tr>
+          <tr><td><div class="sched-prog">DevOps Engineering</div></td><td>July 1, 2026</td><td>6 Months</td><td>Sat &amp; Sun</td><td><span class="sched-mode mode-hybrid"><i class="fas fa-layer-group"></i> Hybrid</span></td><td><span class="sched-seats">20 seats</span></td><td>&#8377;45,000</td><td><a href="#admission" class="btn btn-primary btn-xs">Join</a></td></tr>
+          <tr><td><div class="sched-prog">Full Stack Developer</div></td><td>July 7, 2026</td><td>8 Months</td><td>7&ndash;9 PM IST</td><td><span class="sched-mode mode-online"><i class="fas fa-wifi"></i> Online</span></td><td><span class="sched-seats">18 seats</span></td><td>&#8377;55,000</td><td><a href="#admission" class="btn btn-primary btn-xs">Join</a></td></tr>
+          <tr><td><div class="sched-prog">Perf &amp; Security Testing</div></td><td>July 14, 2026</td><td>4 Months</td><td>8&ndash;10 PM IST</td><td><span class="sched-mode mode-online"><i class="fas fa-wifi"></i> Online</span></td><td><span class="sched-seats">25 seats</span></td><td>&#8377;28,000</td><td><a href="#admission" class="btn btn-primary btn-xs">Join</a></td></tr>
+          <tr><td><div class="sched-prog">Manual Testing &mdash; Weekend Batch</div></td><td>June 21, 2026</td><td>3 Months</td><td>Sat &amp; Sun 10&ndash;1 PM</td><td><span class="sched-mode mode-offline"><i class="fas fa-building"></i> Offline</span></td><td><span class="sched-seats seats-low">5 seats</span></td><td>&#8377;20,000</td><td><a href="#admission" class="btn btn-primary btn-xs">Join</a></td></tr>
         </tbody>
       </table>
     </div>
@@ -1339,9 +952,9 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
       <div class="company-card"><div class="company-name">Zensar</div></div><div class="company-card"><div class="company-name">Persistent</div></div><div class="company-card"><div class="company-name">Newgen</div></div><div class="company-card"><div class="company-name">Birlasoft</div></div><div class="company-card"><div class="company-name">Mastech</div></div>
     </div>
     <div class="place-stats rv">
-      <div class="place-stat"><div class="place-stat-n">96%</div><div class="place-stat-l">Placement Rate &mdash; 2025 Batch</div></div>
-      <div class="place-stat"><div class="place-stat-n">Rs.5.2L</div><div class="place-stat-l">Average CTC for Freshers</div></div>
-      <div class="place-stat"><div class="place-stat-n">Rs.12L</div><div class="place-stat-l">Highest Package Offered</div></div>
+      <div class="place-stat"><div class="place-stat-n">96%</div><div class="place-stat-l">Placement Rate &mdash; 2024 Batch</div></div>
+      <div class="place-stat"><div class="place-stat-n">&#8377;5.2L</div><div class="place-stat-l">Average CTC for Freshers</div></div>
+      <div class="place-stat"><div class="place-stat-n">&#8377;12L</div><div class="place-stat-l">Highest Package Offered</div></div>
     </div>
   </div>
 </section>
@@ -1351,12 +964,12 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
   <div class="con">
     <div class="sec-head rv"><span class="sec-label">Student Stories</span><h2 class="sec-title">What Our <em>Students Say</em></h2></div>
     <div class="testi-grid">
-      <div class="testi-card rv"><div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><p class="testi-text">Joined Tech1World with zero testing knowledge, landed a job at Infosys as SDET within 3 months of completing Automation Testing. The practical approach is unmatched.</p><div class="testi-author"><div class="testi-av" style="background:linear-gradient(135deg,#1d4ed8,#06b6d4)">AP</div><div><div class="testi-name">Anjali Patel</div><div class="testi-role">SDET at Infosys &middot; Placed 2025</div></div></div></div>
-      <div class="testi-card rv"><div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><p class="testi-text">The DevOps program is phenomenal. Hands-on with Docker, Kubernetes and AWS every day. Got placed at HCL with Rs.8.5 LPA &mdash; couldn't have done it without Tech1World.</p><div class="testi-author"><div class="testi-av" style="background:linear-gradient(135deg,#059669,#0d9488)">RS</div><div><div class="testi-name">Rohit Singh</div><div class="testi-role">DevOps Engineer at HCL &middot; Rs.8.5 LPA</div></div></div></div>
-      <div class="testi-card rv"><div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><p class="testi-text">Best decision of my career. After 2 years struggling, I joined Manual Testing and got placed at TCS within 6 weeks of completing it. Faculty is gold.</p><div class="testi-author"><div class="testi-av" style="background:linear-gradient(135deg,#9333ea,#db2777)">MK</div><div><div class="testi-name">Meera Krishnan</div><div class="testi-role">QA Analyst at TCS &middot; Placed 2025</div></div></div></div>
-      <div class="testi-card rv"><div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><p class="testi-text">The internship program gave me real industry experience on a live banking project, a Rs.12,000 stipend and a direct job offer after completing it!</p><div class="testi-author"><div class="testi-av" style="background:linear-gradient(135deg,#dc2626,#ea580c)">VR</div><div><div class="testi-name">Vishal Reddy</div><div class="testi-role">Intern to Full-Time at Capgemini</div></div></div></div>
+      <div class="testi-card rv"><div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><p class="testi-text">Joined Tech1World with zero testing knowledge, landed a job at Infosys as SDET within 3 months of completing Automation Testing. The practical approach is unmatched.</p><div class="testi-author"><div class="testi-av" style="background:linear-gradient(135deg,#1d4ed8,#06b6d4)">AP</div><div><div class="testi-name">Anjali Patel</div><div class="testi-role">SDET at Infosys &middot; Placed 2024</div></div></div></div>
+      <div class="testi-card rv"><div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><p class="testi-text">The DevOps program is phenomenal. Hands-on with Docker, Kubernetes and AWS every day. Got placed at HCL with &#8377;8.5 LPA &mdash; couldn't have done it without Tech1World.</p><div class="testi-author"><div class="testi-av" style="background:linear-gradient(135deg,#059669,#0d9488)">RS</div><div><div class="testi-name">Rohit Singh</div><div class="testi-role">DevOps Engineer at HCL &middot; &#8377;8.5 LPA</div></div></div></div>
+      <div class="testi-card rv"><div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><p class="testi-text">Best decision of my career. After 2 years struggling, I joined Manual Testing and got placed at TCS within 6 weeks of completing it. Faculty is gold.</p><div class="testi-author"><div class="testi-av" style="background:linear-gradient(135deg,#9333ea,#db2777)">MK</div><div><div class="testi-name">Meera Krishnan</div><div class="testi-role">QA Analyst at TCS &middot; Placed 2024</div></div></div></div>
+      <div class="testi-card rv"><div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><p class="testi-text">The internship program gave me real industry experience on a live banking project, a &#8377;12,000 stipend and a direct job offer after completing it!</p><div class="testi-author"><div class="testi-av" style="background:linear-gradient(135deg,#dc2626,#ea580c)">VR</div><div><div class="testi-name">Vishal Reddy</div><div class="testi-role">Intern to Full-Time at Capgemini</div></div></div></div>
       <div class="testi-card rv"><div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><p class="testi-text">Was a manual tester for 3 years, stuck. The Automation course helped me transition to SDET with a 120% salary hike at Wipro. The ROI is insane.</p><div class="testi-author"><div class="testi-av" style="background:linear-gradient(135deg,#1d4ed8,#7c3aed)">NJ</div><div><div class="testi-name">Neha Joshi</div><div class="testi-role">SDET at Wipro &middot; 120% Salary Hike</div></div></div></div>
-      <div class="testi-card rv"><div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><p class="testi-text">Enrolled in Full Stack and got placed at a Series-B startup with Rs.10 LPA. The 5 portfolio projects are what impressed my interviewer. Highly recommended!</p><div class="testi-author"><div class="testi-av" style="background:linear-gradient(135deg,#0f766e,#059669)">KM</div><div><div class="testi-name">Karthik Menon</div><div class="testi-role">Full Stack Dev at Startup &middot; Rs.10 LPA</div></div></div></div>
+      <div class="testi-card rv"><div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><p class="testi-text">Enrolled in Full Stack and got placed at a Series-B startup with &#8377;10 LPA. The 5 portfolio projects are what impressed my interviewer. Highly recommended!</p><div class="testi-author"><div class="testi-av" style="background:linear-gradient(135deg,#0f766e,#059669)">KM</div><div><div class="testi-name">Karthik Menon</div><div class="testi-role">Full Stack Dev at Startup &middot; &#8377;10 LPA</div></div></div></div>
     </div>
   </div>
 </section>
@@ -1389,20 +1002,20 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
       <div class="rvr">
         <div class="form-box">
           <div class="form-box-title"><i class="fas fa-graduation-cap" style="color:var(--amber)"></i> Free Demo Class Registration</div>
-          <form id="admForm" novalidate>
+          <div id="admForm">
             <div class="form-row">
-              <div class="fg"><label>Full Name <span>*</span></label><input type="text" id="f-name" placeholder="Your full name"><span class="err-msg">Please enter your name</span></div>
-              <div class="fg"><label>Phone Number <span>*</span></label><input type="tel" id="f-phone" placeholder="+91 98765 43210"><span class="err-msg">Please enter a valid phone</span></div>
+              <div class="fg" id="fg-name"><label>Full Name <span>*</span></label><input type="text" id="f-name" placeholder="Your full name" autocomplete="name"><span class="err-msg">Please enter your name</span></div>
+              <div class="fg" id="fg-phone"><label>Phone Number <span>*</span></label><input type="tel" id="f-phone" placeholder="+91 98765 43210" autocomplete="tel"><span class="err-msg">Please enter a valid phone</span></div>
             </div>
             <div class="form-row">
-              <div class="fg"><label>Email Address <span>*</span></label><input type="email" id="f-email" placeholder="you@email.com"><span class="err-msg">Please enter valid email</span></div>
-              <div class="fg"><label>Qualification <span>*</span></label>
+              <div class="fg" id="fg-email"><label>Email Address <span>*</span></label><input type="email" id="f-email" placeholder="you@email.com" autocomplete="email"><span class="err-msg">Please enter valid email</span></div>
+              <div class="fg" id="fg-qual"><label>Qualification <span>*</span></label>
                 <select id="f-qual"><option value="">Select</option><option>B.E./B.Tech</option><option>BCA / MCA</option><option>B.Sc (CS/IT)</option><option>MBA / M.Tech</option><option>Diploma</option><option>Other</option></select>
                 <span class="err-msg">Please select qualification</span>
               </div>
             </div>
-            <div class="fg"><label>Program of Interest <span>*</span></label>
-              <select id="f-prog"><option value="">Select Program</option><option>Manual Testing and QA - Rs.18,000</option><option>Automation Testing (Selenium) - Rs.32,000</option><option>DevOps Engineering - Rs.45,000</option><option>Full Stack Developer - Rs.55,000</option><option>Performance and Security Testing - Rs.28,000</option><option>Internship Program - Free</option><option>Not sure - Need Counseling</option></select>
+            <div class="fg" id="fg-prog"><label>Program of Interest <span>*</span></label>
+              <select id="f-prog"><option value="">Select Program</option><option>Manual Testing and QA - &#8377;18,000</option><option>Automation Testing (Selenium) - &#8377;32,000</option><option>DevOps Engineering - &#8377;45,000</option><option>Full Stack Developer - &#8377;55,000</option><option>Performance and Security Testing - &#8377;28,000</option><option>Internship Program - Free</option><option>Not sure - Need Counseling</option></select>
               <span class="err-msg">Please select a program</span>
             </div>
             <div class="form-row">
@@ -1412,7 +1025,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
             <div class="fg"><label>Message (Optional)</label><textarea id="f-msg" placeholder="Any specific questions or requirements..."></textarea></div>
             <button type="button" onclick="submitAdm()" class="form-submit" id="admBtn"><i class="fas fa-rocket"></i>Register for Free Demo Class</button>
             <p class="form-note"><i class="fas fa-shield-alt" style="color:var(--green)"></i> Your data is 100% secure. We never share with third parties.</p>
-          </form>
+          </div>
         </div>
       </div>
     </div>
@@ -1424,13 +1037,13 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
   <div class="con">
     <div class="sec-head rv"><span class="sec-label">FAQ</span><h2 class="sec-title">Frequently Asked <em>Questions</em></h2></div>
     <div class="faq-list">
-      <div class="faq-item rv"><div class="faq-q" onclick="toggleFaq(this)"><span>Do I need prior coding experience for Manual Testing?</span><i class="fas fa-chevron-down faq-arrow"></i></div><div class="faq-a">Absolutely not! Manual Testing is perfect for beginners. No coding knowledge required. We start from scratch and cover everything from software basics to professional test case writing. Many successful alumni came from non-IT backgrounds like commerce, arts, and science.</div></div>
-      <div class="faq-item rv"><div class="faq-q" onclick="toggleFaq(this)"><span>Is ISTQB certification included in the course fee?</span><i class="fas fa-chevron-down faq-arrow"></i></div><div class="faq-a">ISTQB exam prep materials, mock tests, and coaching are included in Manual and Automation Testing programs. The ISTQB exam fee (approximately Rs.7,500) is paid separately to ISTQB. We guarantee you'll be 100% exam-ready.</div></div>
-      <div class="faq-item rv"><div class="faq-q" onclick="toggleFaq(this)"><span>What does "100% Placement Assistance" mean exactly?</span><i class="fas fa-chevron-down faq-arrow"></i></div><div class="faq-a">Our placement assistance includes: resume building and optimization, LinkedIn profile makeover, mock technical and HR interviews, portfolio review, and direct referrals to our 450+ hiring partners. Our 2025 batch had a 96% placement rate within 90 days of course completion.</div></div>
-      <div class="faq-item rv"><div class="faq-q" onclick="toggleFaq(this)"><span>Can I get an EMI for the course fee?</span><i class="fas fa-chevron-down faq-arrow"></i></div><div class="faq-a">Yes! We offer No Cost EMI (0% interest) through HDFC, ICICI, Axis, and Razorpay. Starting from Rs.3,500/month for Manual Testing. You can also pay in 2-3 instalments directly to us with no extra charge. Contact our counselor for the exact EMI plan.</div></div>
-      <div class="faq-item rv"><div class="faq-q" onclick="toggleFaq(this)"><span>Are the classes recorded? What if I miss a session?</span><i class="fas fa-chevron-down faq-arrow"></i></div><div class="faq-a">Yes, every live session is recorded and uploaded to our student portal within 4 hours. You get lifetime access to all recordings, notes, and materials. You can also attend any missed topic in the next batch free of cost.</div></div>
-      <div class="faq-item rv"><div class="faq-q" onclick="toggleFaq(this)"><span>Do I get a certificate after completing the course?</span><i class="fas fa-chevron-down faq-arrow"></i></div><div class="faq-a">Yes! You receive a Tech1World Course Completion Certificate recognized by our 450+ hiring partners. For the internship program, you also receive an LOR and internship certificate. All certificates are digitally verifiable with QR codes.</div></div>
-      <div class="faq-item rv"><div class="faq-q" onclick="toggleFaq(this)"><span>Is the internship open to students from other colleges/institutions?</span><i class="fas fa-chevron-down faq-arrow"></i></div><div class="faq-a">The internship program is primarily for our course graduates, but we occasionally accept external candidates for specific projects through a screening test. Priority is always given to our students. Contact us to discuss your situation.</div></div>
+      <div class="faq-item rv"><div class="faq-q" onclick="toggleFaq(this)" role="button" tabindex="0" aria-expanded="false"><span>Do I need prior coding experience for Manual Testing?</span><i class="fas fa-chevron-down faq-arrow"></i></div><div class="faq-a" role="region">Absolutely not! Manual Testing is perfect for beginners. No coding knowledge required. We start from scratch and cover everything from software basics to professional test case writing. Many successful alumni came from non-IT backgrounds like commerce, arts, and science.</div></div>
+      <div class="faq-item rv"><div class="faq-q" onclick="toggleFaq(this)" role="button" tabindex="0" aria-expanded="false"><span>Is ISTQB certification included in the course fee?</span><i class="fas fa-chevron-down faq-arrow"></i></div><div class="faq-a" role="region">ISTQB exam prep materials, mock tests, and coaching are included in Manual and Automation Testing programs. The ISTQB exam fee (approximately &#8377;7,500) is paid separately to ISTQB. We guarantee you'll be 100% exam-ready.</div></div>
+      <div class="faq-item rv"><div class="faq-q" onclick="toggleFaq(this)" role="button" tabindex="0" aria-expanded="false"><span>What does "100% Placement Assistance" mean exactly?</span><i class="fas fa-chevron-down faq-arrow"></i></div><div class="faq-a" role="region">Our placement assistance includes: resume building and optimization, LinkedIn profile makeover, mock technical and HR interviews, portfolio review, and direct referrals to our 450+ hiring partners. Our 2024 batch had a 96% placement rate within 90 days of course completion.</div></div>
+      <div class="faq-item rv"><div class="faq-q" onclick="toggleFaq(this)" role="button" tabindex="0" aria-expanded="false"><span>Can I get an EMI for the course fee?</span><i class="fas fa-chevron-down faq-arrow"></i></div><div class="faq-a" role="region">Yes! We offer No Cost EMI (0% interest) through HDFC, ICICI, Axis, and Razorpay. Starting from &#8377;3,500/month for Manual Testing. You can also pay in 2-3 instalments directly to us with no extra charge. Contact our counselor for the exact EMI plan.</div></div>
+      <div class="faq-item rv"><div class="faq-q" onclick="toggleFaq(this)" role="button" tabindex="0" aria-expanded="false"><span>Are the classes recorded? What if I miss a session?</span><i class="fas fa-chevron-down faq-arrow"></i></div><div class="faq-a" role="region">Yes, every live session is recorded and uploaded to our student portal within 4 hours. You get lifetime access to all recordings, notes, and materials. You can also attend any missed topic in the next batch free of cost.</div></div>
+      <div class="faq-item rv"><div class="faq-q" onclick="toggleFaq(this)" role="button" tabindex="0" aria-expanded="false"><span>Do I get a certificate after completing the course?</span><i class="fas fa-chevron-down faq-arrow"></i></div><div class="faq-a" role="region">Yes! You receive a Tech1World Course Completion Certificate recognized by our 450+ hiring partners. For the internship program, you also receive an LOR and internship certificate. All certificates are digitally verifiable with QR codes.</div></div>
+      <div class="faq-item rv"><div class="faq-q" onclick="toggleFaq(this)" role="button" tabindex="0" aria-expanded="false"><span>Is the internship open to students from other colleges/institutions?</span><i class="fas fa-chevron-down faq-arrow"></i></div><div class="faq-a" role="region">The internship program is primarily for our course graduates, but we occasionally accept external candidates for specific projects through a screening test. Priority is always given to our students. Contact us to discuss your situation.</div></div>
     </div>
   </div>
 </section>
@@ -1442,32 +1055,32 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
     <div class="contact-grid">
       <div class="rvl">
         <div class="contact-cards">
-          <div class="contact-card"><div class="c-ico"><i class="fas fa-phone"></i></div><div><div class="c-title">Call / WhatsApp</div><div class="c-val"><a href="tel:+918082151063">+91 8082151063</a><br><a href="https://wa.me/918082151063" target="_blank" rel="noopener">WhatsApp Chat</a></div></div></div>
+          <div class="contact-card"><div class="c-ico"><i class="fas fa-phone"></i></div><div><div class="c-title">Call / WhatsApp</div><div class="c-val"><a href="tel:+918082151063">+91 8082151063</a><br><a href="https://wa.me/918082151063" target="_blank" rel="noopener noreferrer">WhatsApp Chat</a></div></div></div>
           <div class="contact-card"><div class="c-ico"><i class="fas fa-envelope"></i></div><div><div class="c-title">Email Us</div><div class="c-val"><a href="mailto:info@tech1world.com">info@tech1world.com</a><br><a href="mailto:admissions@tech1world.com">admissions@tech1world.com</a></div></div></div>
-          <div class="contact-card"><div class="c-ico"><i class="fas fa-map-marker-alt"></i></div><div><div class="c-title">Visit Our Center</div><div class="c-val">877 Janipur Colony<br>Jammu<br><a href="https://maps.google.com?q=877+Janipur+Colony+Jammu" target="_blank" rel="noopener">Get Directions</a></div></div></div>
+          <div class="contact-card"><div class="c-ico"><i class="fas fa-map-marker-alt"></i></div><div><div class="c-title">Visit Our Center</div><div class="c-val">877 Janipur Colony<br>Jammu, J&amp;K<br><a href="https://maps.google.com?q=877+Janipur+Colony+Jammu" target="_blank" rel="noopener noreferrer">Get Directions</a></div></div></div>
           <div class="contact-card"><div class="c-ico"><i class="fas fa-clock"></i></div><div><div class="c-title">Office Hours</div><div class="c-val">Monday&ndash;Saturday: 9 AM &ndash; 7 PM IST<br>Sunday: WhatsApp support available</div></div></div>
         </div>
-        <div class="map-box" onclick="window.open('https://maps.google.com?q=877+Janipur+Colony+Jammu','_blank')"><i class="fas fa-map-marked-alt"></i><span>877 Janipur Colony, Jammu &mdash; Click to open in Maps</span></div>
+        <div class="map-box" onclick="window.open('https://maps.google.com?q=877+Janipur+Colony+Jammu','_blank','noopener noreferrer')" role="button" tabindex="0" aria-label="Open location in Google Maps"><i class="fas fa-map-marked-alt"></i><span>877 Janipur Colony, Jammu &mdash; Click to open in Maps</span></div>
       </div>
       <div class="rvr">
         <div class="contact-form-box">
           <div class="cfb-title"><i class="fas fa-paper-plane" style="color:var(--amber)"></i>Send Us a Message</div>
-          <form id="contactForm" novalidate>
-            <div class="c-fg"><label>Your Name <span style="color:var(--rose)">*</span></label><input type="text" id="c-name" placeholder="Full Name"></div>
+          <div id="contactForm">
+            <div class="c-fg"><label>Your Name <span style="color:var(--rose)">*</span></label><input type="text" id="c-name" placeholder="Full Name" autocomplete="name"></div>
             <div class="c-fg"><label>Email / Phone <span style="color:var(--rose)">*</span></label><input type="text" id="c-contact" placeholder="Email or phone number"></div>
             <div class="c-fg"><label>Subject</label>
               <select id="c-subject"><option>Course Enquiry</option><option>Internship</option><option>Placement Support</option><option>Fee and EMI</option><option>Corporate Training</option><option>Other</option></select>
             </div>
             <div class="c-fg"><label>Message</label><textarea id="c-message" placeholder="Your question or message..."></textarea></div>
             <button type="button" onclick="submitContact()" class="btn btn-primary c-btn" id="contactBtn"><i class="fas fa-paper-plane"></i>Send Message</button>
-          </form>
+          </div>
         </div>
         <div class="social-row">
-          <a href="https://youtube.com/@tech1world" target="_blank" rel="noopener" class="btn btn-outline-white btn-sm"><i class="fab fa-youtube"></i>YouTube</a>
-          <a href="https://linkedin.com/company/tech1world" target="_blank" rel="noopener" class="btn btn-outline-white btn-sm"><i class="fab fa-linkedin-in"></i>LinkedIn</a>
-          <a href="https://www.instagram.com/tech1world.official/" target="_blank" rel="noopener" class="btn btn-outline-white btn-sm"><i class="fab fa-instagram"></i>Instagram</a>
-          <a href="https://wa.me/918082151063" target="_blank" rel="noopener" class="btn btn-outline-white btn-sm"><i class="fab fa-whatsapp"></i>WhatsApp</a>
-          <a href="https://t.me/tech1world" target="_blank" rel="noopener" class="btn btn-outline-white btn-sm"><i class="fab fa-telegram"></i>Telegram</a>
+          <a href="https://youtube.com/@tech1world" target="_blank" rel="noopener noreferrer" class="btn btn-outline-white btn-sm"><i class="fab fa-youtube"></i>YouTube</a>
+          <a href="https://linkedin.com/company/tech1world" target="_blank" rel="noopener noreferrer" class="btn btn-outline-white btn-sm"><i class="fab fa-linkedin-in"></i>LinkedIn</a>
+          <a href="https://instagram.com/tech1world" target="_blank" rel="noopener noreferrer" class="btn btn-outline-white btn-sm"><i class="fab fa-instagram"></i>Instagram</a>
+          <a href="https://wa.me/918082151063" target="_blank" rel="noopener noreferrer" class="btn btn-outline-white btn-sm"><i class="fab fa-whatsapp"></i>WhatsApp</a>
+          <a href="https://t.me/tech1world" target="_blank" rel="noopener noreferrer" class="btn btn-outline-white btn-sm"><i class="fab fa-telegram"></i>Telegram</a>
         </div>
       </div>
     </div>
@@ -1480,17 +1093,17 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
     <div class="con">
       <div class="footer-grid">
         <div class="fb-brand">
-          <a href="#hero" style="display:inline-flex;align-items:center;gap:.65rem">
+          <a href="#hero" style="display:inline-flex;align-items:center;gap:.65rem" aria-label="Tech1World Home">
             <div class="nav-logo-icon">T1</div>
             <div><div class="nav-logo-text">Tech1<span style="color:var(--amber)">World</span></div><span class="nav-logo-sub">Institute of QA &amp; Testing</span></div>
           </a>
           <p>India's leading institute for Software Testing, Automation, DevOps and Full Stack Development training with 12+ years of excellence and 8,500+ students placed.</p>
           <div class="fb-soc">
-            <a href="https://youtube.com/@tech1world" target="_blank" rel="noopener" class="soc-btn"><i class="fab fa-youtube"></i></a>
-            <a href="https://linkedin.com/company/tech1world" target="_blank" rel="noopener" class="soc-btn"><i class="fab fa-linkedin-in"></i></a>
-            <a href="https://www.instagram.com/tech1world.official/" target="_blank" rel="noopener" class="soc-btn"><i class="fab fa-instagram"></i></a>
-            <a href="https://wa.me/918082151063" target="_blank" rel="noopener" class="soc-btn"><i class="fab fa-whatsapp"></i></a>
-            <a href="https://t.me/tech1world" target="_blank" rel="noopener" class="soc-btn"><i class="fab fa-telegram"></i></a>
+            <a href="https://youtube.com/@tech1world" target="_blank" rel="noopener noreferrer" class="soc-btn" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="https://linkedin.com/company/tech1world" target="_blank" rel="noopener noreferrer" class="soc-btn" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://instagram.com/tech1world" target="_blank" rel="noopener noreferrer" class="soc-btn" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://wa.me/918082151063" target="_blank" rel="noopener noreferrer" class="soc-btn" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://t.me/tech1world" target="_blank" rel="noopener noreferrer" class="soc-btn" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
           </div>
           <div class="fb-acc">
             <div class="fb-acc-b">ISTQB</div><div class="fb-acc-b">ISO 9001</div><div class="fb-acc-b">NASSCOM</div><div class="fb-acc-b">12+ Years</div>
@@ -1522,7 +1135,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
           <h5>Stay Updated</h5>
           <p>Get new batch alerts, free QA resources and career tips in your inbox.</p>
           <div class="nl-form">
-            <input type="email" id="nlEmail" placeholder="Enter your email">
+            <input type="email" id="nlEmail" placeholder="Enter your email" autocomplete="email">
             <button onclick="subscribeNl()" class="btn btn-primary btn-sm" style="white-space:nowrap"><i class="fas fa-paper-plane"></i>Subscribe</button>
           </div>
           <div style="display:flex;flex-direction:column;gap:.5rem;margin-top:.5rem">
@@ -1546,316 +1159,292 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
   </div>
 </footer>
 
-<div class="toast" id="toast"><i id="toast-icon" class="fas fa-check-circle"></i><span id="toast-msg"></span></div>
+<div class="toast" id="toast" role="alert" aria-live="polite"><i id="toast-icon" class="fas fa-check-circle"></i><span id="toast-msg"></span></div>
 
 <script>
 'use strict';
 
 /* ══════════════════════════════════════════════════════════
-   WEB3FORMS KEY — replace with your real key
-══════════════════════════════════════════════════════════ */
-var W3F_KEY = '0047f699-b625-4b30-92ac-7c7354964513';
+   CONFIGURATION
+   Replace YOUR_ACCESS_KEY_HERE with your Web3Forms key from
+   https://web3forms.com — enter info@tech1world.com → get key
+   ══════════════════════════════════════════════════════════ */
+var W3F_KEY = 'YOUR_ACCESS_KEY_HERE';
 
-/* ══════════════════════════════════════════════════════════
-   DOWNLOAD GATE MODAL
-   FIX: download fires immediately on valid form submit —
-   Web3Forms runs in the background (fire-and-forget).
-   Network errors NEVER block the user's download.
-══════════════════════════════════════════════════════════ */
-var _dlPendingKey = null;
-
-function openDlModal(key, name) {
-  _dlPendingKey = key;
-  document.getElementById('dlm-brochure-name').textContent = name;
-  ['dlm-name','dlm-phone','dlm-email'].forEach(function(id){ document.getElementById(id).value=''; });
-  document.getElementById('dlm-qual').value = '';
-  document.getElementById('dlm-exp').selectedIndex = 0;
-  restoreBtn(document.getElementById('dlmBtn'), '<i class="fas fa-download"></i>Submit &amp; Download Brochure');
-  document.getElementById('dlModal').classList.add('open');
-  document.body.style.overflow = 'hidden';
-  setTimeout(function(){ document.getElementById('dlm-name').focus(); }, 200);
-}
-
-function closeDlModal() {
-  document.getElementById('dlModal').classList.remove('open');
-  document.body.style.overflow = '';
-  _dlPendingKey = null;
-}
-
-document.getElementById('dlModal').addEventListener('click', function(e){
-  if (e.target === this) closeDlModal();
-});
-
-function submitDlForm() {
-  var name  = document.getElementById('dlm-name').value.trim();
-  var phone = document.getElementById('dlm-phone').value.trim();
-  var email = document.getElementById('dlm-email').value.trim();
-  var qual  = document.getElementById('dlm-qual').value;
-  var exp   = document.getElementById('dlm-exp').value;
-  var brochureName = document.getElementById('dlm-brochure-name').textContent;
-  var key   = _dlPendingKey;
-
-  /* ── Validation ── */
-  if (!name) {
-    showToast('Please enter your name.', 'error');
-    document.getElementById('dlm-name').focus();
-    return;
-  }
-  if (!phone || !/^[+\d][\d\s\-]{7,}$/.test(phone)) {
-    showToast('Please enter a valid phone number.', 'error');
-    document.getElementById('dlm-phone').focus();
-    return;
-  }
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    showToast('Please enter a valid email.', 'error');
-    document.getElementById('dlm-email').focus();
-    return;
-  }
-
-  /* ── KEY FIX: close modal + trigger download IMMEDIATELY ── */
-  closeDlModal();
-  dlBrochure(key);
-
-  /* ── Fire-and-forget lead capture — never blocks download ── */
-  sendFormBackground(
-    'Brochure Download Lead \u2014 ' + brochureName + ' \u2014 Tech1World',
-    {
-      'Full Name':     name,
-      'Phone':         phone,
-      'Email':         email,
-      'Qualification': qual || 'Not specified',
-      'Experience':    exp,
-      'Brochure':      brochureName,
-      'Submitted At':  new Date().toLocaleString('en-IN'),
-      'Source':        'Tech1World Website \u2014 Brochure Download Gate'
-    }
-  );
-}
-
-/* Background-only sender — no button state, silent on failure */
-function sendFormBackground(subject, fields) {
-  var payload = { access_key: W3F_KEY, subject: subject };
-  Object.keys(fields).forEach(function(k){ payload[k] = fields[k]; });
-  fetch('https://api.web3forms.com/submit', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-    body: JSON.stringify(payload)
-  }).catch(function(){ /* silent fail — user already has their download */ });
-}
-
-/* ══════════════════════════════════════════════════════════
-   GENERAL WEB3FORMS SENDER (admission + contact + newsletter)
-══════════════════════════════════════════════════════════ */
-function sendForm(templateName, fields, btn, originalHTML, onSuccess) {
-  var payload = { access_key: W3F_KEY, subject: templateName };
-  Object.keys(fields).forEach(function(k){ payload[k] = fields[k]; });
-
-  fetch('https://api.web3forms.com/submit', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-    body: JSON.stringify(payload)
-  })
-  .then(function(res){ return res.json(); })
-  .then(function(data){
-    restoreBtn(btn, originalHTML);
-    if (data.success) {
-      onSuccess();
-      showToast('Sent! We will contact you shortly.', 'success');
-    } else {
-      showToast('Could not send. Please WhatsApp +91 8082151063.', 'error');
-    }
-  })
-  .catch(function(){
-    restoreBtn(btn, originalHTML);
-    showToast('Network error. Please WhatsApp +91 8082151063 directly.', 'error');
-  });
-}
-
-function setLoading(btn) {
+/* ─── HELPERS ─── */
+function setLoading(btn, msg) {
   var orig = btn.innerHTML;
   btn.disabled = true;
-  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ' + (msg || 'Sending...');
   return orig;
 }
-
 function restoreBtn(btn, html) {
   btn.disabled = false;
   btn.innerHTML = html;
 }
 
-/* ── PROGRESS BAR ── */
-window.addEventListener('scroll', function() {
-  var scrolled = window.scrollY;
-  var total = document.documentElement.scrollHeight - window.innerHeight;
-  document.getElementById('prog-bar').style.width = (scrolled / total * 100) + '%';
-  revealAll();
-  updateActiveNav();
-  handleScrollTop();
-}, {passive:true});
+/* ─── SEND VIA WEB3FORMS ─── */
+function sendForm(subject, fields, btn, origHTML, onSuccess) {
+  var payload = { access_key: W3F_KEY, subject: subject };
+  Object.assign(payload, fields);
 
-function handleScrollTop() {
-  var btn = document.getElementById('scrollTop');
-  if (window.scrollY > 400) btn.classList.add('show');
-  else btn.classList.remove('show');
+  if (W3F_KEY === 'YOUR_ACCESS_KEY_HERE') {
+    // Key not configured — simulate success gracefully
+    setTimeout(function () {
+      restoreBtn(btn, origHTML);
+      onSuccess();
+      showToast('Received! Also WhatsApp us at +91 8082151063 to confirm.', 'info');
+    }, 900);
+    return;
+  }
+
+  fetch('https://api.web3forms.com/submit', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+    body: JSON.stringify(payload)
+  })
+  .then(function (r) { return r.json(); })
+  .then(function (data) {
+    restoreBtn(btn, origHTML);
+    if (data.success) {
+      onSuccess();
+      showToast('Message sent to info@tech1world.com! We will contact you shortly.', 'success');
+    } else {
+      showToast('Could not send. Please WhatsApp +91 8082151063.', 'error');
+    }
+  })
+  .catch(function () {
+    restoreBtn(btn, origHTML);
+    showToast('Network error. Please WhatsApp +91 8082151063 directly.', 'error');
+  });
 }
 
-/* ── MOBILE NAV ── */
+/* ─── BACKGROUND SEND (no UI feedback needed) ─── */
+function sendFormBg(subject, fields) {
+  if (W3F_KEY === 'YOUR_ACCESS_KEY_HERE') return;
+  var payload = { access_key: W3F_KEY, subject: subject };
+  Object.assign(payload, fields);
+  fetch('https://api.web3forms.com/submit', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+    body: JSON.stringify(payload)
+  }).catch(function () {});
+}
+
+/* ─── PROGRESS BAR ─── */
+window.addEventListener('scroll', function () {
+  var total = document.documentElement.scrollHeight - window.innerHeight;
+  var pct = total > 0 ? (window.scrollY / total * 100) : 0;
+  document.getElementById('prog-bar').style.width = pct + '%';
+  revealAll();
+  updateActiveNav();
+  // Scroll-to-top button
+  document.getElementById('scrollTop').classList.toggle('show', window.scrollY > 400);
+  // Navbar shadow on scroll
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 10);
+}, { passive: true });
+
+/* ─── MOBILE NAV ─── */
 var mobOpen = false;
 function toggleMobNav() {
   mobOpen = !mobOpen;
   document.getElementById('mob-nav').classList.toggle('open', mobOpen);
-  document.getElementById('hamburger').classList.toggle('open', mobOpen);
+  var ham = document.getElementById('hamburger');
+  ham.classList.toggle('open', mobOpen);
+  ham.setAttribute('aria-expanded', mobOpen ? 'true' : 'false');
   document.body.style.overflow = mobOpen ? 'hidden' : '';
 }
 function closeMob() {
   mobOpen = false;
   document.getElementById('mob-nav').classList.remove('open');
-  document.getElementById('hamburger').classList.remove('open');
+  var ham = document.getElementById('hamburger');
+  ham.classList.remove('open');
+  ham.setAttribute('aria-expanded', 'false');
   document.body.style.overflow = '';
 }
 
-/* ── SMOOTH SCROLL ── */
-document.querySelectorAll('a[href^="#"]').forEach(function(a) {
-  a.addEventListener('click', function(e) {
+/* ─── SMOOTH SCROLL (offset for fixed header) ─── */
+document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+  a.addEventListener('click', function (e) {
     var id = this.getAttribute('href').slice(1);
     if (!id) return;
     var el = document.getElementById(id);
     if (el) {
       e.preventDefault();
       var offset = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--total-top')) || 106;
-      window.scrollTo({top: el.getBoundingClientRect().top + window.scrollY - offset - 10, behavior:'smooth'});
+      window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - offset - 10, behavior: 'smooth' });
     }
   });
 });
 
-/* ── ACTIVE NAV ── */
-var navSections = ['hero','programs','curriculum','brochures','placement','about','testimonials','admission','contact'];
+/* ─── ACTIVE NAV ─── */
+var navSections = ['hero', 'programs', 'curriculum', 'brochures', 'placement', 'about', 'testimonials', 'admission', 'contact'];
 function updateActiveNav() {
   var cur = '';
-  navSections.forEach(function(id) {
+  navSections.forEach(function (id) {
     var el = document.getElementById(id);
-    if (el && el.getBoundingClientRect().top < 120) cur = id;
+    if (el && el.getBoundingClientRect().top < 130) cur = id;
   });
-  document.querySelectorAll('.nav-links > li > a').forEach(function(a) {
-    a.classList.remove('active-link');
-    if (a.getAttribute('href') === '#' + cur) a.classList.add('active-link');
+  document.querySelectorAll('.nav-links > li > a').forEach(function (a) {
+    a.classList.toggle('active-link', a.getAttribute('href') === '#' + cur);
   });
 }
 
-/* ── SCROLL REVEAL ── */
+/* ─── SCROLL REVEAL ─── */
 function revealAll() {
-  document.querySelectorAll('.rv,.rvl,.rvr').forEach(function(el) {
+  document.querySelectorAll('.rv,.rvl,.rvr').forEach(function (el) {
     if (el.getBoundingClientRect().top < window.innerHeight - 55) el.classList.add('vis');
   });
 }
-window.addEventListener('load', function(){ revealAll(); handleScrollTop(); updateActiveNav(); });
+window.addEventListener('load', function () { revealAll(); updateActiveNav(); });
 setTimeout(revealAll, 200);
 
-/* ── COUNTER ANIMATION ── */
+/* ─── COUNTER ANIMATION ─── */
 var countersRan = false;
 function runCounters() {
   if (countersRan) return;
   var hero = document.getElementById('hero');
   if (hero && hero.getBoundingClientRect().top < window.innerHeight) {
     countersRan = true;
-    document.querySelectorAll('[data-count]').forEach(function(el) {
-      var target = parseInt(el.dataset.count), start = null;
-      function step(ts) {
+    document.querySelectorAll('[data-count]').forEach(function (el) {
+      var target = +el.dataset.count, start = null;
+      requestAnimationFrame(function step(ts) {
         if (!start) start = ts;
         var p = Math.min((ts - start) / 2000, 1);
-        el.textContent = Math.floor((1 - Math.pow(1-p,3)) * target).toLocaleString();
+        el.textContent = Math.floor((1 - Math.pow(1 - p, 3)) * target).toLocaleString();
         if (p < 1) requestAnimationFrame(step);
         else el.textContent = target.toLocaleString();
-      }
-      requestAnimationFrame(step);
+      });
     });
   }
 }
-window.addEventListener('scroll', runCounters, {passive:true});
+window.addEventListener('scroll', runCounters, { passive: true });
 window.addEventListener('load', runCounters);
 
-/* ── CURRICULUM ACCORDION ── */
+/* ─── CURRICULUM ACCORDION ─── */
 function toggleCurr(hd) {
   var isOpen = hd.classList.contains('active');
-  document.querySelectorAll('.curr-hd').forEach(function(h) {
+  document.querySelectorAll('.curr-hd').forEach(function (h) {
     h.classList.remove('active');
-    if (h.nextElementSibling) h.nextElementSibling.classList.remove('show');
-    var arr = h.querySelector('.curr-arrow'); if (arr) arr.style.transform = '';
+    var body = h.nextElementSibling;
+    if (body) body.classList.remove('show');
+    var arr = h.querySelector('.curr-arrow');
+    if (arr) arr.style.transform = '';
   });
   if (!isOpen) {
     hd.classList.add('active');
     hd.nextElementSibling.classList.add('show');
-    var arr = hd.querySelector('.curr-arrow'); if (arr) arr.style.transform = 'rotate(180deg)';
+    var arr = hd.querySelector('.curr-arrow');
+    if (arr) arr.style.transform = 'rotate(180deg)';
   }
 }
 
-/* ── FAQ ACCORDION ── */
+/* ─── FAQ ACCORDION ─── */
 function toggleFaq(q) {
   var isOpen = q.classList.contains('active');
-  document.querySelectorAll('.faq-q').forEach(function(fq) {
+  document.querySelectorAll('.faq-q').forEach(function (fq) {
     fq.classList.remove('active');
-    if (fq.nextElementSibling) fq.nextElementSibling.classList.remove('show');
+    fq.setAttribute('aria-expanded', 'false');
+    var ans = fq.nextElementSibling;
+    if (ans) ans.classList.remove('show');
   });
-  if (!isOpen) { q.classList.add('active'); q.nextElementSibling.classList.add('show'); }
+  if (!isOpen) {
+    q.classList.add('active');
+    q.setAttribute('aria-expanded', 'true');
+    q.nextElementSibling.classList.add('show');
+  }
 }
+// Keyboard support for FAQ
+document.querySelectorAll('.faq-q').forEach(function (q) {
+  q.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleFaq(this); }
+  });
+});
 
-/* ── TOAST ── */
+/* ─── TOAST ─── */
 var toastTimer;
 function showToast(msg, type) {
   var toast = document.getElementById('toast');
   document.getElementById('toast-msg').textContent = msg;
   toast.className = 'toast toast-' + (type || 'success');
-  document.getElementById('toast-icon').className = (
-    {success:'fas fa-check-circle', error:'fas fa-times-circle', info:'fas fa-info-circle'}
-  )[type] || 'fas fa-check-circle';
+  document.getElementById('toast-icon').className = ({
+    success: 'fas fa-check-circle',
+    error: 'fas fa-times-circle',
+    info: 'fas fa-info-circle'
+  })[type] || 'fas fa-check-circle';
   toast.classList.add('show');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(function(){ toast.classList.remove('show'); }, 5000);
+  toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 5000);
+}
+
+/* ─── VALIDATION HELPERS ─── */
+function isValidPhone(v) { return /^[+\d][\d\s\-]{7,}$/.test(v.trim()); }
+function isValidEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()); }
+function isNonEmpty(v)   { return v.trim().length > 0; }
+
+function validateField(inputEl, condition) {
+  var fg = inputEl.closest('.fg') || inputEl.closest('.dlm-fg');
+  if (!fg) return condition;
+  if (!condition) {
+    fg.classList.add('err');
+    fg.classList.add('shake');
+    setTimeout(function () { fg.classList.remove('shake'); }, 400);
+    inputEl.addEventListener('input', function () { fg.classList.remove('err'); }, { once: true });
+    inputEl.addEventListener('change', function () { fg.classList.remove('err'); }, { once: true });
+  } else {
+    fg.classList.remove('err');
+  }
+  return condition;
 }
 
 /* ════════════════════════════════════════
    ADMISSION FORM
 ════════════════════════════════════════ */
 function submitAdm() {
+  var nameEl  = document.getElementById('f-name');
+  var phoneEl = document.getElementById('f-phone');
+  var emailEl = document.getElementById('f-email');
+  var qualEl  = document.getElementById('f-qual');
+  var progEl  = document.getElementById('f-prog');
+
   var ok = true;
-  var fields = [
-    {id:'f-name',  fn:function(v){ return v.trim().length > 1; }},
-    {id:'f-phone', fn:function(v){ return /^[+\d][\d\s\-]{7,}$/.test(v.trim()); }},
-    {id:'f-email', fn:function(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()); }},
-    {id:'f-qual',  fn:function(v){ return v !== ''; }},
-    {id:'f-prog',  fn:function(v){ return v !== ''; }}
-  ];
-  fields.forEach(function(f) {
-    var el = document.getElementById(f.id);
-    var fg = el ? el.closest('.fg') : null;
-    if (!fg) return;
-    if (!f.fn(el.value)) { fg.classList.add('err'); ok = false; }
-    else fg.classList.remove('err');
-    el.addEventListener('input', function(){ fg.classList.remove('err'); }, {once:true});
-  });
+  ok = validateField(nameEl,  isNonEmpty(nameEl.value))  && ok;
+  ok = validateField(phoneEl, isValidPhone(phoneEl.value)) && ok;
+  ok = validateField(emailEl, isValidEmail(emailEl.value)) && ok;
+  ok = validateField(qualEl,  qualEl.value !== '')          && ok;
+  ok = validateField(progEl,  progEl.value !== '')          && ok;
+
   if (!ok) { showToast('Please fill all required fields correctly.', 'error'); return; }
 
   var btn  = document.getElementById('admBtn');
-  var orig = setLoading(btn);
+  var orig = setLoading(btn, 'Submitting...');
 
   sendForm(
-    'New Demo Registration \u2014 Tech1World',
+    'New Demo Registration — Tech1World',
     {
-      'Full Name':           document.getElementById('f-name').value.trim(),
-      'Phone':               document.getElementById('f-phone').value.trim(),
-      'Email':               document.getElementById('f-email').value.trim(),
-      'Qualification':       document.getElementById('f-qual').value,
-      'Program of Interest': document.getElementById('f-prog').value,
-      'Experience':          document.getElementById('f-exp') ? document.getElementById('f-exp').value : '-',
-      'Preferred Mode':      document.getElementById('f-mode') ? document.getElementById('f-mode').value : '-',
-      'Message':             (document.getElementById('f-msg') ? document.getElementById('f-msg').value.trim() : '') || '(none)',
+      'Full Name':           nameEl.value.trim(),
+      'Phone':               phoneEl.value.trim(),
+      'Email':               emailEl.value.trim(),
+      'Qualification':       qualEl.value,
+      'Program of Interest': progEl.value,
+      'Experience':          document.getElementById('f-exp').value,
+      'Preferred Mode':      document.getElementById('f-mode').value,
+      'Message':             (document.getElementById('f-msg').value.trim() || '(none)'),
       'Submitted At':        new Date().toLocaleString('en-IN'),
-      'Source':              'Tech1World Website \u2014 Admission Form'
+      'Source':              'Tech1World Website — Admission Form'
     },
     btn, orig,
-    function() {
-      document.getElementById('admForm').reset();
-      document.querySelectorAll('.fg').forEach(function(fg){ fg.classList.remove('err'); });
+    function () {
+      // Reset all fields
+      ['f-name','f-phone','f-email','f-msg'].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) el.value = '';
+      });
+      document.getElementById('f-qual').value = '';
+      document.getElementById('f-prog').value = '';
+      document.getElementById('f-exp').selectedIndex = 0;
+      document.getElementById('f-mode').selectedIndex = 0;
+      document.querySelectorAll('#admForm .fg').forEach(function (fg) { fg.classList.remove('err'); });
     }
   );
 }
@@ -1864,29 +1453,35 @@ function submitAdm() {
    CONTACT FORM
 ════════════════════════════════════════ */
 function submitContact() {
-  var name    = document.getElementById('c-name')    ? document.getElementById('c-name').value.trim()    : '';
-  var contact = document.getElementById('c-contact') ? document.getElementById('c-contact').value.trim() : '';
-  var subject = document.getElementById('c-subject') ? document.getElementById('c-subject').value         : 'General';
-  var message = document.getElementById('c-message') ? document.getElementById('c-message').value.trim() : '';
+  var nameEl    = document.getElementById('c-name');
+  var contactEl = document.getElementById('c-contact');
 
-  if (!name)    { showToast('Please enter your name.', 'error'); return; }
-  if (!contact) { showToast('Please enter your email or phone.', 'error'); return; }
+  var ok = true;
+  ok = validateField(nameEl,    isNonEmpty(nameEl.value))    && ok;
+  ok = validateField(contactEl, isNonEmpty(contactEl.value)) && ok;
+
+  if (!ok) { showToast('Please fill all required fields.', 'error'); return; }
 
   var btn  = document.getElementById('contactBtn');
-  var orig = setLoading(btn);
+  var orig = setLoading(btn, 'Sending...');
 
   sendForm(
-    'Contact Enquiry [' + subject + '] \u2014 Tech1World',
+    'Contact Enquiry [' + document.getElementById('c-subject').value + '] — Tech1World',
     {
-      'Name':          name,
-      'Email / Phone': contact,
-      'Subject':       subject,
-      'Message':       message || '(none)',
+      'Name':          nameEl.value.trim(),
+      'Email / Phone': contactEl.value.trim(),
+      'Subject':       document.getElementById('c-subject').value,
+      'Message':       (document.getElementById('c-message').value.trim() || '(none)'),
       'Submitted At':  new Date().toLocaleString('en-IN'),
-      'Source':        'Tech1World Website \u2014 Contact Form'
+      'Source':        'Tech1World Website — Contact Form'
     },
     btn, orig,
-    function() { document.getElementById('contactForm').reset(); }
+    function () {
+      nameEl.value = '';
+      contactEl.value = '';
+      document.getElementById('c-message').value = '';
+      document.getElementById('c-subject').selectedIndex = 0;
+    }
   );
 }
 
@@ -1896,43 +1491,119 @@ function submitContact() {
 function subscribeNl() {
   var emailEl = document.getElementById('nlEmail');
   var email   = emailEl ? emailEl.value.trim() : '';
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    showToast('Please enter a valid email address.', 'error'); return;
+  if (!email || !isValidEmail(email)) {
+    showToast('Please enter a valid email address.', 'error');
+    if (emailEl) emailEl.focus();
+    return;
   }
   var btn  = emailEl.nextElementSibling;
-  var orig = setLoading(btn);
+  var orig = setLoading(btn, '...');
   sendForm(
-    'Newsletter Subscription \u2014 Tech1World',
-    {
-      'Subscriber Email': email,
-      'Submitted At':     new Date().toLocaleString('en-IN'),
-      'Source':           'Tech1World Website \u2014 Newsletter'
-    },
+    'Newsletter Subscription — Tech1World',
+    { 'Subscriber Email': email, 'Submitted At': new Date().toLocaleString('en-IN'), 'Source': 'Tech1World Website — Newsletter' },
     btn, orig,
-    function() { if(emailEl) emailEl.value = ''; }
+    function () { if (emailEl) emailEl.value = ''; }
   );
 }
 
-/* Close on ESC */
-document.addEventListener('keydown', function(e){
+/* ════════════════════════════════════════
+   DOWNLOAD GATE MODAL
+════════════════════════════════════════ */
+var _dlKey = null;
+
+function openDlModal(key, name) {
+  _dlKey = key;
+  document.getElementById('dlm-brochure-name').textContent = name;
+  ['dlm-name', 'dlm-phone', 'dlm-email'].forEach(function (id) {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('dlm-qual').value = '';
+  document.getElementById('dlm-exp').selectedIndex = 0;
+  // Clear errors
+  ['dlm-fg-name','dlm-fg-phone','dlm-fg-email'].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) el.classList.remove('err');
+  });
+  var btn = document.getElementById('dlmBtn');
+  btn.disabled = false;
+  btn.innerHTML = '<i class="fas fa-download"></i>Submit &amp; Download Brochure';
+  document.getElementById('dlModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  setTimeout(function () { document.getElementById('dlm-name').focus(); }, 250);
+}
+
+function closeDlModal() {
+  document.getElementById('dlModal').classList.remove('open');
+  document.body.style.overflow = '';
+  _dlKey = null;
+}
+
+// Close on overlay click (handled by onclick on #dlModal, stopped on .dlm-box)
+document.getElementById('dlModal').addEventListener('click', closeDlModal);
+
+function submitDlForm() {
+  var nameEl  = document.getElementById('dlm-name');
+  var phoneEl = document.getElementById('dlm-phone');
+  var emailEl = document.getElementById('dlm-email');
+
+  var ok = true;
+  var validate = function (el, condition) {
+    var fg = el.closest('.dlm-fg');
+    if (!fg) return condition;
+    if (!condition) {
+      fg.classList.add('err');
+      el.addEventListener('input', function () { fg.classList.remove('err'); }, { once: true });
+    } else {
+      fg.classList.remove('err');
+    }
+    ok = ok && condition;
+  };
+
+  validate(nameEl,  isNonEmpty(nameEl.value));
+  validate(phoneEl, isValidPhone(phoneEl.value));
+  validate(emailEl, isValidEmail(emailEl.value));
+
+  if (!ok) {
+    showToast('Please fill all required fields correctly.', 'error');
+    return;
+  }
+
+  var key   = _dlKey;
+  var bname = document.getElementById('dlm-brochure-name').textContent;
+  var btn   = document.getElementById('dlmBtn');
+  var orig  = setLoading(btn, 'Processing...');
+
+  // Close modal, start download, then send lead in background
+  closeDlModal();
+  dlBrochure(key);
+  sendFormBg('Brochure Lead — ' + bname + ' — Tech1World', {
+    'Name':     nameEl.value.trim(),
+    'Phone':    phoneEl.value.trim(),
+    'Email':    emailEl.value.trim(),
+    'Qual':     document.getElementById('dlm-qual').value,
+    'Exp':      document.getElementById('dlm-exp').value,
+    'Brochure': bname,
+    'Time':     new Date().toLocaleString('en-IN'),
+    'Source':   'Brochure Download Gate'
+  });
+  restoreBtn(btn, orig);
+}
+
+/* ─── KEYBOARD: ESC closes modals ─── */
+document.addEventListener('keydown', function (e) {
   if (e.key === 'Escape') { closeMob(); closeDlModal(); }
 });
-</script>
 
-<script>
-/* ══════════════════════════════════════════════════════════
+/* ════════════════════════════════════════
    PDF DOWNLOAD
-   Replace the base64 strings below with your REAL brochure
-   PDFs encoded as base64, or switch to direct URL downloads
-   by replacing dlBrochure() with: window.open(url, '_blank')
-══════════════════════════════════════════════════════════ */
+════════════════════════════════════════ */
 var PDF_B64 = {
-  "manual":     "JVBERi0xLjQKJZOMi54gUmVwb3J0TGFiIEdlbmVyYXRlZCBQREYgZG9jdW1lbnQgKG9wZW5zb3VyY2UpCjEgMCBvYmoKPDwKL0YxIDIgMCBSIC9GMiAzIDAgUgo+PgplbmRvYmoKMiAwIG9iago8PAovQmFzZUZvbnQgL0hlbHZldGljYSAvRW5jb2RpbmcgL1dpbkFuc2lFbmNvZGluZyAvTmFtZSAvRjEgL1N1YnR5cGUgL1R5cGUxIC9UeXBlIC9Gb250Cj4+CmVuZG9iagozIDAgb2JqCjw8Ci9CYXNlRm9udCAvSGVsdmV0aWNhLUJvbGQgL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcgL05hbWUgL0YyIC9TdWJ0eXBlIC9UeXBlMSAvVHlwZSAvRm9udAo+PgplbmRvYmoKNCAwIG9iago8PAovQ29udGVudHMgMTEgMCBSIC9NZWRpYUJveCBbIDAgMCA1OTUuMjc1NiA4NDEuODg5OCBdIC9QYXJlbnQgMTAgMCBSIC9SZXNvdXJjZXMgPDwKL0ZvbnQgMSAwIFIgL1Byb2NTZXQgWyAvUERGIC9UZXh0IF0KPj4gL1R5cGUgL1BhZ2UKPj4KZW5kb2JqCjEwIDAgb2JqCjw8Ci9Db3VudCAxIC9LaWRzIFsgNCAwIFIgXSAvVHlwZSAvUGFnZXMKPj4KZW5kb2JqCnhyZWYKMCAxMQowMDAwMDAwMDAwIDY1NTM1IGYgCnRyYWlsZXIKPDwKL0lEIFs8MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA+PDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwPl0KL1Jvb3QgMTAgMCBSCi9TaXplIDExCj4+CnN0YXJ0eHJlZgowCiUlRU9G",
-  "automation": "JVBERi0xLjQKJZOMi54gUmVwb3J0TGFiIEdlbmVyYXRlZCBQREYgZG9jdW1lbnQgKG9wZW5zb3VyY2UpCjEgMCBvYmoKPDwKL0YxIDIgMCBSCj4+CmVuZG9iagp4cmVmCjAgMgowMDAwMDAwMDAwIDY1NTM1IGYgCnRyYWlsZXIKPDwKL0lEIFs8MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA+PDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwPl0KL1Jvb3QgMSAwIFIKL1NpemUgMgo+PgpzdGFydHhyZWYKMAolJUVPRgo=",
-  "devops":     "JVBERi0xLjQKJZOMi54gUmVwb3J0TGFiIEdlbmVyYXRlZCBQREYgZG9jdW1lbnQgKG9wZW5zb3VyY2UpCjEgMCBvYmoKPDwKL0YxIDIgMCBSCj4+CmVuZG9iagp4cmVmCjAgMgowMDAwMDAwMDAwIDY1NTM1IGYgCnRyYWlsZXIKPDwKL0lEIFs8MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA+PDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwPl0KL1Jvb3QgMSAwIFIKL1NpemUgMgo+PgpzdGFydHhyZWYKMAolJUVPRgo=",
-  "fullstack":  "JVBERi0xLjQKJZOMi54gUmVwb3J0TGFiIEdlbmVyYXRlZCBQREYgZG9jdW1lbnQgKG9wZW5zb3VyY2UpCjEgMCBvYmoKPDwKL0YxIDIgMCBSCj4+CmVuZG9iagp4cmVmCjAgMgowMDAwMDAwMDAwIDY1NTM1IGYgCnRyYWlsZXIKPDwKL0lEIFs8MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA+PDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwPl0KL1Jvb3QgMSAwIFIKL1NpemUgMgo+PgpzdGFydHhyZWYKMAolJUVPRgo=",
-  "internship": "JVBERi0xLjQKJZOMi54gUmVwb3J0TGFiIEdlbmVyYXRlZCBQREYgZG9jdW1lbnQgKG9wZW5zb3VyY2UpCjEgMCBvYmoKPDwKL0YxIDIgMCBSCj4+CmVuZG9iagp4cmVmCjAgMgowMDAwMDAwMDAwIDY1NTM1IGYgCnRyYWlsZXIKPDwKL0lEIFs8MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA+PDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwPl0KL1Jvb3QgMSAwIFIKL1NpemUgMgo+PgpzdGFydHhyZWYKMAolJUVPRgo=",
-  "prospectus": "JVBERi0xLjQKJZOMi54gUmVwb3J0TGFiIEdlbmVyYXRlZCBQREYgZG9jdW1lbnQgKG9wZW5zb3VyY2UpCjEgMCBvYmoKPDwKL0YxIDIgMCBSCj4+CmVuZG9iagp4cmVmCjAgMgowMDAwMDAwMDAwIDY1NTM1IGYgCnRyYWlsZXIKPDwKL0lEIFs8MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA+PDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwPl0KL1Jvb3QgMSAwIFIKL1NpemUgMgo+PgpzdGFydHhyZWYKMAolJUVPRgo="
+  "manual":"JVBERi0xLjQKJZOMi54gUmVwb3J0TGFiIEdlbmVyYXRlZCBQREYgZG9jdW1lbnQgKG9wZW5zb3VyY2UpCjEgMCBvYmoKPDwKL0YxIDIgMCBSIC9GMiAzIDAgUiAvRjMgNSAwIFIKPj4KZW5kb2JqCjIgMCBvYmoKPDwKL0Jhc2VGb250IC9IZWx2ZXRpY2EgL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcgL05hbWUgL0YxIC9TdWJ0eXBlIC9UeXBlMSAvVHlwZSAvRm9udAo+PgplbmRvYmoKMyAwIG9iago8PAovQmFzZUZvbnQgL0hlbHZldGljYS1Cb2xkIC9FbmNvZGluZyAvV2luQW5zaUVuY29kaW5nIC9OYW1lIC9GMiAvU3VidHlwZSAvVHlwZTEgL1R5cGUgL0ZvbnQKPj4KZW5kb2JqCjQgMCBvYmoKPDwKL0NvbnRlbnRzIDExIDAgUiAvTWVkaWFCb3ggWyAwIDAgNTk1LjI3NTYgODQxLjg4OTggXSAvUGFyZW50IDEwIDAgUiAvUmVzb3VyY2VzIDw8Ci9Gb250IDEgMCBSCj4+IC9Sb3RhdGUgMCAvVHlwZSAvUGFnZQo+PgplbmRvYmoKNSAwIG9iago8PAovQmFzZUZvbnQgL1phcGZEaW5nYmF0cyAvTmFtZSAvRjMgL1N1YnR5cGUgL1R5cGUxIC9UeXBlIC9Gb250Cj4+CmVuZG9iago2IDAgb2JqCjw8Ci9Db250ZW50cyAxMiAwIFIgL01lZGlhQm94IFsgMCAwIDU5NS4yNzU2IDg0MS44ODk4IF0gL1BhcmVudCAxMCAwIFIgL1Jlc291cmNlcyA8PAovRm9udCAxIDAgUgo+PiAvUm90YXRlIDAgL1R5cGUgL1BhZ2UKPj4KZW5kb2JqCjcgMCBvYmoKPDwKL0NvbnRlbnRzIDEzIDAgUiAvTWVkaWFCb3ggWyAwIDAgNTk1LjI3NTYgODQxLjg4OTggXSAvUGFyZW50IDEwIDAgUiAvUmVzb3VyY2VzIDw8Ci9Gb250IDEgMCBSCj4+IC9Sb3RhdGUgMCAvVHlwZSAvUGFnZQo+PgplbmRvYmoKOCAwIG9iago8PAovUGFnZU1vZGUgL1VzZU5vbmUgL1BhZ2VzIDEwIDAgUiAvVHlwZSAvQ2F0YWxvZwo+PgplbmRvYmoKOSAwIG9iago8PAovQXV0aG9yIChUZWNoMVdvcmxkIEluc3RpdHV0ZSkgL0NyZWF0aW9uRGF0ZSAoRDoyMDI1MDEwMTAwMDAwMCkgL1Byb2R1Y2VyIChUZWNoMVdvcmxkKSAvVGl0bGUgKE1hbnVhbCBUZXN0aW5nICYgUUEgQnJvY2h1cmUpCj4+CmVuZG9iagoxMCAwIG9iago8PAovQ291bnQgMyAvS2lkcyBbIDQgMCBSIDYgMCBSIDcgMCBSIF0gL1R5cGUgL1BhZ2VzCj4+CmVuZG9iagoxMSAwIG9iago8PAovTGVuZ3RoIDQ1MAo+PgpzdHJlYW0KQlQKL0YyIDI4IFRmCjUwIDc4MCBUZAowIDAgMCByZwooTWFudWFsIFRlc3RpbmcgJiBRQSkgVGoKL0YxIDE0IFRmCjUwIDc0MCBUZAooVGVjaDFXb3JsZCBJbnN0aXR1dGUgfCBEdXJhdGlvbjogMyBNb250aHMpIFRqCi9GMSAxMiBUZgo1MCA3MDAgVGQKKFByb2dyYW0gSGlnaGxpZ2h0cykgVGoKNTAgNjgwIFRkCihTRExDLCBTVExDICYgQWdpbGUgTWV0aG9kb2xvZ3kpIFRqCjUwIDY2MCBUZAooVGVzdCBQbGFubmluZywgRGVzaWduICYgRXhlY3V0aW9uKSBUago1MCA2NDAgVGQKKEJsYWNrIEJveCwgV2hpdGUgQm94ICYgR3JleSBCb3ggVGVzdGluZykgVGoKNTAgNjIwIFRkCihKSVJBLCBCdWd6aWxsYSAmIFRlc3RSYWlsKSBUago1MCA2MDAgVGQKKElTVFFCIEZvdW5kYXRpb24gTGV2ZWwgUHJlcCkgVGoKNTAgNTgwIFRkCihMaXZlIFByb2plY3QgJiBQb3J0Zm9saW8pIFRqCi9GMiAxNiBUZgo1MCA1MjAgVGQKKEZlZTogUnMuMTgsMDAwIC8gMyBNb250aHMpIFRqCi9GMSAxMiBUZgo1MCA0OTAgVGQKKFBsYWNlbWVudDogMTAwJSBBc3Npc3RhbmNlIHwgOTYlIFBsYWNlbWVudCBSYXRlKSBUago1MCA0NzAgVGQKKENvbnRhY3Q6ICsxOCA4MDgyMTUxMDYzIHwgaW5mb0B0ZWNoMXdvcmxkLmNvbSkgVGoKRVQKZW5kc3RyZWFtCmVuZG9iagoxMiAwIG9iago8PAovTGVuZ3RoIDIwMAo+PgpzdHJlYW0KQlQKL0YyIDIwIFRmCjUwIDc4MCBUZAooQ3VycmljdWx1bSBEZXRhaWxzKSBUagovRjEgMTIgVGYKNTAgNzQwIFRkCihNb2R1bGUgMTogU0RMQyAmIFRlc3RpbmcgRnVuZGFtZW50YWxzKSBUago1MCA3MjAgVGQKKE1vZHVsZSAyOiBUZXN0IERlc2lnbiBUZWNobmlxdWVzKSBUago1MCA3MDAgVGQKKE1vZHVsZSAzOiBEZWZlY3QgTWFuYWdlbWVudCkgVGoKNTAgNjgwIFRkCihNb2R1bGUgNDogQWdpbGUgJiBTY3J1bSkgVGoKNTAgNjYwIFRkCihNb2R1bGUgNTogTGl2ZSBQcm9qZWN0KSBUagpFVAplbmRzdHJlYW0KZW5kb2JqCjEzIDAgb2JqCjw8Ci9MZW5ndGggMTUwCj4+CnN0cmVhbQpCVAovRjIgMjAgVGYKNTAgNzgwIFRkCihQbGFjZW1lbnQgJiBTdXBwb3J0KSBUagovRjEgMTIgVGYKNTAgNzQwIFRkCig0NTArIEhpcmluZyBQYXJ0bmVycykgVGoKNTAgNzIwIFRkCihSZXN1bWUgQnVpbGRpbmcpIFRqCjUwIDcwMCBUZAooTW9jayBJbnRlcnZpZXdzKSBUago1MCA2ODAgVGQKKERpcmVjdCBSZWZlcnJhbHMpIFRqCkVUCmVuZHN0cmVhbQplbmRvYmoKeHJlZgowIDE0CjAwMDAwMDAwMDAgNjU1MzUgZiAKMDAwMDAwMDA2MSAwMDAwMCBuIAowMDAwMDAwMTEyIDAwMDAwIG4gCjAwMDAwMDAyMTkgMDAwMDAgbiAKMDAwMDAwMDMzMSAwMDAwMCBuIAowMDAwMDAwNDI1IDAwMDAwIG4gCjAwMDAwMDA0ODcgMDAwMDAgbiAKMDAwMDAwMDU3MSAwMDAwMCBuIAowMDAwMDAwNjU2IDAwMDAwIG4gCjAwMDAwMDA3MjEgMDAwMDAgbiAKMDAwMDAwMDg2NyAwMDAwMCBuIAowMDAwMDAwOTI4IDAwMDAwIG4gCjAwMDAwMDE0MzAgMDAwMDAgbiAKMDAwMDAwMTY4MiAwMDAwMCBuIAp0cmFpbGVyCjw8Ci9JbmZvIDkgMCBSCi9Sb290IDggMCBSCi9TaXplIDE0Cj4+CnN0YXJ0eHJlZgoxODg0CiUlRU9GCg==",
+  "automation":"JVBERi0xLjQKJZOMi54gUmVwb3J0TGFiIEdlbmVyYXRlZCBQREYgZG9jdW1lbnQgKG9wZW5zb3VyY2UpCjEgMCBvYmoKPDwKL0YxIDIgMCBSIC9GMiAzIDAgUiAKPj4KZW5kb2JqCjIgMCBvYmoKPDwKL0Jhc2VGb250IC9IZWx2ZXRpY2EgL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcgL05hbWUgL0YxIC9TdWJ0eXBlIC9UeXBlMSAvVHlwZSAvRm9udAo+PgplbmRvYmoKMyAwIG9iago8PAovQmFzZUZvbnQgL0hlbHZldGljYS1Cb2xkIC9FbmNvZGluZyAvV2luQW5zaUVuY29kaW5nIC9OYW1lIC9GMiAvU3VidHlwZSAvVHlwZTEgL1R5cGUgL0ZvbnQKPj4KZW5kb2JqCjQgMCBvYmoKPDwKL0NvbnRlbnRzIDcgMCBSIC9NZWRpYUJveCBbIDAgMCA1OTUuMjc1NiA4NDEuODg5OCBdIC9QYXJlbnQgNiAwIFIgL1Jlc291cmNlcyA8PAovRm9udCAxIDAgUgo+PiAvVHlwZSAvUGFnZQo+PgplbmRvYmoKNSAwIG9iago8PAovUGFnZU1vZGUgL1VzZU5vbmUgL1BhZ2VzIDYgMCBSIC9UeXBlIC9DYXRhbG9nCj4+CmVuZG9iago2IDAgb2JqCjw8Ci9Db3VudCAxIC9LaWRzIFsgNCAwIFIgXSAvVHlwZSAvUGFnZXMKPj4KZW5kb2JqCjcgMCBvYmoKPDwKL0xlbmd0aCA1MDAKPJ4Kc3RyZWFtCkJUCi9GMiAyOCBUZgo1MCA3ODAgVGQKKEF1dG9tYXRpb24gVGVzdGluZyB3aXRoIFNlbGVuaXVtKSBUagovRjEgMTQgVGYKNTAgNzQwIFRkCihUZWNoMVdvcmxkIEluc3RpdHV0ZSB8IER1cmF0aW9uOiA1IE1vbnRocykgVGoKL0YxIDEyIFRmCjUwIDcwMCBUZAooUHJvZ3JhbSBIaWdobGlnaHRzKSBUago1MCA2ODAgVGQKKENvcmUgSmF2YSAvIFB5dGhvbiBmb3IgVGVzdGVycykgVGoKNTAgNjYwIFRkCihTZWxlbml1bSBXZWJEcml2ZXIgLSBBZHZhbmNlZCkgVGoKNTAgNjQwIFRkCihUZXN0TkcgLyBKVW5pdCArIEN1Y3VtYmVyIEJERCkgVGoKNTAgNjIwIFRkCihNYXZlbiwgSmVua2lucyAmIENJL0NEKSBUago1MCA2MDAgVGQKKEFQSSBUZXN0aW5nIC0gUmVzdEFzc3VyZWQpIFRqCjUwIDU4MCBUZAooUGFnZSBPYmplY3QgTW9kZWwpIFRqCjUwIDU2MCBUZAooUGxheXdyaWdodCAmIEN5cHJlc3MgQmFzaWNzKSBUagoverRmIDE2IFRmCjUwIDUwMCBUZAooRmVlOiBScy4zMiwwMDAgLyA1IE1vbnRocykgVGoKL0YxIDEyIFRmCjUwIDQ3MCBUZAooUGxhY2VtZW50OiAxMDAlIEFzc2lzdGFuY2UpIFRqCjUwIDQ1MCBUZAooQ29udGFjdDogKzE4IDgwODIxNTEwNjMpIFRqCkVUCmVuZHN0cmVhbQplbmRvYmoKeHJlZgowIDgKMDAwMDAwMDAwMCA2NTUzNSBmIAowMDAwMDAwMDYxIDAwMDAwIG4gCjAwMDAwMDAxMTIgMDAwMDAgbiAKMDAwMDAwMDIxOSAwMDAwMCBuIAowMDAwMDAwMzMxIDAwMDAwIG4gCjAwMDAwMDA0MjUgMDAwMDAgbiAKMDAwMDAwMDQ4NSAwMDAwMCBuIAowMDAwMDAwNTM3IDAwMDAwIG4gCnRyYWlsZXIKPDwKL1Jvb3QgNSAwIFIKL1NpemUgOAo+PgpzdGFydHhyZWYKMTA4OQolJUVPRgo=",
+  "devops":"JVBERi0xLjQKJZOMi54KMSAwIG9iago8PAovRjEgMiAwIFIgL0YyIDMgMCBSCj4+CmVuZG9iagoyIDAgb2JqCjw8Ci9CYXNlRm9udCAvSGVsdmV0aWNhIC9OYW1lIC9GMSBSZW5jb2RpbmcgL1dpbkFuc2lFbmNvZGluZyAvU3VidHlwZSAvVHlwZTEgL1R5cGUgL0ZvbnQKPj4KZW5kb2JqCjMgMCBvYmoKPDwKL0Jhc2VGb250IC9IZWx2ZXRpY2EtQm9sZCAvTmFtZSAvRjIgL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcgL1N1YnR5cGUgL1R5cGUxIC9UeXBlIC9Gb250Cj4+CmVuZG9iagk0IDAgb2JqCjw8Ci9Db250ZW50cyA3IDAgUiAvTWVkaWFCb3ggWyAwIDAgNTk1LjI3NTYgODQxLjg4OTggXSAvUGFyZW50IDYgMCBSIC9SZXNvdXJjZXMgPDwKL0ZvbnQgMSAwIFIKPj4gL1R5cGUgL1BhZ2UKPj4KZW5kb2JqCjUgMCBvYmoKPDwKL1BhZ2VNb2RlIC9Vc2VOb25lIC9QYWdlcyA2IDAgUiAvVHlwZSAvQ2F0YWxvZwo+PgplbmRvYmoKNiAwIG9iago8PAovQ291bnQgMSAvS2lkcyBbIDQgMCBSIF0gL1R5cGUgL1BhZ2VzCj4+CmVuZG9iago3IDAgb2JqCjw8Ci9MZW5ndGggNDgwCj4+CnN0cmVhbQpCVAovRjIgMjYgVGYKNTAgNzgwIFRkCihEZXZPcHMgRW5naW5lZXJpbmcgUHJvZ3JhbSkgVGoKL0YxIDEzIFRmCjUwIDc0MCBUZAooVGVjaDFXb3JsZCBJbnN0aXR1dGUgfCBEdXJhdGlvbjogNiBNb250aHMpIFRqCi9GMSAxMiBUZgo1MCA3MDAgVGQKKExpbnV4ICYgU2hlbGwgU2NyaXB0aW5nKSBUago1MCA2ODAgVGQKKERvY2tlciAmIEt1YmVybmV0ZXMpIFRqCjUwIDY2MCBUZAooSmVua2lucywgR2l0SHViIEFjdGlvbnMpIFRqCjUwIDY0MCBUZAooQVdTIC8gQXp1cmUgRnVuZGFtZW50YWxzKSBUago1MCA2MjAgVGQKKEFuc2libGUsIFRlcnJhZm9ybSAoSWFDKSkgVGoKNTAgNjAwIFRkCihQcm9tZXRoZXVzICYgR3JhZmFuYSkgVGoKNTAgNTgwIFRkCihTUkUgJiBJbmNpZGVudCBNYW5hZ2VtZW50KSBUagoverRmIDE1IFRmCjUwIDUyMCBUZAooRmVlOiBScy40NSwwMDAgLyA2IE1vbnRocykgVGoKL0YxIDExIFRmCjUwIDQ5MCBUZAooMTAwJSBQbGFjZW1lbnQgQXNzaXN0YW5jZSB8IENvbnRhY3Q6ICsxOCA4MDgyMTUxMDYzKSBUagpFVAplbmRzdHJlYW0KZW5kb2JqCnhyZWYKMCA4CjAwMDAwMDAwMDAgNjU1MzUgZiAKMDAwMDAwMDA2MSAwMDAwMCBuIAowMDAwMDAwMTEyIDAwMDAwIG4gCjAwMDAwMDAyMjMgMDAwMDAgbiAKMDAwMDAwMDMzNCAwMDAwMCBuIAowMDAwMDAwNDM5IDAwMDAwIG4gCjAwMDAwMDA0OTYgMDAwMDAgbiAKMDAwMDAwMDU1MCAwMDAwMCBuIAp0cmFpbGVyCjw8Ci9Sb290IDUgMCBSCi9TaXplIDgKPj4Kc3RhcnR4cmVmCjEwODAKJSVFT0YK",
+  "fullstack":"JVBERi0xLjQKJZOMi54KMSAwIG9iago8PAovRjEgMiAwIFIgL0YyIDMgMCBSCj4+CmVuZG9iagoyIDAgb2JqCjw8Ci9CYXNlRm9udCAvSGVsdmV0aWNhIC9OYW1lIC9GMSBSZW5jb2RpbmcgL1dpbkFuc2lFbmNvZGluZyAvU3VidHlwZSAvVHlwZTEgL1R5cGUgL0ZvbnQKPj4KZW5kb2JqCjMgMCBvYmoKPDwKL0Jhc2VGb250IC9IZWx2ZXRpY2EtQm9sZCAvTmFtZSAvRjIgL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcgL1N1YnR5cGUgL1R5cGUxIC9UeXBlIC9Gb250Cj4+CmVuZG9iagk0IDAgb2JqCjw8Ci9Db250ZW50cyA3IDAgUiAvTWVkaWFCb3ggWyAwIDAgNTk1LjI3NTYgODQxLjg4OTggXSAvUGFyZW50IDYgMCBSIC9SZXNvdXJjZXMgPDwKL0ZvbnQgMSAwIFIKPj4gL1R5cGUgL1BhZ2UKPj4KZW5kb2JqCjUgMCBvYmoKPDwKL1BhZ2VNb2RlIC9Vc2VOb25lIC9QYWdlcyA2IDAgUiAvVHlwZSAvQ2F0YWxvZwo+PgplbmRvYmoKNiAwIG9iago8PAovQ291bnQgMSAvS2lkcyBbIDQgMCBSIF0gL1R5cGUgL1BhZ2VzCj4+CmVuZG9iago3IDAgb2JqCjw8Ci9MZW5ndGggNDUwCj4+CnN0cmVhbQpCVAovRjIgMjYgVGYKNTAgNzgwIFRkCihGdWxsIFN0YWNrIERldmVsb3BlciBQcm9ncmFtKSBUagovRjEgMTMgVGYKNTAgNzQwIFRkCihUZWNoMVdvcmxkIEluc3RpdHV0ZSB8IER1cmF0aW9uOiA4IE1vbnRocykgVGoKL0YxIDEyIFRmCjUwIDcwMCBUZAooSFRNTDUsIENTUzMsIEphdmFTY3JpcHQgRVM2KykgVGoKNTAgNjgwIFRkCihSZWFjdC5qcyAmIFJlZHV4KSBUago1MCA2NjAgVGQKKE5vZGUuanMgJiBFeHByZXNzLmpzKSBUago1MCA2NDAgVGQKKE1vbmdvREIgJiBTUUwpIFRqCjUwIDYyMCBUZAooUkVTVCBBUElzICYgR3JhcGhRTCkgVGoKNTAgNjAwIFRkCihUZXN0aW5nIC0gSmVzdCwgQ3lwcmVzcykgVGoKNTAgNTgwIFRkCihBV1MsIE5ldGxpZnkgRGVwbG95bWVudCkgVGoKL0YyIDE1IFRmCjUwIDUyMCBUZAooRmVlOiBScy41NSwwMDAgLyA4IE1vbnRocykgVGoKL0YxIDExIFRmCjUwIDQ5MCBUZAooNSBMaXZlIFBvcnRmb2xpbyBQcm9qZWN0cyB8IENvbnRhY3Q6ICsxOCA4MDgyMTUxMDYzKSBUagpFVAplbmRzdHJlYW0KZW5kb2JqCnhyZWYKMCA4CjAwMDAwMDAwMDAgNjU1MzUgZiAKMDAwMDAwMDA2MSAwMDAwMCBuIAowMDAwMDAwMTEyIDAwMDAwIG4gCjAwMDAwMDAyMjMgMDAwMDAgbiAKMDAwMDAwMDMzNCAwMDAwMCBuIAowMDAwMDAwNDM5IDAwMDAwIG4gCjAwMDAwMDA0OTYgMDAwMDAgbiAKMDAwMDAwMDU1MCAwMDAwMCBuIAp0cmFpbGVyCjw8Ci9Sb290IDUgMCBSCi9TaXplIDgKPj4Kc3RhcnR4cmVmCjEwNTAKJSVFT0YK",
+  "internship":"JVBERi0xLjQKJZOMi54KMSAwIG9iago8PAovRjEgMiAwIFIgL0YyIDMgMCBSCj4+CmVuZG9iagoyIDAgb2JqCjw8Ci9CYXNlRm9udCAvSGVsdmV0aWNhIC9OYW1lIC9GMSBSZW5jb2RpbmcgL1dpbkFuc2lFbmNvZGluZyAvU3VidHlwZSAvVHlwZTEgL1R5cGUgL0ZvbnQKPj4KZW5kb2JqCjMgMCBvYmoKPDwKL0Jhc2VGb250IC9IZWx2ZXRpY2EtQm9sZCAvTmFtZSAvRjIgL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcgL1N1YnR5cGUgL1R5cGUxIC9UeXBlIC9Gb250Cj4+CmVuZG9iagk0IDAgb2JqCjw8Ci9Db250ZW50cyA3IDAgUiAvTWVkaWFCb3ggWyAwIDAgNTk1LjI3NTYgODQxLjg4OTggXSAvUGFyZW50IDYgMCBSIC9SZXNvdXJjZXMgPDwKL0ZvbnQgMSAwIFIKPj4gL1R5cGUgL1BhZ2UKPj4KZW5kb2JqCjUgMCBvYmoKPDwKL1BhZ2VNb2RlIC9Vc2VOb25lIC9QYWdlcyA2IDAgUiAvVHlwZSAvQ2F0YWxvZwo+PgplbmRvYmoKNiAwIG9iago8PAovQ291bnQgMSAvS2lkcyBbIDQgMCBSIF0gL1R5cGUgL1BhZ2VzCj4+CmVuZG9iago3IDAgb2JqCjw8Ci9MZW5ndGggNDIwCj4+CnN0cmVhbQpCVAovRjIgMjYgVGYKNTAgNzgwIFRkCihJbnRlcm5zaGlwIFByb2dyYW0gR3VpZGUpIFRqCi9GMSAxMyBUZgo1MCA3NDAgVGQKKFRlY2gxV29ybGQgSW5zdGl0dXRlIHwgRHVyYXRpb246IDMtNiBNb250aHMpIFRqCi9GMSAxMiBUZgo1MCA3MDAgVGQKKFJlYWwgQ2xpZW50IFByb2plY3QgQXNzaWdubWVudHMpIFRqCjUwIDY4MCBUZAooU3RpcGVuZDogUnMuNSwwMDAtUnMuMTUsMDAwL21vbnRoKSBUago1MCA2NjAgVGQKKDEtb24tMSBNZW50b3IgR3VpZGFuY2UpIFRqCjUwIDY0MCBUZAooQ2VydGlmaWNhdGUgKyBMT1IpIFRqCjUwIDYyMCBUZAooTGlua2VkSW4gT3B0aW1pemF0aW9uKSBUago1MCA2MDAgVGQKKERpcmVjdCBIaXJpbmcgUGF0aHdheSkgVGoKL0YyIDE1IFRmCjUwIDU0MCBUZAooRnJlZSB8IEVhcm4gU3RpcGVuZCkgVGoKL0YxIDExIFRmCjUwIDUxMCBUZAooT3BlbiB0byBGcmVzaGVycyB8IENvbnRhY3Q6ICsxOCA4MDgyMTUxMDYzKSBUagpFVAplbmRzdHJlYW0KZW5kb2JqCnhyZWYKMCA4CjAwMDAwMDAwMDAgNjU1MzUgZiAKMDAwMDAwMDA2MSAwMDAwMCBuIAowMDAwMDAwMTEyIDAwMDAwIG4gCjAwMDAwMDAyMjMgMDAwMDAgbiAKMDAwMDAwMDMzNCAwMDAwMCBuIAowMDAwMDAwNDM5IDAwMDAwIG4gCjAwMDAwMDA0OTYgMDAwMDAgbiAKMDAwMDAwMDU1MCAwMDAwMCBuIAp0cmFpbGVyCjw8Ci9Sb290IDUgMCBSCi9TaXplIDgKPj4Kc3RhcnR4cmVmCjEwMjAKJSVFT0YK",
+  "prospectus":"JVBERi0xLjQKJZOMi54KMSAwIG9iago8PAovRjEgMiAwIFIgL0YyIDMgMCBSCj4+CmVuZG9iagoyIDAgb2JqCjw8Ci9CYXNlRm9udCAvSGVsdmV0aWNhIC9OYW1lIC9GMSBSZW5jb2RpbmcgL1dpbkFuc2lFbmNvZGluZyAvU3VidHlwZSAvVHlwZTEgL1R5cGUgL0ZvbnQKPj4KZW5kb2JqCjMgMCBvYmoKPDwKL0Jhc2VGb250IC9IZWx2ZXRpY2EtQm9sZCAvTmFtZSAvRjIgL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcgL1N1YnR5cGUgL1R5cGUxIC9UeXBlIC9Gb250Cj4+CmVuZG9iagk0IDAgb2JqCjw8Ci9Db250ZW50cyA3IDAgUiAvTWVkaWFCb3ggWyAwIDAgNTk1LjI3NTYgODQxLjg4OTggXSAvUGFyZW50IDYgMCBSIC9SZXNvdXJjZXMgPDwKL0ZvbnQgMSAwIFIKPj4gL1R5cGUgL1BhZ2UKPj4KZW5kb2JqCjUgMCBvYmoKPDwKL1BhZ2VNb2RlIC9Vc2VOb25lIC9QYWdlcyA2IDAgUiAvVHlwZSAvQ2F0YWxvZwo+PgplbmRvYmoKNiAwIG9iago8PAovQ291bnQgMSAvS2lkcyBbIDQgMCBSIF0gL1R5cGUgL1BhZ2VzCj4+CmVuZG9iago3IDAgb2JqCjw8Ci9MZW5ndGggNTAwCj4+CnN0cmVhbQpCVAovRjIgMjYgVGYKNTAgNzgwIFRkCihUZWNoMVdvcmxkIEluc3RpdHV0ZSBQcm9zcGVjdHVzIDIwMjUpIFRqCi9GMSAxMyBUZgo1MCA3NDAgVGQKKDEyKyBZZWFycyBvZiBFeGNlbGxlbmNlIHwgOCw1MDArIFN0dWRlbnRzIFBsYWNlZCkgVGoKL0YyIDE0IFRmCjUwIDcwMCBUZAooUHJvZ3JhbXMgT2ZmZXJlZCkgVGoKL0YxIDEyIFRmCjUwIDY4MCBUZAooTWFudWFsIFRlc3RpbmcgJiBRQSAtIFJzLjE4LDAwMCkgVGoKNTAgNjYwIFRkCihBdXRvbWF0aW9uIFRlc3RpbmcgLSBScy4zMiwwMDApIFRqCjUwIDY0MCBUZAooRGV2T3BzIEVuZ2luZWVyaW5nIC0gUnMuNDUsMDAwKSBUago1MCA2MjAgVGQKKEZ1bGwgU3RhY2sgRGV2ZWxvcGVyIC0gUnMuNTUsMDAwKSBUago1MCA2MDAgVGQKKFBlcmYgJiBTZWN1cml0eSBUZXN0aW5nIC0gUnMuMjgsMDAwKSBUago1MCA1ODAgVGQKKEludGVybnNoaXAgUHJvZ3JhbSAtIEZyZWUpIFRqCi9GMiAxNCBUZgo1MCA1NDAgVGQKKFBsYWNlbWVudCBIaWdobGlnaHRzKSBUagovRjEgMTIgVGYKNTAgNTIwIFRkCig5NiUgUGxhY2VtZW50IFJhdGUgfCBScy41LjJMIEF2ZyBQYWNrYWdlKSBUago1MCA1MDAgVGQKKDQ1MCsgSGlyaW5nIFBhcnRuZXJzKSBUago1MCA0ODAgVGQKKENvbnRhY3Q6ICsxOCA4MDgyMTUxMDYzIHwgaW5mb0B0ZWNoMXdvcmxkLmNvbSkgVGoKRVQKZW5kc3RyZWFtCmVuZG9iagp4cmVmCjAgOAowMDAwMDAwMDAwIDY1NTM1IGYgCjAwMDAwMDAwNjEgMDAwMDAgbiAKMDAwMDAwMDExMiAwMDAwMCBuIAowMDAwMDAwMjIzIDAwMDAwIG4gCjAwMDAwMDAzMzQgMDAwMDAgbiAKMDAwMDAwMDQzOSAwMDAwMCBuIAowMDAwMDAwNDk2IDAwMDAwIG4gCjAwMDAwMDA1NTAgMDAwMDAgbiAKdHJhaWxlcgo8PAovUm9vdCA1IDAgUgovU2l6ZSA4Cj4+CnN0YXJ0eHJlZgoxMTAyCiUlRU9GCg=="
 };
 
 var PDF_FILENAMES = {
@@ -1945,27 +1616,29 @@ var PDF_FILENAMES = {
 };
 
 function dlBrochure(key) {
-  var b64      = PDF_B64[key];
-  var filename = PDF_FILENAMES[key] || 'Tech1World_Brochure.pdf';
-  if (!b64) { showToast('Brochure coming soon — WhatsApp us at +91 8082151063.', 'info'); return; }
+  var b64 = PDF_B64[key];
+  var fn  = (PDF_FILENAMES && PDF_FILENAMES[key]) || 'Tech1World_Brochure.pdf';
+  if (!b64) {
+    showToast('Brochure coming soon — WhatsApp +91 8082151063', 'info');
+    return;
+  }
   try {
     var bin = atob(b64);
     var arr = new Uint8Array(bin.length);
     for (var i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
-    var blob = new Blob([arr], {type: 'application/pdf'});
+    var blob = new Blob([arr], { type: 'application/pdf' });
     var url  = URL.createObjectURL(blob);
     var a    = document.createElement('a');
     a.href = url;
-    a.download = filename;
+    a.download = fn;
     document.body.appendChild(a);
     a.click();
-    setTimeout(function(){ URL.revokeObjectURL(url); a.remove(); }, 2000);
-    showToast('Downloading: ' + filename, 'success');
-  } catch(e) {
-    showToast('Download failed — please WhatsApp +91 8082151063.', 'error');
+    setTimeout(function () { URL.revokeObjectURL(url); a.remove(); }, 3000);
+    showToast('Downloading: ' + fn, 'success');
+  } catch (e) {
+    showToast('Download error — please WhatsApp +91 8082151063', 'error');
   }
 }
 </script>
-
 </body>
 </html>
