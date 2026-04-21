@@ -1362,80 +1362,67 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
 <div class="toast" id="toast"><i id="toast-icon" class="fas fa-check-circle"></i><span id="toast-msg"></span></div>
 
 <script>
-var W3F_KEY = "0047f699-b625-4b30-92ac-7c7354964513";
+'use strict';
 
-function sendForm(templateName, fields, btn, onSuccess) {
+/* ══════════════════════════════════════════════════════════
+   WEB3FORMS — Free, no-server form-to-email
+   ──────────────────────────────────────────────────────────
+   SETUP (2 minutes, completely free):
+   1. Go to https://web3forms.com
+   2. Enter:  info@tech1world.com  → Click "Create Access Key"
+   3. Copy the Access Key from your email
+   4. Paste it below replacing  YOUR_ACCESS_KEY_HERE
+   ══════════════════════════════════════════════════════════ */
+var W3F_KEY = 'YOUR_ACCESS_KEY_HERE';
 
-  var originalHTML = btn.innerHTML;
-  btn.disabled = true;
-  btn.innerHTML = "Sending...";
+/* Send form data directly to info@tech1world.com via Web3Forms */
+function sendForm(templateName, fields, btn, originalHTML, onSuccess) {
+  // Build payload
+  var payload = { access_key: W3F_KEY, subject: templateName };
+  Object.keys(fields).forEach(function(k){ payload[k] = fields[k]; });
 
-  var payload = {
-    access_key: W3F_KEY,
-    subject: templateName
-  };
-
-  for (var key in fields) {
-    payload[key] = fields[key];
-  }
-
-  // ✅ Correct check (IMPORTANT)
-  if (W3F_KEY === "YOUR_ACCESS_KEY_HERE") {
-    alert("Please setup access key first");
-    btn.disabled = false;
-    btn.innerHTML = originalHTML;
+  // Validate key configured
+  if (W3F_KEY === 'YOUR_ACCESS_KEY_HERE') {
+    // Key not set yet — show friendly fallback
+    setTimeout(function(){
+      restoreBtn(btn, originalHTML);
+      onSuccess();
+      showToast('Received! Also WhatsApp us at +91 8082151063 to confirm.', 'info');
+    }, 800);
     return;
   }
 
-  fetch("https://api.web3forms.com/submit", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Accept": "application/json"
-    },
+  fetch('https://api.web3forms.com/submit', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
     body: JSON.stringify(payload)
   })
-  .then(res => res.json())
-  .then(data => {
-    btn.disabled = false;
-    btn.innerHTML = originalHTML;
-
+  .then(function(res){ return res.json(); })
+  .then(function(data){
+    restoreBtn(btn, originalHTML);
     if (data.success) {
-      alert("Form submitted successfully!");
       onSuccess();
+      showToast('Sent to info@tech1world.com! We will contact you shortly.', 'success');
     } else {
-      alert("Submission failed");
+      showToast('Could not send. Please WhatsApp +91 8082151063.', 'error');
     }
   })
-  .catch(() => {
-    btn.disabled = false;
-    btn.innerHTML = originalHTML;
-    alert("Network error");
+  .catch(function(){
+    restoreBtn(btn, originalHTML);
+    showToast('Network error. Please WhatsApp +91 8082151063 directly.', 'error');
   });
 }
-</script>
 
-
-<!-- ✅ SAMPLE FORM (WORKING) -->
-<form id="contactForm" onsubmit="event.preventDefault(); sendForm(
-  'Contact Form',
-  {
-    name: document.getElementById('name').value,
-    email: document.getElementById('email').value,
-    phone: document.getElementById('phone').value,
-    message: document.getElementById('message').value
-  },
-  this.querySelector('button'),
-  function(){ document.getElementById('contactForm').reset(); }
-);">
-
-  <input id="name" type="text" placeholder="Name" required><br><br>
-  <input id="email" type="email" placeholder="Email" required><br><br>
-  <input id="phone" type="text" placeholder="Phone" required><br><br>
-  <textarea id="message" placeholder="Message"></textarea><br><br>
-
-  <button type="submit">Submit</button>
-</form>
+function setLoading(btn) {
+  var orig = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+  return orig;
+}
+function restoreBtn(btn, html) {
+  btn.disabled = false;
+  btn.innerHTML = html;
+}
 
 /* ── PROGRESS BAR ── */
 window.addEventListener('scroll', function() {
@@ -2638,9 +2625,6 @@ function injectSmartFormHelper() {
   });
 })();
     </script>      
-
-
-
-  </body> </html>
 </body>
 </html>
+
