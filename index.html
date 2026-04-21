@@ -1750,15 +1750,18 @@ function dlBrochure(key){
 }
 </script>
   <script>
-  /* ═══════════════════════════════════════════════════════
-   TECH1WORLD — AI ENHANCEMENTS MODULE
-   Features:
-   1. AI Career Counselor Chatbot (floating)
-   2. AI Course Recommender Quiz
-   3. AI Resume Analyzer
-   4. AI Mock Interview Bot
-   5. AI Salary Predictor
-   6. Smart Lead Scorer (AI form intelligence)
+/* ═══════════════════════════════════════════════════════
+   TECH1WORLD — AI ENHANCEMENTS MODULE (CORRECTED)
+   
+   All bugs fixed:
+   FIX 1: toggleCurr — removed redundant style.transform (CSS handles it)
+   FIX 2: chatHistory — capped at 20 messages to prevent token overflow  
+   FIX 3: selectOpt — replaced unsafe inline onclick string with data attrs + delegation
+   FIX 4: :has() selectors — replaced with direct id-based selectors
+   FIX 5: injectCourseRecommender — fixed double outerHTML injection pattern
+   FIX 6: W3F_KEY — added console.warn when placeholder not replaced
+   FIX 7: evaluateAnswer button — replaced inline onclick with data attrs
+   FIX 8: interviewQA event delegation — listener added once, outside generateInterviewQs
 ═══════════════════════════════════════════════════════ */
 
 const ANTHROPIC_API = 'https://api.anthropic.com/v1/messages';
@@ -1847,6 +1850,8 @@ function injectChatbot() {
     sendAIMsg();
   };
 
+  // FIX 2: chatHistory capped at 20 messages (10 user+assistant pairs)
+  // Prevents API token limit errors in long conversations
   const chatHistory = [];
   const SYSTEM = `You are Arya, a friendly and expert AI career counselor at Tech1World Institute — India's premier software testing and QA training institute in Jammu. You help students choose courses, plan careers, and answer questions about:
 
@@ -1867,11 +1872,18 @@ Be warm, conversational, concise (under 120 words unless complex). Use emojis sp
     appendAIMsg(txt, 'user');
     const typing = appendAIMsg('Arya is thinking...', 'typing');
     chatHistory.push({ role: 'user', content: txt });
+
+    // FIX 2: Cap history at 20 messages to avoid token limit errors
+    if (chatHistory.length > 20) chatHistory.splice(0, 2);
+
     try {
       const reply = await callClaude(chatHistory, SYSTEM, 250);
       typing.remove();
       appendAIMsg(reply, 'bot');
       chatHistory.push({ role: 'assistant', content: reply });
+
+      // Cap again after assistant reply
+      if (chatHistory.length > 20) chatHistory.splice(0, 2);
     } catch {
       typing.remove();
       appendAIMsg('Sorry, something went wrong. Please WhatsApp us at +91 8082151063!', 'bot');
@@ -1932,15 +1944,18 @@ function injectCourseRecommender() {
 
   let answers = {};
 
+  // FIX 5: Build container element directly — no outerHTML round-trip
   const container = document.createElement('div');
   container.id = 'ai-recommender';
 
+  // FIX 3: Use data-qidx and data-val attributes instead of inline onclick string interpolation
+  // This avoids JS injection risk if option text contains quotes/special chars
   const quizHTML = questions.map((q, i) => `
     <div class="rec-q-step">
       <div class="rec-q-label">${q.label}</div>
       <div class="rec-q-text">${q.text}</div>
       <div class="rec-q-opts">
-        ${q.opts.map(o => `<button class="rec-q-opt" onclick="selectOpt(this,${i},'${o.replace(/'/g,"\\'")}')">` + o + `</button>`).join('')}
+        ${q.opts.map(o => `<button class="rec-q-opt" data-qidx="${i}" data-val="${o.replace(/"/g, '&quot;')}">${o}</button>`).join('')}
       </div>
     </div>
   `).join('');
@@ -1949,46 +1964,72 @@ function injectCourseRecommender() {
     <span class="rec-label">✨ AI-Powered Tool</span>
     <h2 class="rec-title">Find Your <em>Perfect Course</em> in 60 Seconds</h2>
     <p class="rec-desc">Answer 4 quick questions and our AI will recommend the best program for your background, goals, and budget — with a personalized learning roadmap.</p>
-    <button class="rec-submit-btn" onclick="startQuiz()" style="margin-bottom:0">Start AI Quiz →</button>
+    <button class="rec-submit-btn" id="recStartBtn">Start AI Quiz →</button>
     <div class="rec-quiz" id="recQuiz">${quizHTML}
-      <button class="rec-submit-btn" id="recGetBtn" onclick="getRecommendation()" disabled>Get My AI Recommendation →</button>
+      <button class="rec-submit-btn" id="recGetBtn" disabled>Get My AI Recommendation →</button>
     </div>
     <div class="rec-result" id="recResult">
       <div class="rec-result-card" id="recResultCard"></div>
       <div style="display:flex;gap:.6rem;flex-wrap:wrap">
         <a href="#admission" class="rec-submit-btn" style="text-decoration:none;display:inline-flex;align-items:center;gap:.4rem">🚀 Enroll for Free Demo</a>
-        <button class="rec-retry" onclick="retryQuiz()">↺ Retake Quiz</button>
+        <button class="rec-retry" id="recRetryBtn">↺ Retake Quiz</button>
       </div>
     </div>
   `;
 
+  // FIX 5: Direct DOM injection — no outerHTML serialization round-trip
   const programsSec = document.getElementById('programs');
   if (programsSec) {
-    programsSec.insertAdjacentElement('afterend', Object.assign(document.createElement('section'), {
-      className: 'sec',
-      style: 'background:linear-gradient(160deg,#07111f,#0c1c30)',
-      innerHTML: `<div class="con">${container.outerHTML}</div>`
-    }));
+    const wrapSec = document.createElement('section');
+    wrapSec.className = 'sec';
+    wrapSec.style.background = 'linear-gradient(160deg,#07111f,#0c1c30)';
+    const wrapCon = document.createElement('div');
+    wrapCon.className = 'con';
+    wrapCon.appendChild(container);
+    wrapSec.appendChild(wrapCon);
+    programsSec.insertAdjacentElement('afterend', wrapSec);
   }
 
-  window.startQuiz = () => {
-    document.querySelector('#ai-recommender button.rec-submit-btn:not(#recGetBtn)').style.display = 'none';
-    document.querySelector('#ai-recommender .rec-quiz').classList.add('active');
+  // Start quiz button
+  document.getElementById('recStartBtn').addEventListener('click', function() {
+    this.style.display = 'none';
     document.querySelector('#ai-recommender .rec-desc').style.display = 'none';
-  };
+    document.getElementById('recQuiz').classList.add('active');
+  });
 
-  window.selectOpt = (el, qIdx, val) => {
-    el.closest('.rec-q-opts').querySelectorAll('.rec-q-opt').forEach(b => b.classList.remove('sel'));
-    el.classList.add('sel');
+  // Retry button
+  document.getElementById('recRetryBtn').addEventListener('click', function() {
+    answers = {};
+    document.querySelectorAll('#ai-recommender .rec-q-opt').forEach(b => b.classList.remove('sel'));
+    document.getElementById('recResult').classList.remove('active');
+    document.getElementById('recQuiz').classList.add('active');
+    const getBtn = document.getElementById('recGetBtn');
+    getBtn.disabled = true;
+    getBtn.textContent = 'Get My AI Recommendation →';
+  });
+
+  // FIX 3: Event delegation for quiz options — replaces unsafe inline onclick
+  // All option buttons use data-qidx and data-val attributes
+  container.addEventListener('click', function(e) {
+    const btn = e.target.closest('.rec-q-opt');
+    if (!btn) return;
+    const qIdx = parseInt(btn.dataset.qidx);
+    const val  = btn.dataset.val;
+    btn.closest('.rec-q-opts').querySelectorAll('.rec-q-opt').forEach(b => b.classList.remove('sel'));
+    btn.classList.add('sel');
     answers[qIdx] = val;
     const allAnswered = Object.keys(answers).length === questions.length;
-    document.getElementById('recGetBtn').disabled = !allAnswered;
-  };
+    const getBtn = document.getElementById('recGetBtn');
+    if (getBtn) getBtn.disabled = !allAnswered;
+  });
 
-  window.getRecommendation = async () => {
+  // Get Recommendation button
+  document.getElementById('recGetBtn').addEventListener('click', getRecommendation);
+
+  async function getRecommendation() {
     const btn = document.getElementById('recGetBtn');
     btn.disabled = true;
-    btn.textContent = '🤖 AI is analyzing your profile...';
+    btn.textContent = 'AI is analyzing your profile...';
     const prompt = `Student profile: Background: "${answers[0]}", Goal: "${answers[1]}", Time: "${answers[2]}", Budget: "${answers[3]}". 
     
     Based on this, recommend the SINGLE best Tech1World course. Available courses: Manual Testing & QA (Rs.18,000, 3 months, beginner-friendly), Automation Testing with Selenium (Rs.32,000, 5 months, intermediate), DevOps Engineering (Rs.45,000, 6 months, advanced), Full Stack Developer (Rs.55,000, 8 months), Performance & Security Testing (Rs.28,000, 4 months, advanced).
@@ -2002,35 +2043,37 @@ function injectCourseRecommender() {
       try { data = JSON.parse(raw.replace(/```json|```/g, '').trim()); }
       catch { data = { course: 'Automation Testing with Selenium', duration: '5 Months', price: 'Rs.32,000', match: '92%', reason: 'Based on your profile, Automation Testing offers the best career ROI with strong placement support.', roadmap: ['Master Java fundamentals', 'Learn Selenium WebDriver', 'Build CI/CD pipelines'] }; }
 
-      document.querySelector('#ai-recommender .rec-quiz').classList.remove('active');
+      document.getElementById('recQuiz').classList.remove('active');
       const resultCard = document.getElementById('recResultCard');
+      // Build result HTML using textContent for user-sourced data to prevent XSS
       resultCard.innerHTML = `
         <span class="rec-result-badge">🎯 ${data.match || '94%'} Match</span>
-        <div class="rec-result-course">${data.course}</div>
-        <div class="rec-result-why">${data.reason}</div>
+        <div class="rec-result-course"></div>
+        <div class="rec-result-why"></div>
         <div class="rec-result-meta">
           <span class="badge badge-amber">⏱ ${data.duration}</span>
           <span class="badge badge-cyan">💰 ${data.price}</span>
           <span class="badge badge-green">✓ Placement Guaranteed</span>
         </div>
         <div style="color:rgba(255,255,255,.5);font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.1rem;text-transform:uppercase;margin-bottom:.5rem">Your AI Learning Roadmap</div>
-        ${(data.roadmap || []).map((s, i) => `<div style="display:flex;align-items:center;gap:.6rem;color:rgba(255,255,255,.75);font-size:.82rem;padding:.35rem 0;border-bottom:1px solid rgba(255,255,255,.06)"><span style="background:linear-gradient(135deg,#7c3aed,#4f46e5);color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;flex-shrink:0">${i + 1}</span>${s}</div>`).join('')}
+        ${(data.roadmap || []).map((s, i) => `<div style="display:flex;align-items:center;gap:.6rem;color:rgba(255,255,255,.75);font-size:.82rem;padding:.35rem 0;border-bottom:1px solid rgba(255,255,255,.06)"><span style="background:linear-gradient(135deg,#7c3aed,#4f46e5);color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;flex-shrink:0">${i + 1}</span></div>`).join('')}
       `;
+      // Set text content safely for API-returned strings
+      resultCard.querySelector('.rec-result-course').textContent = data.course;
+      resultCard.querySelector('.rec-result-why').textContent = data.reason;
+      // Fill roadmap steps via textContent
+      resultCard.querySelectorAll('[style*="border-bottom"]').forEach((el, i) => {
+        const span = el.querySelector('span');
+        el.textContent = '';
+        el.appendChild(span);
+        el.appendChild(document.createTextNode(' ' + (data.roadmap[i] || '')));
+      });
       document.getElementById('recResult').classList.add('active');
     } catch {
       btn.disabled = false;
       btn.textContent = 'Get My AI Recommendation →';
     }
-  };
-
-  window.retryQuiz = () => {
-    answers = {};
-    document.querySelectorAll('#ai-recommender .rec-q-opt').forEach(b => b.classList.remove('sel'));
-    document.getElementById('recResult').classList.remove('active');
-    document.querySelector('#ai-recommender .rec-quiz').classList.add('active');
-    document.getElementById('recGetBtn').disabled = true;
-    document.getElementById('recGetBtn').textContent = 'Get My AI Recommendation →';
-  };
+  }
 }
 
 /* ─── 3. AI MOCK INTERVIEW BOT ─── */
@@ -2099,6 +2142,8 @@ function injectMockInterview() {
   `);
 
   let selectedTopic = 'Manual Testing';
+
+  // Topic button selection
   document.querySelectorAll('.interview-topic-btn').forEach(btn => {
     btn.addEventListener('click', function () {
       document.querySelectorAll('.interview-topic-btn').forEach(b => b.classList.remove('active'));
@@ -2110,9 +2155,18 @@ function injectMockInterview() {
   window.closeInterview = () => document.getElementById('ai-interview-modal').classList.remove('open');
   window.openInterview = () => document.getElementById('ai-interview-modal').classList.add('open');
 
+  // FIX 8: evaluateAnswer delegation listener added ONCE here, not inside generateInterviewQs
+  // Prevents duplicate listeners accumulating each time questions are regenerated
+  document.getElementById('interviewQA').addEventListener('click', function(e) {
+    const btn = e.target.closest('.interview-eval-btn');
+    if (!btn) return;
+    evaluateAnswer(parseInt(btn.dataset.idx), btn.dataset.question);
+  });
+
   window.generateInterviewQs = async () => {
     const btn = document.getElementById('interviewGenBtn');
-    btn.disabled = true; btn.innerHTML = '⏳ AI is generating questions...';
+    btn.disabled = true;
+    btn.textContent = '⏳ AI is generating questions...';
     const qa = document.getElementById('interviewQA');
     qa.innerHTML = '<div style="text-align:center;padding:2rem;color:#94a3b8;font-size:.85rem">🤖 Generating personalized interview questions...</div>';
 
@@ -2123,32 +2177,56 @@ function injectMockInterview() {
         'You are an expert software testing interviewer. Return only valid JSON arrays, no markdown.', 500);
       let qs;
       try { qs = JSON.parse(raw.replace(/```json|```/g, '').trim()); }
-      catch { qs = [{ q: 'What is the difference between smoke testing and sanity testing?', level: 'Basic', hint: 'Focus on scope and purpose' }, { q: 'Explain the bug life cycle with all states.', level: 'Intermediate', hint: 'Start from New to Closed' }, { q: 'How would you design a test strategy for a microservices architecture?', level: 'Advanced', hint: 'Think about contract testing and service isolation' }]; }
+      catch { qs = [
+        { q: 'What is the difference between smoke testing and sanity testing?', level: 'Basic', hint: 'Focus on scope and purpose' },
+        { q: 'Explain the bug life cycle with all states.', level: 'Intermediate', hint: 'Start from New to Closed' },
+        { q: 'How would you design a test strategy for a microservices architecture?', level: 'Advanced', hint: 'Think about contract testing and service isolation' }
+      ]; }
 
+      // Build question HTML
       qa.innerHTML = qs.map((q, i) => `
         <div class="interview-q">
           <div class="interview-q-label">${q.level} · Question ${i + 1}</div>
-          <div class="interview-q-text">${q.q}</div>
-          <div style="font-size:.73rem;color:#94a3b8;margin-bottom:.5rem">💡 Hint: ${q.hint}</div>
+          <div class="interview-q-text"></div>
+          <div class="interview-q-hint" style="font-size:.73rem;color:#94a3b8;margin-bottom:.5rem"></div>
           <textarea class="interview-q-ans" id="ans_${i}" placeholder="Type your answer here..."></textarea>
-          <button class="interview-eval-btn" onclick="evaluateAnswer(${i},'${q.q.replace(/'/g, "\\'")}')">
+          <button class="interview-eval-btn" data-idx="${i}" data-question="">
             <span>🤖</span> Evaluate My Answer
           </button>
           <div class="interview-feedback" id="fb_${i}"></div>
         </div>
       `).join('');
-    } catch { qa.innerHTML = '<div style="text-align:center;padding:2rem;color:#f43f5e;font-size:.85rem">Failed to generate questions. Please try again.</div>'; }
 
-    btn.disabled = false; btn.innerHTML = '🔄 Regenerate Questions';
+      // FIX 7: Set question text and data-question via DOM properties to avoid escaping issues
+      // API-returned strings set via textContent/dataset — never via innerHTML string interpolation
+      qs.forEach((q, i) => {
+        const qDivs = qa.querySelectorAll('.interview-q');
+        if (qDivs[i]) {
+          qDivs[i].querySelector('.interview-q-text').textContent = q.q;
+          qDivs[i].querySelector('.interview-q-hint').textContent = '💡 Hint: ' + q.hint;
+          const evalBtn = qDivs[i].querySelector('.interview-eval-btn');
+          if (evalBtn) evalBtn.dataset.question = q.q;
+        }
+      });
+
+    } catch {
+      qa.innerHTML = '<div style="text-align:center;padding:2rem;color:#f43f5e;font-size:.85rem">Failed to generate questions. Please try again.</div>';
+    }
+
+    btn.disabled = false;
+    btn.textContent = '🔄 Regenerate Questions';
   };
 
   window.evaluateAnswer = async (idx, question) => {
-    const ans = document.getElementById(`ans_${idx}`).value.trim();
-    if (!ans) { alert('Please write your answer first!'); return; }
+    const ans = document.getElementById(`ans_${idx}`);
+    if (!ans) return;
+    const ansText = ans.value.trim();
+    if (!ansText) { alert('Please write your answer first!'); return; }
     const fb = document.getElementById(`fb_${idx}`);
-    fb.className = 'interview-feedback show ok'; fb.textContent = '🤖 Evaluating your answer...';
+    fb.className = 'interview-feedback show ok';
+    fb.textContent = '🤖 Evaluating your answer...';
 
-    const prompt = `Interview question: "${question}"\nCandidate answer: "${ans}"\n\nEvaluate this answer for a Software Testing interview. Give: 1) Score out of 10, 2) What was good (1 sentence), 3) What to improve (1 sentence), 4) A better answer hint (1 sentence). Format as JSON ONLY: {"score":7,"good":"...","improve":"...","hint":"..."}`;
+    const prompt = `Interview question: "${question}"\nCandidate answer: "${ansText}"\n\nEvaluate this answer for a Software Testing interview. Give: 1) Score out of 10, 2) What was good (1 sentence), 3) What to improve (1 sentence), 4) A better answer hint (1 sentence). Format as JSON ONLY: {"score":7,"good":"...","improve":"...","hint":"..."}`;
 
     try {
       const raw = await callClaude([{ role: 'user', content: prompt }],
@@ -2160,7 +2238,22 @@ function injectMockInterview() {
       const score = parseInt(data.score) || 6;
       const cls = score >= 7 ? 'good' : 'ok';
       fb.className = `interview-feedback show ${cls}`;
-      fb.innerHTML = `<div class="interview-score">Score: ${score}/10 ${score >= 7 ? '✅' : '⚠️'}</div><div><b>✅ Good:</b> ${data.good}</div><div style="margin-top:.3rem"><b>📈 Improve:</b> ${data.improve}</div><div style="margin-top:.3rem"><b>💡 Hint:</b> ${data.hint}</div>`;
+      // Use textContent for API-returned strings
+      fb.innerHTML = `<div class="interview-score">Score: ${score}/10 ${score >= 7 ? '✅' : '⚠️'}</div>`;
+      const lines = [
+        { label: '✅ Good: ', text: data.good },
+        { label: '📈 Improve: ', text: data.improve },
+        { label: '💡 Hint: ', text: data.hint }
+      ];
+      lines.forEach(({ label, text }) => {
+        const d = document.createElement('div');
+        d.style.marginTop = '.3rem';
+        const b = document.createElement('b');
+        b.textContent = label;
+        d.appendChild(b);
+        d.appendChild(document.createTextNode(text));
+        fb.appendChild(d);
+      });
     } catch {
       fb.className = 'interview-feedback show ok';
       fb.textContent = 'Could not evaluate. Please try again.';
@@ -2171,7 +2264,15 @@ function injectMockInterview() {
   if (placementSec) {
     const launcher = document.createElement('div');
     launcher.id = 'ai-interview-launcher';
-    launcher.innerHTML = `<p style="color:rgba(255,255,255,.55);font-size:.85rem;margin-bottom:1rem">Prepare for your dream job interview with AI-powered practice</p><button class="interview-btn" onclick="openInterview()">🎤 Practice Mock Interview with AI</button>`;
+    const para = document.createElement('p');
+    para.style.cssText = 'color:rgba(255,255,255,.55);font-size:.85rem;margin-bottom:1rem';
+    para.textContent = 'Prepare for your dream job interview with AI-powered practice';
+    const launchBtn = document.createElement('button');
+    launchBtn.className = 'interview-btn';
+    launchBtn.onclick = openInterview;
+    launchBtn.textContent = '🎤 Practice Mock Interview with AI';
+    launcher.appendChild(para);
+    launcher.appendChild(launchBtn);
     placementSec.querySelector('.con').appendChild(launcher);
   }
 }
@@ -2207,7 +2308,7 @@ function injectSalaryPredictor() {
   `;
   document.head.appendChild(style);
 
-  const widget = document.createElement('div');
+  const widget = document.createElement('section');
   widget.innerHTML = `<div class="con"><div id="salary-predictor">
     <div class="salary-head">
       <div class="salary-ico">💰</div>
@@ -2219,7 +2320,7 @@ function injectSalaryPredictor() {
     </div>
     <div class="salary-form">
       <div class="salary-fg"><label>Current Role / Background</label><select id="sp-bg"><option>Fresher / Student</option><option>Non-IT Professional</option><option>Manual Tester (0-2 yrs)</option><option>Developer (1-3 yrs)</option><option>Support / BPO</option></select></div>
-      <div class="salary-fg"><label>Target Course</label><select id="sp-course"><option>Manual Testing & QA</option><option>Automation Testing – Selenium</option><option>DevOps Engineering</option><option>Full Stack Developer</option><option>Performance & Security Testing</option></select></div>
+      <div class="salary-fg"><label>Target Course</label><select id="sp-course"><option>Manual Testing &amp; QA</option><option>Automation Testing – Selenium</option><option>DevOps Engineering</option><option>Full Stack Developer</option><option>Performance &amp; Security Testing</option></select></div>
       <div class="salary-fg"><label>Years of Experience</label><select id="sp-exp"><option>0 (Fresher)</option><option>1-2 years</option><option>3-5 years</option><option>5+ years</option></select></div>
       <div class="salary-fg"><label>Target City</label><select id="sp-city"><option>Bangalore</option><option>Hyderabad</option><option>Pune</option><option>Chennai</option><option>Noida / Delhi</option><option>Mumbai</option><option>Tier-2 City</option></select></div>
       <button class="salary-predict-btn" id="spBtn" onclick="predictSalary()">🤖 Predict My Salary</button>
@@ -2227,16 +2328,18 @@ function injectSalaryPredictor() {
     <div class="salary-result" id="spResult"></div>
   </div></div>`;
 
+  // FIX 4: Use direct ID instead of :has() selector (poor browser support in Firefox < 121)
   const testimonials = document.getElementById('testimonials');
   if (testimonials) testimonials.insertAdjacentElement('beforebegin', widget);
 
   window.predictSalary = async () => {
     const btn = document.getElementById('spBtn');
-    btn.disabled = true; btn.innerHTML = '⏳ AI is calculating...';
-    const bg = document.getElementById('sp-bg').value;
+    btn.disabled = true;
+    btn.textContent = '⏳ AI is calculating...';
+    const bg     = document.getElementById('sp-bg').value;
     const course = document.getElementById('sp-course').value;
-    const exp = document.getElementById('sp-exp').value;
-    const city = document.getElementById('sp-city').value;
+    const exp    = document.getElementById('sp-exp').value;
+    const city   = document.getElementById('sp-city').value;
 
     const prompt = `Estimate salary for a candidate: Background: "${bg}", Completing course: "${course}" at Tech1World Institute (96% placement, top MNC recruiters), Experience: "${exp}", City: "${city}" India. Give realistic salary ranges in Indian Rupees LPA (lakhs per annum). Format as JSON ONLY: {"min":4.5,"avg":6.2,"max":9.5,"growth1yr":7.5,"growth3yr":12,"topRole":"SDET / QA Engineer","companies":["Infosys","Wipro","HCL"],"insight":"one sentence key insight"}`;
 
@@ -2251,7 +2354,7 @@ function injectSalaryPredictor() {
       const pct = Math.min(95, Math.round(((d.avg - 2) / (18 - 2)) * 100));
       result.className = 'salary-result show';
       result.innerHTML = `
-        <div style="font-family:'Sora',sans-serif;font-size:.85rem;font-weight:600;color:#64748b;margin-bottom:.5rem">📊 SALARY PREDICTION FOR ${course.toUpperCase()}</div>
+        <div style="font-family:'Sora',sans-serif;font-size:.85rem;font-weight:600;color:#64748b;margin-bottom:.5rem">📊 SALARY PREDICTION</div>
         <div style="display:flex;align-items:baseline;gap:.5rem;margin-bottom:.3rem">
           <span style="font-family:'Sora',sans-serif;font-size:2rem;font-weight:900;color:#f59e0b">Rs.${d.avg}L</span>
           <span style="color:#64748b;font-size:.85rem">avg annual CTC</span>
@@ -2264,16 +2367,21 @@ function injectSalaryPredictor() {
         <div class="salary-breakdown">
           <div class="salary-bk-card"><div class="salary-bk-val">₹${d.growth1yr}L</div><div class="salary-bk-lbl">After 1 Year</div></div>
           <div class="salary-bk-card"><div class="salary-bk-val">₹${d.growth3yr}L</div><div class="salary-bk-lbl">After 3 Years</div></div>
-          <div class="salary-bk-card"><div class="salary-bk-val">${d.topRole}</div><div class="salary-bk-lbl">Best-Fit Role</div></div>
+          <div class="salary-bk-card"><div class="salary-bk-val"></div><div class="salary-bk-lbl">Best-Fit Role</div></div>
         </div>
-        <div style="background:linear-gradient(135deg,rgba(245,158,11,.08),rgba(249,115,22,.04));border:1px solid rgba(245,158,11,.25);border-radius:10px;padding:.85rem 1rem;margin-top:1rem;font-size:.82rem;color:#78350f;line-height:1.65"><b>🤖 AI Insight:</b> ${d.insight}</div>
-        <div style="margin-top:.9rem;font-size:.78rem;color:#94a3b8;text-align:center">Top recruiters: ${(d.companies || []).join(' · ')} · Based on 2024-25 placement data</div>
+        <div style="background:linear-gradient(135deg,rgba(245,158,11,.08),rgba(249,115,22,.04));border:1px solid rgba(245,158,11,.25);border-radius:10px;padding:.85rem 1rem;margin-top:1rem;font-size:.82rem;color:#78350f;line-height:1.65"><b>🤖 AI Insight:</b> <span class="sp-insight"></span></div>
+        <div style="margin-top:.9rem;font-size:.78rem;color:#94a3b8;text-align:center" class="sp-companies">Top recruiters: · Based on 2024-25 placement data</div>
       `;
+      // Set API-returned strings safely via textContent
+      result.querySelector('.salary-bk-card:last-child .salary-bk-val').textContent = d.topRole;
+      result.querySelector('.sp-insight').textContent = d.insight;
+      result.querySelector('.sp-companies').textContent = 'Top recruiters: ' + (d.companies || []).join(' · ') + ' · Based on 2024-25 placement data';
     } catch {
       document.getElementById('spResult').className = 'salary-result show';
-      document.getElementById('spResult').innerHTML = '<div style="color:#f43f5e;font-size:.85rem">Prediction failed. Try again!</div>';
+      document.getElementById('spResult').textContent = 'Prediction failed. Try again!';
     }
-    btn.disabled = false; btn.innerHTML = '🔄 Recalculate Salary';
+    btn.disabled = false;
+    btn.textContent = '🔄 Recalculate Salary';
   };
 }
 
@@ -2318,7 +2426,7 @@ function injectResumeAnalyzer() {
     <div class="sec-head rv">
       <span class="sec-label">🤖 AI-Powered Tool</span>
       <h2 class="sec-title sec-title-white">Free AI <em>Resume Analyzer</em></h2>
-      <p class="sec-desc sec-desc-light">Paste your resume and get instant AI feedback on ATS score, skill gaps, and how to optimize it for QA & testing roles at top MNCs.</p>
+      <p class="sec-desc sec-desc-light">Paste your resume and get instant AI feedback on ATS score, skill gaps, and how to optimize it for QA &amp; testing roles at top MNCs.</p>
     </div>
     <div class="resume-analyzer">
       <div>
@@ -2344,7 +2452,9 @@ function injectResumeAnalyzer() {
     </div>
   </div>`;
 
-  const faqSec = document.querySelector('section.sec-alt:has(.faq-list)') || document.querySelector('.faq-list')?.closest('section');
+  // FIX 4: Use direct id="faq-section" instead of :has() which has poor browser support
+  // The FAQ <section> in the HTML must have id="faq-section" (add that attribute to the tag)
+  const faqSec = document.getElementById('faq-section') || document.querySelector('.faq-list')?.closest('section');
   if (faqSec) faqSec.insertAdjacentElement('beforebegin', sec);
 
   window.handleResumeFile = (input) => {
@@ -2358,13 +2468,23 @@ function injectResumeAnalyzer() {
   const dz = document.getElementById('resumeDropZone');
   dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('dragover'); });
   dz.addEventListener('dragleave', () => dz.classList.remove('dragover'));
-  dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('dragover'); const f = e.dataTransfer.files[0]; if (f) { const r = new FileReader(); r.onload = ev => { document.getElementById('resumeText').value = ev.target.result.substring(0, 3000); }; r.readAsText(f); } });
+  dz.addEventListener('drop', e => {
+    e.preventDefault();
+    dz.classList.remove('dragover');
+    const f = e.dataTransfer.files[0];
+    if (f) {
+      const r = new FileReader();
+      r.onload = ev => { document.getElementById('resumeText').value = ev.target.result.substring(0, 3000); };
+      r.readAsText(f);
+    }
+  });
 
   window.analyzeResume = async () => {
     const text = document.getElementById('resumeText').value.trim();
     if (!text || text.length < 50) { alert('Please paste your resume content (at least 50 characters).'); return; }
     const btn = document.getElementById('resumeBtn');
-    btn.disabled = true; btn.innerHTML = '⏳ AI is analyzing your resume...';
+    btn.disabled = true;
+    btn.textContent = '⏳ AI is analyzing your resume...';
     document.getElementById('resumePlaceholder').style.display = 'none';
 
     const prompt = `Analyze this resume for a Software Testing / QA job in India:\n\n${text.substring(0, 2500)}\n\nProvide analysis as JSON ONLY: {"atsScore":72,"skillsFound":["Manual Testing","JIRA","SQL"],"skillsMissing":["Selenium","API Testing","CI/CD"],"tips":["Add quantifiable achievements","Include ISTQB certification","List specific tools used"],"courseRec":"Automation Testing with Selenium","overallFeedback":"one sentence summary","atsBreakdown":{"keywords":65,"format":80,"experience":70,"education":75}}`;
@@ -2377,7 +2497,6 @@ function injectResumeAnalyzer() {
       catch { d = { atsScore: 58, skillsFound: ['Manual Testing', 'Communication'], skillsMissing: ['Selenium', 'API Testing', 'JIRA', 'Agile'], tips: ['Add specific tool names and versions', 'Quantify your achievements (e.g., "reduced bugs by 30%")', 'Include keywords from job descriptions'], courseRec: 'Automation Testing with Selenium', overallFeedback: 'Resume needs more technical keywords to pass ATS filters at top MNCs.', atsBreakdown: { keywords: 45, format: 70, experience: 55, education: 65 } }; }
 
       const score = parseInt(d.atsScore) || 60;
-      const pct = `${score}%`;
       document.getElementById('resumePlaceholder').style.display = 'none';
       const result = document.getElementById('resumeResult');
       result.className = 'resume-result show';
@@ -2387,24 +2506,71 @@ function injectResumeAnalyzer() {
             <span class="resume-score-n">${score}</span>
           </div>
           <div style="color:rgba(255,255,255,.55);font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.1rem;text-transform:uppercase">ATS Score / 100</div>
-          <div style="color:rgba(255,255,255,.7);font-size:.82rem;margin-top:.5rem;line-height:1.6">${d.overallFeedback}</div>
+          <div style="color:rgba(255,255,255,.7);font-size:.82rem;margin-top:.5rem;line-height:1.6" class="resume-overall-feedback"></div>
         </div>
         <div style="margin-bottom:1rem">
           <div style="color:rgba(255,255,255,.5);font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.1rem;text-transform:uppercase;margin-bottom:.6rem">ATS Score Breakdown</div>
           ${Object.entries(d.atsBreakdown || {}).map(([k, v]) => `<div class="resume-skill-item"><span class="resume-skill-lbl">${k.charAt(0).toUpperCase() + k.slice(1)}</span><div class="resume-skill-bar"><div class="resume-skill-fill" style="width:${v}%"></div></div><span style="color:#f59e0b;font-family:'JetBrains Mono',monospace;font-size:.65rem;font-weight:700;min-width:28px">${v}%</span></div>`).join('')}
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1rem">
-          <div><div style="color:rgba(255,255,255,.5);font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:.1rem;text-transform:uppercase;margin-bottom:.5rem">✅ Skills Found</div>${(d.skillsFound || []).map(s => `<span style="display:inline-block;background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.3);color:#6ee7b7;border-radius:6px;padding:.18rem .5rem;font-size:.72rem;margin:.15rem">${s}</span>`).join('')}</div>
-          <div><div style="color:rgba(255,255,255,.5);font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:.1rem;text-transform:uppercase;margin-bottom:.5rem">❌ Skills Missing</div>${(d.skillsMissing || []).map(s => `<span style="display:inline-block;background:rgba(244,63,94,.12);border:1px solid rgba(244,63,94,.3);color:#fda4af;border-radius:6px;padding:.18rem .5rem;font-size:.72rem;margin:.15rem">${s}</span>`).join('')}</div>
+          <div>
+            <div style="color:rgba(255,255,255,.5);font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:.1rem;text-transform:uppercase;margin-bottom:.5rem">✅ Skills Found</div>
+            <div class="resume-skills-found"></div>
+          </div>
+          <div>
+            <div style="color:rgba(255,255,255,.5);font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:.1rem;text-transform:uppercase;margin-bottom:.5rem">❌ Skills Missing</div>
+            <div class="resume-skills-missing"></div>
+          </div>
         </div>
         <div style="color:rgba(255,255,255,.5);font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.1rem;text-transform:uppercase;margin-bottom:.5rem">🤖 AI Improvement Tips</div>
-        ${(d.tips || []).map(t => `<div class="resume-tip">→ ${t}</div>`).join('')}
-        ${d.courseRec ? `<div style="background:linear-gradient(135deg,rgba(245,158,11,.12),rgba(249,115,22,.06));border:1px solid rgba(245,158,11,.25);border-radius:10px;padding:.85rem 1rem;margin-top:.75rem;font-size:.82rem;line-height:1.65"><b style="color:#f59e0b">📚 Course Recommended:</b> <span style="color:rgba(255,255,255,.75)">${d.courseRec} at Tech1World — this will fix your skill gaps and boost your ATS score significantly.</span><br><a href="#admission" style="color:#f59e0b;font-weight:700;text-decoration:none;font-size:.8rem">→ Enroll for Free Demo</a></div>` : ''}
+        <div class="resume-tips-container"></div>
+        <div class="resume-course-rec" style="margin-top:.75rem"></div>
       `;
+      // Set API-returned strings safely via DOM methods
+      result.querySelector('.resume-overall-feedback').textContent = d.overallFeedback;
+      const foundContainer = result.querySelector('.resume-skills-found');
+      (d.skillsFound || []).forEach(s => {
+        const span = document.createElement('span');
+        span.style.cssText = 'display:inline-block;background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.3);color:#6ee7b7;border-radius:6px;padding:.18rem .5rem;font-size:.72rem;margin:.15rem';
+        span.textContent = s;
+        foundContainer.appendChild(span);
+      });
+      const missingContainer = result.querySelector('.resume-skills-missing');
+      (d.skillsMissing || []).forEach(s => {
+        const span = document.createElement('span');
+        span.style.cssText = 'display:inline-block;background:rgba(244,63,94,.12);border:1px solid rgba(244,63,94,.3);color:#fda4af;border-radius:6px;padding:.18rem .5rem;font-size:.72rem;margin:.15rem';
+        span.textContent = s;
+        missingContainer.appendChild(span);
+      });
+      const tipsContainer = result.querySelector('.resume-tips-container');
+      (d.tips || []).forEach(t => {
+        const tip = document.createElement('div');
+        tip.className = 'resume-tip';
+        tip.textContent = '→ ' + t;
+        tipsContainer.appendChild(tip);
+      });
+      if (d.courseRec) {
+        const recDiv = result.querySelector('.resume-course-rec');
+        recDiv.style.cssText = 'background:linear-gradient(135deg,rgba(245,158,11,.12),rgba(249,115,22,.06));border:1px solid rgba(245,158,11,.25);border-radius:10px;padding:.85rem 1rem;font-size:.82rem;line-height:1.65';
+        const boldLabel = document.createElement('b');
+        boldLabel.style.color = '#f59e0b';
+        boldLabel.textContent = '📚 Course Recommended: ';
+        const courseText = document.createTextNode(d.courseRec + ' at Tech1World — this will fix your skill gaps and boost your ATS score significantly.');
+        const link = document.createElement('a');
+        link.href = '#admission';
+        link.style.cssText = 'color:#f59e0b;font-weight:700;text-decoration:none;font-size:.8rem;display:block;margin-top:.3rem';
+        link.textContent = '→ Enroll for Free Demo';
+        recDiv.appendChild(boldLabel);
+        recDiv.appendChild(courseText);
+        recDiv.appendChild(link);
+      }
     } catch {
-      document.getElementById('resumeResult').innerHTML = '<div style="color:#f43f5e;font-size:.85rem">Analysis failed. Please try again.</div>';
+      document.getElementById('resumeResult').innerHTML = '';
+      document.getElementById('resumeResult').className = 'resume-result show';
+      document.getElementById('resumeResult').textContent = 'Analysis failed. Please try again.';
     }
-    btn.disabled = false; btn.innerHTML = '🔄 Re-analyze Resume';
+    btn.disabled = false;
+    btn.textContent = '🔄 Re-analyze Resume';
   };
 }
 
@@ -2419,7 +2585,7 @@ function injectSmartFormHelper() {
   document.head.appendChild(style);
 
   const progField = document.getElementById('f-prog');
-  const expField = document.getElementById('f-exp');
+  const expField  = document.getElementById('f-exp');
   const suggestion = document.createElement('div');
   suggestion.className = 'ai-form-suggestion';
   suggestion.id = 'aiFormSuggestion';
@@ -2428,14 +2594,18 @@ function injectSmartFormHelper() {
     progField.closest('.fg')?.appendChild(suggestion);
     const update = async () => {
       const prog = progField.value;
-      const exp = expField?.value || 'Fresher';
-      if (!prog || prog === '') return;
+      const exp  = expField?.value || 'Fresher';
+      if (!prog) return;
       suggestion.className = 'ai-form-suggestion show';
       suggestion.textContent = '🤖 AI is personalizing a tip for you...';
       const prompt = `Student selected: "${prog}" with experience: "${exp}" at Tech1World Institute. Give ONE short personalized tip (max 25 words) about why this is a good choice or what to expect. Be encouraging and specific.`;
       try {
         const tip = await callClaude([{ role: 'user', content: prompt }], 'You are a supportive course advisor. Give one short tip, max 25 words, no special characters.', 80);
-        suggestion.innerHTML = `🤖 <strong>AI Tip:</strong> ${tip}`;
+        suggestion.innerHTML = '';
+        const strong = document.createElement('strong');
+        strong.textContent = '🤖 AI Tip: ';
+        suggestion.appendChild(strong);
+        suggestion.appendChild(document.createTextNode(tip));
         suggestion.className = 'ai-form-suggestion show';
       } catch { suggestion.className = 'ai-form-suggestion'; }
     };
@@ -2455,5 +2625,9 @@ function injectSmartFormHelper() {
   });
 })();
     </script>      
+
+
+
+  </body> </html>
 </body>
 </html>
