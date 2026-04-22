@@ -1764,20 +1764,26 @@ function dlBrochure(key){
    FIX 8: interviewQA event delegation — listener added once, outside generateInterviewQs
 ═══════════════════════════════════════════════════════ */
 
-const ANTHROPIC_API = 'https://api.anthropic.com/v1/messages';
-const MODEL = 'claude-sonnet-4-20250514';
+const ANTHROPIC_API = 'https://api.groq.com/openai/v1/chat/completions';
+const MODEL = 'llama-3.3-70b-versatile';
+const API_KEY = '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'; // apni Groq key yahan
 
 async function callClaude(messages, system, maxTokens = 800) {
   const r = await fetch(ANTHROPIC_API, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json',
-               'anthropic-dangerous-direct-browser-access': 'true'},
-    body: JSON.stringify({ model: MODEL, max_tokens: maxTokens, system, messages })
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + API_KEY
+    },
+    body: JSON.stringify({
+      model: MODEL,
+      max_tokens: maxTokens,
+      messages: [{ role: 'system', content: system }, ...messages]
+    })
   });
   const d = await r.json();
-  return d.content?.[0]?.text || 'Sorry, I could not generate a response right now.';
+  return d.choices?.[0]?.message?.content || 'Sorry, could not generate a response.';
 }
-
 /* ─── 1. AI CAREER CHATBOT ─── */
 function injectChatbot() {
   const style = document.createElement('style');
@@ -2171,11 +2177,22 @@ function injectMockInterview() {
     const qa = document.getElementById('interviewQA');
     qa.innerHTML = '<div style="text-align:center;padding:2rem;color:#94a3b8;font-size:.85rem">🤖 Generating personalized interview questions...</div>';
 
-    const prompt = `Generate exactly 3 interview questions for a Software Testing job interview on the topic: "${selectedTopic}". Mix difficulty: 1 basic, 1 intermediate, 1 advanced. Format as JSON array ONLY: [{"q":"question text","level":"Basic/Intermediate/Advanced","hint":"one-line hint for candidate"}]. No markdown, no backticks.`;
+const topicPrompts = {
+  'Manual Testing': 'Cover: test case design, bug life cycle, STLC phases, BVA, equivalence partitioning, decision table, smoke/sanity/regression/UAT testing, JIRA defect tracking, test plan vs test strategy, severity vs priority.',
+  'Selenium': 'Cover: WebDriver architecture, XPath vs CSS locators, implicit/explicit/fluent waits, Page Object Model, TestNG annotations (@BeforeMethod/@AfterClass etc), handling alerts/frames/multiple windows, Actions class, taking screenshots, Maven project setup.',
+  'DevOps': 'Cover: CI/CD pipeline stages, Jenkins job configuration, Git branching (GitFlow), Docker images vs containers, Kubernetes pods/services, Ansible playbooks, Terraform basics, Linux commands for testers, AWS EC2/S3 basics, monitoring with Grafana.',
+  'SQL': 'Cover: SELECT with WHERE/ORDER BY, INNER/LEFT/RIGHT JOIN, GROUP BY with HAVING, subqueries, correlated subqueries, finding duplicate records, NULL handling with IS NULL/COALESCE, aggregate functions (COUNT/SUM/AVG), UPDATE/DELETE for test data, indexing basics.',
+  'Agile': 'Cover: Scrum ceremonies (sprint planning/daily standup/review/retrospective), user story format, acceptance criteria, story points estimation, QA role in Agile team, Definition of Done vs Definition of Ready, Kanban vs Scrum differences, sprint testing challenges, velocity.',
+  'API Testing': 'Cover: REST vs SOAP differences, HTTP methods (GET/POST/PUT/PATCH/DELETE), status codes (200/201/400/401/403/404/500), Postman collections and environments, request headers and body types, JSON response validation, Bearer token and OAuth authentication, Newman CLI, API test automation with RestAssured.'
+};
 
+const topicKey = Object.keys(topicPrompts).find(k => selectedTopic.toLowerCase().includes(k.toLowerCase())) || 'Manual Testing';
+const topicDetail = topicPrompts[topicKey] || topicPrompts['Manual Testing'];
+
+const prompt = `Generate exactly 5 interview questions for a Software Testing job interview specifically on: "${selectedTopic}". ${topicDetail} Mix difficulty: 2 basic, 2 intermediate, 1 advanced. Every question must be specific to ${selectedTopic} — no generic questions. Format as JSON array ONLY: [{"q":"question text","level":"Basic/Intermediate/Advanced","hint":"one-line specific hint"}]. No markdown, no backticks.`;
     try {
       const raw = await callClaude([{ role: 'user', content: prompt }],
-        'You are an expert software testing interviewer. Return only valid JSON arrays, no markdown.', 500);
+        'You are an expert software testing interviewer. Return only valid JSON arrays, no markdown.', 800);
       let qs;
       try { qs = JSON.parse(raw.replace(/```json|```/g, '').trim()); }
       catch { qs = [
