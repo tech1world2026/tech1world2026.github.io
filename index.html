@@ -1382,7 +1382,7 @@ function sendForm(templateName, fields, btn, originalHTML, onSuccess) {
   Object.keys(fields).forEach(function(k){ payload[k] = fields[k]; });
 
   // Validate key configured
-  if (W3F_KEY === '0047f699-b625-4b30-92ac-7c7354964513') {
+  if (W3F_KEY === 'YOUR_ACCESS_KEY_HERE') {
     // Key not set yet — show friendly fallback
     setTimeout(function(){
       restoreBtn(btn, originalHTML);
