@@ -1373,7 +1373,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
    3. Copy the Access Key from your email
    4. Paste it below replacing  YOUR_ACCESS_KEY_HERE
    ══════════════════════════════════════════════════════════ */
-var W3F_KEY = 'YOUR_ACCESS_KEY_HERE';
+var W3F_KEY = '0047f699-b625-4b30-92ac-7c7354964513';
 
 /* Send form data directly to info@tech1world.com via Web3Forms */
 function sendForm(templateName, fields, btn, originalHTML, onSuccess) {
@@ -1382,7 +1382,7 @@ function sendForm(templateName, fields, btn, originalHTML, onSuccess) {
   Object.keys(fields).forEach(function(k){ payload[k] = fields[k]; });
 
   // Validate key configured
-  if (W3F_KEY === 'YOUR_ACCESS_KEY_HERE') {
+  if (W3F_KEY === '0047f699-b625-4b30-92ac-7c7354964513') {
     // Key not set yet — show friendly fallback
     setTimeout(function(){
       restoreBtn(btn, originalHTML);
