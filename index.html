@@ -760,7 +760,8 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
           <a href="#testimonials"><i class="fas fa-star"></i>Student Stories</a>
         </div>
       </li>
-      <li><a href="#contact">Contact</a></li>
+<li><a href="#success-stories">Success Stories</a></li>
+<li><a href="#contact">Contact</a></li>
     </ul>
     <div class="nav-right">
       <a href="#brochures" class="btn btn-outline-white btn-sm"><i class="fas fa-download"></i>Brochure</a>
@@ -783,6 +784,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
     <a href="#about" onclick="closeMob()">About Us</a>
     <a href="#faculty" onclick="closeMob()">Faculty</a>
     <a href="#testimonials" onclick="closeMob()">Student Stories</a>
+    <a href="#success-stories" onclick="closeMob()">Success Stories</a>
     <a href="#contact" onclick="closeMob()">Contact</a>
   </div>
   <div class="mob-nav-btns">
@@ -1173,7 +1175,197 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
     </div>
   </div>
 </section>
+<!-- STUDENT SUCCESS STORIES VIDEO WALL -->
+<section id="success-stories" class="sec" style="background:linear-gradient(160deg,#07111f,#0c1c30)">
+  <div class="con">
+    <div class="sec-head rv">
+      <span class="sec-label" style="color:var(--amber)">🎬 Real Stories</span>
+      <h2 class="sec-title sec-title-white">Student <em>Success Stories</em></h2>
+      <p class="sec-desc sec-desc-light">Watch our alumni share their journey — from zero to placed at top MNCs. Real students, real results, real inspiration.</p>
+    </div>
 
+    <!-- Filter Buttons -->
+    <div class="vsw-filters rv" style="display:flex;gap:.6rem;flex-wrap:wrap;justify-content:center;margin-bottom:2.5rem">
+      <button class="vsw-filter active" data-filter="all">All Stories</button>
+      <button class="vsw-filter" data-filter="manual">Manual Testing</button>
+      <button class="vsw-filter" data-filter="automation">Automation</button>
+      <button class="vsw-filter" data-filter="devops">DevOps</button>
+      <button class="vsw-filter" data-filter="fullstack">Full Stack</button>
+      <button class="vsw-filter" data-filter="fresher">Fresher to Job</button>
+    </div>
+
+    <!-- Video Grid -->
+    <div class="vsw-grid rv" id="vswGrid"></div>
+
+    <!-- Load More -->
+    <div style="text-align:center;margin-top:2.5rem">
+      <button class="btn btn-outline-white btn-lg" id="vswLoadMore" onclick="vswLoadMore()">
+        <i class="fas fa-play-circle"></i> Load More Stories
+      </button>
+    </div>
+
+    <!-- Stats Strip -->
+    <div class="vsw-stats rv">
+      <div class="vsw-stat"><div class="vsw-stat-n">8,500+</div><div class="vsw-stat-l">Success Stories</div></div>
+      <div class="vsw-stat"><div class="vsw-stat-n">4.9★</div><div class="vsw-stat-l">Average Rating</div></div>
+      <div class="vsw-stat"><div class="vsw-stat-n">96%</div><div class="vsw-stat-l">Got Placed</div></div>
+      <div class="vsw-stat"><div class="vsw-stat-n">450+</div><div class="vsw-stat-l">Companies</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEO MODAL -->
+<div id="vswModal" style="position:fixed;inset:0;z-index:10700;background:rgba(0,0,0,.92);backdrop-filter:blur(12px);display:none;align-items:center;justify-content:center;padding:1rem" onclick="closeVswModal(event)">
+  <div style="background:#0c1c30;border-radius:20px;width:100%;max-width:760px;overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,.6);animation:dlmIn .35s cubic-bezier(.22,1,.36,1)">
+    <div style="padding:1.2rem 1.5rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.08)">
+      <div id="vswModalTitle" style="font-family:'Sora',sans-serif;font-weight:700;color:#fff;font-size:1rem"></div>
+      <button onclick="closeVswModal()" style="background:rgba(255,255,255,.1);border:none;color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:.9rem">✕</button>
+    </div>
+    <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden">
+      <div id="vswVideoContent" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1.5rem;background:linear-gradient(135deg,#0f2240,#162d52)">
+      </div>
+    </div>
+    <div style="padding:1.2rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem">
+      <div id="vswModalInfo"></div>
+      <a href="#admission" onclick="closeVswModal()" class="btn btn-primary btn-sm"><i class="fas fa-rocket"></i>Start My Journey</a>
+    </div>
+  </div>
+</div>
+
+<style>
+.vsw-filter{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.7);border-radius:25px;padding:.38rem 1.1rem;font-size:.8rem;cursor:pointer;transition:all .22s;font-family:'DM Sans',sans-serif}
+.vsw-filter:hover,.vsw-filter.active{background:linear-gradient(135deg,var(--amber),#f97316);color:#fff;border-color:transparent;box-shadow:0 4px 14px rgba(245,158,11,.35)}
+.vsw-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
+@media(max-width:1100px){.vsw-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.vsw-grid{grid-template-columns:1fr}}
+.vsw-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:18px;overflow:hidden;cursor:pointer;transition:all .3s ease;animation:msgIn .4s ease}
+.vsw-card:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,0,0,.4);border-color:rgba(245,158,11,.3)}
+.vsw-thumb{position:relative;height:185px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.vsw-thumb-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .4s ease}
+.vsw-card:hover .vsw-thumb-bg{transform:scale(1.06)}
+.vsw-play-btn{position:relative;z-index:2;width:60px;height:60px;background:rgba(245,158,11,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:#fff;transition:all .3s;box-shadow:0 4px 24px rgba(245,158,11,.5)}
+.vsw-card:hover .vsw-play-btn{transform:scale(1.12);background:var(--amber)}
+.vsw-duration{position:absolute;bottom:.6rem;right:.7rem;background:rgba(0,0,0,.75);color:#fff;font-family:'JetBrains Mono',monospace;font-size:.6rem;padding:.18rem .5rem;border-radius:5px;z-index:2}
+.vsw-badge{position:absolute;top:.65rem;left:.65rem;background:linear-gradient(135deg,var(--amber),#f97316);color:#fff;font-family:'JetBrains Mono',monospace;font-size:.52rem;font-weight:700;letter-spacing:.06rem;padding:.18rem .55rem;border-radius:20px;z-index:2;text-transform:uppercase}
+.vsw-views{position:absolute;top:.65rem;right:.65rem;background:rgba(0,0,0,.6);color:rgba(255,255,255,.8);font-family:'JetBrains Mono',monospace;font-size:.55rem;padding:.15rem .48rem;border-radius:5px;z-index:2;display:flex;align-items:center;gap:.3rem}
+.vsw-body{padding:1.1rem 1.2rem}
+.vsw-name{font-family:'Sora',sans-serif;font-size:.92rem;font-weight:700;color:#fff;margin-bottom:.22rem}
+.vsw-role{font-size:.75rem;color:var(--amber);font-weight:600;margin-bottom:.35rem}
+.vsw-desc{font-size:.78rem;color:rgba(255,255,255,.55);line-height:1.65;margin-bottom:.85rem}
+.vsw-footer{display:flex;align-items:center;justify-content:space-between}
+.vsw-company{display:flex;align-items:center;gap:.4rem;font-family:'JetBrains Mono',monospace;font-size:.58rem;color:rgba(255,255,255,.45)}
+.vsw-ctc{background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.3);color:#6ee7b7;font-family:'JetBrains Mono',monospace;font-size:.58rem;font-weight:700;padding:.15rem .5rem;border-radius:6px}
+.vsw-stars{color:var(--amber);font-size:.72rem;letter-spacing:.05rem}
+.vsw-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:3rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:18px;overflow:hidden}
+@media(max-width:600px){.vsw-stats{grid-template-columns:repeat(2,1fr)}}
+.vsw-stat{padding:1.8rem 1rem;text-align:center;border-right:1px solid rgba(255,255,255,.06)}
+.vsw-stat:last-child{border-right:none}
+.vsw-stat-n{font-family:'Sora',sans-serif;font-size:2rem;font-weight:900;background:linear-gradient(135deg,var(--amber),var(--amber2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
+.vsw-stat-l{font-family:'JetBrains Mono',monospace;font-size:.56rem;letter-spacing:.1rem;text-transform:uppercase;color:rgba(255,255,255,.4);margin-top:.4rem}
+</style>
+
+<script>
+const VSW_DATA = [
+  {id:1,name:'Anjali Patel',role:'SDET at Infosys',course:'automation',tag:'Automation',company:'Infosys',ctc:'₹6.2 LPA',duration:'4:32',views:'12.4K',rating:'★★★★★',color:'linear-gradient(135deg,#1d4ed8,#06b6d4)',initials:'AP',desc:'From housewife to SDET in 5 months! Anjali shares her incredible journey of learning Selenium automation while managing family.',story:'I had zero coding knowledge. Tech1World faculty taught me Java from scratch. Within 5 months I was writing automation scripts and got placed at Infosys with 6.2 LPA. The mock interviews were the game changer!',batch:'Nov 2024 Batch'},
+  {id:2,name:'Rohit Singh',role:'DevOps Engineer at HCL',course:'devops',tag:'DevOps',company:'HCL Tech',ctc:'₹8.5 LPA',duration:'6:18',views:'9.8K',rating:'★★★★★',color:'linear-gradient(135deg,#059669,#0d9488)',initials:'RS',desc:'Rohit was a manual tester for 3 years, stuck at 3.5 LPA. DevOps course at Tech1World changed everything — now earning 8.5 LPA.',story:'I was stuck as a manual tester for 3 years. The DevOps course completely transformed my career. Docker, Kubernetes, AWS — I learned it all hands-on. HCL hired me within 3 weeks of course completion!',batch:'Oct 2024 Batch'},
+  {id:3,name:'Meera Krishnan',role:'QA Lead at TCS',course:'manual',tag:'Manual Testing',company:'TCS',ctc:'₹5.8 LPA',duration:'3:45',views:'7.2K',rating:'★★★★★',color:'linear-gradient(135deg,#9333ea,#db2777)',initials:'MK',desc:'B.Com graduate with no IT background. Meera cracked TCS in her first attempt after completing Manual Testing course.',story:'Being from a commerce background, I thought IT was not for me. Tech1World proved me wrong. The faculty was so patient and the curriculum was perfectly structured for beginners like me.',batch:'Sep 2024 Batch'},
+  {id:4,name:'Vishal Reddy',role:'Full Stack Dev at Capgemini',course:'fullstack',tag:'Full Stack',company:'Capgemini',ctc:'₹9.0 LPA',duration:'5:55',views:'15.1K',rating:'★★★★★',color:'linear-gradient(135deg,#dc2626,#ea580c)',initials:'VR',desc:'Vishal completed the internship program, earned stipend, and got a direct full-time offer — without even appearing for interviews!',story:'The internship program was real — I worked on actual client projects. Got Rs.12,000 stipend every month and then a direct offer from Capgemini. Best investment of my life!',batch:'Aug 2024 Batch'},
+  {id:5,name:'Neha Joshi',role:'SDET at Wipro',course:'automation',tag:'Automation',company:'Wipro',ctc:'₹7.5 LPA',duration:'4:10',views:'11.3K',rating:'★★★★★',color:'linear-gradient(135deg,#1d4ed8,#7c3aed)',initials:'NJ',desc:'3-year manual tester to SDET — Neha got a 120% salary hike at Wipro after completing Automation Testing course.',story:'I was earning 3.4 LPA as a manual tester. After automation course, I got 7.5 LPA at Wipro — more than double! The Page Object Model framework I built during training impressed the interviewer.',batch:'Jul 2024 Batch'},
+  {id:6,name:'Karthik Menon',role:'Full Stack Dev at Startup',course:'fullstack',tag:'Full Stack',company:'Series-B Startup',ctc:'₹10 LPA',duration:'7:02',views:'18.7K',rating:'★★★★★',color:'linear-gradient(135deg,#0f766e,#059669)',initials:'KM',desc:'Karthik built 5 portfolio projects during training. The CTO of his startup said his portfolio was better than candidates with 3 years experience.',story:'The 5 live projects made all the difference. I had a React + Node.js e-commerce app, a task management API, and 3 more. My interviewer was blown away. 10 LPA at 22 years old — unreal!',batch:'Jun 2024 Batch'},
+  {id:7,name:'Priya Sharma',role:'Performance Tester at IBM',course:'perf',tag:'Performance',company:'IBM',ctc:'₹8.2 LPA',duration:'5:20',views:'6.5K',rating:'★★★★★',color:'linear-gradient(135deg,#7c3aed,#4f46e5)',initials:'PS',desc:'Priya specialized in JMeter and security testing. IBM hired her for a niche performance testing role with a premium package.',story:'Performance testing is a niche skill and very high paying. Tech1World gave me hands-on JMeter, Gatling, and OWASP training. IBM\'s offer came in within 2 months of course completion.',batch:'May 2024 Batch'},
+  {id:8,name:'Arjun Verma',role:'Cloud QA at Accenture',course:'devops',tag:'DevOps',company:'Accenture',ctc:'₹9.8 LPA',duration:'6:45',views:'13.2K',rating:'★★★★★',color:'linear-gradient(135deg,#b45309,#d97706)',initials:'AV',desc:'Arjun combined DevOps + QA skills to land a Cloud QA role — one of the most in-demand and highest paying profiles right now.',story:'Cloud QA is the future. Tech1World helped me combine my testing background with DevOps skills. AWS, Jenkins, Docker for test environments — Accenture loved this combination. Nearly 10 LPA!',batch:'Apr 2024 Batch'},
+  {id:9,name:'Divya Nair',role:'QA Engineer at Mphasis',course:'manual',tag:'Manual Testing',company:'Mphasis',ctc:'₹4.5 LPA',duration:'3:12',views:'5.1K',rating:'★★★★★',color:'linear-gradient(135deg,#0369a1,#0ea5e9)',initials:'DN',desc:'Fresh BCA graduate Divya landed her first job within 45 days of completing Manual Testing course. Her first salary crossed Rs.4.5 LPA.',story:'45 days after course completion — that\'s how fast Tech1World\'s placement cell works. They sent my resume to 50+ companies. Mphasis called first and I cleared all 3 rounds. Dreams do come true!',batch:'Mar 2024 Batch'},
+];
+
+let vswVisible = 6;
+let vswFilter = 'all';
+
+function renderVswGrid() {
+  const grid = document.getElementById('vswGrid');
+  const filtered = vswFilter === 'all' ? VSW_DATA : VSW_DATA.filter(v => v.course === vswFilter || v.tag.toLowerCase().includes(vswFilter));
+  const toShow = filtered.slice(0, vswVisible);
+  grid.innerHTML = toShow.map(v => `
+    <div class="vsw-card" onclick="openVswModal(${v.id})" data-course="${v.course}">
+      <div class="vsw-thumb">
+        <div class="vsw-thumb-bg" style="background:${v.color};width:100%;height:100%;position:absolute;inset:0"></div>
+        <div style="position:absolute;inset:0;background:rgba(0,0,0,.25)"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.5rem">
+          <div style="width:68px;height:68px;border-radius:50%;background:${v.color};display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-size:1.3rem;font-weight:800;color:#fff;border:3px solid rgba(255,255,255,.3)">${v.initials}</div>
+        </div>
+        <div class="vsw-play-btn"><i class="fas fa-play" style="margin-left:3px"></i></div>
+        <span class="vsw-badge">${v.tag}</span>
+        <span class="vsw-views"><i class="fas fa-eye"></i>${v.views}</span>
+        <span class="vsw-duration">${v.duration}</span>
+      </div>
+      <div class="vsw-body">
+        <div class="vsw-stars">${v.rating}</div>
+        <div class="vsw-name">${v.name}</div>
+        <div class="vsw-role">${v.role}</div>
+        <div class="vsw-desc">${v.desc}</div>
+        <div class="vsw-footer">
+          <div class="vsw-company"><i class="fas fa-building"></i>${v.company}</div>
+          <span class="vsw-ctc">${v.ctc}</span>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('vswLoadMore').style.display = filtered.length > vswVisible ? 'inline-flex' : 'none';
+}
+
+function vswLoadMore() {
+  vswVisible += 3;
+  renderVswGrid();
+}
+
+// Filter buttons
+document.querySelectorAll('.vsw-filter').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.vsw-filter').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    vswFilter = this.dataset.filter;
+    vswVisible = 6;
+    renderVswGrid();
+  });
+});
+
+function openVswModal(id) {
+  const v = VSW_DATA.find(x => x.id === id);
+  if (!v) return;
+  document.getElementById('vswModalTitle').textContent = v.name + ' — ' + v.role;
+  const content = document.getElementById('vswVideoContent');
+  content.style.background = v.color;
+  content.innerHTML = `
+    <div style="text-align:center;padding:2rem;position:relative;z-index:2">
+      <div style="width:90px;height:90px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-size:1.8rem;font-weight:800;color:#fff;margin:0 auto 1rem;border:4px solid rgba(255,255,255,.3)">${v.initials}</div>
+      <div style="font-family:'Sora',sans-serif;font-size:1.15rem;font-weight:800;color:#fff;margin-bottom:.4rem">${v.name}</div>
+      <div style="color:rgba(255,255,255,.75);font-size:.85rem;margin-bottom:1.2rem">${v.role} · ${v.company}</div>
+      <div style="background:rgba(0,0,0,.3);border-radius:12px;padding:1.2rem 1.5rem;max-width:480px;margin:0 auto;text-align:left">
+        <div style="color:rgba(255,255,255,.5);font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.1rem;text-transform:uppercase;margin-bottom:.5rem">💬 ${v.name}'s Story</div>
+        <div style="color:rgba(255,255,255,.88);font-size:.87rem;line-height:1.75;font-style:italic">"${v.story}"</div>
+      </div>
+      <div style="display:flex;gap:.75rem;justify-content:center;margin-top:1.2rem;flex-wrap:wrap">
+        <span style="background:rgba(245,158,11,.9);color:#fff;font-family:'JetBrains Mono',monospace;font-size:.65rem;font-weight:700;padding:.3rem .8rem;border-radius:20px">${v.ctc}</span>
+        <span style="background:rgba(255,255,255,.2);color:#fff;font-family:'JetBrains Mono',monospace;font-size:.65rem;padding:.3rem .8rem;border-radius:20px">${v.tag}</span>
+        <span style="background:rgba(16,185,129,.3);color:#6ee7b7;font-family:'JetBrains Mono',monospace;font-size:.65rem;padding:.3rem .8rem;border-radius:20px">${v.batch}</span>
+      </div>
+    </div>
+  `;
+  const info = document.getElementById('vswModalInfo');
+  info.innerHTML = `<div style="color:rgba(255,255,255,.6);font-size:.8rem">${v.stars || '★★★★★'} <span style="color:rgba(255,255,255,.4);margin-left:.3rem">${v.views} views · ${v.duration} read</span></div>`;
+  document.getElementById('vswModal').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeVswModal(e) {
+  if (e && e.target !== document.getElementById('vswModal') && e.type !== 'click') return;
+  if (e && e.currentTarget === document.getElementById('vswModal') && e.target !== e.currentTarget) return;
+  document.getElementById('vswModal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+// Init
+renderVswGrid();
+</script>
 <!-- ADMISSION FORM -->
 <section id="admission" class="sec admission-sec">
   <div class="con">
@@ -1328,6 +1520,7 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
             <li><a href="#placement"><i class="fas fa-angle-right"></i>Placements</a></li>
             <li><a href="#brochures"><i class="fas fa-angle-right"></i>Brochures</a></li>
             <li><a href="#testimonials"><i class="fas fa-angle-right"></i>Student Stories</a></li>
+            <li><a href="#success-stories"><i class="fas fa-angle-right"></i>Success Stories</a></li>
             <li><a href="#contact"><i class="fas fa-angle-right"></i>Contact Us</a></li>
           </ul>
         </div>
