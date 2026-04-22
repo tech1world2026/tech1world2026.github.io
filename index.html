@@ -2490,12 +2490,24 @@ window.handleResumeFile = (input) => {
   }
 
   // PDF ke liye PDF.js use karo
+  const loadPdfJs = () => new Promise((resolve, reject) => {
+    if (window.pdfjsLib) return resolve(window.pdfjsLib); // Already loaded
+
+    const script = document.createElement('script');
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+    script.onload = () => {
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc =
+        'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+      resolve(window.pdfjsLib);
+    };
+    script.onerror = reject;
+    document.head.appendChild(script);
+  });
+
   const reader = new FileReader();
   reader.onload = async e => {
     try {
-      const pdfjsLib = await import('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js');
-      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-
+      const pdfjsLib = await loadPdfJs();
       const pdf = await pdfjsLib.getDocument({ data: e.target.result }).promise;
       let text = '';
       for (let i = 1; i <= pdf.numPages; i++) {
@@ -2504,8 +2516,9 @@ window.handleResumeFile = (input) => {
         text += content.items.map(item => item.str).join(' ') + '\n';
       }
       document.getElementById('resumeText').value = text.substring(0, 3000);
-    } catch {
-      alert('Cannot read pdf. Please paste resume text  manually.');
+    } catch (err) {
+      alert('PDF read nahi ho saka. Please resume text paste karo manually.');
+      console.error(err);
     }
   };
   reader.readAsArrayBuffer(f);
