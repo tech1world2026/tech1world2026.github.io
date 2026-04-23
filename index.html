@@ -1543,10 +1543,10 @@ renderVswGrid();
     <div class="footer-bot">
       <p>&copy; 2026 Tech1World Institute. All Rights Reserved. | Jammu, India</p>
       <div class="footer-bot-links">
-        <a href="#" onclick="showToast('Privacy Policy coming soon','info');return false">Privacy Policy</a>
-        <a href="#" onclick="showToast('Terms of Service coming soon','info');return false">Terms of Service</a>
-        <a href="#" onclick="showToast('Refund Policy coming soon','info');return false">Refund Policy</a>
-        <a href="#admission">Enroll Now</a>
+        <a href="#" onclick="showToast('Privacy Policy coming soon — contact info@tech1world.com','info');return false">Privacy Policy</a>
+<a href="#" onclick="showToast('Terms of Service coming soon — contact info@tech1world.com','info');return false">Terms of Service</a>
+<a href="#" onclick="showToast('Refund Policy — call +91 8082151063 for details','info');return false">Refund Policy</a>
+<a href="#admission">Enroll Now</a>
       </div>
     </div>
   </div>
@@ -1556,7 +1556,20 @@ renderVswGrid();
 
 <script>
 'use strict';
-
+function showToast(msg, type) {
+  const toast = document.getElementById('toast');
+  const toastMsg = document.getElementById('toast-msg');
+  const toastIcon = document.getElementById('toast-icon');
+  if (!toast) return;
+  toastMsg.textContent = msg;
+  toastIcon.className = type === 'info' 
+    ? 'fas fa-info-circle' 
+    : type === 'error' 
+    ? 'fas fa-times-circle' 
+    : 'fas fa-check-circle';
+  toast.className = 'toast show ' + type;
+  setTimeout(() => { toast.className = 'toast'; }, 3500);
+}
 /* ══════════════════════════════════════════════════════════
    WEB3FORMS — Free, no-server form-to-email
    ──────────────────────────────────────────────────────────
