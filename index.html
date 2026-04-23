@@ -1543,9 +1543,9 @@ renderVswGrid();
     <div class="footer-bot">
       <p>&copy; 2026 Tech1World Institute. All Rights Reserved. | Jammu, India</p>
       <div class="footer-bot-links">
-        <a href="#" onclick="showToast('Privacy Policy coming soon — contact info@tech1world.com','info');return false">Privacy Policy</a>
-<a href="#" onclick="showToast('Terms of Service coming soon — contact info@tech1world.com','info');return false">Terms of Service</a>
-<a href="#" onclick="showToast('Refund Policy — call +91 8082151063 for details','info');return false">Refund Policy</a>
+        <a href="#" onclick="showPolicyModal('privacy');return false">Privacy Policy</a>
+<a href="#" onclick="showPolicyModal('terms');return false">Terms of Service</a>
+<a href="#" onclick="showPolicyModal('refund');return false">Refund Policy</a>
 <a href="#admission">Enroll Now</a>
       </div>
     </div>
@@ -1569,6 +1569,66 @@ function showToast(msg, type) {
     : 'fas fa-check-circle';
   toast.className = 'toast show ' + type;
   setTimeout(() => { toast.className = 'toast'; }, 3500);
+}
+  function showPolicyModal(type) {
+  const content = {
+    privacy: {
+      title: 'Privacy Policy',
+      text: `<p>Last updated: January 2026</p>
+      <h4>Information We Collect</h4>
+      <p>We collect name, email, phone number and course preferences when you fill our enrollment form or contact us.</p>
+      <h4>How We Use Your Information</h4>
+      <p>Your information is used only to contact you about courses, batches, and career guidance. We never sell your data to third parties.</p>
+      <h4>Data Security</h4>
+      <p>All data is stored securely. We use industry-standard encryption to protect your personal information.</p>
+      <h4>Contact Us</h4>
+      <p>For privacy concerns, email us at info@tech1world.com or call +91 8082151063.</p>`
+    },
+    terms: {
+      title: 'Terms of Service',
+      text: `<p>Last updated: January 2026</p>
+      <h4>Enrollment</h4>
+      <p>By enrolling in any Tech1World program, you agree to attend classes regularly and complete all assignments.</p>
+      <h4>Fee Payment</h4>
+      <p>Course fees must be paid as per the agreed schedule. EMI options are available on request.</p>
+      <h4>Certification</h4>
+      <p>Certificates are issued upon successful completion of the course and assessments.</p>
+      <h4>Code of Conduct</h4>
+      <p>Students must maintain respectful behavior with faculty and fellow students at all times.</p>
+      <h4>Contact Us</h4>
+      <p>For queries, email info@tech1world.com or call +91 8082151063.</p>`
+    },
+    refund: {
+      title: 'Refund Policy',
+      text: `<p>Last updated: January 2026</p>
+      <h4>Refund Eligibility</h4>
+      <p>Refund requests made within 7 days of enrollment and before the 2nd class are eligible for a full refund.</p>
+      <h4>Partial Refund</h4>
+      <p>Requests made after 7 days but before 30% course completion are eligible for 50% refund.</p>
+      <h4>No Refund</h4>
+      <p>No refund after 30% course completion. However, you may transfer your enrollment to the next batch.</p>
+      <h4>Process</h4>
+      <p>Refunds are processed within 7-10 working days. Email info@tech1world.com with your enrollment details.</p>`
+    }
+  };
+
+  const c = content[type];
+  if (!c) return;
+
+  const existing = document.getElementById('policyModal');
+  if (existing) existing.remove();
+
+  const modal = document.createElement('div');
+  modal.id = 'policyModal';
+  modal.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(4px)';
+  modal.innerHTML = `
+    <div style="background:#0c1c30;border:1px solid rgba(255,255,255,.12);border-radius:16px;max-width:580px;width:100%;max-height:80vh;overflow-y:auto;padding:2rem;position:relative">
+      <button onclick="document.getElementById('policyModal').remove()" style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,.08);border:none;color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1rem">✕</button>
+      <h3 style="font-family:'Sora',sans-serif;color:#fff;margin-bottom:1.25rem;font-size:1.2rem">${c.title}</h3>
+      <div style="color:rgba(255,255,255,.6);font-size:.84rem;line-height:1.8">${c.text}</div>
+    </div>`;
+  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+  document.body.appendChild(modal);
 }
 /* ══════════════════════════════════════════════════════════
    WEB3FORMS — Free, no-server form-to-email
