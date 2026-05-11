@@ -2516,7 +2516,11 @@ function injectMockInterview() {
   `);
 
   let selectedTopic = 'Manual Testing';
+  const QUESTIONS_PER_INTERVIEW_ROUND = 5;
+  const MIN_INTERVIEW_REGENERATIONS = 10;
+  const INTERVIEW_HISTORY_LIMIT = (MIN_INTERVIEW_REGENERATIONS + 1) * QUESTIONS_PER_INTERVIEW_ROUND;
   const interviewQuestionHistory = {};
+  const interviewGenerationCounts = {};
   const fallbackQuestionBank = {
     'Manual Testing': [
       { q: 'How do you choose boundary values for a numeric input field with valid range 1 to 100?', level: 'Basic', hint: 'Include valid and invalid values around the edges' },
@@ -2574,13 +2578,60 @@ function injectMockInterview() {
     return String(q || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
   }
 
-  function getFallbackQuestions(topicKey, excludedQuestions, count) {
+  function getFallbackQuestions(topicKey, excludedQuestions, count, generationNumber = 1) {
     const bank = fallbackQuestionBank[topicKey] || fallbackQuestionBank['Manual Testing'];
     const start = Math.floor(Math.random() * bank.length);
-    return bank
-      .slice(start).concat(bank.slice(0, start))
+    const rotatedBank = bank.slice(start).concat(bank.slice(0, start));
+    const fresh = rotatedBank
       .filter(q => !excludedQuestions.has(normalizeInterviewQuestion(q.q)))
       .slice(0, count);
+
+    if (fresh.length >= count) return fresh;
+
+    const focusAreas = ['real project example', 'edge cases', 'release risk', 'debugging steps', 'automation opportunity'];
+    const recycled = [];
+    let cycle = 0;
+    while (fresh.length + recycled.length < count && cycle < MIN_INTERVIEW_REGENERATIONS) {
+      rotatedBank.forEach((q, i) => {
+        if (fresh.length + recycled.length >= count) return;
+        const focus = focusAreas[(generationNumber + cycle + i) % focusAreas.length];
+        const candidate = {
+          ...q,
+          q: `${q.q} In regeneration round ${generationNumber}, scenario ${cycle + 1}, answer with focus on ${focus}.`
+        };
+        if (!excludedQuestions.has(normalizeInterviewQuestion(candidate.q))) recycled.push(candidate);
+      });
+      cycle += 1;
+    }
+
+    return fresh.concat(recycled).slice(0, count);
+  }
+
+  function renderInterviewQuestions(qa, qs) {
+    qa.innerHTML = qs.map((q, i) => `
+      <div class="interview-q">
+        <div class="interview-q-label">${q.level} · Question ${i + 1}</div>
+        <div class="interview-q-text"></div>
+        <div class="interview-q-hint" style="font-size:.73rem;color:#94a3b8;margin-bottom:.5rem"></div>
+        <textarea class="interview-q-ans" id="ans_${i}" placeholder="Type your answer here..."></textarea>
+        <button class="interview-eval-btn" data-idx="${i}" data-question="">
+          <span>🤖</span> Evaluate My Answer
+        </button>
+        <div class="interview-feedback" id="fb_${i}"></div>
+      </div>
+    `).join('');
+
+    // FIX 7: Set question text and data-question via DOM properties to avoid escaping issues
+    // API-returned strings set via textContent/dataset — never via innerHTML string interpolation
+    qs.forEach((q, i) => {
+      const qDivs = qa.querySelectorAll('.interview-q');
+      if (qDivs[i]) {
+        qDivs[i].querySelector('.interview-q-text').textContent = q.q;
+        qDivs[i].querySelector('.interview-q-hint').textContent = '💡 Hint: ' + q.hint;
+        const evalBtn = qDivs[i].querySelector('.interview-eval-btn');
+        if (evalBtn) evalBtn.dataset.question = q.q;
+      }
+    });
   }
 
   // Topic button selection
@@ -2621,14 +2672,16 @@ const topicPrompts = {
 
 const topicKey = Object.keys(topicPrompts).find(k => selectedTopic.toLowerCase().includes(k.toLowerCase())) || 'Manual Testing';
 const topicDetail = topicPrompts[topicKey] || topicPrompts['Manual Testing'];
+interviewGenerationCounts[topicKey] = (interviewGenerationCounts[topicKey] || 0) + 1;
+const generationNumber = interviewGenerationCounts[topicKey];
 const previousQuestions = interviewQuestionHistory[topicKey] || [];
 const excludedQuestions = new Set(previousQuestions.map(normalizeInterviewQuestion));
-const generationId = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+const generationId = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}-round-${generationNumber}`;
 const avoidList = previousQuestions.length
   ? ` Previously generated for this topic, DO NOT repeat or rephrase these: ${previousQuestions.slice(-15).map(q => `"${q}"`).join('; ')}.`
   : '';
 
-const prompt = `Generate exactly 5 NEW interview questions for a Software Testing job interview specifically on: "${selectedTopic}". Session variation id: ${generationId}. ${topicDetail} Mix difficulty: 2 basic, 2 intermediate, 1 advanced. Every question must be specific to ${selectedTopic} — no generic questions. ${avoidList} Format as JSON array ONLY: [{"q":"question text","level":"Basic/Intermediate/Advanced","hint":"one-line specific hint"}]. No markdown, no backticks.`;
+const prompt = `Generate exactly ${QUESTIONS_PER_INTERVIEW_ROUND} NEW interview questions for a Software Testing job interview specifically on: "${selectedTopic}". Regeneration round: ${generationNumber}. Session variation id: ${generationId}. ${topicDetail} Mix difficulty: 2 basic, 2 intermediate, 1 advanced. Every question must be specific to ${selectedTopic} — no generic questions. ${avoidList} Format as JSON array ONLY: [{"q":"question text","level":"Basic/Intermediate/Advanced","hint":"one-line specific hint"}]. No markdown, no backticks.`;
     try {
       const raw = await callClaude([{ role: 'user', content: prompt }],
         'You are an expert software testing interviewer. Return only valid JSON arrays, no markdown. Always create fresh questions and avoid repetition.', 900, { temperature: 0.95, top_p: 0.9 });
@@ -2652,44 +2705,22 @@ const prompt = `Generate exactly 5 NEW interview questions for a Software Testin
           seenThisBatch.add(normalized);
           return true;
         })
-        .slice(0, 5);
+        .slice(0, QUESTIONS_PER_INTERVIEW_ROUND);
 
-      if (qs.length < 5) {
+      if (qs.length < QUESTIONS_PER_INTERVIEW_ROUND) {
         const fillerExcluded = new Set([...excludedQuestions, ...seenThisBatch]);
-        const filler = getFallbackQuestions(topicKey, fillerExcluded, 5 - qs.length);
+        const filler = getFallbackQuestions(topicKey, fillerExcluded, QUESTIONS_PER_INTERVIEW_ROUND - qs.length, generationNumber);
         qs = qs.concat(filler);
       }
 
-      interviewQuestionHistory[topicKey] = previousQuestions.concat(qs.map(q => q.q)).slice(-40);
+      interviewQuestionHistory[topicKey] = previousQuestions.concat(qs.map(q => q.q)).slice(-INTERVIEW_HISTORY_LIMIT);
 
-      // Build question HTML
-      qa.innerHTML = qs.map((q, i) => `
-        <div class="interview-q">
-          <div class="interview-q-label">${q.level} · Question ${i + 1}</div>
-          <div class="interview-q-text"></div>
-          <div class="interview-q-hint" style="font-size:.73rem;color:#94a3b8;margin-bottom:.5rem"></div>
-          <textarea class="interview-q-ans" id="ans_${i}" placeholder="Type your answer here..."></textarea>
-          <button class="interview-eval-btn" data-idx="${i}" data-question="">
-            <span>🤖</span> Evaluate My Answer
-          </button>
-          <div class="interview-feedback" id="fb_${i}"></div>
-        </div>
-      `).join('');
-
-      // FIX 7: Set question text and data-question via DOM properties to avoid escaping issues
-      // API-returned strings set via textContent/dataset — never via innerHTML string interpolation
-      qs.forEach((q, i) => {
-        const qDivs = qa.querySelectorAll('.interview-q');
-        if (qDivs[i]) {
-          qDivs[i].querySelector('.interview-q-text').textContent = q.q;
-          qDivs[i].querySelector('.interview-q-hint').textContent = '💡 Hint: ' + q.hint;
-          const evalBtn = qDivs[i].querySelector('.interview-eval-btn');
-          if (evalBtn) evalBtn.dataset.question = q.q;
-        }
-      });
+      renderInterviewQuestions(qa, qs);
 
     } catch {
-      qa.innerHTML = '<div style="text-align:center;padding:2rem;color:#f43f5e;font-size:.85rem">Failed to generate questions. Please try again.</div>';
+      const fallback = getFallbackQuestions(topicKey, excludedQuestions, QUESTIONS_PER_INTERVIEW_ROUND, generationNumber);
+      interviewQuestionHistory[topicKey] = previousQuestions.concat(fallback.map(q => q.q)).slice(-INTERVIEW_HISTORY_LIMIT);
+      renderInterviewQuestions(qa, fallback);
     }
 
     btn.disabled = false;
