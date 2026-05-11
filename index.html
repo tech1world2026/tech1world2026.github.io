@@ -2131,18 +2131,22 @@ const ANTHROPIC_API = 'https://api.groq.com/openai/v1/chat/completions';
 const MODEL = 'llama-3.3-70b-versatile';
 const API_KEY = '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'; // apni Groq key yahan
 
-async function callClaude(messages, system, maxTokens = 800) {
+async function callClaude(messages, system, maxTokens = 800, options = {}) {
+  const payload = {
+    model: MODEL,
+    max_tokens: maxTokens,
+    messages: [{ role: 'system', content: system }, ...messages]
+  };
+  if (typeof options.temperature === 'number') payload.temperature = options.temperature;
+  if (typeof options.top_p === 'number') payload.top_p = options.top_p;
+
   const r = await fetch(ANTHROPIC_API, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + API_KEY
     },
-    body: JSON.stringify({
-      model: MODEL,
-      max_tokens: maxTokens,
-      messages: [{ role: 'system', content: system }, ...messages]
-    })
+    body: JSON.stringify(payload)
   });
   const d = await r.json();
   return d.choices?.[0]?.message?.content || 'Sorry, could not generate a response.';
@@ -2512,6 +2516,72 @@ function injectMockInterview() {
   `);
 
   let selectedTopic = 'Manual Testing';
+  const interviewQuestionHistory = {};
+  const fallbackQuestionBank = {
+    'Manual Testing': [
+      { q: 'How do you choose boundary values for a numeric input field with valid range 1 to 100?', level: 'Basic', hint: 'Include valid and invalid values around the edges' },
+      { q: 'What is the difference between severity and priority in defect reporting?', level: 'Basic', hint: 'Compare business urgency with technical impact' },
+      { q: 'Design test cases for a login page that supports email, password, and forgot password.', level: 'Intermediate', hint: 'Cover positive, negative, validation, and security scenarios' },
+      { q: 'When would you run smoke testing versus regression testing in a release cycle?', level: 'Intermediate', hint: 'Think about build acceptance and change impact' },
+      { q: 'How would you test a shopping cart when requirements are incomplete?', level: 'Advanced', hint: 'Use assumptions, risks, exploratory testing, and stakeholder clarification' },
+      { q: 'Explain equivalence partitioning with an example from a registration form.', level: 'Basic', hint: 'Group inputs that should behave the same way' },
+      { q: 'How do you decide whether a failed test should block production release?', level: 'Intermediate', hint: 'Consider severity, priority, workaround, and release risk' }
+    ],
+    'Selenium': [
+      { q: 'What is the difference between findElement and findElements in Selenium WebDriver?', level: 'Basic', hint: 'Compare return value and behavior when no element is found' },
+      { q: 'How would you handle a dynamic XPath for a changing web table row?', level: 'Intermediate', hint: 'Use stable attributes and relative locator strategy' },
+      { q: 'Explain implicit wait, explicit wait, and fluent wait with practical use cases.', level: 'Intermediate', hint: 'Focus on synchronization and polling' },
+      { q: 'How do you implement Page Object Model for a login and dashboard flow?', level: 'Intermediate', hint: 'Separate locators/actions from test assertions' },
+      { q: 'How would you reduce flaky Selenium tests in a CI pipeline?', level: 'Advanced', hint: 'Address waits, test data, isolation, and browser environment' },
+      { q: 'How do you switch between frames and windows in Selenium?', level: 'Basic', hint: 'Use driver switch APIs and window handles' },
+      { q: 'How would you capture screenshots only for failed TestNG tests?', level: 'Advanced', hint: 'Use listeners and failure hooks' }
+    ],
+    'DevOps': [
+      { q: 'What stages would you include in a basic CI/CD pipeline for a testing project?', level: 'Basic', hint: 'Think build, test, package, deploy, and notify' },
+      { q: 'What is the difference between a Docker image and a Docker container?', level: 'Basic', hint: 'Compare template versus running instance' },
+      { q: 'How would you configure Jenkins to run automated tests after every Git push?', level: 'Intermediate', hint: 'Use source control triggers and build steps' },
+      { q: 'How do Kubernetes services help expose pods to other applications?', level: 'Intermediate', hint: 'Discuss stable networking and service discovery' },
+      { q: 'How would you investigate a failed deployment in a CI/CD pipeline?', level: 'Advanced', hint: 'Check logs, artifacts, environment variables, and rollback strategy' },
+      { q: 'Why is infrastructure as code useful for QA environments?', level: 'Intermediate', hint: 'Consider repeatability and environment drift' }
+    ],
+    'SQL': [
+      { q: 'Write a query to find duplicate email addresses in a users table.', level: 'Basic', hint: 'Use GROUP BY and HAVING COUNT greater than 1' },
+      { q: 'What is the difference between INNER JOIN and LEFT JOIN?', level: 'Basic', hint: 'Compare matching rows with preserved left-side rows' },
+      { q: 'How would you test whether an order total equals the sum of its order item rows?', level: 'Intermediate', hint: 'Join header and detail tables with aggregation' },
+      { q: 'Explain how NULL values affect WHERE conditions and aggregate functions.', level: 'Intermediate', hint: 'Mention IS NULL and ignored NULLs in many aggregates' },
+      { q: 'How would you validate migrated customer data between two databases?', level: 'Advanced', hint: 'Use counts, checksums, sampling, and field-level comparisons' },
+      { q: 'When should a tester use a subquery instead of a join?', level: 'Intermediate', hint: 'Think filtering, readability, and correlated checks' }
+    ],
+    'Agile': [
+      { q: 'What is the QA role during sprint planning?', level: 'Basic', hint: 'Discuss acceptance criteria, risks, and estimates' },
+      { q: 'How is Definition of Done different from acceptance criteria?', level: 'Basic', hint: 'Compare team-level completion with story-specific conditions' },
+      { q: 'How do you handle testing when development finishes late in the sprint?', level: 'Intermediate', hint: 'Talk risk-based testing and communication' },
+      { q: 'What should a tester contribute in a sprint retrospective?', level: 'Intermediate', hint: 'Bring quality metrics, blockers, and improvement actions' },
+      { q: 'How would you improve quality in a team with frequent escaped defects?', level: 'Advanced', hint: 'Use root cause analysis, earlier QA involvement, and automation' },
+      { q: 'What is the difference between Scrum and Kanban for QA work?', level: 'Intermediate', hint: 'Compare sprint cadence with continuous flow' }
+    ],
+    'API Testing': [
+      { q: 'What is the difference between GET, POST, PUT, and PATCH methods?', level: 'Basic', hint: 'Compare read, create, replace, and partial update semantics' },
+      { q: 'How do you validate status codes for positive and negative API scenarios?', level: 'Basic', hint: 'Include 2xx, 4xx, and 5xx categories' },
+      { q: 'What assertions would you add for a JSON response in Postman?', level: 'Intermediate', hint: 'Check schema, required fields, data types, and values' },
+      { q: 'How do you test an API that requires Bearer token authentication?', level: 'Intermediate', hint: 'Generate token, store it, and test invalid or expired tokens' },
+      { q: 'How would you design API tests for an unreliable third-party payment service?', level: 'Advanced', hint: 'Use mocks, retries, contract tests, and failure scenarios' },
+      { q: 'How can Newman help in API test automation?', level: 'Intermediate', hint: 'Run Postman collections from CLI and CI' }
+    ]
+  };
+
+  function normalizeInterviewQuestion(q) {
+    return String(q || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+  }
+
+  function getFallbackQuestions(topicKey, excludedQuestions, count) {
+    const bank = fallbackQuestionBank[topicKey] || fallbackQuestionBank['Manual Testing'];
+    const start = Math.floor(Math.random() * bank.length);
+    return bank
+      .slice(start).concat(bank.slice(0, start))
+      .filter(q => !excludedQuestions.has(normalizeInterviewQuestion(q.q)))
+      .slice(0, count);
+  }
 
   // Topic button selection
   document.querySelectorAll('.interview-topic-btn').forEach(btn => {
@@ -2551,18 +2621,46 @@ const topicPrompts = {
 
 const topicKey = Object.keys(topicPrompts).find(k => selectedTopic.toLowerCase().includes(k.toLowerCase())) || 'Manual Testing';
 const topicDetail = topicPrompts[topicKey] || topicPrompts['Manual Testing'];
+const previousQuestions = interviewQuestionHistory[topicKey] || [];
+const excludedQuestions = new Set(previousQuestions.map(normalizeInterviewQuestion));
+const generationId = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+const avoidList = previousQuestions.length
+  ? ` Previously generated for this topic, DO NOT repeat or rephrase these: ${previousQuestions.slice(-15).map(q => `"${q}"`).join('; ')}.`
+  : '';
 
-const prompt = `Generate exactly 5 interview questions for a Software Testing job interview specifically on: "${selectedTopic}". ${topicDetail} Mix difficulty: 2 basic, 2 intermediate, 1 advanced. Every question must be specific to ${selectedTopic} — no generic questions. Format as JSON array ONLY: [{"q":"question text","level":"Basic/Intermediate/Advanced","hint":"one-line specific hint"}]. No markdown, no backticks.`;
+const prompt = `Generate exactly 5 NEW interview questions for a Software Testing job interview specifically on: "${selectedTopic}". Session variation id: ${generationId}. ${topicDetail} Mix difficulty: 2 basic, 2 intermediate, 1 advanced. Every question must be specific to ${selectedTopic} — no generic questions. ${avoidList} Format as JSON array ONLY: [{"q":"question text","level":"Basic/Intermediate/Advanced","hint":"one-line specific hint"}]. No markdown, no backticks.`;
     try {
       const raw = await callClaude([{ role: 'user', content: prompt }],
-        'You are an expert software testing interviewer. Return only valid JSON arrays, no markdown.', 800);
+        'You are an expert software testing interviewer. Return only valid JSON arrays, no markdown. Always create fresh questions and avoid repetition.', 900, { temperature: 0.95, top_p: 0.9 });
       let qs;
-      try { qs = JSON.parse(raw.replace(/```json|```/g, '').trim()); }
-      catch { qs = [
-        { q: 'What is the difference between smoke testing and sanity testing?', level: 'Basic', hint: 'Focus on scope and purpose' },
-        { q: 'Explain the bug life cycle with all states.', level: 'Intermediate', hint: 'Start from New to Closed' },
-        { q: 'How would you design a test strategy for a microservices architecture?', level: 'Advanced', hint: 'Think about contract testing and service isolation' }
-      ]; }
+      try {
+        qs = JSON.parse(raw.replace(/```json|```/g, '').trim());
+        if (!Array.isArray(qs)) throw new Error('Interview questions response was not an array.');
+      } catch { qs = []; }
+
+      const seenThisBatch = new Set();
+      qs = qs
+        .filter(q => q && q.q)
+        .map(q => ({
+          q: String(q.q).trim(),
+          level: ['Basic', 'Intermediate', 'Advanced'].includes(q.level) ? q.level : 'Intermediate',
+          hint: String(q.hint || 'Answer with a practical example.').trim()
+        }))
+        .filter(q => {
+          const normalized = normalizeInterviewQuestion(q.q);
+          if (!normalized || seenThisBatch.has(normalized) || excludedQuestions.has(normalized)) return false;
+          seenThisBatch.add(normalized);
+          return true;
+        })
+        .slice(0, 5);
+
+      if (qs.length < 5) {
+        const fillerExcluded = new Set([...excludedQuestions, ...seenThisBatch]);
+        const filler = getFallbackQuestions(topicKey, fillerExcluded, 5 - qs.length);
+        qs = qs.concat(filler);
+      }
+
+      interviewQuestionHistory[topicKey] = previousQuestions.concat(qs.map(q => q.q)).slice(-40);
 
       // Build question HTML
       qa.innerHTML = qs.map((q, i) => `
