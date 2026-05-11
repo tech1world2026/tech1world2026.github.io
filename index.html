@@ -2046,6 +2046,8 @@ async function callClaude(messages, system, maxTokens = 800) {
       model: MODEL,
       max_tokens: maxTokens,
       messages: [{ role: 'system', content: system }, ...messages]
+      temperature: 1.2,
+  top_p: 0.95,
     })
   });
   const d = await r.json();
@@ -2455,9 +2457,55 @@ const topicPrompts = {
 
 const topicKey = Object.keys(topicPrompts).find(k => selectedTopic.toLowerCase().includes(k.toLowerCase())) || 'Manual Testing';
 const topicDetail = topicPrompts[topicKey] || topicPrompts['Manual Testing'];
+    const randomSeed = Math.floor(Math.random() * 1000000);
 
-const prompt = `Generate exactly 5 interview questions for a Software Testing job interview specifically on: "${selectedTopic}". ${topicDetail} Mix difficulty: 2 basic, 2 intermediate, 1 advanced. Every question must be specific to ${selectedTopic} — no generic questions. Format as JSON array ONLY: [{"q":"question text","level":"Basic/Intermediate/Advanced","hint":"one-line specific hint"}]. No markdown, no backticks.`;
-    try {
+const interviewStyles = [
+  "Startup style",
+  "MNC style",
+  "Product company style",
+  "Real QA lead style",
+  "Amazon style",
+  "TCS style"
+];
+
+const randomStyle =
+  interviewStyles[
+    Math.floor(Math.random() * interviewStyles.length)
+  ];
+
+const prompt = `
+You are conducting a REAL software testing interview.
+
+Generate 5 UNIQUE interview questions for:
+"${selectedTopic}"
+
+Interview style:
+${randomStyle}
+
+Topic coverage:
+${topicDetail}
+
+Requirements:
+- Questions must be different every time
+- Avoid repeating common textbook questions
+- Include real-world project scenarios
+- Mix:
+  • 2 basic
+  • 2 intermediate
+  • 1 advanced
+
+Session ID:
+${randomSeed}
+
+Return ONLY valid JSON array:
+[
+ {
+   "q":"question text",
+   "level":"Basic",
+   "hint":"short hint"
+ }
+]
+`;    try {
       const raw = await callClaude([{ role: 'user', content: prompt }],
         'You are an expert software testing interviewer. Return only valid JSON arrays, no markdown.', 800);
       let qs;
