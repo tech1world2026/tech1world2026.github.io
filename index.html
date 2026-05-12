@@ -2286,6 +2286,26 @@ Response rules:
     if (badge) badge.textContent = text;
   }
 
+  function getAryaFallbackReply(message) {
+    const msg = message.toLowerCase();
+    if (msg.includes('placement') || msg.includes('job') || msg.includes('salary')) {
+      return 'Arya here 👋 Our placement support includes resume help, mock interviews, job referrals and interview preparation. Tech1World highlights a 96% placement rate, 450+ hiring partners and average fresher CTC around Rs.5.2 LPA. For current openings, WhatsApp +91 8082151063 and ask for the placement counselor.';
+    }
+    if (msg.includes('emi') || msg.includes('fee') || msg.includes('price') || msg.includes('cost')) {
+      return 'Arya here 👋 Course fees start from Rs.18,000 for Manual Testing, Rs.32,000 for Selenium Automation, Rs.45,000 for DevOps and Rs.55,000 for Full Stack. No Cost EMI is available. For today’s scholarship/discount, WhatsApp +91 8082151063.';
+    }
+    if (msg.includes('fresher') || msg.includes('start') || msg.includes('beginner')) {
+      return 'Arya here 👋 If you are a fresher, start with Manual Testing & QA, then move to Selenium Automation. This path builds testing basics, bug reporting, test cases, SQL/API fundamentals and automation skills for your first QA role. Book a free demo on WhatsApp: +91 8082151063.';
+    }
+    if (msg.includes('course') || msg.includes('best') || msg.includes('which')) {
+      return 'Arya here 👋 Best course depends on your background: fresher → Manual Testing & QA, basic testing knowledge → Selenium Automation, IT experience → DevOps, coding interest → Full Stack. Share your background on WhatsApp +91 8082151063 and we’ll guide you personally.';
+    }
+    if (msg.includes('contact') || msg.includes('demo') || msg.includes('call')) {
+      return 'Arya here 👋 You can book a free demo or counseling call at +91 8082151063. Email: info@tech1world.com. Address: 877 Janipur Colony, Jammu. Tell us your goal and preferred course, and our counselor will help.';
+    }
+    return 'Arya here 👋 I can help with courses, fees, placements, EMI, demo classes and interview prep. I’m having trouble connecting to live AI right now, but you can WhatsApp +91 8082151063 for instant counseling. For quick guidance: fresher → Manual Testing, tester → Selenium, IT background → DevOps.';
+  }
+
   window.sendAIMsg = async () => {
     if (aryaSending) return;
     const inp = document.getElementById('aiInput');
