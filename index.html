@@ -2113,39 +2113,42 @@ function dlBrochure(key){
 }
 </script>
   <script>
-/* ═══════════════════════════════════════════════════════
-   TECH1WORLD — AI ENHANCEMENTS MODULE (CORRECTED)
-   
-   All bugs fixed:
-   FIX 1: toggleCurr — removed redundant style.transform (CSS handles it)
-   FIX 2: chatHistory — capped at 20 messages to prevent token overflow  
-   FIX 3: selectOpt — replaced unsafe inline onclick string with data attrs + delegation
-   FIX 4: :has() selectors — replaced with direct id-based selectors
-   FIX 5: injectCourseRecommender — fixed double outerHTML injection pattern
-   FIX 6: W3F_KEY — added console.warn when placeholder not replaced
-   FIX 7: evaluateAnswer button — replaced inline onclick with data attrs
-   FIX 8: interviewQA event delegation — listener added once, outside generateInterviewQs
-═══════════════════════════════════════════════════════ */
-
-const ANTHROPIC_API = 'https://api.groq.com/openai/v1/chat/completions';
+const GROQ_API = 'https://api.groq.com/openai/v1/chat/completions';
 const MODEL = 'llama-3.3-70b-versatile';
-const API_KEY = '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'; // apni Groq key yahan
+const ARYA_MODEL = 'llama-3.1-8b-instant';
+const API_KEY = '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';
 
-async function callClaude(messages, system, maxTokens = 800) {
-  const r = await fetch(ANTHROPIC_API, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + API_KEY
-    },
-    body: JSON.stringify({
-      model: MODEL,
-      max_tokens: maxTokens,
-      messages: [{ role: 'system', content: system }, ...messages]
-    })
-  });
-  const d = await r.json();
-  return d.choices?.[0]?.message?.content || 'Sorry, could not generate a response.';
+async function callGroq(messages, system, maxTokens = 800, options = {}) {
+  const payload = {
+    model: options.model || MODEL,
+    max_tokens: maxTokens,
+    messages: [{ role: 'system', content: system }, ...messages]
+  };
+  if (typeof options.temperature === 'number') payload.temperature = options.temperature;
+  if (typeof options.top_p === 'number') payload.top_p = options.top_p;
+
+  const controller = new AbortController();
+  const timeoutMs = typeof options.timeoutMs === 'number' ? options.timeoutMs : 15000;
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+  try {
+    const r = await fetch(GROQ_API, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + API_KEY
+      },
+      body: JSON.stringify(payload),
+      signal: controller.signal
+    });
+    const d = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(d.error?.message || `AI request failed with status ${r.status}`);
+    const content = d.choices?.[0]?.message?.content?.trim();
+    if (!content) throw new Error('AI returned an empty response.');
+    return content;
+  } finally {
+    clearTimeout(timeoutId);
+  }
 }
 /* ─── 1. AI CAREER CHATBOT ─── */
 function injectChatbot() {
@@ -2189,7 +2192,7 @@ function injectChatbot() {
         <div class="ai-chat-av">🎓</div>
         <div class="ai-chat-info">
           <div class="name">Arya — AI Career Counselor</div>
-          <div class="status">Online · Powered by Claude AI</div>
+          <div class="status">Online · AI Career Counselor</div>
         </div>
         <button class="ai-chat-close" onclick="toggleAIChat()">✕</button>
       </div>
@@ -2204,9 +2207,9 @@ function injectChatbot() {
       </div>
       <div class="ai-chat-input">
         <input type="text" id="aiInput" placeholder="Ask me anything..." onkeydown="if(event.key==='Enter')sendAIMsg()">
-        <button onclick="sendAIMsg()">➤</button>
+        <button id="aiSendBtn" onclick="sendAIMsg()">➤</button>
       </div>
-      <div class="ai-powered-badge">⚡ Powered by Anthropic Claude · Real-time AI</div>
+      <div class="ai-powered-badge" id="aiStatusBadge">⚡ Live AI ready · WhatsApp backup available</div>
     </div>
   `);
 
@@ -2220,43 +2223,68 @@ function injectChatbot() {
     sendAIMsg();
   };
 
-  // FIX 2: chatHistory capped at 20 messages (10 user+assistant pairs)
-  // Prevents API token limit errors in long conversations
+  const ARYA_HISTORY_LIMIT = 12;
   const chatHistory = [];
-  const SYSTEM = `You are Arya, a friendly and expert AI career counselor at Tech1World Institute — India's premier software testing and QA training institute in Jammu. You help students choose courses, plan careers, and answer questions about:
+  let aryaSending = false;
+  const SYSTEM = `You are Arya, a realistic and helpful AI career counselor for Tech1World Institute in Jammu. Your goal is to guide students honestly and help them book a free demo/counseling call when needed.
 
-Programs: Manual Testing & QA (Rs.18,000, 3 months), Automation Testing with Selenium (Rs.32,000, 5 months), DevOps Engineering (Rs.45,000, 6 months), Full Stack Developer (Rs.55,000, 8 months), Performance & Security Testing (Rs.28,000, 4 months), Internship Program (free, stipend paid).
+Known Tech1World details:
+- Programs: Manual Testing & QA (Rs.18,000, 3 months), Automation Testing with Selenium (Rs.32,000, 5 months), DevOps Engineering (Rs.45,000, 6 months), Full Stack Developer (Rs.55,000, 8 months), Performance & Security Testing (Rs.28,000, 4 months), Internship Program (free, stipend paid).
+- Website highlights: 96% placement rate, 8,500+ alumni, 450+ hiring partners, average fresher CTC around Rs.5.2 LPA, ISTQB prep included, No Cost EMI available, hybrid/online/offline modes, lifetime recordings, 24/7 support.
+- Contact: +91 8082151063, info@tech1world.com, 877 Janipur Colony, Jammu.
 
-Key facts: 96% placement rate, 8,500+ alumni, 450+ hiring partners (Infosys, TCS, Wipro, HCL, etc.), avg CTC Rs.5.2 LPA for freshers, ISTQB prep included, No Cost EMI available, hybrid/online/offline modes, lifetime recordings, 24/7 support.
+Response rules:
+- Be conversational, specific, and under 90 words unless the user asks for detail.
+- Sound realistic: never guarantee jobs, salary, discounts, scholarships, or admission outcomes.
+- Say “the website highlights” or “typically” for placement/salary claims.
+- If the user asks for current batch dates, latest discounts, exact EMI approval, or job openings, ask them to WhatsApp +91 8082151063 because those details change.
+- Ask one short follow-up question when the student’s background is unclear.
+- Use at most one emoji.`;
 
-Contact: +91 8082151063, info@tech1world.com, 877 Janipur Colony, Jammu.
+  function trimAryaHistory() {
+    if (chatHistory.length > ARYA_HISTORY_LIMIT) chatHistory.splice(0, chatHistory.length - ARYA_HISTORY_LIMIT);
+  }
 
-Be warm, conversational, concise (under 120 words unless complex). Use emojis sparingly. Always encourage enrollment or free demo. If unsure, direct to WhatsApp.`;
+  function updateAryaStatus(text) {
+    const badge = document.getElementById('aiStatusBadge');
+    if (badge) badge.textContent = text;
+  }
 
   window.sendAIMsg = async () => {
+    if (aryaSending) return;
     const inp = document.getElementById('aiInput');
+    const sendBtn = document.getElementById('aiSendBtn');
     const txt = inp.value.trim();
     if (!txt) return;
+    aryaSending = true;
+    if (sendBtn) sendBtn.disabled = true;
     inp.value = '';
     document.getElementById('aiQuickBtns').style.display = 'none';
     appendAIMsg(txt, 'user');
-    const typing = appendAIMsg('Arya is thinking...', 'typing');
+    updateAryaStatus('⚡ Live AI answering...');
+    const typing = appendAIMsg('Arya is generating a live answer...', 'typing');
     chatHistory.push({ role: 'user', content: txt });
-
-    // FIX 2: Cap history at 20 messages to avoid token limit errors
-    if (chatHistory.length > 20) chatHistory.splice(0, 2);
+    trimAryaHistory();
 
     try {
-      const reply = await callClaude(chatHistory, SYSTEM, 250);
+      const reply = await callGroq(chatHistory, SYSTEM, 260, { model: ARYA_MODEL, temperature: 0.72, top_p: 0.9, timeoutMs: 18000 });
+      updateAryaStatus('⚡ Live AI ready · WhatsApp backup available');
       typing.remove();
       appendAIMsg(reply, 'bot');
       chatHistory.push({ role: 'assistant', content: reply });
-
-      // Cap again after assistant reply
-      if (chatHistory.length > 20) chatHistory.splice(0, 2);
-    } catch {
+      trimAryaHistory();
+    } catch (err) {
+      updateAryaStatus('⚠️ Live AI connection failed');
+      console.warn('Arya live AI failed.', err);
+      const message = 'Arya could not connect to live AI right now. Please try again in a moment, or WhatsApp +91 8082151063 for immediate counseling.';
       typing.remove();
-      appendAIMsg('Sorry, something went wrong. Please WhatsApp us at +91 8082151063!', 'bot');
+      appendAIMsg(message, 'bot');
+      chatHistory.push({ role: 'assistant', content: message });
+      trimAryaHistory();
+    } finally {
+      aryaSending = false;
+      if (sendBtn) sendBtn.disabled = false;
+      inp.focus();
     }
   };
 
@@ -2314,12 +2342,9 @@ function injectCourseRecommender() {
 
   let answers = {};
 
-  // FIX 5: Build container element directly — no outerHTML round-trip
   const container = document.createElement('div');
   container.id = 'ai-recommender';
 
-  // FIX 3: Use data-qidx and data-val attributes instead of inline onclick string interpolation
-  // This avoids JS injection risk if option text contains quotes/special chars
   const quizHTML = questions.map((q, i) => `
     <div class="rec-q-step">
       <div class="rec-q-label">${q.label}</div>
@@ -2347,7 +2372,6 @@ function injectCourseRecommender() {
     </div>
   `;
 
-  // FIX 5: Direct DOM injection — no outerHTML serialization round-trip
   const programsSec = document.getElementById('programs');
   if (programsSec) {
     const wrapSec = document.createElement('section');
@@ -2360,14 +2384,12 @@ function injectCourseRecommender() {
     programsSec.insertAdjacentElement('afterend', wrapSec);
   }
 
-  // Start quiz button
   document.getElementById('recStartBtn').addEventListener('click', function() {
     this.style.display = 'none';
     document.querySelector('#ai-recommender .rec-desc').style.display = 'none';
     document.getElementById('recQuiz').classList.add('active');
   });
 
-  // Retry button
   document.getElementById('recRetryBtn').addEventListener('click', function() {
     answers = {};
     document.querySelectorAll('#ai-recommender .rec-q-opt').forEach(b => b.classList.remove('sel'));
@@ -2378,8 +2400,6 @@ function injectCourseRecommender() {
     getBtn.textContent = 'Get My AI Recommendation →';
   });
 
-  // FIX 3: Event delegation for quiz options — replaces unsafe inline onclick
-  // All option buttons use data-qidx and data-val attributes
   container.addEventListener('click', function(e) {
     const btn = e.target.closest('.rec-q-opt');
     if (!btn) return;
@@ -2393,7 +2413,6 @@ function injectCourseRecommender() {
     if (getBtn) getBtn.disabled = !allAnswered;
   });
 
-  // Get Recommendation button
   document.getElementById('recGetBtn').addEventListener('click', getRecommendation);
 
   async function getRecommendation() {
@@ -2407,7 +2426,7 @@ function injectCourseRecommender() {
     Respond in JSON ONLY (no markdown): {"course":"<name>","duration":"<X months>","price":"Rs.X,XXX","match":"<percentage>%","reason":"<2-3 sentence personalized explanation>","roadmap":["<step1>","<step2>","<step3>"]}`;
 
     try {
-      const raw = await callClaude([{ role: 'user', content: prompt }],
+      const raw = await callGroq([{ role: 'user', content: prompt }],
         'You are a course advisor. Respond ONLY with valid JSON, no markdown, no backticks.', 400);
       let data;
       try { data = JSON.parse(raw.replace(/```json|```/g, '').trim()); }
@@ -2415,7 +2434,6 @@ function injectCourseRecommender() {
 
       document.getElementById('recQuiz').classList.remove('active');
       const resultCard = document.getElementById('recResultCard');
-      // Build result HTML using textContent for user-sourced data to prevent XSS
       resultCard.innerHTML = `
         <span class="rec-result-badge">🎯 ${data.match || '94%'} Match</span>
         <div class="rec-result-course"></div>
@@ -2423,15 +2441,13 @@ function injectCourseRecommender() {
         <div class="rec-result-meta">
           <span class="badge badge-amber">⏱ ${data.duration}</span>
           <span class="badge badge-cyan">💰 ${data.price}</span>
-          <span class="badge badge-green">✓ Placement Guaranteed</span>
+          <span class="badge badge-green">✓ Placement Support</span>
         </div>
         <div style="color:rgba(255,255,255,.5);font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.1rem;text-transform:uppercase;margin-bottom:.5rem">Your AI Learning Roadmap</div>
         ${(data.roadmap || []).map((s, i) => `<div style="display:flex;align-items:center;gap:.6rem;color:rgba(255,255,255,.75);font-size:.82rem;padding:.35rem 0;border-bottom:1px solid rgba(255,255,255,.06)"><span style="background:linear-gradient(135deg,#7c3aed,#4f46e5);color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;flex-shrink:0">${i + 1}</span></div>`).join('')}
       `;
-      // Set text content safely for API-returned strings
       resultCard.querySelector('.rec-result-course').textContent = data.course;
       resultCard.querySelector('.rec-result-why').textContent = data.reason;
-      // Fill roadmap steps via textContent
       resultCard.querySelectorAll('[style*="border-bottom"]').forEach((el, i) => {
         const span = el.querySelector('span');
         el.textContent = '';
@@ -2439,9 +2455,16 @@ function injectCourseRecommender() {
         el.appendChild(document.createTextNode(' ' + (data.roadmap[i] || '')));
       });
       document.getElementById('recResult').classList.add('active');
-    } catch {
-      btn.disabled = false;
-      btn.textContent = 'Get My AI Recommendation →';
+    } catch (err) {
+      console.warn('Course recommender live AI failed.', err);
+      const resultCard = document.getElementById('recResultCard');
+      resultCard.innerHTML = '';
+      const msg = document.createElement('div');
+      msg.style.cssText = 'color:rgba(255,255,255,.82);font-size:.9rem;line-height:1.7';
+      msg.textContent = 'Live AI recommendation is unavailable right now. Please try again in a moment or WhatsApp +91 8082151063 for course guidance.';
+      resultCard.appendChild(msg);
+      document.getElementById('recQuiz').classList.remove('active');
+      document.getElementById('recResult').classList.add('active');
     }
   }
 }
@@ -2512,8 +2535,122 @@ function injectMockInterview() {
   `);
 
   let selectedTopic = 'Manual Testing';
+  const QUESTIONS_PER_INTERVIEW_ROUND = 5;
+  const MIN_INTERVIEW_REGENERATIONS = 10;
+  const INTERVIEW_HISTORY_LIMIT = (MIN_INTERVIEW_REGENERATIONS + 1) * QUESTIONS_PER_INTERVIEW_ROUND;
+  const interviewQuestionHistory = {};
+  const interviewGenerationCounts = {};
+  const fallbackQuestionBank = {
+    'Manual Testing': [
+      { q: 'How do you choose boundary values for a numeric input field with valid range 1 to 100?', level: 'Basic', hint: 'Include valid and invalid values around the edges' },
+      { q: 'What is the difference between severity and priority in defect reporting?', level: 'Basic', hint: 'Compare business urgency with technical impact' },
+      { q: 'Design test cases for a login page that supports email, password, and forgot password.', level: 'Intermediate', hint: 'Cover positive, negative, validation, and security scenarios' },
+      { q: 'When would you run smoke testing versus regression testing in a release cycle?', level: 'Intermediate', hint: 'Think about build acceptance and change impact' },
+      { q: 'How would you test a shopping cart when requirements are incomplete?', level: 'Advanced', hint: 'Use assumptions, risks, exploratory testing, and stakeholder clarification' },
+      { q: 'Explain equivalence partitioning with an example from a registration form.', level: 'Basic', hint: 'Group inputs that should behave the same way' },
+      { q: 'How do you decide whether a failed test should block production release?', level: 'Intermediate', hint: 'Consider severity, priority, workaround, and release risk' }
+    ],
+    'Selenium': [
+      { q: 'What is the difference between findElement and findElements in Selenium WebDriver?', level: 'Basic', hint: 'Compare return value and behavior when no element is found' },
+      { q: 'How would you handle a dynamic XPath for a changing web table row?', level: 'Intermediate', hint: 'Use stable attributes and relative locator strategy' },
+      { q: 'Explain implicit wait, explicit wait, and fluent wait with practical use cases.', level: 'Intermediate', hint: 'Focus on synchronization and polling' },
+      { q: 'How do you implement Page Object Model for a login and dashboard flow?', level: 'Intermediate', hint: 'Separate locators/actions from test assertions' },
+      { q: 'How would you reduce flaky Selenium tests in a CI pipeline?', level: 'Advanced', hint: 'Address waits, test data, isolation, and browser environment' },
+      { q: 'How do you switch between frames and windows in Selenium?', level: 'Basic', hint: 'Use driver switch APIs and window handles' },
+      { q: 'How would you capture screenshots only for failed TestNG tests?', level: 'Advanced', hint: 'Use listeners and failure hooks' }
+    ],
+    'DevOps': [
+      { q: 'What stages would you include in a basic CI/CD pipeline for a testing project?', level: 'Basic', hint: 'Think build, test, package, deploy, and notify' },
+      { q: 'What is the difference between a Docker image and a Docker container?', level: 'Basic', hint: 'Compare template versus running instance' },
+      { q: 'How would you configure Jenkins to run automated tests after every Git push?', level: 'Intermediate', hint: 'Use source control triggers and build steps' },
+      { q: 'How do Kubernetes services help expose pods to other applications?', level: 'Intermediate', hint: 'Discuss stable networking and service discovery' },
+      { q: 'How would you investigate a failed deployment in a CI/CD pipeline?', level: 'Advanced', hint: 'Check logs, artifacts, environment variables, and rollback strategy' },
+      { q: 'Why is infrastructure as code useful for QA environments?', level: 'Intermediate', hint: 'Consider repeatability and environment drift' }
+    ],
+    'SQL': [
+      { q: 'Write a query to find duplicate email addresses in a users table.', level: 'Basic', hint: 'Use GROUP BY and HAVING COUNT greater than 1' },
+      { q: 'What is the difference between INNER JOIN and LEFT JOIN?', level: 'Basic', hint: 'Compare matching rows with preserved left-side rows' },
+      { q: 'How would you test whether an order total equals the sum of its order item rows?', level: 'Intermediate', hint: 'Join header and detail tables with aggregation' },
+      { q: 'Explain how NULL values affect WHERE conditions and aggregate functions.', level: 'Intermediate', hint: 'Mention IS NULL and ignored NULLs in many aggregates' },
+      { q: 'How would you validate migrated customer data between two databases?', level: 'Advanced', hint: 'Use counts, checksums, sampling, and field-level comparisons' },
+      { q: 'When should a tester use a subquery instead of a join?', level: 'Intermediate', hint: 'Think filtering, readability, and correlated checks' }
+    ],
+    'Agile': [
+      { q: 'What is the QA role during sprint planning?', level: 'Basic', hint: 'Discuss acceptance criteria, risks, and estimates' },
+      { q: 'How is Definition of Done different from acceptance criteria?', level: 'Basic', hint: 'Compare team-level completion with story-specific conditions' },
+      { q: 'How do you handle testing when development finishes late in the sprint?', level: 'Intermediate', hint: 'Talk risk-based testing and communication' },
+      { q: 'What should a tester contribute in a sprint retrospective?', level: 'Intermediate', hint: 'Bring quality metrics, blockers, and improvement actions' },
+      { q: 'How would you improve quality in a team with frequent escaped defects?', level: 'Advanced', hint: 'Use root cause analysis, earlier QA involvement, and automation' },
+      { q: 'What is the difference between Scrum and Kanban for QA work?', level: 'Intermediate', hint: 'Compare sprint cadence with continuous flow' }
+    ],
+    'API Testing': [
+      { q: 'What is the difference between GET, POST, PUT, and PATCH methods?', level: 'Basic', hint: 'Compare read, create, replace, and partial update semantics' },
+      { q: 'How do you validate status codes for positive and negative API scenarios?', level: 'Basic', hint: 'Include 2xx, 4xx, and 5xx categories' },
+      { q: 'What assertions would you add for a JSON response in Postman?', level: 'Intermediate', hint: 'Check schema, required fields, data types, and values' },
+      { q: 'How do you test an API that requires Bearer token authentication?', level: 'Intermediate', hint: 'Generate token, store it, and test invalid or expired tokens' },
+      { q: 'How would you design API tests for an unreliable third-party payment service?', level: 'Advanced', hint: 'Use mocks, retries, contract tests, and failure scenarios' },
+      { q: 'How can Newman help in API test automation?', level: 'Intermediate', hint: 'Run Postman collections from CLI and CI' }
+    ]
+  };
 
-  // Topic button selection
+  function normalizeInterviewQuestion(q) {
+    return String(q || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+  }
+
+  function getFallbackQuestions(topicKey, excludedQuestions, count, generationNumber = 1) {
+    const bank = fallbackQuestionBank[topicKey] || fallbackQuestionBank['Manual Testing'];
+    const start = Math.floor(Math.random() * bank.length);
+    const rotatedBank = bank.slice(start).concat(bank.slice(0, start));
+    const fresh = rotatedBank
+      .filter(q => !excludedQuestions.has(normalizeInterviewQuestion(q.q)))
+      .slice(0, count);
+
+    if (fresh.length >= count) return fresh;
+
+    const focusAreas = ['real project example', 'edge cases', 'release risk', 'debugging steps', 'automation opportunity'];
+    const recycled = [];
+    let cycle = 0;
+    while (fresh.length + recycled.length < count && cycle < MIN_INTERVIEW_REGENERATIONS) {
+      rotatedBank.forEach((q, i) => {
+        if (fresh.length + recycled.length >= count) return;
+        const focus = focusAreas[(generationNumber + cycle + i) % focusAreas.length];
+        const candidate = {
+          ...q,
+          q: `${q.q} In regeneration round ${generationNumber}, scenario ${cycle + 1}, answer with focus on ${focus}.`
+        };
+        if (!excludedQuestions.has(normalizeInterviewQuestion(candidate.q))) recycled.push(candidate);
+      });
+      cycle += 1;
+    }
+
+    return fresh.concat(recycled).slice(0, count);
+  }
+
+  function renderInterviewQuestions(qa, qs) {
+    qa.innerHTML = qs.map((q, i) => `
+      <div class="interview-q">
+        <div class="interview-q-label">${q.level} · Question ${i + 1}</div>
+        <div class="interview-q-text"></div>
+        <div class="interview-q-hint" style="font-size:.73rem;color:#94a3b8;margin-bottom:.5rem"></div>
+        <textarea class="interview-q-ans" id="ans_${i}" placeholder="Type your answer here..."></textarea>
+        <button class="interview-eval-btn" data-idx="${i}" data-question="">
+          <span>🤖</span> Evaluate My Answer
+        </button>
+        <div class="interview-feedback" id="fb_${i}"></div>
+      </div>
+    `).join('');
+
+    qs.forEach((q, i) => {
+      const qDivs = qa.querySelectorAll('.interview-q');
+      if (qDivs[i]) {
+        qDivs[i].querySelector('.interview-q-text').textContent = q.q;
+        qDivs[i].querySelector('.interview-q-hint').textContent = '💡 Hint: ' + q.hint;
+        const evalBtn = qDivs[i].querySelector('.interview-eval-btn');
+        if (evalBtn) evalBtn.dataset.question = q.q;
+      }
+    });
+  }
+
   document.querySelectorAll('.interview-topic-btn').forEach(btn => {
     btn.addEventListener('click', function () {
       document.querySelectorAll('.interview-topic-btn').forEach(b => b.classList.remove('active'));
@@ -2525,8 +2662,6 @@ function injectMockInterview() {
   window.closeInterview = () => document.getElementById('ai-interview-modal').classList.remove('open');
   window.openInterview = () => document.getElementById('ai-interview-modal').classList.add('open');
 
-  // FIX 8: evaluateAnswer delegation listener added ONCE here, not inside generateInterviewQs
-  // Prevents duplicate listeners accumulating each time questions are regenerated
   document.getElementById('interviewQA').addEventListener('click', function(e) {
     const btn = e.target.closest('.interview-eval-btn');
     if (!btn) return;
@@ -2551,47 +2686,55 @@ const topicPrompts = {
 
 const topicKey = Object.keys(topicPrompts).find(k => selectedTopic.toLowerCase().includes(k.toLowerCase())) || 'Manual Testing';
 const topicDetail = topicPrompts[topicKey] || topicPrompts['Manual Testing'];
+interviewGenerationCounts[topicKey] = (interviewGenerationCounts[topicKey] || 0) + 1;
+const generationNumber = interviewGenerationCounts[topicKey];
+const previousQuestions = interviewQuestionHistory[topicKey] || [];
+const excludedQuestions = new Set(previousQuestions.map(normalizeInterviewQuestion));
+const generationId = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}-round-${generationNumber}`;
+const avoidList = previousQuestions.length
+  ? ` Previously generated for this topic, DO NOT repeat or rephrase these: ${previousQuestions.slice(-15).map(q => `"${q}"`).join('; ')}.`
+  : '';
 
-const prompt = `Generate exactly 5 interview questions for a Software Testing job interview specifically on: "${selectedTopic}". ${topicDetail} Mix difficulty: 2 basic, 2 intermediate, 1 advanced. Every question must be specific to ${selectedTopic} — no generic questions. Format as JSON array ONLY: [{"q":"question text","level":"Basic/Intermediate/Advanced","hint":"one-line specific hint"}]. No markdown, no backticks.`;
+const prompt = `Generate exactly ${QUESTIONS_PER_INTERVIEW_ROUND} NEW interview questions for a Software Testing job interview specifically on: "${selectedTopic}". Regeneration round: ${generationNumber}. Session variation id: ${generationId}. ${topicDetail} Mix difficulty: 2 basic, 2 intermediate, 1 advanced. Every question must be specific to ${selectedTopic} — no generic questions. ${avoidList} Format as JSON array ONLY: [{"q":"question text","level":"Basic/Intermediate/Advanced","hint":"one-line specific hint"}]. No markdown, no backticks.`;
     try {
-      const raw = await callClaude([{ role: 'user', content: prompt }],
-        'You are an expert software testing interviewer. Return only valid JSON arrays, no markdown.', 800);
+      const raw = await callGroq([{ role: 'user', content: prompt }],
+        'You are an expert software testing interviewer. Return only valid JSON arrays, no markdown. Always create fresh questions and avoid repetition.', 900, { temperature: 0.95, top_p: 0.9 });
       let qs;
-      try { qs = JSON.parse(raw.replace(/```json|```/g, '').trim()); }
-      catch { qs = [
-        { q: 'What is the difference between smoke testing and sanity testing?', level: 'Basic', hint: 'Focus on scope and purpose' },
-        { q: 'Explain the bug life cycle with all states.', level: 'Intermediate', hint: 'Start from New to Closed' },
-        { q: 'How would you design a test strategy for a microservices architecture?', level: 'Advanced', hint: 'Think about contract testing and service isolation' }
-      ]; }
+      try {
+        qs = JSON.parse(raw.replace(/```json|```/g, '').trim());
+        if (!Array.isArray(qs)) throw new Error('Interview questions response was not an array.');
+      } catch { qs = []; }
 
-      // Build question HTML
-      qa.innerHTML = qs.map((q, i) => `
-        <div class="interview-q">
-          <div class="interview-q-label">${q.level} · Question ${i + 1}</div>
-          <div class="interview-q-text"></div>
-          <div class="interview-q-hint" style="font-size:.73rem;color:#94a3b8;margin-bottom:.5rem"></div>
-          <textarea class="interview-q-ans" id="ans_${i}" placeholder="Type your answer here..."></textarea>
-          <button class="interview-eval-btn" data-idx="${i}" data-question="">
-            <span>🤖</span> Evaluate My Answer
-          </button>
-          <div class="interview-feedback" id="fb_${i}"></div>
-        </div>
-      `).join('');
+      const seenThisBatch = new Set();
+      qs = qs
+        .filter(q => q && q.q)
+        .map(q => ({
+          q: String(q.q).trim(),
+          level: ['Basic', 'Intermediate', 'Advanced'].includes(q.level) ? q.level : 'Intermediate',
+          hint: String(q.hint || 'Answer with a practical example.').trim()
+        }))
+        .filter(q => {
+          const normalized = normalizeInterviewQuestion(q.q);
+          if (!normalized || seenThisBatch.has(normalized) || excludedQuestions.has(normalized)) return false;
+          seenThisBatch.add(normalized);
+          return true;
+        })
+        .slice(0, QUESTIONS_PER_INTERVIEW_ROUND);
 
-      // FIX 7: Set question text and data-question via DOM properties to avoid escaping issues
-      // API-returned strings set via textContent/dataset — never via innerHTML string interpolation
-      qs.forEach((q, i) => {
-        const qDivs = qa.querySelectorAll('.interview-q');
-        if (qDivs[i]) {
-          qDivs[i].querySelector('.interview-q-text').textContent = q.q;
-          qDivs[i].querySelector('.interview-q-hint').textContent = '💡 Hint: ' + q.hint;
-          const evalBtn = qDivs[i].querySelector('.interview-eval-btn');
-          if (evalBtn) evalBtn.dataset.question = q.q;
-        }
-      });
+      if (qs.length < QUESTIONS_PER_INTERVIEW_ROUND) {
+        const fillerExcluded = new Set([...excludedQuestions, ...seenThisBatch]);
+        const filler = getFallbackQuestions(topicKey, fillerExcluded, QUESTIONS_PER_INTERVIEW_ROUND - qs.length, generationNumber);
+        qs = qs.concat(filler);
+      }
+
+      interviewQuestionHistory[topicKey] = previousQuestions.concat(qs.map(q => q.q)).slice(-INTERVIEW_HISTORY_LIMIT);
+
+      renderInterviewQuestions(qa, qs);
 
     } catch {
-      qa.innerHTML = '<div style="text-align:center;padding:2rem;color:#f43f5e;font-size:.85rem">Failed to generate questions. Please try again.</div>';
+      const fallback = getFallbackQuestions(topicKey, excludedQuestions, QUESTIONS_PER_INTERVIEW_ROUND, generationNumber);
+      interviewQuestionHistory[topicKey] = previousQuestions.concat(fallback.map(q => q.q)).slice(-INTERVIEW_HISTORY_LIMIT);
+      renderInterviewQuestions(qa, fallback);
     }
 
     btn.disabled = false;
@@ -2610,7 +2753,7 @@ const prompt = `Generate exactly 5 interview questions for a Software Testing jo
     const prompt = `Interview question: "${question}"\nCandidate answer: "${ansText}"\n\nEvaluate this answer for a Software Testing interview. Give: 1) Score out of 10, 2) What was good (1 sentence), 3) What to improve (1 sentence), 4) A better answer hint (1 sentence). Format as JSON ONLY: {"score":7,"good":"...","improve":"...","hint":"..."}`;
 
     try {
-      const raw = await callClaude([{ role: 'user', content: prompt }],
+      const raw = await callGroq([{ role: 'user', content: prompt }],
         'You are an expert software testing interviewer. Return only valid JSON, no markdown.', 300);
       let data;
       try { data = JSON.parse(raw.replace(/```json|```/g, '').trim()); }
@@ -2619,7 +2762,6 @@ const prompt = `Generate exactly 5 interview questions for a Software Testing jo
       const score = parseInt(data.score) || 6;
       const cls = score >= 7 ? 'good' : 'ok';
       fb.className = `interview-feedback show ${cls}`;
-      // Use textContent for API-returned strings
       fb.innerHTML = `<div class="interview-score">Score: ${score}/10 ${score >= 7 ? '✅' : '⚠️'}</div>`;
       const lines = [
         { label: '✅ Good: ', text: data.good },
@@ -2635,9 +2777,10 @@ const prompt = `Generate exactly 5 interview questions for a Software Testing jo
         d.appendChild(document.createTextNode(text));
         fb.appendChild(d);
       });
-    } catch {
+    } catch (err) {
+      console.warn('Answer evaluation live AI failed.', err);
       fb.className = 'interview-feedback show ok';
-      fb.textContent = 'Could not evaluate. Please try again.';
+      fb.textContent = 'Live AI evaluation is unavailable right now. Please try again in a moment.';
     }
   };
 
@@ -2709,7 +2852,6 @@ function injectSalaryPredictor() {
     <div class="salary-result" id="spResult"></div>
   </div></div>`;
 
-  // FIX 4: Use direct ID instead of :has() selector (poor browser support in Firefox < 121)
   const testimonials = document.getElementById('testimonials');
   if (testimonials) testimonials.insertAdjacentElement('beforebegin', widget);
 
@@ -2725,7 +2867,7 @@ function injectSalaryPredictor() {
     const prompt = `Estimate salary for a candidate: Background: "${bg}", Completing course: "${course}" at Tech1World Institute (96% placement, top MNC recruiters), Experience: "${exp}", City: "${city}" India. Give realistic salary ranges in Indian Rupees LPA (lakhs per annum). Format as JSON ONLY: {"min":4.5,"avg":6.2,"max":9.5,"growth1yr":7.5,"growth3yr":12,"topRole":"SDET / QA Engineer","companies":["Infosys","Wipro","HCL"],"insight":"one sentence key insight"}`;
 
     try {
-      const raw = await callClaude([{ role: 'user', content: prompt }],
+      const raw = await callGroq([{ role: 'user', content: prompt }],
         'You are an Indian IT salary expert. Return only valid JSON, no markdown, no backticks.', 350);
       let d;
       try { d = JSON.parse(raw.replace(/```json|```/g, '').trim()); }
@@ -2753,13 +2895,14 @@ function injectSalaryPredictor() {
         <div style="background:linear-gradient(135deg,rgba(245,158,11,.08),rgba(249,115,22,.04));border:1px solid rgba(245,158,11,.25);border-radius:10px;padding:.85rem 1rem;margin-top:1rem;font-size:.82rem;color:#78350f;line-height:1.65"><b>🤖 AI Insight:</b> <span class="sp-insight"></span></div>
         <div style="margin-top:.9rem;font-size:.78rem;color:#94a3b8;text-align:center" class="sp-companies">Top recruiters: · Based on 2024-25 placement data</div>
       `;
-      // Set API-returned strings safely via textContent
       result.querySelector('.salary-bk-card:last-child .salary-bk-val').textContent = d.topRole;
       result.querySelector('.sp-insight').textContent = d.insight;
       result.querySelector('.sp-companies').textContent = 'Top recruiters: ' + (d.companies || []).join(' · ') + ' · Based on 2024-25 placement data';
-    } catch {
-      document.getElementById('spResult').className = 'salary-result show';
-      document.getElementById('spResult').textContent = 'Prediction failed. Try again!';
+    } catch (err) {
+      console.warn('Salary predictor live AI failed.', err);
+      const result = document.getElementById('spResult');
+      result.className = 'salary-result show';
+      result.textContent = 'Live AI salary prediction is unavailable right now. Please try again in a moment.';
     }
     btn.disabled = false;
     btn.textContent = '🔄 Recalculate Salary';
@@ -2833,8 +2976,6 @@ function injectResumeAnalyzer() {
     </div>
   </div>`;
 
-  // FIX 4: Use direct id="faq-section" instead of :has() which has poor browser support
-  // The FAQ <section> in the HTML must have id="faq-section" (add that attribute to the tag)
   const faqSec = document.getElementById('faq-section') || document.querySelector('.faq-list')?.closest('section');
   if (faqSec) faqSec.insertAdjacentElement('beforebegin', sec);
 
@@ -2842,7 +2983,6 @@ window.handleResumeFile = (input) => {
   const f = input.files[0];
   if (!f) return;
 
-  // TXT ya DOC files ke liye
   if (f.type !== 'application/pdf') {
     const reader = new FileReader();
     reader.onload = e => {
@@ -2852,9 +2992,8 @@ window.handleResumeFile = (input) => {
     return;
   }
 
-  // PDF ke liye PDF.js use karo
   const loadPdfJs = () => new Promise((resolve, reject) => {
-    if (window.pdfjsLib) return resolve(window.pdfjsLib); // Already loaded
+    if (window.pdfjsLib) return resolve(window.pdfjsLib);
 
     const script = document.createElement('script');
     script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
@@ -2880,7 +3019,7 @@ window.handleResumeFile = (input) => {
       }
       document.getElementById('resumeText').value = text.substring(0, 3000);
     } catch (err) {
-      alert('PDF read nahi ho saka. Please resume text paste karo manually.');
+      alert('Could not read the PDF. Please paste your resume text manually.');
       console.error(err);
     }
   };
@@ -2912,7 +3051,7 @@ window.handleResumeFile = (input) => {
     const prompt = `Analyze this resume for a Software Testing / QA job in India:\n\n${text.substring(0, 2500)}\n\nProvide analysis as JSON ONLY: {"atsScore":72,"skillsFound":["Manual Testing","JIRA","SQL"],"skillsMissing":["Selenium","API Testing","CI/CD"],"tips":["Add quantifiable achievements","Include ISTQB certification","List specific tools used"],"courseRec":"Automation Testing with Selenium","overallFeedback":"one sentence summary","atsBreakdown":{"keywords":65,"format":80,"experience":70,"education":75}}`;
 
     try {
-      const raw = await callClaude([{ role: 'user', content: prompt }],
+      const raw = await callGroq([{ role: 'user', content: prompt }],
         'You are an expert ATS resume analyzer for Indian IT companies. Return only valid JSON, no markdown.', 600);
       let d;
       try { d = JSON.parse(raw.replace(/```json|```/g, '').trim()); }
@@ -2948,7 +3087,6 @@ window.handleResumeFile = (input) => {
         <div class="resume-tips-container"></div>
         <div class="resume-course-rec" style="margin-top:.75rem"></div>
       `;
-      // Set API-returned strings safely via DOM methods
       result.querySelector('.resume-overall-feedback').textContent = d.overallFeedback;
       const foundContainer = result.querySelector('.resume-skills-found');
       (d.skillsFound || []).forEach(s => {
@@ -2986,10 +3124,15 @@ window.handleResumeFile = (input) => {
         recDiv.appendChild(courseText);
         recDiv.appendChild(link);
       }
-    } catch {
-      document.getElementById('resumeResult').innerHTML = '';
-      document.getElementById('resumeResult').className = 'resume-result show';
-      document.getElementById('resumeResult').textContent = 'Analysis failed. Please try again.';
+    } catch (err) {
+      console.warn('Resume analyzer live AI failed.', err);
+      const result = document.getElementById('resumeResult');
+      result.className = 'resume-result show';
+      result.innerHTML = '';
+      const msg = document.createElement('div');
+      msg.style.cssText = 'color:rgba(255,255,255,.78);font-size:.88rem;line-height:1.7;background:rgba(244,63,94,.12);border:1px solid rgba(244,63,94,.25);border-radius:10px;padding:.85rem 1rem';
+      msg.textContent = 'Live AI resume analysis is unavailable right now. Please try again in a moment, or WhatsApp +91 8082151063 for manual resume review.';
+      result.appendChild(msg);
     }
     btn.disabled = false;
     btn.textContent = '🔄 Re-analyze Resume';
@@ -3022,14 +3165,16 @@ function injectSmartFormHelper() {
       suggestion.textContent = '🤖 AI is personalizing a tip for you...';
       const prompt = `Student selected: "${prog}" with experience: "${exp}" at Tech1World Institute. Give ONE short personalized tip (max 25 words) about why this is a good choice or what to expect. Be encouraging and specific.`;
       try {
-        const tip = await callClaude([{ role: 'user', content: prompt }], 'You are a supportive course advisor. Give one short tip, max 25 words, no special characters.', 80);
+        const tip = await callGroq([{ role: 'user', content: prompt }], 'You are a supportive course advisor. Give one short tip, max 25 words, no special characters.', 80);
         suggestion.innerHTML = '';
         const strong = document.createElement('strong');
         strong.textContent = '🤖 AI Tip: ';
         suggestion.appendChild(strong);
         suggestion.appendChild(document.createTextNode(tip));
         suggestion.className = 'ai-form-suggestion show';
-      } catch { suggestion.className = 'ai-form-suggestion'; }
+      } catch {
+        suggestion.className = 'ai-form-suggestion';
+      }
     };
     progField.addEventListener('change', update);
   }
