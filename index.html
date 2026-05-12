@@ -2286,26 +2286,6 @@ Response rules:
     if (badge) badge.textContent = text;
   }
 
-  function getAryaFallbackReply(message) {
-    const msg = message.toLowerCase();
-    if (msg.includes('placement') || msg.includes('job') || msg.includes('salary')) {
-      return 'Arya here 👋 Our placement support includes resume help, mock interviews, job referrals and interview preparation. Tech1World highlights a 96% placement rate, 450+ hiring partners and average fresher CTC around Rs.5.2 LPA. For current openings, WhatsApp +91 8082151063 and ask for the placement counselor.';
-    }
-    if (msg.includes('emi') || msg.includes('fee') || msg.includes('price') || msg.includes('cost')) {
-      return 'Arya here 👋 Course fees start from Rs.18,000 for Manual Testing, Rs.32,000 for Selenium Automation, Rs.45,000 for DevOps and Rs.55,000 for Full Stack. No Cost EMI is available. For today’s scholarship/discount, WhatsApp +91 8082151063.';
-    }
-    if (msg.includes('fresher') || msg.includes('start') || msg.includes('beginner')) {
-      return 'Arya here 👋 If you are a fresher, start with Manual Testing & QA, then move to Selenium Automation. This path builds testing basics, bug reporting, test cases, SQL/API fundamentals and automation skills for your first QA role. Book a free demo on WhatsApp: +91 8082151063.';
-    }
-    if (msg.includes('course') || msg.includes('best') || msg.includes('which')) {
-      return 'Arya here 👋 Best course depends on your background: fresher → Manual Testing & QA, basic testing knowledge → Selenium Automation, IT experience → DevOps, coding interest → Full Stack. Share your background on WhatsApp +91 8082151063 and we’ll guide you personally.';
-    }
-    if (msg.includes('contact') || msg.includes('demo') || msg.includes('call')) {
-      return 'Arya here 👋 You can book a free demo or counseling call at +91 8082151063. Email: info@tech1world.com. Address: 877 Janipur Colony, Jammu. Tell us your goal and preferred course, and our counselor will help.';
-    }
-    return 'Arya here 👋 I can help with courses, fees, placements, EMI, demo classes and interview prep. I’m having trouble connecting to live AI right now, but you can WhatsApp +91 8082151063 for instant counseling. For quick guidance: fresher → Manual Testing, tester → Selenium, IT background → DevOps.';
-  }
-
   window.sendAIMsg = async () => {
     if (aryaSending) return;
     const inp = document.getElementById('aiInput');
@@ -3158,6 +3138,48 @@ window.handleResumeFile = (input) => {
     }
   });
 
+  function buildLocalResumeAnalysis(text) {
+    const lower = text.toLowerCase();
+    const skillChecks = [
+      ['Manual Testing', ['manual testing', 'test case', 'test cases', 'stlc', 'sdlc']],
+      ['Selenium', ['selenium', 'webdriver']],
+      ['API Testing', ['api testing', 'postman', 'rest assured', 'rest api', 'soapui']],
+      ['SQL', ['sql', 'mysql', 'oracle', 'database', 'queries']],
+      ['JIRA', ['jira', 'bugzilla', 'defect']],
+      ['Agile', ['agile', 'scrum', 'sprint']],
+      ['Java', ['java', 'core java']],
+      ['TestNG', ['testng', 'junit']],
+      ['Maven/Git', ['maven', 'git', 'github']],
+      ['CI/CD', ['jenkins', 'ci/cd', 'pipeline']]
+    ];
+    const hasAny = terms => terms.some(t => lower.includes(t));
+    const skillsFound = skillChecks.filter(([, terms]) => hasAny(terms)).map(([name]) => name);
+    const skillsMissing = skillChecks.filter(([, terms]) => !hasAny(terms)).map(([name]) => name).slice(0, 5);
+    const hasNumbers = /\b\d+\s*(%|percent|test cases?|bugs?|defects?|scripts?|projects?|months?|years?)\b/i.test(text);
+    const hasProject = /project|framework|module|application|website|app/i.test(text);
+    const hasEducation = /b\.?(tech|e|sc|ca)|m\.?(tech|sc|ca)|degree|university|college|diploma|graduate/i.test(text);
+    const hasContact = /@|\+?\d[\d\s-]{8,}/.test(text);
+    const keywordsScore = Math.min(95, 30 + skillsFound.length * 7);
+    const formatScore = Math.min(90, 55 + (hasContact ? 10 : 0) + (hasEducation ? 10 : 0) + (text.length > 900 ? 10 : 0));
+    const experienceScore = Math.min(90, 45 + (hasProject ? 20 : 0) + (hasNumbers ? 15 : 0) + (skillsFound.length >= 4 ? 10 : 0));
+    const educationScore = hasEducation ? 75 : 55;
+    const atsScore = Math.round((keywordsScore + formatScore + experienceScore + educationScore) / 4);
+    const tips = [];
+    if (skillsMissing.length) tips.push('Add relevant missing QA keywords only if you actually know them: ' + skillsMissing.slice(0, 4).join(', ') + '.');
+    if (!hasNumbers) tips.push('Quantify achievements, for example number of test cases, bugs reported, scripts created, or modules tested.');
+    if (!hasProject) tips.push('Add 1-2 project entries with application type, your role, tools used, and testing approach.');
+    tips.push('Keep headings ATS-friendly: Summary, Skills, Projects, Experience, Education, Certifications.');
+    return {
+      atsScore,
+      skillsFound: skillsFound.length ? skillsFound : ['Communication / Basic Profile'],
+      skillsMissing,
+      tips,
+      courseRec: skillsFound.includes('Selenium') ? 'Performance & Security Testing' : skillsFound.includes('Manual Testing') ? 'Automation Testing with Selenium' : 'Manual Testing & QA',
+      overallFeedback: `Local resume scan found ${skillsFound.length} QA/IT keyword group${skillsFound.length === 1 ? '' : 's'} and estimates your ATS readiness at ${atsScore}/100.`,
+      atsBreakdown: { keywords: keywordsScore, format: formatScore, experience: experienceScore, education: educationScore }
+    };
+  }
+
   window.analyzeResume = async () => {
     const text = document.getElementById('resumeText').value.trim();
     if (!text || text.length < 50) { alert('Please paste your resume content (at least 50 characters).'); return; }
@@ -3244,16 +3266,53 @@ window.handleResumeFile = (input) => {
         recDiv.appendChild(link);
       }
     } catch (err) {
-      console.warn('Resume analyzer live AI failed; showing local checklist.', err);
+      console.warn('Resume analyzer live AI failed; showing personalized local scan.', err);
+      const d = buildLocalResumeAnalysis(text);
+      const score = parseInt(d.atsScore) || 60;
       const result = document.getElementById('resumeResult');
       result.className = 'resume-result show';
-      result.innerHTML = `<div style="color:#fff;font-family:'Sora',sans-serif;font-weight:800;margin-bottom:.6rem">Backup Resume Review</div>
-        <div style="color:rgba(255,255,255,.72);font-size:.84rem;line-height:1.7;margin-bottom:1rem">Live AI is temporarily unavailable, so here is a local ATS checklist based on QA hiring patterns.</div>
-        <div class="resume-tip">→ Add exact tools: Selenium, JIRA, Postman, SQL, Git, TestNG, Maven, Jenkins if you know them.</div>
-        <div class="resume-tip">→ Quantify work: test cases written, bugs reported, modules tested, automation scripts created.</div>
-        <div class="resume-tip">→ Add project details with role, tools, test approach and measurable outcome.</div>
-        <div class="resume-tip">→ Keep formatting simple: clear headings, bullet points and consistent dates.</div>
-        <div style="margin-top:1rem;background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);border-radius:10px;padding:.85rem 1rem;color:#fbbf24;font-size:.82rem">Recommended next step: WhatsApp +91 8082151063 for a manual resume review or demo class.</div>`;
+      result.innerHTML = `
+        <div style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);border-radius:10px;padding:.7rem .9rem;color:#fbbf24;font-size:.78rem;line-height:1.55;margin-bottom:1rem">Live AI is temporarily unavailable, so this is a personalized local ATS scan from your pasted resume text.</div>
+        <div style="text-align:center;margin-bottom:1.25rem">
+          <div class="resume-score-circle" style="--pct:${score * 3.6}deg"><span class="resume-score-n">${score}</span></div>
+          <div style="color:rgba(255,255,255,.55);font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.1rem;text-transform:uppercase">ATS Score / 100</div>
+          <div style="color:rgba(255,255,255,.7);font-size:.82rem;margin-top:.5rem;line-height:1.6" class="resume-overall-feedback"></div>
+        </div>
+        <div style="margin-bottom:1rem">
+          <div style="color:rgba(255,255,255,.5);font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.1rem;text-transform:uppercase;margin-bottom:.6rem">ATS Score Breakdown</div>
+          ${Object.entries(d.atsBreakdown || {}).map(([k, v]) => `<div class="resume-skill-item"><span class="resume-skill-lbl">${k.charAt(0).toUpperCase() + k.slice(1)}</span><div class="resume-skill-bar"><div class="resume-skill-fill" style="width:${v}%"></div></div><span style="color:#f59e0b;font-family:'JetBrains Mono',monospace;font-size:.65rem;font-weight:700;min-width:28px">${v}%</span></div>`).join('')}
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1rem">
+          <div><div style="color:rgba(255,255,255,.5);font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:.1rem;text-transform:uppercase;margin-bottom:.5rem">✅ Skills Found</div><div class="resume-skills-found"></div></div>
+          <div><div style="color:rgba(255,255,255,.5);font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:.1rem;text-transform:uppercase;margin-bottom:.5rem">❌ Skills Missing</div><div class="resume-skills-missing"></div></div>
+        </div>
+        <div style="color:rgba(255,255,255,.5);font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.1rem;text-transform:uppercase;margin-bottom:.5rem">Improvement Tips</div>
+        <div class="resume-tips-container"></div>
+        <div class="resume-course-rec" style="margin-top:.75rem;background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);border-radius:10px;padding:.85rem 1rem;color:#fbbf24;font-size:.82rem;line-height:1.65"></div>
+      `;
+      result.querySelector('.resume-overall-feedback').textContent = d.overallFeedback;
+      const foundContainer = result.querySelector('.resume-skills-found');
+      d.skillsFound.forEach(s => {
+        const span = document.createElement('span');
+        span.style.cssText = 'display:inline-block;background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.3);color:#6ee7b7;border-radius:6px;padding:.18rem .5rem;font-size:.72rem;margin:.15rem';
+        span.textContent = s;
+        foundContainer.appendChild(span);
+      });
+      const missingContainer = result.querySelector('.resume-skills-missing');
+      d.skillsMissing.forEach(s => {
+        const span = document.createElement('span');
+        span.style.cssText = 'display:inline-block;background:rgba(244,63,94,.12);border:1px solid rgba(244,63,94,.3);color:#fda4af;border-radius:6px;padding:.18rem .5rem;font-size:.72rem;margin:.15rem';
+        span.textContent = s;
+        missingContainer.appendChild(span);
+      });
+      const tipsContainer = result.querySelector('.resume-tips-container');
+      d.tips.forEach(t => {
+        const tip = document.createElement('div');
+        tip.className = 'resume-tip';
+        tip.textContent = '→ ' + t;
+        tipsContainer.appendChild(tip);
+      });
+      result.querySelector('.resume-course-rec').textContent = `Recommended next step: ${d.courseRec}. For a human resume review, WhatsApp +91 8082151063.`;
     }
     btn.disabled = false;
     btn.textContent = '🔄 Re-analyze Resume';
