@@ -2129,11 +2129,12 @@ function dlBrochure(key){
 
 const ANTHROPIC_API = 'https://api.groq.com/openai/v1/chat/completions';
 const MODEL = 'llama-3.3-70b-versatile';
+const ARYA_MODEL = 'llama-3.1-8b-instant';
 const API_KEY = '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'; // apni Groq key yahan
 
 async function callClaude(messages, system, maxTokens = 800, options = {}) {
   const payload = {
-    model: MODEL,
+    model: options.model || MODEL,
     max_tokens: maxTokens,
     messages: [{ role: 'system', content: system }, ...messages]
   };
@@ -2220,9 +2221,9 @@ function injectChatbot() {
       </div>
       <div class="ai-chat-input">
         <input type="text" id="aiInput" placeholder="Ask me anything..." onkeydown="if(event.key==='Enter')sendAIMsg()">
-        <button onclick="sendAIMsg()">➤</button>
+        <button id="aiSendBtn" onclick="sendAIMsg()">➤</button>
       </div>
-      <div class="ai-powered-badge">⚡ AI Assistant · WhatsApp backup available</div>
+      <div class="ai-powered-badge" id="aiStatusBadge">⚡ Live AI ready · WhatsApp backup available</div>
     </div>
   `);
 
@@ -2236,18 +2237,54 @@ function injectChatbot() {
     sendAIMsg();
   };
 
-  // FIX 2: chatHistory capped at 20 messages (10 user+assistant pairs)
-  // Prevents API token limit errors in long conversations
+  // FIX 2: chatHistory capped to keep Arya fast and avoid token limit errors
+  const ARYA_HISTORY_LIMIT = 12;
   const chatHistory = [];
-  const SYSTEM = `You are Arya, a friendly and expert AI career counselor at Tech1World Institute — India's premier software testing and QA training institute in Jammu. You help students choose courses, plan careers, and answer questions about:
+  let aryaSending = false;
+  const SYSTEM = `You are Arya, a realistic and helpful AI career counselor for Tech1World Institute in Jammu. Your goal is to guide students honestly and help them book a free demo/counseling call when needed.
 
-Programs: Manual Testing & QA (Rs.18,000, 3 months), Automation Testing with Selenium (Rs.32,000, 5 months), DevOps Engineering (Rs.45,000, 6 months), Full Stack Developer (Rs.55,000, 8 months), Performance & Security Testing (Rs.28,000, 4 months), Internship Program (free, stipend paid).
+Known Tech1World details:
+- Programs: Manual Testing & QA (Rs.18,000, 3 months), Automation Testing with Selenium (Rs.32,000, 5 months), DevOps Engineering (Rs.45,000, 6 months), Full Stack Developer (Rs.55,000, 8 months), Performance & Security Testing (Rs.28,000, 4 months), Internship Program (free, stipend paid).
+- Website highlights: 96% placement rate, 8,500+ alumni, 450+ hiring partners, average fresher CTC around Rs.5.2 LPA, ISTQB prep included, No Cost EMI available, hybrid/online/offline modes, lifetime recordings, 24/7 support.
+- Contact: +91 8082151063, info@tech1world.com, 877 Janipur Colony, Jammu.
 
-Key facts: 96% placement rate, 8,500+ alumni, 450+ hiring partners (Infosys, TCS, Wipro, HCL, etc.), avg CTC Rs.5.2 LPA for freshers, ISTQB prep included, No Cost EMI available, hybrid/online/offline modes, lifetime recordings, 24/7 support.
+Response rules:
+- Be conversational, specific, and under 90 words unless the user asks for detail.
+- Sound realistic: never guarantee jobs, salary, discounts, scholarships, or admission outcomes.
+- Say “the website highlights” or “typically” for placement/salary claims.
+- If the user asks for current batch dates, latest discounts, exact EMI approval, or job openings, ask them to WhatsApp +91 8082151063 because those details change.
+- Ask one short follow-up question when the student’s background is unclear.
+- Use at most one emoji.`;
 
-Contact: +91 8082151063, info@tech1world.com, 877 Janipur Colony, Jammu.
+  function trimAryaHistory() {
+    if (chatHistory.length > ARYA_HISTORY_LIMIT) chatHistory.splice(0, chatHistory.length - ARYA_HISTORY_LIMIT);
+  }
 
-Be warm, conversational, concise (under 120 words unless complex). Use emojis sparingly. Always encourage enrollment or free demo. If unsure, direct to WhatsApp.`;
+  function getAryaFallbackReply(message) {
+    const msg = message.toLowerCase();
+    const opener = 'Live AI is temporarily slow, so here is Arya’s quick guidance: ';
+    if (msg.includes('placement') || msg.includes('job') || msg.includes('salary')) {
+      return opener + 'the website highlights placement support, resume help, mock interviews, referrals, 450+ hiring partners and average fresher CTC around Rs.5.2 LPA. Jobs and salary still depend on your skills, attendance and interview performance. For current openings, WhatsApp +91 8082151063.';
+    }
+    if (msg.includes('emi') || msg.includes('fee') || msg.includes('price') || msg.includes('cost')) {
+      return opener + 'listed fees are Manual Testing Rs.18,000, Selenium Rs.32,000, DevOps Rs.45,000 and Full Stack Rs.55,000. EMI is available, but exact eligibility or discounts can change, so please confirm on WhatsApp: +91 8082151063.';
+    }
+    if (msg.includes('fresher') || msg.includes('start') || msg.includes('beginner')) {
+      return opener + 'for most freshers, Manual Testing & QA is the safest starting point. After basics, Selenium Automation is a practical next step. If you already know coding, Full Stack or DevOps may fit better. What is your current background?';
+    }
+    if (msg.includes('course') || msg.includes('best') || msg.includes('which')) {
+      return opener + 'fresher → Manual Testing, tester/manual QA → Selenium, IT/support background → DevOps, coding interest → Full Stack. If you share your education, experience and target job, I can suggest a better path.';
+    }
+    if (msg.includes('contact') || msg.includes('demo') || msg.includes('call') || msg.includes('batch')) {
+      return opener + 'for demo class, batch timing or counseling, WhatsApp/call +91 8082151063. Email: info@tech1world.com. Address: 877 Janipur Colony, Jammu. Batch timing can change, so the counselor can confirm the latest slot.';
+    }
+    return opener + 'I can guide you on course selection, fees, placements, EMI, demo classes and interview prep. Start with Manual Testing if you are new, Selenium if you know QA basics, and DevOps if you have IT/Linux interest. What is your background?';
+  }
+
+  function updateAryaStatus(text) {
+    const badge = document.getElementById('aiStatusBadge');
+    if (badge) badge.textContent = text;
+  }
 
   function getAryaFallbackReply(message) {
     const msg = message.toLowerCase();
@@ -2270,33 +2307,40 @@ Be warm, conversational, concise (under 120 words unless complex). Use emojis sp
   }
 
   window.sendAIMsg = async () => {
+    if (aryaSending) return;
     const inp = document.getElementById('aiInput');
+    const sendBtn = document.getElementById('aiSendBtn');
     const txt = inp.value.trim();
     if (!txt) return;
+    aryaSending = true;
+    if (sendBtn) sendBtn.disabled = true;
     inp.value = '';
     document.getElementById('aiQuickBtns').style.display = 'none';
     appendAIMsg(txt, 'user');
-    const typing = appendAIMsg('Arya is thinking...', 'typing');
+    updateAryaStatus('⚡ Live AI answering...');
+    const typing = appendAIMsg('Arya is generating a live answer...', 'typing');
     chatHistory.push({ role: 'user', content: txt });
-
-    // FIX 2: Cap history at 20 messages to avoid token limit errors
-    if (chatHistory.length > 20) chatHistory.splice(0, 2);
+    trimAryaHistory();
 
     try {
-      const reply = await callClaude(chatHistory, SYSTEM, 250, { temperature: 0.7, timeoutMs: 12000 });
+      const reply = await callClaude(chatHistory, SYSTEM, 260, { model: ARYA_MODEL, temperature: 0.72, top_p: 0.9, timeoutMs: 18000 });
+      updateAryaStatus('⚡ Live AI ready · WhatsApp backup available');
       typing.remove();
       appendAIMsg(reply, 'bot');
       chatHistory.push({ role: 'assistant', content: reply });
-
-      // Cap again after assistant reply
-      if (chatHistory.length > 20) chatHistory.splice(0, 2);
+      trimAryaHistory();
     } catch (err) {
+      updateAryaStatus('⚠️ Live AI slow · backup answer shown');
       console.warn('Arya live AI failed; using local fallback.', err);
       const fallback = getAryaFallbackReply(txt);
       typing.remove();
       appendAIMsg(fallback, 'bot');
       chatHistory.push({ role: 'assistant', content: fallback });
-      if (chatHistory.length > 20) chatHistory.splice(0, 2);
+      trimAryaHistory();
+    } finally {
+      aryaSending = false;
+      if (sendBtn) sendBtn.disabled = false;
+      inp.focus();
     }
   };
 
@@ -2463,7 +2507,7 @@ function injectCourseRecommender() {
         <div class="rec-result-meta">
           <span class="badge badge-amber">⏱ ${data.duration}</span>
           <span class="badge badge-cyan">💰 ${data.price}</span>
-          <span class="badge badge-green">✓ Placement Guaranteed</span>
+          <span class="badge badge-green">✓ Placement Support</span>
         </div>
         <div style="color:rgba(255,255,255,.5);font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.1rem;text-transform:uppercase;margin-bottom:.5rem">Your AI Learning Roadmap</div>
         ${(data.roadmap || []).map((s, i) => `<div style="display:flex;align-items:center;gap:.6rem;color:rgba(255,255,255,.75);font-size:.82rem;padding:.35rem 0;border-bottom:1px solid rgba(255,255,255,.06)"><span style="background:linear-gradient(135deg,#7c3aed,#4f46e5);color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;flex-shrink:0">${i + 1}</span></div>`).join('')}
@@ -2479,9 +2523,30 @@ function injectCourseRecommender() {
         el.appendChild(document.createTextNode(' ' + (data.roadmap[i] || '')));
       });
       document.getElementById('recResult').classList.add('active');
-    } catch {
-      btn.disabled = false;
-      btn.textContent = 'Get My AI Recommendation →';
+    } catch (err) {
+      console.warn('Course recommender live AI failed; showing local recommendation.', err);
+      const fallbackCourse = (answers[1] || '').includes('DevOps') ?
+        { course: 'DevOps Engineering', duration: '6 Months', price: 'Rs.45,000', match: '88%', reason: 'Based on your goal, DevOps is a practical path if you are ready for Linux, Git, CI/CD and cloud basics. Placement outcome still depends on practice, projects and interview performance.', roadmap: ['Build Linux and Git basics', 'Practice Jenkins, Docker and AWS projects', 'Prepare resume and mock interviews'] } :
+        (answers[0] || '').includes('fresher') || (answers[1] || '').includes('first IT job') ?
+          { course: 'Manual Testing & QA', duration: '3 Months', price: 'Rs.18,000', match: '90%', reason: 'For a fresher, Manual Testing is usually the safest starting point because it builds STLC, test cases, bug reporting and interview basics before automation.', roadmap: ['Learn STLC and test case writing', 'Practice JIRA, SQL and API basics', 'Prepare for QA interviews'] } :
+          { course: 'Automation Testing with Selenium', duration: '5 Months', price: 'Rs.32,000', match: '92%', reason: 'Based on your profile, Selenium Automation can improve your QA job options if you already understand testing basics and can practice Java regularly.', roadmap: ['Revise manual testing fundamentals', 'Learn Java and Selenium WebDriver', 'Build a framework project for interviews'] };
+      document.getElementById('recQuiz').classList.remove('active');
+      const resultCard = document.getElementById('recResultCard');
+      resultCard.innerHTML = `
+        <span class="rec-result-badge">🎯 ${fallbackCourse.match} Match</span>
+        <div class="rec-result-course"></div>
+        <div class="rec-result-why"></div>
+        <div class="rec-result-meta">
+          <span class="badge badge-amber">⏱ ${fallbackCourse.duration}</span>
+          <span class="badge badge-cyan">💰 ${fallbackCourse.price}</span>
+          <span class="badge badge-green">✓ Placement Support</span>
+        </div>
+        <div style="color:rgba(255,255,255,.5);font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.1rem;text-transform:uppercase;margin-bottom:.5rem">Backup Learning Roadmap</div>
+        ${fallbackCourse.roadmap.map((step, i) => `<div style="display:flex;align-items:center;gap:.6rem;color:rgba(255,255,255,.75);font-size:.82rem;padding:.35rem 0;border-bottom:1px solid rgba(255,255,255,.06)"><span style="background:linear-gradient(135deg,#7c3aed,#4f46e5);color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;flex-shrink:0">${i + 1}</span>${step}</div>`).join('')}
+      `;
+      resultCard.querySelector('.rec-result-course').textContent = fallbackCourse.course;
+      resultCard.querySelector('.rec-result-why').textContent = 'Live AI is temporarily unavailable, so this recommendation is generated locally. ' + fallbackCourse.reason;
+      document.getElementById('recResult').classList.add('active');
     }
   }
 }
@@ -2800,9 +2865,25 @@ const prompt = `Generate exactly ${QUESTIONS_PER_INTERVIEW_ROUND} NEW interview 
         d.appendChild(document.createTextNode(text));
         fb.appendChild(d);
       });
-    } catch {
-      fb.className = 'interview-feedback show ok';
-      fb.textContent = 'Could not evaluate. Please try again.';
+    } catch (err) {
+      console.warn('Answer evaluation live AI failed; showing local feedback.', err);
+      const wordCount = ansText.split(/\s+/).filter(Boolean).length;
+      const score = wordCount >= 45 ? 7 : wordCount >= 20 ? 6 : 5;
+      fb.className = `interview-feedback show ${score >= 7 ? 'good' : 'ok'}`;
+      fb.innerHTML = `<div class="interview-score">Backup Score: ${score}/10 ${score >= 7 ? '✅' : '⚠️'}</div>`;
+      [
+        { label: '✅ Good: ', text: wordCount >= 20 ? 'You attempted a structured answer.' : 'You started answering the question.' },
+        { label: '📈 Improve: ', text: 'Add specific tools, steps, examples and expected outcomes from a real project.' },
+        { label: '💡 Hint: ', text: 'Use the format: definition, practical example, risk/edge case, and how you would verify it.' }
+      ].forEach(({ label, text }) => {
+        const d = document.createElement('div');
+        d.style.marginTop = '.3rem';
+        const b = document.createElement('b');
+        b.textContent = label;
+        d.appendChild(b);
+        d.appendChild(document.createTextNode(text));
+        fb.appendChild(d);
+      });
     }
   };
 
@@ -2922,9 +3003,20 @@ function injectSalaryPredictor() {
       result.querySelector('.salary-bk-card:last-child .salary-bk-val').textContent = d.topRole;
       result.querySelector('.sp-insight').textContent = d.insight;
       result.querySelector('.sp-companies').textContent = 'Top recruiters: ' + (d.companies || []).join(' · ') + ' · Based on 2024-25 placement data';
-    } catch {
-      document.getElementById('spResult').className = 'salary-result show';
-      document.getElementById('spResult').textContent = 'Prediction failed. Try again!';
+    } catch (err) {
+      console.warn('Salary predictor live AI failed; showing local estimate.', err);
+      const result = document.getElementById('spResult');
+      const base = course.includes('DevOps') ? 6.2 : course.includes('Full Stack') ? 5.8 : course.includes('Automation') ? 5.2 : 3.8;
+      const multiplier = exp.includes('2-4') ? 1.45 : exp.includes('4+') ? 1.9 : exp.includes('0-1') ? 1.15 : 1;
+      const avg = Number((base * multiplier).toFixed(1));
+      const min = Number(Math.max(2.4, avg - 1.4).toFixed(1));
+      const max = Number((avg + 2.6).toFixed(1));
+      result.className = 'salary-result show';
+      result.innerHTML = `<div style="font-family:'Sora',sans-serif;font-size:.85rem;font-weight:600;color:#64748b;margin-bottom:.5rem">📊 BACKUP SALARY ESTIMATE</div>
+        <div style="font-size:.82rem;color:#64748b;line-height:1.6;margin-bottom:.75rem">Live AI is temporarily unavailable, so this is a local estimate based on course, experience and Indian QA/IT market patterns.</div>
+        <div style="display:flex;align-items:baseline;gap:.5rem;margin-bottom:.3rem"><span style="font-family:'Sora',sans-serif;font-size:2rem;font-weight:900;color:#f59e0b">Rs.${avg}L</span><span style="color:#64748b;font-size:.85rem">avg annual CTC</span></div>
+        <div style="display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:.62rem;color:#94a3b8;margin-top:.3rem"><span>Min: ₹${min}L</span><span>Max: ₹${max}L</span></div>
+        <div style="background:linear-gradient(135deg,rgba(245,158,11,.08),rgba(249,115,22,.04));border:1px solid rgba(245,158,11,.25);border-radius:10px;padding:.85rem 1rem;margin-top:1rem;font-size:.82rem;color:#78350f;line-height:1.65"><b>Insight:</b> Salary depends on projects, communication, interview performance and location. Confirm current placement trends with +91 8082151063.</div>`;
     }
     btn.disabled = false;
     btn.textContent = '🔄 Recalculate Salary';
@@ -3151,10 +3243,17 @@ window.handleResumeFile = (input) => {
         recDiv.appendChild(courseText);
         recDiv.appendChild(link);
       }
-    } catch {
-      document.getElementById('resumeResult').innerHTML = '';
-      document.getElementById('resumeResult').className = 'resume-result show';
-      document.getElementById('resumeResult').textContent = 'Analysis failed. Please try again.';
+    } catch (err) {
+      console.warn('Resume analyzer live AI failed; showing local checklist.', err);
+      const result = document.getElementById('resumeResult');
+      result.className = 'resume-result show';
+      result.innerHTML = `<div style="color:#fff;font-family:'Sora',sans-serif;font-weight:800;margin-bottom:.6rem">Backup Resume Review</div>
+        <div style="color:rgba(255,255,255,.72);font-size:.84rem;line-height:1.7;margin-bottom:1rem">Live AI is temporarily unavailable, so here is a local ATS checklist based on QA hiring patterns.</div>
+        <div class="resume-tip">→ Add exact tools: Selenium, JIRA, Postman, SQL, Git, TestNG, Maven, Jenkins if you know them.</div>
+        <div class="resume-tip">→ Quantify work: test cases written, bugs reported, modules tested, automation scripts created.</div>
+        <div class="resume-tip">→ Add project details with role, tools, test approach and measurable outcome.</div>
+        <div class="resume-tip">→ Keep formatting simple: clear headings, bullet points and consistent dates.</div>
+        <div style="margin-top:1rem;background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);border-radius:10px;padding:.85rem 1rem;color:#fbbf24;font-size:.82rem">Recommended next step: WhatsApp +91 8082151063 for a manual resume review or demo class.</div>`;
     }
     btn.disabled = false;
     btn.textContent = '🔄 Re-analyze Resume';
@@ -3194,7 +3293,14 @@ function injectSmartFormHelper() {
         suggestion.appendChild(strong);
         suggestion.appendChild(document.createTextNode(tip));
         suggestion.className = 'ai-form-suggestion show';
-      } catch { suggestion.className = 'ai-form-suggestion'; }
+      } catch {
+        suggestion.innerHTML = '';
+        const strong = document.createElement('strong');
+        strong.textContent = 'Tip: ';
+        suggestion.appendChild(strong);
+        suggestion.appendChild(document.createTextNode(`${prog} is a practical choice if it matches your background. Ask a counselor for current batch timing and roadmap.`));
+        suggestion.className = 'ai-form-suggestion show';
+      }
     };
     progField.addEventListener('change', update);
   }
