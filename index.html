@@ -2595,11 +2595,17 @@ function injectCourseRecommender() {
   document.getElementById('recGetBtn').addEventListener('click', getRecommendation);
 
   function scrollRecommendationIntoView() {
-    const result = document.getElementById('recResult');
-    if (!result) return;
-    requestAnimationFrame(() => {
-      result.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
+    const resultCard = document.getElementById('recResultCard');
+    const target = resultCard || document.getElementById('recResult');
+    if (!target) return;
+
+    const scrollToResult = () => {
+      const headerOffset = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--total-top')) || 106;
+      const y = target.getBoundingClientRect().top + window.scrollY - headerOffset - 16;
+      window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+    };
+
+    requestAnimationFrame(() => setTimeout(scrollToResult, 120));
   }
 
   async function getRecommendation() {
