@@ -2322,7 +2322,7 @@ function injectChatbot() {
         <input type="text" id="aiInput" placeholder="Ask me anything..." onkeydown="if(event.key==='Enter')sendAIMsg()">
         <button id="aiSendBtn" onclick="sendAIMsg()">➤</button>
       </div>
-      <div class="ai-powered-badge" id="aiStatusBadge">⚡ Live AI ready · WhatsApp backup available</div>
+      <div class="ai-powered-badge" id="aiStatusBadge">⚡ Live AI ready · WhatsApp support available</div>
     </div>
   `);
 
@@ -2361,7 +2361,7 @@ Response rules:
 
   function getAryaFallbackReply(message) {
     const msg = message.toLowerCase();
-    const opener = 'Live AI is temporarily slow, so here is Arya’s quick guidance: ';
+    const opener = '';
     if (msg.includes('placement') || msg.includes('job') || msg.includes('salary')) {
       return opener + 'the website highlights placement support, resume help, mock interviews, referrals, 450+ hiring partners and average fresher CTC around Rs.5.2 LPA. Jobs and salary still depend on your skills, attendance and interview performance. For current openings, WhatsApp +91 8082151063.';
     }
@@ -2626,11 +2626,11 @@ function injectCourseRecommender() {
           <span class="badge badge-cyan">💰 ${fallbackCourse.price}</span>
           <span class="badge badge-green">✓ Placement Support</span>
         </div>
-        <div style="color:rgba(255,255,255,.5);font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.1rem;text-transform:uppercase;margin-bottom:.5rem">Backup Learning Roadmap</div>
+        <div style="color:rgba(255,255,255,.5);font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.1rem;text-transform:uppercase;margin-bottom:.5rem">Recommended Learning Roadmap</div>
         ${fallbackCourse.roadmap.map((step, i) => `<div style="display:flex;align-items:center;gap:.6rem;color:rgba(255,255,255,.75);font-size:.82rem;padding:.35rem 0;border-bottom:1px solid rgba(255,255,255,.06)"><span style="background:linear-gradient(135deg,#7c3aed,#4f46e5);color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;flex-shrink:0">${i + 1}</span>${step}</div>`).join('')}
       `;
       resultCard.querySelector('.rec-result-course').textContent = fallbackCourse.course;
-      resultCard.querySelector('.rec-result-why').textContent = 'Live AI is temporarily unavailable, so this recommendation is generated locally. ' + fallbackCourse.reason;
+      resultCard.querySelector('.rec-result-why').textContent = '' + fallbackCourse.reason;
       document.getElementById('recResult').classList.add('active');
     }
   }
@@ -3103,8 +3103,8 @@ function injectSalaryPredictor() {
       const min = Number(Math.max(2.4, avg - 1.4).toFixed(1));
       const max = Number((avg + 2.6).toFixed(1));
       result.className = 'salary-result show';
-      result.innerHTML = `<div style="font-family:'Sora',sans-serif;font-size:.85rem;font-weight:600;color:#64748b;margin-bottom:.5rem">📊 BACKUP SALARY ESTIMATE</div>
-        <div style="font-size:.82rem;color:#64748b;line-height:1.6;margin-bottom:.75rem">Live AI is temporarily unavailable, so this is a local estimate based on course, experience and Indian QA/IT market patterns.</div>
+      result.innerHTML = `<div style="font-family:'Sora',sans-serif;font-size:.85rem;font-weight:600;color:#64748b;margin-bottom:.5rem">📊 SALARY ESTIMATE</div>
+        <div style="font-size:.82rem;color:#64748b;line-height:1.6;margin-bottom:.75rem">Estimate based on course, experience and Indian QA/IT market patterns.</div>
         <div style="display:flex;align-items:baseline;gap:.5rem;margin-bottom:.3rem"><span style="font-family:'Sora',sans-serif;font-size:2rem;font-weight:900;color:#f59e0b">Rs.${avg}L</span><span style="color:#64748b;font-size:.85rem">avg annual CTC</span></div>
         <div style="display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:.62rem;color:#94a3b8;margin-top:.3rem"><span>Min: ₹${min}L</span><span>Max: ₹${max}L</span></div>
         <div style="background:linear-gradient(135deg,rgba(245,158,11,.08),rgba(249,115,22,.04));border:1px solid rgba(245,158,11,.25);border-radius:10px;padding:.85rem 1rem;margin-top:1rem;font-size:.82rem;color:#78350f;line-height:1.65"><b>Insight:</b> Salary depends on projects, communication, interview performance and location. Confirm current placement trends with +91 8082151063.</div>`;
