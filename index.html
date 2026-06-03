@@ -2319,7 +2319,7 @@ Response rules:
     } catch (err) {
       console.warn('Arya live AI failed.', err);
       typing.className = 'ai-msg bot';
-      typing.textContent = 'Live AI backend is not connected yet. Please set GROQ_API_KEY on the server, or WhatsApp +91 8082151063 for quick counseling.';
+      typing.textContent = 'Live AI backend is not connected yet. Please set GROQ_API_KEY or OPENAI_API_KEY on the server, or WhatsApp +91 8082151063 for quick counseling.';
       updateAryaStatus('Live AI connection issue · please retry');
     } finally {
       aryaSending = false;

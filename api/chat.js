@@ -1,8 +1,15 @@
 const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
-const DEFAULT_MODEL = 'llama-3.1-8b-instant';
-const ALLOWED_MODELS = new Set([
+const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
+const DEFAULT_GROQ_MODEL = 'llama-3.1-8b-instant';
+const DEFAULT_OPENAI_MODEL = 'gpt-4o-mini';
+const GROQ_MODELS = new Set([
   'llama-3.1-8b-instant',
   'llama-3.3-70b-versatile'
+]);
+const OPENAI_MODELS = new Set([
+  'gpt-4o-mini',
+  'gpt-4.1-mini',
+  'gpt-4.1-nano'
 ]);
 
 function setCors(req, res) {
@@ -30,6 +37,33 @@ function normalizeMessages(messages) {
     .filter(message => message.content.trim());
 }
 
+function selectProviderAndModel(body) {
+  const requestedProvider = String(body.provider || process.env.AI_PROVIDER || '').toLowerCase();
+  const requestedModel = String(body.model || '');
+  const hasGroq = Boolean(process.env.GROQ_API_KEY);
+  const hasOpenAI = Boolean(process.env.OPENAI_API_KEY);
+
+  if (requestedProvider === 'openai' || (!hasGroq && hasOpenAI)) {
+    return {
+      apiUrl: OPENAI_API_URL,
+      apiKey: process.env.OPENAI_API_KEY,
+      providerName: 'OpenAI',
+      model: OPENAI_MODELS.has(requestedModel) ? requestedModel : DEFAULT_OPENAI_MODEL
+    };
+  }
+
+  if (requestedProvider === 'groq' || hasGroq) {
+    return {
+      apiUrl: GROQ_API_URL,
+      apiKey: process.env.GROQ_API_KEY,
+      providerName: 'Groq',
+      model: GROQ_MODELS.has(requestedModel) ? requestedModel : DEFAULT_GROQ_MODEL
+    };
+  }
+
+  return null;
+}
+
 export default async function handler(req, res) {
   setCors(req, res);
 
@@ -42,21 +76,24 @@ export default async function handler(req, res) {
     return sendJson(res, 405, { error: { message: 'Method not allowed.' } });
   }
 
-  if (!process.env.GROQ_API_KEY) {
-    return sendJson(res, 500, { error: { message: 'GROQ_API_KEY is not configured on the server.' } });
-  }
-
   const body = req.body || {};
   const messages = normalizeMessages(body.messages);
   if (!messages?.length) {
     return sendJson(res, 400, { error: { message: 'A non-empty messages array is required.' } });
   }
 
-  const requestedModel = String(body.model || DEFAULT_MODEL);
-  const model = ALLOWED_MODELS.has(requestedModel) ? requestedModel : DEFAULT_MODEL;
+  const provider = selectProviderAndModel(body);
+  if (!provider?.apiKey) {
+    return sendJson(res, 500, {
+      error: {
+        message: 'AI backend key is not configured. Set GROQ_API_KEY or OPENAI_API_KEY on the server.'
+      }
+    });
+  }
+
   const maxTokens = Math.min(Math.max(Number(body.max_tokens) || 420, 80), 1200);
   const payload = {
-    model,
+    model: provider.model,
     messages,
     max_tokens: maxTokens,
     temperature: typeof body.temperature === 'number' ? body.temperature : 0.7
@@ -67,21 +104,21 @@ export default async function handler(req, res) {
   const timeout = setTimeout(() => controller.abort(), 25000);
 
   try {
-    const groqResponse = await fetch(GROQ_API_URL, {
+    const aiResponse = await fetch(provider.apiUrl, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
+        'Authorization': `Bearer ${provider.apiKey}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(payload),
       signal: controller.signal
     });
 
-    const data = await groqResponse.json().catch(() => ({}));
-    if (!groqResponse.ok) {
-      return sendJson(res, groqResponse.status, {
+    const data = await aiResponse.json().catch(() => ({}));
+    if (!aiResponse.ok) {
+      return sendJson(res, aiResponse.status, {
         error: {
-          message: data.error?.message || `Groq request failed with status ${groqResponse.status}.`
+          message: data.error?.message || `${provider.providerName} request failed with status ${aiResponse.status}.`
         }
       });
     }
@@ -89,8 +126,8 @@ export default async function handler(req, res) {
     return sendJson(res, 200, data);
   } catch (error) {
     const message = error.name === 'AbortError'
-      ? 'Groq request timed out.'
-      : 'Groq request failed.';
+      ? 'AI request timed out.'
+      : `${provider.providerName} request failed.`;
     return sendJson(res, 502, { error: { message } });
   } finally {
     clearTimeout(timeout);
