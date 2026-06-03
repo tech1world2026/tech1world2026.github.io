@@ -2129,13 +2129,13 @@ function dlBrochure(key){
 
 const AI_SETTINGS = Object.assign({
   provider: 'backend',
-  endpoint: '/api/chat',
+  endpoint: 'https://tech1world2026-github-io.vercel.app/api/chat',
   apiKey: '',
   model: 'llama-3.1-8b-instant',
   aryaModel: 'llama-3.1-8b-instant',
   timeoutMs: 18000
 }, window.TECH1WORLD_AI || {});
-AI_SETTINGS.endpoint = window.TECH1WORLD_AI_ENDPOINT || AI_SETTINGS.endpoint || '/api/chat';
+AI_SETTINGS.endpoint = window.TECH1WORLD_AI_ENDPOINT || AI_SETTINGS.endpoint || 'https://tech1world2026-github-io.vercel.app/api/chat';
 AI_SETTINGS.apiKey = AI_SETTINGS.apiKey || window.TECH1WORLD_AI_API_KEY || '';
 AI_SETTINGS.model = AI_SETTINGS.model || window.TECH1WORLD_AI_MODEL || 'llama-3.1-8b-instant';
 AI_SETTINGS.aryaModel = AI_SETTINGS.aryaModel || window.TECH1WORLD_ARYA_MODEL || AI_SETTINGS.model;
