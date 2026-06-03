@@ -2375,9 +2375,25 @@ Response rules:
     const hasCodingInterest = hasAny(profileText, ['coding', 'developer', 'development', 'java', 'javascript', 'python', 'full stack']);
     const knowsAllCourses = hasAny(profileText, ['knowledge of every course', 'knowledge of all course', 'know every course', 'know all course', 'all courses', 'every course']);
     const hasAdvancedProfile = knowsAllCourses || (hasAutomationBackground && hasDevOpsEngineerBackground);
+    const isSecurityTarget = hasAny(msg, ['security', 'cyber', 'devsecops', 'penetration', 'pentest', 'vapt']);
+    const isSdetTarget = hasAny(msg, ['sdet', 'qa architect', 'automation architect']);
+    const isSreTarget = hasAny(msg, ['sre', 'site reliability']);
+    const isQaLeadTarget = hasAny(msg, ['qa lead', 'test lead', 'lead']);
 
+    if (hasAdvancedProfile && isSecurityTarget) {
+      return 'Great — for a security-focused path, your automation plus DevOps background is a strong advantage. Target DevSecOps, Security Testing, or Cloud Security QA. Focus on OWASP Top 10, API security testing, Burp Suite basics, vulnerability scanning, secure CI/CD, Docker/Kubernetes security, cloud IAM, and one strong security testing project. Do you want a VAPT/security testing path or DevSecOps path?';
+    }
+    if (hasAdvancedProfile && isSdetTarget) {
+      return 'For an SDET/QA Architect path, focus on framework architecture, API automation, CI integration, Dockerized test runs, reporting, test data strategy, code review habits, and mentoring-level interview stories. Build one end-to-end framework project that shows UI + API + CI/CD.';
+    }
+    if (hasAdvancedProfile && isSreTarget) {
+      return 'For SRE, build on your DevOps strength: Linux troubleshooting, observability, incident response, SLIs/SLOs, Kubernetes, cloud, automation scripting, and reliability testing. Your testing background can help you stand out in release reliability and production quality roles.';
+    }
+    if (hasAdvancedProfile && isQaLeadTarget) {
+      return 'For QA Lead, focus less on basic tools and more on test strategy, estimation, defect metrics, release risk, automation roadmap, stakeholder communication, mentoring, and interview stories where you improved quality or delivery speed.';
+    }
     if (hasAdvancedProfile) {
-      return 'Got it — you are not looking for a beginner course path. With automation plus DevOps knowledge, the best focus is an advanced career track: SDET/QA Architect, DevOps-SDET, QA Lead, or DevOps/SRE. I would work on framework design, API automation, CI/CD, Docker/Kubernetes, cloud, performance/security testing, resume positioning and mock interviews. Which target role do you want next?';
+      return 'Got it — you are not looking for a beginner course path. With automation plus DevOps knowledge, the best focus is an advanced career track: SDET/QA Architect, DevOps-SDET, QA Lead, DevSecOps, or DevOps/SRE. Pick one target role and I will give you a focused roadmap.';
     }
     if (hasDevOpsEngineerBackground) {
       return 'Since you are already a DevOps engineer, skip beginner DevOps basics and focus on advanced CI/CD, Docker, Kubernetes, Terraform, AWS, monitoring, security and deployment troubleshooting. If you want to combine it with testing, DevOps-SDET or QA automation pipeline roles are a strong target.';
@@ -2437,13 +2453,13 @@ Response rules:
     const botMsg = appendAIMsg(fallback, 'bot');
     chatHistory.push({ role: 'assistant', content: fallback });
     trimAryaHistory();
-    updateAryaStatus('Guided answer ready · checking live AI...');
+    updateAryaStatus('Instant guidance shown · live AI refining...');
 
     aryaSending = false;
     if (sendBtn) sendBtn.disabled = false;
     inp.focus();
 
-    callClaude(liveMessages, SYSTEM, 260, { model: ARYA_MODEL, temperature: 0.72, top_p: 0.9, timeoutMs: 8000 })
+    callClaude(liveMessages, SYSTEM, 320, { model: ARYA_MODEL, temperature: 0.72, top_p: 0.9, timeoutMs: 15000 })
       .then(reply => {
         if (!reply || !document.body.contains(botMsg)) return;
         botMsg.textContent = reply;
@@ -2457,7 +2473,7 @@ Response rules:
       })
       .catch(err => {
         console.warn('Arya live AI was too slow; kept instant guided answer.', err);
-        updateAryaStatus('Guided answer ready · WhatsApp support available');
+        updateAryaStatus('Instant guidance ready · WhatsApp support available');
       });
   };
 
