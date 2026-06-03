@@ -2362,7 +2362,7 @@ Response rules:
   function getAryaFallbackReply(message) {
     const msg = message.toLowerCase();
     const hasAny = words => words.some(word => msg.includes(word));
-    const hasManualTestingBackground = msg.includes('manual') && hasAny(['experience', 'experienced', 'tester', 'testing', 'qa', 'quality']);
+    const hasManualTestingBackground = msg === 'manual' || msg === 'manual testing' || msg === 'manual tester' || (msg.includes('manual') && hasAny(['experience', 'experienced', 'tester', 'testing', 'qa', 'quality']));
     const hasAutomationBackground = hasAny(['selenium', 'automation tester', 'automation testing', 'webdriver']);
     const hasItBackground = hasAny(['support', 'linux', 'network', 'system admin', 'it experience', 'devops']);
     const hasCodingInterest = hasAny(['coding', 'developer', 'development', 'java', 'javascript', 'python', 'full stack']);
@@ -2428,7 +2428,7 @@ Response rules:
     if (sendBtn) sendBtn.disabled = false;
     inp.focus();
 
-    callClaude(liveMessages, SYSTEM, 220, { model: ARYA_MODEL, temperature: 0.72, top_p: 0.9, timeoutMs: 2500 })
+    callClaude(liveMessages, SYSTEM, 260, { model: ARYA_MODEL, temperature: 0.72, top_p: 0.9, timeoutMs: 8000 })
       .then(reply => {
         if (!reply || !document.body.contains(botMsg)) return;
         botMsg.textContent = reply;
