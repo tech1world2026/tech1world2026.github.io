@@ -2129,13 +2129,13 @@ function dlBrochure(key){
 
 const AI_SETTINGS = Object.assign({
   provider: 'backend',
-  endpoint: '',
+  endpoint: '/api/chat',
   apiKey: '',
   model: 'llama-3.1-8b-instant',
   aryaModel: 'llama-3.1-8b-instant',
   timeoutMs: 18000
 }, window.TECH1WORLD_AI || {});
-AI_SETTINGS.endpoint = AI_SETTINGS.endpoint || window.TECH1WORLD_AI_ENDPOINT || '';
+AI_SETTINGS.endpoint = window.TECH1WORLD_AI_ENDPOINT || AI_SETTINGS.endpoint || '/api/chat';
 AI_SETTINGS.apiKey = AI_SETTINGS.apiKey || window.TECH1WORLD_AI_API_KEY || '';
 AI_SETTINGS.model = AI_SETTINGS.model || window.TECH1WORLD_AI_MODEL || 'llama-3.1-8b-instant';
 AI_SETTINGS.aryaModel = AI_SETTINGS.aryaModel || window.TECH1WORLD_ARYA_MODEL || AI_SETTINGS.model;
@@ -2151,7 +2151,7 @@ function extractAIContent(response) {
 
 async function callOpenAICompatible(messages, system, maxTokens, options, timeoutMs) {
   if (!AI_SETTINGS.endpoint) {
-    throw new Error('AI backend endpoint is not configured. Set window.TECH1WORLD_AI_ENDPOINT to your Groq proxy URL.');
+    throw new Error('AI backend endpoint is not configured. Deploy /api/chat or set window.TECH1WORLD_AI_ENDPOINT.');
   }
 
   const payload = {
@@ -2165,8 +2165,6 @@ async function callOpenAICompatible(messages, system, maxTokens, options, timeou
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
   const headers = { 'Content-Type': 'application/json' };
-  if (AI_SETTINGS.apiKey) headers.Authorization = 'Bearer ' + AI_SETTINGS.apiKey;
-
   try {
     const r = await fetch(AI_SETTINGS.endpoint, {
       method: 'POST',
@@ -2321,7 +2319,7 @@ Response rules:
     } catch (err) {
       console.warn('Arya live AI failed.', err);
       typing.className = 'ai-msg bot';
-      typing.textContent = 'Live AI backend is not connected yet. Please connect the Groq backend endpoint, or WhatsApp +91 8082151063 for quick counseling.';
+      typing.textContent = 'Live AI backend is not connected yet. Please set GROQ_API_KEY on the server, or WhatsApp +91 8082151063 for quick counseling.';
       updateAryaStatus('Live AI connection issue · please retry');
     } finally {
       aryaSending = false;
