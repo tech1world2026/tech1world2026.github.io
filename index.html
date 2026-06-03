@@ -2594,6 +2594,14 @@ function injectCourseRecommender() {
   // Get Recommendation button
   document.getElementById('recGetBtn').addEventListener('click', getRecommendation);
 
+  function scrollRecommendationIntoView() {
+    const result = document.getElementById('recResult');
+    if (!result) return;
+    requestAnimationFrame(() => {
+      result.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
+
   async function getRecommendation() {
     const btn = document.getElementById('recGetBtn');
     btn.disabled = true;
@@ -2637,6 +2645,7 @@ function injectCourseRecommender() {
         el.appendChild(document.createTextNode(' ' + (data.roadmap[i] || '')));
       });
       document.getElementById('recResult').classList.add('active');
+      scrollRecommendationIntoView();
     } catch (err) {
       console.warn('Course recommender live AI failed; showing local recommendation.', err);
       const fallbackCourse = (answers[1] || '').includes('DevOps') ?
@@ -2661,6 +2670,7 @@ function injectCourseRecommender() {
       resultCard.querySelector('.rec-result-course').textContent = fallbackCourse.course;
       resultCard.querySelector('.rec-result-why').textContent = '' + fallbackCourse.reason;
       document.getElementById('recResult').classList.add('active');
+      scrollRecommendationIntoView();
     }
   }
 }
