@@ -1245,13 +1245,13 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
     </div>
   </div>
 </section>
-<!-- STUDENT SUCCESS STORIES VIDEO WALL -->
+<!-- STUDENT SUCCESS STORIES WALL -->
 <section id="success-stories" class="sec" style="background:linear-gradient(160deg,#07111f,#0c1c30)">
   <div class="con">
     <div class="sec-head rv">
-      <span class="sec-label" style="color:var(--amber)">🎬 Real Stories</span>
-      <h2 class="sec-title sec-title-white">Student <em>Success Stories</em></h2>
-      <p class="sec-desc sec-desc-light">Watch our alumni share their journey — from zero to placed at top MNCs. Real students, real results, real inspiration.</p>
+      <span class="sec-label" style="color:var(--amber)">Real Student Journeys</span>
+      <h2 class="sec-title sec-title-white">Student <em>Success Journeys</em></h2>
+      <p class="sec-desc sec-desc-light">Explore concise alumni case studies with background, course path, skills learned, placement outcome, and next-step inspiration.</p>
     </div>
 
     <!-- Filter Buttons -->
@@ -1264,19 +1264,19 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
       <button class="vsw-filter" data-filter="fresher">Fresher to Job</button>
     </div>
 
-    <!-- Video Grid -->
+    <!-- Success Story Grid -->
     <div class="vsw-grid rv" id="vswGrid"></div>
 
     <!-- Load More -->
     <div style="text-align:center;margin-top:2.5rem">
       <button class="btn btn-outline-white btn-lg" id="vswLoadMore" onclick="vswLoadMore()">
-        <i class="fas fa-play-circle"></i> Load More Stories
+        <i class="fas fa-book-open"></i> Load More Stories
       </button>
     </div>
 
     <!-- Stats Strip -->
     <div class="vsw-stats rv">
-      <div class="vsw-stat"><div class="vsw-stat-n">8,500+</div><div class="vsw-stat-l">Success Stories</div></div>
+      <div class="vsw-stat"><div class="vsw-stat-n">8,500+</div><div class="vsw-stat-l">Students Trained</div></div>
       <div class="vsw-stat"><div class="vsw-stat-n">4.9★</div><div class="vsw-stat-l">Average Rating</div></div>
       <div class="vsw-stat"><div class="vsw-stat-n">96%</div><div class="vsw-stat-l">Got Placed</div></div>
       <div class="vsw-stat"><div class="vsw-stat-n">450+</div><div class="vsw-stat-l">Companies</div></div>
@@ -1284,15 +1284,15 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
   </div>
 </section>
 
-<!-- VIDEO MODAL -->
+<!-- SUCCESS STORY MODAL -->
 <div id="vswModal" style="position:fixed;inset:0;z-index:10700;background:rgba(0,0,0,.92);backdrop-filter:blur(12px);display:none;align-items:center;justify-content:center;padding:1rem" onclick="closeVswModal(event)">
   <div style="background:#0c1c30;border-radius:20px;width:100%;max-width:760px;overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,.6);animation:dlmIn .35s cubic-bezier(.22,1,.36,1)">
     <div style="padding:1.2rem 1.5rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.08)">
       <div id="vswModalTitle" style="font-family:'Sora',sans-serif;font-weight:700;color:#fff;font-size:1rem"></div>
       <button onclick="closeVswModal()" style="background:rgba(255,255,255,.1);border:none;color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:.9rem">✕</button>
     </div>
-    <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden">
-      <div id="vswVideoContent" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1.5rem;background:linear-gradient(135deg,#0f2240,#162d52)">
+    <div style="min-height:420px;overflow:auto">
+      <div id="vswVideoContent" style="min-height:420px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1.5rem;background:linear-gradient(135deg,#0f2240,#162d52)">
       </div>
     </div>
     <div style="padding:1.2rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem">
@@ -1308,13 +1308,13 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
 .vsw-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
 @media(max-width:1100px){.vsw-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:600px){.vsw-grid{grid-template-columns:1fr}}
-.vsw-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:18px;overflow:hidden;cursor:pointer;transition:all .3s ease;animation:msgIn .4s ease}
+.vsw-card{background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.035));border:1px solid rgba(255,255,255,.1);border-radius:18px;overflow:hidden;cursor:pointer;transition:all .3s ease;animation:msgIn .4s ease}
 .vsw-card:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,0,0,.4);border-color:rgba(245,158,11,.3)}
 .vsw-thumb{position:relative;height:185px;overflow:hidden;display:flex;align-items:center;justify-content:center}
 .vsw-thumb-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .4s ease}
 .vsw-card:hover .vsw-thumb-bg{transform:scale(1.06)}
-.vsw-play-btn{position:relative;z-index:2;width:60px;height:60px;background:rgba(245,158,11,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:#fff;transition:all .3s;box-shadow:0 4px 24px rgba(245,158,11,.5)}
-.vsw-card:hover .vsw-play-btn{transform:scale(1.12);background:var(--amber)}
+.vsw-play-btn{position:relative;z-index:2;background:rgba(7,17,31,.72);border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:.45rem .9rem;display:flex;align-items:center;gap:.4rem;font-size:.76rem;font-weight:700;color:#fff;transition:all .3s;box-shadow:0 4px 24px rgba(0,0,0,.25)}
+.vsw-card:hover .vsw-play-btn{transform:translateY(-2px);background:var(--amber);border-color:transparent}
 .vsw-duration{position:absolute;bottom:.6rem;right:.7rem;background:rgba(0,0,0,.75);color:#fff;font-family:'JetBrains Mono',monospace;font-size:.6rem;padding:.18rem .5rem;border-radius:5px;z-index:2}
 .vsw-badge{position:absolute;top:.65rem;left:.65rem;background:linear-gradient(135deg,var(--amber),#f97316);color:#fff;font-family:'JetBrains Mono',monospace;font-size:.52rem;font-weight:700;letter-spacing:.06rem;padding:.18rem .55rem;border-radius:20px;z-index:2;text-transform:uppercase}
 .vsw-views{position:absolute;top:.65rem;right:.65rem;background:rgba(0,0,0,.6);color:rgba(255,255,255,.8);font-family:'JetBrains Mono',monospace;font-size:.55rem;padding:.15rem .48rem;border-radius:5px;z-index:2;display:flex;align-items:center;gap:.3rem}
@@ -1326,6 +1326,12 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
 .vsw-company{display:flex;align-items:center;gap:.4rem;font-family:'JetBrains Mono',monospace;font-size:.58rem;color:rgba(255,255,255,.45)}
 .vsw-ctc{background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.3);color:#6ee7b7;font-family:'JetBrains Mono',monospace;font-size:.58rem;font-weight:700;padding:.15rem .5rem;border-radius:6px}
 .vsw-stars{color:var(--amber);font-size:.72rem;letter-spacing:.05rem}
+.vsw-journey-btn{margin-top:.9rem;display:inline-flex;align-items:center;gap:.4rem;color:var(--amber);font-size:.78rem;font-weight:700}
+.vsw-modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-top:1rem}
+@media(max-width:600px){.vsw-modal-grid{grid-template-columns:1fr}}
+.vsw-modal-pill{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:.7rem .8rem}
+.vsw-modal-pill b{display:block;color:#fff;font-size:.78rem;margin-bottom:.18rem}
+.vsw-modal-pill span{color:rgba(255,255,255,.68);font-size:.75rem}
 .vsw-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:3rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:18px;overflow:hidden}
 @media(max-width:600px){.vsw-stats{grid-template-columns:repeat(2,1fr)}}
 .vsw-stat{padding:1.8rem 1rem;text-align:center;border-right:1px solid rgba(255,255,255,.06)}
@@ -1355,17 +1361,17 @@ function renderVswGrid() {
   const filtered = vswFilter === 'all' ? VSW_DATA : VSW_DATA.filter(v => v.course === vswFilter || v.tag.toLowerCase().includes(vswFilter));
   const toShow = filtered.slice(0, vswVisible);
   grid.innerHTML = toShow.map(v => `
-    <div class="vsw-card" onclick="openVswModal(${v.id})" data-course="${v.course}">
+    <div class="vsw-card" onclick="openVswModal(${v.id})" data-course="${v.course}" role="button" tabindex="0">
       <div class="vsw-thumb">
         <div class="vsw-thumb-bg" style="background:${v.color};width:100%;height:100%;position:absolute;inset:0"></div>
-        <div style="position:absolute;inset:0;background:rgba(0,0,0,.25)"></div>
-        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.5rem">
-          <div style="width:68px;height:68px;border-radius:50%;background:${v.color};display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-size:1.3rem;font-weight:800;color:#fff;border:3px solid rgba(255,255,255,.3)">${v.initials}</div>
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.12),rgba(0,0,0,.42))"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.65rem">
+          <div style="width:72px;height:72px;border-radius:50%;background:${v.color};display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-size:1.35rem;font-weight:800;color:#fff;border:3px solid rgba(255,255,255,.32)">${v.initials}</div>
+          <div class="vsw-play-btn"><i class="fas fa-book-open"></i><span>View Journey</span></div>
         </div>
-        <div class="vsw-play-btn"><i class="fas fa-play" style="margin-left:3px"></i></div>
         <span class="vsw-badge">${v.tag}</span>
-        <span class="vsw-views"><i class="fas fa-eye"></i>${v.views}</span>
-        <span class="vsw-duration">${v.duration}</span>
+        <span class="vsw-views"><i class="fas fa-briefcase"></i>${v.company}</span>
+        <span class="vsw-duration">${v.batch}</span>
       </div>
       <div class="vsw-body">
         <div class="vsw-stars">${v.rating}</div>
@@ -1376,6 +1382,7 @@ function renderVswGrid() {
           <div class="vsw-company"><i class="fas fa-building"></i>${v.company}</div>
           <span class="vsw-ctc">${v.ctc}</span>
         </div>
+        <div class="vsw-journey-btn">Read case study <i class="fas fa-arrow-right"></i></div>
       </div>
     </div>
   `).join('');
@@ -1405,23 +1412,24 @@ function openVswModal(id) {
   const content = document.getElementById('vswVideoContent');
   content.style.background = v.color;
   content.innerHTML = `
-    <div style="text-align:center;padding:2rem;position:relative;z-index:2">
-      <div style="width:90px;height:90px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-size:1.8rem;font-weight:800;color:#fff;margin:0 auto 1rem;border:4px solid rgba(255,255,255,.3)">${v.initials}</div>
-      <div style="font-family:'Sora',sans-serif;font-size:1.15rem;font-weight:800;color:#fff;margin-bottom:.4rem">${v.name}</div>
-      <div style="color:rgba(255,255,255,.75);font-size:.85rem;margin-bottom:1.2rem">${v.role} · ${v.company}</div>
-      <div style="background:rgba(0,0,0,.3);border-radius:12px;padding:1.2rem 1.5rem;max-width:480px;margin:0 auto;text-align:left">
-        <div style="color:rgba(255,255,255,.5);font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.1rem;text-transform:uppercase;margin-bottom:.5rem">💬 ${v.name}'s Story</div>
-        <div style="color:rgba(255,255,255,.88);font-size:.87rem;line-height:1.75;font-style:italic">"${v.story}"</div>
+    <div style="text-align:center;padding:2rem;position:relative;z-index:2;width:100%">
+      <div style="width:92px;height:92px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-size:1.85rem;font-weight:800;color:#fff;margin:0 auto 1rem;border:4px solid rgba(255,255,255,.3)">${v.initials}</div>
+      <div style="font-family:'Sora',sans-serif;font-size:1.2rem;font-weight:800;color:#fff;margin-bottom:.35rem">${v.name}</div>
+      <div style="color:rgba(255,255,255,.78);font-size:.86rem;margin-bottom:1rem">${v.role} · ${v.company}</div>
+      <div class="vsw-modal-grid">
+        <div class="vsw-modal-pill"><b>Course Path</b><span>${v.tag}</span></div>
+        <div class="vsw-modal-pill"><b>Outcome</b><span>${v.ctc}</span></div>
+        <div class="vsw-modal-pill"><b>Batch</b><span>${v.batch}</span></div>
+        <div class="vsw-modal-pill"><b>Rating</b><span>${v.rating}</span></div>
       </div>
-      <div style="display:flex;gap:.75rem;justify-content:center;margin-top:1.2rem;flex-wrap:wrap">
-        <span style="background:rgba(245,158,11,.9);color:#fff;font-family:'JetBrains Mono',monospace;font-size:.65rem;font-weight:700;padding:.3rem .8rem;border-radius:20px">${v.ctc}</span>
-        <span style="background:rgba(255,255,255,.2);color:#fff;font-family:'JetBrains Mono',monospace;font-size:.65rem;padding:.3rem .8rem;border-radius:20px">${v.tag}</span>
-        <span style="background:rgba(16,185,129,.3);color:#6ee7b7;font-family:'JetBrains Mono',monospace;font-size:.65rem;padding:.3rem .8rem;border-radius:20px">${v.batch}</span>
+      <div style="background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:1.2rem 1.5rem;max-width:560px;margin:1.2rem auto 0;text-align:left">
+        <div style="color:rgba(255,255,255,.55);font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.1rem;text-transform:uppercase;margin-bottom:.55rem">Student Journey</div>
+        <div style="color:rgba(255,255,255,.9);font-size:.88rem;line-height:1.78">${v.story}</div>
       </div>
+      <div style="margin-top:1rem;color:rgba(255,255,255,.62);font-size:.75rem;line-height:1.6">Want a similar roadmap? Book a free demo and our counselor will map your background to the right program.</div>
     </div>
-  `;
-  const info = document.getElementById('vswModalInfo');
-  info.innerHTML = `<div style="color:rgba(255,255,255,.6);font-size:.8rem">${v.stars || '★★★★★'} <span style="color:rgba(255,255,255,.4);margin-left:.3rem">${v.views} views · ${v.duration} read</span></div>`;
+  `;  const info = document.getElementById('vswModalInfo');
+  info.innerHTML = `<div style="color:rgba(255,255,255,.6);font-size:.8rem">${v.stars || '★★★★★'} <span style="color:rgba(255,255,255,.4);margin-left:.3rem">${v.company} · ${v.batch}</span></div>`;
   document.getElementById('vswModal').style.display = 'flex';
   document.body.style.overflow = 'hidden';
 }
