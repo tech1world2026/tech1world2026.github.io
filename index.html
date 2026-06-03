@@ -2344,13 +2344,13 @@ function injectChatbot() {
 
 Known Tech1World details:
 - Programs: Manual Testing & QA (Rs.18,000, 3 months), Automation Testing with Selenium (Rs.32,000, 5 months), DevOps Engineering (Rs.45,000, 6 months), Full Stack Developer (Rs.55,000, 8 months), Performance & Security Testing (Rs.28,000, 4 months), Internship Program (free, stipend paid).
-- Website highlights: 96% placement rate, 8,500+ alumni, 450+ hiring partners, average fresher CTC around Rs.5.2 LPA, ISTQB prep included, No Cost EMI available, hybrid/online/offline modes, lifetime recordings, 24/7 support.
+- Placement and course details: 96% placement rate, 8,500+ alumni, 450+ hiring partners, average fresher CTC around Rs.5.2 LPA, ISTQB prep included, No Cost EMI available, hybrid/online/offline modes, lifetime recordings, 24/7 support.
 - Contact: +91 8082151063, info@tech1world.com, 877 Janipur Colony, Jammu.
 
 Response rules:
 - Be conversational, specific, and under 90 words unless the user asks for detail.
 - Sound realistic: never guarantee jobs, salary, discounts, scholarships, or admission outcomes.
-- Say “the website highlights” or “typically” for placement/salary claims.
+- For placement and salary questions, speak naturally as Arya. Use phrases like “At Tech1World, we provide...” or “Based on recent student outcomes...” and avoid sounding like a website disclaimer.
 - If the user asks for current batch dates, latest discounts, exact EMI approval, or job openings, ask them to WhatsApp +91 8082151063 because those details change.
 - Ask one short follow-up question when the student’s background is unclear.
 - Use at most one emoji.`;
@@ -2363,7 +2363,7 @@ Response rules:
     const msg = message.toLowerCase();
     const opener = '';
     if (msg.includes('placement') || msg.includes('job') || msg.includes('salary')) {
-      return opener + 'the website highlights placement support, resume help, mock interviews, referrals, 450+ hiring partners and average fresher CTC around Rs.5.2 LPA. Jobs and salary still depend on your skills, attendance and interview performance. For current openings, WhatsApp +91 8082151063.';
+      return opener + 'At Tech1World, we help with resume building, mock interviews, referrals and placement support through 450+ hiring partners. Freshers have seen average CTC around Rs.5.2 LPA, but your result depends on your skills, attendance, projects and interview performance. For current openings, WhatsApp +91 8082151063.';
     }
     if (msg.includes('emi') || msg.includes('fee') || msg.includes('price') || msg.includes('cost')) {
       return opener + 'listed fees are Manual Testing Rs.18,000, Selenium Rs.32,000, DevOps Rs.45,000 and Full Stack Rs.55,000. EMI is available, but exact eligibility or discounts can change, so please confirm on WhatsApp: +91 8082151063.';
