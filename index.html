@@ -1310,9 +1310,22 @@ footer{background:#040d18;border-top:1px solid rgba(255,255,255,.05)}
 @media(max-width:600px){.vsw-grid{grid-template-columns:1fr}}
 .vsw-card{background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.035));border:1px solid rgba(255,255,255,.1);border-radius:18px;overflow:hidden;cursor:pointer;transition:all .3s ease;animation:msgIn .4s ease}
 .vsw-card:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,0,0,.4);border-color:rgba(245,158,11,.3)}
-.vsw-thumb{position:relative;height:185px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.vsw-thumb{position:relative;height:220px;overflow:hidden;display:flex;align-items:center;justify-content:center}
 .vsw-thumb-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .4s ease}
 .vsw-card:hover .vsw-thumb-bg{transform:scale(1.06)}
+.vsw-journey-visual{position:relative;z-index:2;width:86%;max-width:300px;background:rgba(7,17,31,.72);border:1px solid rgba(255,255,255,.16);border-radius:18px;padding:1rem;box-shadow:0 18px 45px rgba(0,0,0,.28);backdrop-filter:blur(10px)}
+.vsw-journey-kicker{display:flex;align-items:center;justify-content:space-between;gap:.6rem;margin-bottom:.85rem;color:rgba(255,255,255,.62);font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:.08rem;text-transform:uppercase}
+.vsw-journey-kicker b{color:var(--amber);font-family:'Sora',sans-serif;font-size:.68rem;letter-spacing:0;text-transform:none}
+.vsw-path{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:.7rem;margin-bottom:.85rem}
+.vsw-node{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:.65rem .7rem;min-height:64px}
+.vsw-node span{display:block;color:rgba(255,255,255,.42);font-size:.56rem;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.08rem;margin-bottom:.15rem}
+.vsw-node strong{display:block;color:#fff;font-family:'Sora',sans-serif;font-size:.78rem;line-height:1.25}
+.vsw-arrow{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--amber),#f97316);color:#fff;box-shadow:0 6px 18px rgba(245,158,11,.35)}
+.vsw-mini-metrics{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
+.vsw-mini-metric{background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.22);border-radius:10px;padding:.48rem .55rem}
+.vsw-mini-metric b{display:block;color:#6ee7b7;font-family:'Sora',sans-serif;font-size:.78rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vsw-mini-metric span{display:block;color:rgba(255,255,255,.46);font-size:.55rem;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.06rem}
+.vsw-card:hover .vsw-journey-visual{border-color:rgba(245,158,11,.36);transform:translateY(-2px)}
 .vsw-play-btn{position:relative;z-index:2;background:rgba(7,17,31,.72);border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:.45rem .9rem;display:flex;align-items:center;gap:.4rem;font-size:.76rem;font-weight:700;color:#fff;transition:all .3s;box-shadow:0 4px 24px rgba(0,0,0,.25)}
 .vsw-card:hover .vsw-play-btn{transform:translateY(-2px);background:var(--amber);border-color:transparent}
 .vsw-duration{position:absolute;bottom:.6rem;right:.7rem;background:rgba(0,0,0,.75);color:#fff;font-family:'JetBrains Mono',monospace;font-size:.6rem;padding:.18rem .5rem;border-radius:5px;z-index:2}
@@ -1356,6 +1369,20 @@ const VSW_DATA = [
 let vswVisible = 6;
 let vswFilter = 'all';
 
+function getVswStart(v) {
+  if (v.id === 1) return 'Beginner';
+  if (v.id === 2 || v.id === 5) return 'Manual QA';
+  if (v.id === 3 || v.id === 9) return 'Non-IT / Fresher';
+  if (v.id === 4 || v.id === 6) return 'Learner';
+  if (v.id === 7) return 'QA Professional';
+  if (v.id === 8) return 'Testing Background';
+  return 'Student';
+}
+
+function getVswTarget(v) {
+  return v.role.split(' at ')[0];
+}
+
 function renderVswGrid() {
   const grid = document.getElementById('vswGrid');
   const filtered = vswFilter === 'all' ? VSW_DATA : VSW_DATA.filter(v => v.course === vswFilter || v.tag.toLowerCase().includes(vswFilter));
@@ -1365,9 +1392,19 @@ function renderVswGrid() {
       <div class="vsw-thumb">
         <div class="vsw-thumb-bg" style="background:${v.color};width:100%;height:100%;position:absolute;inset:0"></div>
         <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.12),rgba(0,0,0,.42))"></div>
-        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.65rem">
-          <div style="width:72px;height:72px;border-radius:50%;background:${v.color};display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-size:1.35rem;font-weight:800;color:#fff;border:3px solid rgba(255,255,255,.32)">${v.initials}</div>
-          <div class="vsw-play-btn"><i class="fas fa-book-open"></i><span>View Journey</span></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">
+          <div class="vsw-journey-visual">
+            <div class="vsw-journey-kicker"><span>Career Journey</span><b>${v.tag}</b></div>
+            <div class="vsw-path">
+              <div class="vsw-node"><span>Before</span><strong>${getVswStart(v)}</strong></div>
+              <div class="vsw-arrow"><i class="fas fa-arrow-right"></i></div>
+              <div class="vsw-node"><span>After</span><strong>${getVswTarget(v)}</strong></div>
+            </div>
+            <div class="vsw-mini-metrics">
+              <div class="vsw-mini-metric"><b>${v.ctc}</b><span>Outcome</span></div>
+              <div class="vsw-mini-metric"><b>${v.company}</b><span>Company</span></div>
+            </div>
+          </div>
         </div>
         <span class="vsw-badge">${v.tag}</span>
         <span class="vsw-views"><i class="fas fa-briefcase"></i>${v.company}</span>
@@ -1382,7 +1419,7 @@ function renderVswGrid() {
           <div class="vsw-company"><i class="fas fa-building"></i>${v.company}</div>
           <span class="vsw-ctc">${v.ctc}</span>
         </div>
-        <div class="vsw-journey-btn">Read case study <i class="fas fa-arrow-right"></i></div>
+        <div class="vsw-journey-btn">Open detailed journey <i class="fas fa-arrow-right"></i></div>
       </div>
     </div>
   `).join('');
@@ -1413,7 +1450,18 @@ function openVswModal(id) {
   content.style.background = v.color;
   content.innerHTML = `
     <div style="text-align:center;padding:2rem;position:relative;z-index:2;width:100%">
-      <div style="width:92px;height:92px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-size:1.85rem;font-weight:800;color:#fff;margin:0 auto 1rem;border:4px solid rgba(255,255,255,.3)">${v.initials}</div>
+      <div class="vsw-journey-visual" style="margin:0 auto 1rem;max-width:430px;width:100%;text-align:left">
+        <div class="vsw-journey-kicker"><span>Verified-style case study</span><b>${v.tag}</b></div>
+        <div class="vsw-path">
+          <div class="vsw-node"><span>Before</span><strong>${getVswStart(v)}</strong></div>
+          <div class="vsw-arrow"><i class="fas fa-arrow-right"></i></div>
+          <div class="vsw-node"><span>After</span><strong>${getVswTarget(v)}</strong></div>
+        </div>
+        <div class="vsw-mini-metrics">
+          <div class="vsw-mini-metric"><b>${v.ctc}</b><span>Outcome</span></div>
+          <div class="vsw-mini-metric"><b>${v.company}</b><span>Company</span></div>
+        </div>
+      </div>
       <div style="font-family:'Sora',sans-serif;font-size:1.2rem;font-weight:800;color:#fff;margin-bottom:.35rem">${v.name}</div>
       <div style="color:rgba(255,255,255,.78);font-size:.86rem;margin-bottom:1rem">${v.role} · ${v.company}</div>
       <div class="vsw-modal-grid">
