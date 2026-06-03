@@ -2361,24 +2361,42 @@ Response rules:
 
   function getAryaFallbackReply(message) {
     const msg = message.toLowerCase();
-    const opener = '';
+    const hasAny = words => words.some(word => msg.includes(word));
+    const hasManualTestingBackground = msg.includes('manual') && hasAny(['experience', 'experienced', 'tester', 'testing', 'qa', 'quality']);
+    const hasAutomationBackground = hasAny(['selenium', 'automation tester', 'automation testing', 'webdriver']);
+    const hasItBackground = hasAny(['support', 'linux', 'network', 'system admin', 'it experience', 'devops']);
+    const hasCodingInterest = hasAny(['coding', 'developer', 'development', 'java', 'javascript', 'python', 'full stack']);
+
+    if (hasManualTestingBackground) {
+      return 'Since you already have manual testing experience, the best next step is Selenium Automation. It will help you move from manual QA to automation/SDET roles. Focus on Core Java, Selenium WebDriver, TestNG, framework design, Git, basic API testing and SQL. How many years of manual testing experience do you have?';
+    }
+    if (hasAutomationBackground) {
+      return 'Because you already know automation/Selenium, you should strengthen framework design, API automation, CI/CD with Jenkins, Git, Docker basics and interview-level Java. Performance or DevOps can be a good next add-on depending on your target role.';
+    }
+    if (hasItBackground) {
+      return 'With an IT/support/Linux background, DevOps is a strong fit. Start with Linux, Git, Jenkins, Docker, basic AWS and deployment pipelines. If your testing basics are weak, add Manual Testing fundamentals first.';
+    }
+    if (hasCodingInterest) {
+      return 'If you enjoy coding, Full Stack or Selenium Automation can both fit. Choose Selenium if you want QA/SDET roles; choose Full Stack if you want developer roles. Your current coding comfort will decide the best path.';
+    }
     if (msg.includes('placement') || msg.includes('job') || msg.includes('salary')) {
-      return opener + 'At Tech1World, we help with resume building, mock interviews, referrals and placement support through 450+ hiring partners. Freshers have seen average CTC around Rs.5.2 LPA, but your result depends on your skills, attendance, projects and interview performance. For current openings, WhatsApp +91 8082151063.';
+      return 'At Tech1World, we help with resume building, mock interviews, referrals and placement support through 450+ hiring partners. Freshers have seen average CTC around Rs.5.2 LPA, but your result depends on your skills, attendance, projects and interview performance. For current openings, WhatsApp +91 8082151063.';
     }
     if (msg.includes('emi') || msg.includes('fee') || msg.includes('price') || msg.includes('cost')) {
-      return opener + 'listed fees are Manual Testing Rs.18,000, Selenium Rs.32,000, DevOps Rs.45,000 and Full Stack Rs.55,000. EMI is available, but exact eligibility or discounts can change, so please confirm on WhatsApp: +91 8082151063.';
+      return 'Listed fees are Manual Testing Rs.18,000, Selenium Rs.32,000, DevOps Rs.45,000 and Full Stack Rs.55,000. EMI is available, but exact eligibility or discounts can change, so please confirm on WhatsApp: +91 8082151063.';
     }
     if (msg.includes('fresher') || msg.includes('start') || msg.includes('beginner')) {
-      return opener + 'for most freshers, Manual Testing & QA is the safest starting point. After basics, Selenium Automation is a practical next step. If you already know coding, Full Stack or DevOps may fit better. What is your current background?';
+      return 'For most freshers, Manual Testing & QA is the safest starting point. After basics, Selenium Automation is a practical next step. If you already know coding, Full Stack or DevOps may fit better. What is your education background?';
     }
     if (msg.includes('course') || msg.includes('best') || msg.includes('which')) {
-      return opener + 'fresher → Manual Testing, tester/manual QA → Selenium, IT/support background → DevOps, coding interest → Full Stack. If you share your education, experience and target job, I can suggest a better path.';
+      return 'If you are a fresher, start with Manual Testing. If you have manual QA experience, move to Selenium Automation. If you come from IT/support/Linux, DevOps fits well. If you like coding and building apps, choose Full Stack. What is your current role?';
     }
     if (msg.includes('contact') || msg.includes('demo') || msg.includes('call') || msg.includes('batch')) {
-      return opener + 'for demo class, batch timing or counseling, WhatsApp/call +91 8082151063. Email: info@tech1world.com. Address: 877 Janipur Colony, Jammu. Batch timing can change, so the counselor can confirm the latest slot.';
+      return 'For demo class, batch timing or counseling, WhatsApp/call +91 8082151063. Email: info@tech1world.com. Address: 877 Janipur Colony, Jammu. Batch timing can change, so the counselor can confirm the latest slot.';
     }
-    return opener + 'I can guide you on course selection, fees, placements, EMI, demo classes and interview prep. Start with Manual Testing if you are new, Selenium if you know QA basics, and DevOps if you have IT/Linux interest. What is your background?';
+    return 'Tell me your current background in one line, for example: fresher, manual tester, support engineer, developer, or non-IT. Then I can suggest the best course path, fees, placement plan and interview preparation steps.';
   }
+
 
   function updateAryaStatus(text) {
     const badge = document.getElementById('aiStatusBadge');
