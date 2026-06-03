@@ -2133,7 +2133,7 @@ const AI_SETTINGS = Object.assign({
   apiKey: '',
   model: 'gpt-5-nano',
   aryaModel: 'gpt-5-nano',
-  timeoutMs: 25000,
+  timeoutMs: 12000,
   fallbackToPuter: true
 }, window.TECH1WORLD_AI || {});
 AI_SETTINGS.endpoint = AI_SETTINGS.endpoint || window.TECH1WORLD_AI_ENDPOINT || '';
@@ -2221,7 +2221,11 @@ async function callOpenAICompatible(messages, system, maxTokens, options, timeou
 }
 
 async function callPuterAI(messages, system, maxTokens, options, timeoutMs) {
-  await loadPuterAI(Math.min(timeoutMs, 15000));
+  const startedAt = Date.now();
+  await loadPuterAI(Math.min(timeoutMs, 6000));
+  const remainingMs = timeoutMs - (Date.now() - startedAt);
+  if (remainingMs <= 0) throw new Error('AI provider loaded too slowly.');
+
   const puterOptions = {
     model: options.model || MODEL,
     max_tokens: maxTokens,
@@ -2231,11 +2235,18 @@ async function callPuterAI(messages, system, maxTokens, options, timeoutMs) {
 
   const response = await Promise.race([
     window.puter.ai.chat([{ role: 'system', content: system }, ...messages], false, puterOptions),
-    aiTimeout(timeoutMs)
+    aiTimeout(remainingMs)
   ]);
   const content = extractAIContent(response);
   if (!content) throw new Error('AI returned an empty response.');
   return content;
+}
+
+function warmAIProvider() {
+  if (AI_SETTINGS.endpoint && AI_SETTINGS.fallbackToPuter === false) return;
+  const warm = () => loadPuterAI(8000).catch(err => console.warn('AI provider warmup failed.', err));
+  if ('requestIdleCallback' in window) window.requestIdleCallback(warm, { timeout: 2500 });
+  else setTimeout(warm, 800);
 }
 
 async function callClaude(messages, system, maxTokens = 800, options = {}) {
@@ -2386,12 +2397,12 @@ Response rules:
     document.getElementById('aiQuickBtns').style.display = 'none';
     appendAIMsg(txt, 'user');
     updateAryaStatus('⚡ Live AI answering...');
-    const typing = appendAIMsg('Arya is generating a live answer...', 'typing');
+    const typing = appendAIMsg('Arya is preparing your answer...', 'typing');
     chatHistory.push({ role: 'user', content: txt });
     trimAryaHistory();
 
     try {
-      const reply = await callClaude(chatHistory, SYSTEM, 260, { model: ARYA_MODEL, temperature: 0.72, top_p: 0.9, timeoutMs: 18000 });
+      const reply = await callClaude(chatHistory, SYSTEM, 260, { model: ARYA_MODEL, temperature: 0.72, top_p: 0.9, timeoutMs: 7000 });
       updateAryaStatus('⚡ Live AI ready · WhatsApp support available');
       typing.remove();
       appendAIMsg(reply, 'bot');
@@ -3456,6 +3467,7 @@ function injectSmartFormHelper() {
 /* ─── INIT ALL ─── */
 (function init() {
   document.addEventListener('DOMContentLoaded', () => {
+    warmAIProvider();
     injectChatbot();
     injectCourseRecommender();
     injectMockInterview();
