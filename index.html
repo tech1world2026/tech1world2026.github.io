@@ -2322,7 +2322,7 @@ function injectChatbot() {
         <input type="text" id="aiInput" placeholder="Ask me anything..." onkeydown="if(event.key==='Enter')sendAIMsg()">
         <button id="aiSendBtn" onclick="sendAIMsg()">➤</button>
       </div>
-      <div class="ai-powered-badge" id="aiStatusBadge">⚡ Live AI ready · WhatsApp support available</div>
+      <div class="ai-powered-badge" id="aiStatusBadge">⚡ Live AI ready · WhatsApp backup available</div>
     </div>
   `);
 
@@ -2361,7 +2361,7 @@ Response rules:
 
   function getAryaFallbackReply(message) {
     const msg = message.toLowerCase();
-    const opener = 'Here is Arya’s quick guidance: ';
+    const opener = 'Live AI is temporarily slow, so here is Arya’s quick guidance: ';
     if (msg.includes('placement') || msg.includes('job') || msg.includes('salary')) {
       return opener + 'the website highlights placement support, resume help, mock interviews, referrals, 450+ hiring partners and average fresher CTC around Rs.5.2 LPA. Jobs and salary still depend on your skills, attendance and interview performance. For current openings, WhatsApp +91 8082151063.';
     }
@@ -2626,11 +2626,11 @@ function injectCourseRecommender() {
           <span class="badge badge-cyan">💰 ${fallbackCourse.price}</span>
           <span class="badge badge-green">✓ Placement Support</span>
         </div>
-        <div style="color:rgba(255,255,255,.5);font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.1rem;text-transform:uppercase;margin-bottom:.5rem">Recommended Learning Roadmap</div>
+        <div style="color:rgba(255,255,255,.5);font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.1rem;text-transform:uppercase;margin-bottom:.5rem">Backup Learning Roadmap</div>
         ${fallbackCourse.roadmap.map((step, i) => `<div style="display:flex;align-items:center;gap:.6rem;color:rgba(255,255,255,.75);font-size:.82rem;padding:.35rem 0;border-bottom:1px solid rgba(255,255,255,.06)"><span style="background:linear-gradient(135deg,#7c3aed,#4f46e5);color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;flex-shrink:0">${i + 1}</span>${step}</div>`).join('')}
       `;
       resultCard.querySelector('.rec-result-course').textContent = fallbackCourse.course;
-      resultCard.querySelector('.rec-result-why').textContent = '' + fallbackCourse.reason;
+      resultCard.querySelector('.rec-result-why').textContent = 'Live AI is temporarily unavailable, so this recommendation is generated locally. ' + fallbackCourse.reason;
       document.getElementById('recResult').classList.add('active');
     }
   }
@@ -2707,6 +2707,7 @@ function injectMockInterview() {
   const INTERVIEW_HISTORY_LIMIT = (MIN_INTERVIEW_REGENERATIONS + 1) * QUESTIONS_PER_INTERVIEW_ROUND;
   const interviewQuestionHistory = {};
   const interviewGenerationCounts = {};
+  let activeInterviewGenerationId = null;
   const fallbackQuestionBank = {
     'Manual Testing': [
       { q: 'How do you choose boundary values for a numeric input field with valid range 1 to 100?', level: 'Basic', hint: 'Include valid and invalid values around the edges' },
@@ -2823,9 +2824,13 @@ function injectMockInterview() {
   // Topic button selection
   document.querySelectorAll('.interview-topic-btn').forEach(btn => {
     btn.addEventListener('click', function () {
+      const previousTopic = selectedTopic;
       document.querySelectorAll('.interview-topic-btn').forEach(b => b.classList.remove('active'));
       this.classList.add('active');
       selectedTopic = this.dataset.topic;
+      if (previousTopic !== selectedTopic && typeof window.generateInterviewQs === 'function') {
+        window.generateInterviewQs();
+      }
     });
   });
 
@@ -2840,126 +2845,99 @@ function injectMockInterview() {
     evaluateAnswer(parseInt(btn.dataset.idx), btn.dataset.question);
   });
 
-  window.generateInterviewQs = async () => {
+  window.generateInterviewQs = () => {
     const btn = document.getElementById('interviewGenBtn');
-    btn.disabled = true;
-    btn.textContent = '⏳ AI is generating questions...';
     const qa = document.getElementById('interviewQA');
-    qa.innerHTML = '<div style="text-align:center;padding:2rem;color:#94a3b8;font-size:.85rem">🤖 Generating personalized interview questions...</div>';
+    if (!btn || !qa) return;
 
-const topicPrompts = {
-  'Manual Testing': 'Cover: test case design, bug life cycle, STLC phases, BVA, equivalence partitioning, decision table, smoke/sanity/regression/UAT testing, JIRA defect tracking, test plan vs test strategy, severity vs priority.',
-  'Selenium': 'Cover: WebDriver architecture, XPath vs CSS locators, implicit/explicit/fluent waits, Page Object Model, TestNG annotations (@BeforeMethod/@AfterClass etc), handling alerts/frames/multiple windows, Actions class, taking screenshots, Maven project setup.',
-  'DevOps': 'Cover: CI/CD pipeline stages, Jenkins job configuration, Git branching (GitFlow), Docker images vs containers, Kubernetes pods/services, Ansible playbooks, Terraform basics, Linux commands for testers, AWS EC2/S3 basics, monitoring with Grafana.',
-  'SQL': 'Cover: SELECT with WHERE/ORDER BY, INNER/LEFT/RIGHT JOIN, GROUP BY with HAVING, subqueries, correlated subqueries, finding duplicate records, NULL handling with IS NULL/COALESCE, aggregate functions (COUNT/SUM/AVG), UPDATE/DELETE for test data, indexing basics.',
-  'Agile': 'Cover: Scrum ceremonies (sprint planning/daily standup/review/retrospective), user story format, acceptance criteria, story points estimation, QA role in Agile team, Definition of Done vs Definition of Ready, Kanban vs Scrum differences, sprint testing challenges, velocity.',
-  'API Testing': 'Cover: REST vs SOAP differences, HTTP methods (GET/POST/PUT/PATCH/DELETE), status codes (200/201/400/401/403/404/500), Postman collections and environments, request headers and body types, JSON response validation, Bearer token and OAuth authentication, Newman CLI, API test automation with RestAssured.'
-};
+    const topicPrompts = {
+      'Manual Testing': 'Cover: test case design, bug life cycle, STLC phases, BVA, equivalence partitioning, decision table, smoke/sanity/regression/UAT testing, JIRA defect tracking, test plan vs test strategy, severity vs priority.',
+      'Selenium': 'Cover: WebDriver architecture, XPath vs CSS locators, implicit/explicit/fluent waits, Page Object Model, TestNG annotations (@BeforeMethod/@AfterClass etc), handling alerts/frames/multiple windows, Actions class, taking screenshots, Maven project setup.',
+      'DevOps': 'Cover: CI/CD pipeline stages, Jenkins job configuration, Git branching (GitFlow), Docker images vs containers, Kubernetes pods/services, Ansible playbooks, Terraform basics, Linux commands for testers, AWS EC2/S3 basics, monitoring with Grafana.',
+      'SQL': 'Cover: SELECT with WHERE/ORDER BY, INNER/LEFT/RIGHT JOIN, GROUP BY with HAVING, subqueries, correlated subqueries, finding duplicate records, NULL handling with IS NULL/COALESCE, aggregate functions (COUNT/SUM/AVG), UPDATE/DELETE for test data, indexing basics.',
+      'Agile': 'Cover: Scrum ceremonies (sprint planning/daily standup/review/retrospective), user story format, acceptance criteria, story points estimation, QA role in Agile team, Definition of Done vs Definition of Ready, Kanban vs Scrum differences, sprint testing challenges, velocity.',
+      'API Testing': 'Cover: REST vs SOAP differences, HTTP methods (GET/POST/PUT/PATCH/DELETE), status codes (200/201/400/401/403/404/500), Postman collections and environments, request headers and body types, JSON response validation, Bearer token and OAuth authentication, Newman CLI, API test automation with RestAssured.'
+    };
 
-const topicKey = Object.keys(topicPrompts).find(k => selectedTopic.toLowerCase().includes(k.toLowerCase())) || 'Manual Testing';
-const topicDetail = topicPrompts[topicKey] || topicPrompts['Manual Testing'];
-interviewGenerationCounts[topicKey] = (interviewGenerationCounts[topicKey] || 0) + 1;
-const generationNumber = interviewGenerationCounts[topicKey];
-const previousQuestions = interviewQuestionHistory[topicKey] || [];
-const excludedQuestions = new Set(previousQuestions.map(normalizeInterviewQuestion));
-const generationId = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}-round-${generationNumber}`;
-const avoidList = previousQuestions.length
-  ? ` Previously generated for this topic, DO NOT repeat or rephrase these: ${previousQuestions.slice(-15).map(q => `"${q}"`).join('; ')}.`
-  : '';
+    const topicKey = Object.keys(topicPrompts).find(k => selectedTopic.toLowerCase().includes(k.toLowerCase())) || 'Manual Testing';
+    const topicDetail = topicPrompts[topicKey] || topicPrompts['Manual Testing'];
+    interviewGenerationCounts[topicKey] = (interviewGenerationCounts[topicKey] || 0) + 1;
+    const generationNumber = interviewGenerationCounts[topicKey];
+    const previousQuestions = interviewQuestionHistory[topicKey] || [];
+    const excludedQuestions = new Set(previousQuestions.map(normalizeInterviewQuestion));
+    const generationId = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}-round-${generationNumber}`;
+    activeInterviewGenerationId = generationId;
 
-const prompt = `Generate exactly ${QUESTIONS_PER_INTERVIEW_ROUND} NEW interview questions for a Software Testing job interview specifically on: "${selectedTopic}". Regeneration round: ${generationNumber}. Session variation id: ${generationId}. ${topicDetail} Mix difficulty: 2 basic, 2 intermediate, 1 advanced. Every question must be specific to ${selectedTopic} — no generic questions. ${avoidList} Format as JSON array ONLY: [{"q":"question text","level":"Basic/Intermediate/Advanced","hint":"one-line specific hint"}]. No markdown, no backticks.`;
-    try {
-      const raw = await callClaude([{ role: 'user', content: prompt }],
-        'You are an expert software testing interviewer. Return only valid JSON arrays, no markdown. Always create fresh questions and avoid repetition.', 900, { temperature: 0.95, top_p: 0.9 });
-      let qs;
-      try {
-        qs = JSON.parse(raw.replace(/```json|```/g, '').trim());
-        if (!Array.isArray(qs)) throw new Error('Interview questions response was not an array.');
-      } catch { qs = []; }
-
-      const seenThisBatch = new Set();
-      qs = qs
-        .filter(q => q && q.q)
-        .map(q => ({
-          q: String(q.q).trim(),
-          level: ['Basic', 'Intermediate', 'Advanced'].includes(q.level) ? q.level : 'Intermediate',
-          hint: String(q.hint || 'Answer with a practical example.').trim()
-        }))
-        .filter(q => {
-          const normalized = normalizeInterviewQuestion(q.q);
-          if (!normalized || seenThisBatch.has(normalized) || excludedQuestions.has(normalized)) return false;
-          seenThisBatch.add(normalized);
-          return true;
-        })
-        .slice(0, QUESTIONS_PER_INTERVIEW_ROUND);
-
-      if (qs.length < QUESTIONS_PER_INTERVIEW_ROUND) {
-        const fillerExcluded = new Set([...excludedQuestions, ...seenThisBatch]);
-        const filler = getFallbackQuestions(topicKey, fillerExcluded, QUESTIONS_PER_INTERVIEW_ROUND - qs.length, generationNumber);
-        qs = qs.concat(filler);
-      }
-
-      interviewQuestionHistory[topicKey] = previousQuestions.concat(qs.map(q => q.q)).slice(-INTERVIEW_HISTORY_LIMIT);
-
-      renderInterviewQuestions(qa, qs);
-
-    } catch {
-      const fallback = getFallbackQuestions(topicKey, excludedQuestions, QUESTIONS_PER_INTERVIEW_ROUND, generationNumber);
-      interviewQuestionHistory[topicKey] = previousQuestions.concat(fallback.map(q => q.q)).slice(-INTERVIEW_HISTORY_LIMIT);
-      renderInterviewQuestions(qa, fallback);
-    }
-
+    const instantQuestions = getFallbackQuestions(topicKey, excludedQuestions, QUESTIONS_PER_INTERVIEW_ROUND, generationNumber);
+    interviewQuestionHistory[topicKey] = previousQuestions.concat(instantQuestions.map(q => q.q)).slice(-INTERVIEW_HISTORY_LIMIT);
+    renderInterviewQuestions(qa, instantQuestions);
     btn.disabled = false;
     btn.textContent = '🔄 Regenerate Questions';
+
+    const avoidList = previousQuestions.length
+      ? ` Previously generated for this topic, DO NOT repeat or rephrase these: ${previousQuestions.slice(-15).map(q => `"${q}"`).join('; ')}.`
+      : '';
+    const prompt = `Generate exactly ${QUESTIONS_PER_INTERVIEW_ROUND} NEW interview questions for a Software Testing job interview specifically on: "${selectedTopic}". Regeneration round: ${generationNumber}. Session variation id: ${generationId}. ${topicDetail} Mix difficulty: 2 basic, 2 intermediate, 1 advanced. Every question must be specific to ${selectedTopic} — no generic questions. ${avoidList} Format as JSON array ONLY: [{"q":"question text","level":"Basic/Intermediate/Advanced","hint":"one-line specific hint"}]. No markdown, no backticks.`;
+
+    callClaude([{ role: 'user', content: prompt }],
+      'You are an expert software testing interviewer. Return only valid JSON arrays, no markdown. Always create fresh questions and avoid repetition.',
+      900,
+      { temperature: 0.95, top_p: 0.9, timeoutMs: 2500 })
+      .then(raw => {
+        if (activeInterviewGenerationId !== generationId) return;
+        let qs;
+        try {
+          qs = JSON.parse(raw.replace(/```json|```/g, '').trim());
+          if (!Array.isArray(qs)) throw new Error('Interview questions response was not an array.');
+        } catch { qs = []; }
+
+        const seenThisBatch = new Set();
+        qs = qs
+          .filter(q => q && q.q)
+          .map(q => ({
+            q: String(q.q).trim(),
+            level: ['Basic', 'Intermediate', 'Advanced'].includes(q.level) ? q.level : 'Intermediate',
+            hint: String(q.hint || 'Answer with a practical example.').trim()
+          }))
+          .filter(q => {
+            const normalized = normalizeInterviewQuestion(q.q);
+            if (!normalized || seenThisBatch.has(normalized) || excludedQuestions.has(normalized)) return false;
+            seenThisBatch.add(normalized);
+            return true;
+          })
+          .slice(0, QUESTIONS_PER_INTERVIEW_ROUND);
+
+        if (qs.length < QUESTIONS_PER_INTERVIEW_ROUND) {
+          const fillerExcluded = new Set([...excludedQuestions, ...seenThisBatch]);
+          const filler = getFallbackQuestions(topicKey, fillerExcluded, QUESTIONS_PER_INTERVIEW_ROUND - qs.length, generationNumber);
+          qs = qs.concat(filler);
+        }
+
+        interviewQuestionHistory[topicKey] = previousQuestions.concat(qs.map(q => q.q)).slice(-INTERVIEW_HISTORY_LIMIT);
+        renderInterviewQuestions(qa, qs);
+      })
+      .catch(err => {
+        console.warn('Mock interview live AI was too slow; kept instant questions.', err);
+      });
   };
 
-  window.evaluateAnswer = async (idx, question) => {
+  window.evaluateAnswer = (idx, question) => {
     const ans = document.getElementById(`ans_${idx}`);
     if (!ans) return;
     const ansText = ans.value.trim();
     if (!ansText) { alert('Please write your answer first!'); return; }
     const fb = document.getElementById(`fb_${idx}`);
-    fb.className = 'interview-feedback show ok';
-    fb.textContent = '🤖 Evaluating your answer...';
+    if (!fb) return;
 
-    const prompt = `Interview question: "${question}"\nCandidate answer: "${ansText}"\n\nEvaluate this answer for a Software Testing interview. Give: 1) Score out of 10, 2) What was good (1 sentence), 3) What to improve (1 sentence), 4) A better answer hint (1 sentence). Format as JSON ONLY: {"score":7,"good":"...","improve":"...","hint":"..."}`;
-
-    try {
-      const raw = await callClaude([{ role: 'user', content: prompt }],
-        'You are an expert software testing interviewer. Return only valid JSON, no markdown.', 300);
-      let data;
-      try { data = JSON.parse(raw.replace(/```json|```/g, '').trim()); }
-      catch { data = { score: 6, good: 'You showed basic understanding.', improve: 'Add more specific technical details.', hint: 'Include real examples from projects.' }; }
-
+    const renderFeedback = data => {
       const score = parseInt(data.score) || 6;
       const cls = score >= 7 ? 'good' : 'ok';
       fb.className = `interview-feedback show ${cls}`;
-      // Use textContent for API-returned strings
       fb.innerHTML = `<div class="interview-score">Score: ${score}/10 ${score >= 7 ? '✅' : '⚠️'}</div>`;
-      const lines = [
+      [
         { label: '✅ Good: ', text: data.good },
         { label: '📈 Improve: ', text: data.improve },
         { label: '💡 Hint: ', text: data.hint }
-      ];
-      lines.forEach(({ label, text }) => {
-        const d = document.createElement('div');
-        d.style.marginTop = '.3rem';
-        const b = document.createElement('b');
-        b.textContent = label;
-        d.appendChild(b);
-        d.appendChild(document.createTextNode(text));
-        fb.appendChild(d);
-      });
-    } catch (err) {
-      console.warn('Answer evaluation live AI failed; showing local feedback.', err);
-      const wordCount = ansText.split(/\s+/).filter(Boolean).length;
-      const score = wordCount >= 45 ? 7 : wordCount >= 20 ? 6 : 5;
-      fb.className = `interview-feedback show ${score >= 7 ? 'good' : 'ok'}`;
-      fb.innerHTML = `<div class="interview-score">Score: ${score}/10 ${score >= 7 ? '✅' : '⚠️'}</div>`;
-      [
-        { label: '✅ Good: ', text: wordCount >= 20 ? 'You attempted a structured answer.' : 'You started answering the question.' },
-        { label: '📈 Improve: ', text: 'Add specific tools, steps, examples and expected outcomes from a real project.' },
-        { label: '💡 Hint: ', text: 'Use the format: definition, practical example, risk/edge case, and how you would verify it.' }
       ].forEach(({ label, text }) => {
         const d = document.createElement('div');
         d.style.marginTop = '.3rem';
@@ -2969,8 +2947,36 @@ const prompt = `Generate exactly ${QUESTIONS_PER_INTERVIEW_ROUND} NEW interview 
         d.appendChild(document.createTextNode(text));
         fb.appendChild(d);
       });
-    }
+    };
+
+    const wordCount = ansText.split(/\s+/).filter(Boolean).length;
+    renderFeedback({
+      score: wordCount >= 45 ? 7 : wordCount >= 20 ? 6 : 5,
+      good: wordCount >= 20 ? 'You attempted a structured answer.' : 'You started answering the question.',
+      improve: 'Add specific tools, steps, examples and expected outcomes from a real project.',
+      hint: 'Use the format: definition, practical example, risk/edge case, and how you would verify it.'
+    });
+
+    const prompt = `Interview question: "${question}"
+Candidate answer: "${ansText}"
+
+Evaluate this answer for a Software Testing interview. Give: 1) Score out of 10, 2) What was good (1 sentence), 3) What to improve (1 sentence), 4) A better answer hint (1 sentence). Format as JSON ONLY: {"score":7,"good":"...","improve":"...","hint":"..."}`;
+
+    callClaude([{ role: 'user', content: prompt }],
+      'You are an expert software testing interviewer. Return only valid JSON, no markdown.',
+      300,
+      { timeoutMs: 2500 })
+      .then(raw => {
+        let data;
+        try { data = JSON.parse(raw.replace(/```json|```/g, '').trim()); }
+        catch { return; }
+        renderFeedback(data);
+      })
+      .catch(err => {
+        console.warn('Answer evaluation live AI was too slow; kept instant local feedback.', err);
+      });
   };
+
 
   const placementSec = document.getElementById('placement');
   if (placementSec) {
@@ -3097,8 +3103,8 @@ function injectSalaryPredictor() {
       const min = Number(Math.max(2.4, avg - 1.4).toFixed(1));
       const max = Number((avg + 2.6).toFixed(1));
       result.className = 'salary-result show';
-      result.innerHTML = `<div style="font-family:'Sora',sans-serif;font-size:.85rem;font-weight:600;color:#64748b;margin-bottom:.5rem">📊 SALARY ESTIMATE</div>
-        <div style="font-size:.82rem;color:#64748b;line-height:1.6;margin-bottom:.75rem">Estimate based on course, experience and Indian QA/IT market patterns.</div>
+      result.innerHTML = `<div style="font-family:'Sora',sans-serif;font-size:.85rem;font-weight:600;color:#64748b;margin-bottom:.5rem">📊 BACKUP SALARY ESTIMATE</div>
+        <div style="font-size:.82rem;color:#64748b;line-height:1.6;margin-bottom:.75rem">Live AI is temporarily unavailable, so this is a local estimate based on course, experience and Indian QA/IT market patterns.</div>
         <div style="display:flex;align-items:baseline;gap:.5rem;margin-bottom:.3rem"><span style="font-family:'Sora',sans-serif;font-size:2rem;font-weight:900;color:#f59e0b">Rs.${avg}L</span><span style="color:#64748b;font-size:.85rem">avg annual CTC</span></div>
         <div style="display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:.62rem;color:#94a3b8;margin-top:.3rem"><span>Min: ₹${min}L</span><span>Max: ₹${max}L</span></div>
         <div style="background:linear-gradient(135deg,rgba(245,158,11,.08),rgba(249,115,22,.04));border:1px solid rgba(245,158,11,.25);border-radius:10px;padding:.85rem 1rem;margin-top:1rem;font-size:.82rem;color:#78350f;line-height:1.65"><b>Insight:</b> Salary depends on projects, communication, interview performance and location. Confirm current placement trends with +91 8082151063.</div>`;
