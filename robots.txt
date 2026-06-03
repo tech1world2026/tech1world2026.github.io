@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
 
+Host: tech1world.com
 Sitemap: https://tech1world.com/sitemap.xml
