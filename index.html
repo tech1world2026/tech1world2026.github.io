@@ -2359,76 +2359,6 @@ Response rules:
     if (chatHistory.length > ARYA_HISTORY_LIMIT) chatHistory.splice(0, chatHistory.length - ARYA_HISTORY_LIMIT);
   }
 
-  function getAryaFallbackReply(message, history = []) {
-    const msg = message.toLowerCase().trim();
-    const recentUserText = history
-      .filter(item => item && item.role === 'user')
-      .map(item => String(item.content || '').toLowerCase())
-      .join(' ');
-    const profileText = `${recentUserText} ${msg}`.trim();
-    const hasAny = (text, words) => words.some(word => text.includes(word));
-    const exactManual = ['manual', 'manual testing', 'manual tester', 'manual qa'].includes(msg);
-    const hasManualTestingBackground = exactManual || (profileText.includes('manual') && hasAny(profileText, ['experience', 'experienced', 'tester', 'testing', 'qa', 'quality']));
-    const hasAutomationBackground = hasAny(profileText, ['selenium', 'automation tester', 'automation testing', 'automation qa', 'webdriver']);
-    const hasDevOpsEngineerBackground = hasAny(profileText, ['devops engineer', 'devops professional', 'devops experience']) || (profileText.includes('devops') && hasAny(profileText, ['engineer', 'working', 'experience', 'i also']));
-    const hasItBackground = hasAny(profileText, ['support', 'linux', 'network', 'system admin', 'it experience']);
-    const hasCodingInterest = hasAny(profileText, ['coding', 'developer', 'development', 'java', 'javascript', 'python', 'full stack']);
-    const knowsAllCourses = hasAny(profileText, ['knowledge of every course', 'knowledge of all course', 'know every course', 'know all course', 'all courses', 'every course']);
-    const hasAdvancedProfile = knowsAllCourses || (hasAutomationBackground && hasDevOpsEngineerBackground);
-    const isSecurityTarget = hasAny(msg, ['security', 'cyber', 'devsecops', 'penetration', 'pentest', 'vapt']);
-    const isSdetTarget = hasAny(msg, ['sdet', 'qa architect', 'automation architect']);
-    const isSreTarget = hasAny(msg, ['sre', 'site reliability']);
-    const isQaLeadTarget = hasAny(msg, ['qa lead', 'test lead', 'lead']);
-
-    if (hasAdvancedProfile && isSecurityTarget) {
-      return 'Great — for a security-focused path, your automation plus DevOps background is a strong advantage. Target DevSecOps, Security Testing, or Cloud Security QA. Focus on OWASP Top 10, API security testing, Burp Suite basics, vulnerability scanning, secure CI/CD, Docker/Kubernetes security, cloud IAM, and one strong security testing project. Do you want a VAPT/security testing path or DevSecOps path?';
-    }
-    if (hasAdvancedProfile && isSdetTarget) {
-      return 'For an SDET/QA Architect path, focus on framework architecture, API automation, CI integration, Dockerized test runs, reporting, test data strategy, code review habits, and mentoring-level interview stories. Build one end-to-end framework project that shows UI + API + CI/CD.';
-    }
-    if (hasAdvancedProfile && isSreTarget) {
-      return 'For SRE, build on your DevOps strength: Linux troubleshooting, observability, incident response, SLIs/SLOs, Kubernetes, cloud, automation scripting, and reliability testing. Your testing background can help you stand out in release reliability and production quality roles.';
-    }
-    if (hasAdvancedProfile && isQaLeadTarget) {
-      return 'For QA Lead, focus less on basic tools and more on test strategy, estimation, defect metrics, release risk, automation roadmap, stakeholder communication, mentoring, and interview stories where you improved quality or delivery speed.';
-    }
-    if (hasAdvancedProfile) {
-      return 'Got it — you are not looking for a beginner course path. With automation plus DevOps knowledge, the best focus is an advanced career track: SDET/QA Architect, DevOps-SDET, QA Lead, DevSecOps, or DevOps/SRE. Pick one target role and I will give you a focused roadmap.';
-    }
-    if (hasDevOpsEngineerBackground) {
-      return 'Since you are already a DevOps engineer, skip beginner DevOps basics and focus on advanced CI/CD, Docker, Kubernetes, Terraform, AWS, monitoring, security and deployment troubleshooting. If you want to combine it with testing, DevOps-SDET or QA automation pipeline roles are a strong target.';
-    }
-    if (hasManualTestingBackground) {
-      return 'Since you already have manual testing experience, the best next step is Selenium Automation. It will help you move from manual QA to automation/SDET roles. Focus on Core Java, Selenium WebDriver, TestNG, framework design, Git, basic API testing and SQL. How many years of manual testing experience do you have?';
-    }
-    if (hasAutomationBackground) {
-      return 'Because you already know automation/Selenium, you should strengthen framework design, API automation, CI/CD with Jenkins, Git, Docker basics and interview-level Java. Performance testing, security testing or DevOps can be good add-ons depending on whether you want SDET, QA Lead or DevOps-SDET roles.';
-    }
-    if (hasItBackground) {
-      return 'With an IT/support/Linux background, DevOps is a strong fit. Start with Linux, Git, Jenkins, Docker, basic AWS and deployment pipelines. If your testing basics are weak, add Manual Testing fundamentals first.';
-    }
-    if (hasCodingInterest) {
-      return 'If you enjoy coding, Full Stack or Selenium Automation can both fit. Choose Selenium if you want QA/SDET roles; choose Full Stack if you want developer roles. Your current coding comfort will decide the best path.';
-    }
-    if (msg.includes('placement') || msg.includes('job') || msg.includes('salary')) {
-      return 'At Tech1World, we help with resume building, mock interviews, referrals and placement support through 450+ hiring partners. Freshers have seen average CTC around Rs.5.2 LPA, but your result depends on your skills, attendance, projects and interview performance. For current openings, WhatsApp +91 8082151063.';
-    }
-    if (msg.includes('emi') || msg.includes('fee') || msg.includes('price') || msg.includes('cost')) {
-      return 'Listed fees are Manual Testing Rs.18,000, Selenium Rs.32,000, DevOps Rs.45,000 and Full Stack Rs.55,000. EMI is available, but exact eligibility or discounts can change, so please confirm on WhatsApp: +91 8082151063.';
-    }
-    if (msg.includes('fresher') || msg.includes('start') || msg.includes('beginner')) {
-      return 'For most freshers, Manual Testing & QA is the safest starting point. After basics, Selenium Automation is a practical next step. If you already know coding, Full Stack or DevOps may fit better. What is your education background?';
-    }
-    if (msg.includes('course') || msg.includes('best') || msg.includes('which')) {
-      return 'Tell me your current role and target role, and I will suggest the exact path. Fresher: Manual Testing. Manual QA: Selenium Automation. IT/Linux: DevOps. Coding/app-building: Full Stack. Already advanced: focus on specialization, projects and interview prep.';
-    }
-    if (msg.includes('contact') || msg.includes('demo') || msg.includes('call') || msg.includes('batch')) {
-      return 'For demo class, batch timing or counseling, WhatsApp/call +91 8082151063. Email: info@tech1world.com. Address: 877 Janipur Colony, Jammu. Batch timing can change, so the counselor can confirm the latest slot.';
-    }
-    return 'Tell me your current role and your target role in one line. For example: manual tester to SDET, automation tester to QA lead, DevOps engineer to SRE, or fresher to QA. Then I can suggest a specific path.';
-  }
-
-
   function updateAryaStatus(text) {
     const badge = document.getElementById('aiStatusBadge');
     if (badge) badge.textContent = text;
@@ -2448,33 +2378,26 @@ Response rules:
     chatHistory.push({ role: 'user', content: txt });
     trimAryaHistory();
 
-    const liveMessages = chatHistory.slice();
-    const fallback = getAryaFallbackReply(txt, liveMessages);
-    const botMsg = appendAIMsg(fallback, 'bot');
-    chatHistory.push({ role: 'assistant', content: fallback });
-    trimAryaHistory();
-    updateAryaStatus('Instant guidance shown · live AI refining...');
+    updateAryaStatus('Live AI is thinking...');
+    const typing = appendAIMsg('Arya is thinking with live AI...', 'typing');
 
-    aryaSending = false;
-    if (sendBtn) sendBtn.disabled = false;
-    inp.focus();
-
-    callClaude(liveMessages, SYSTEM, 320, { model: ARYA_MODEL, temperature: 0.72, top_p: 0.9, timeoutMs: 15000 })
-      .then(reply => {
-        if (!reply || !document.body.contains(botMsg)) return;
-        botMsg.textContent = reply;
-        for (let i = chatHistory.length - 1; i >= 0; i--) {
-          if (chatHistory[i]?.role === 'assistant' && chatHistory[i].content === fallback) {
-            chatHistory[i].content = reply;
-            break;
-          }
-        }
-        updateAryaStatus('⚡ Live AI ready · WhatsApp support available');
-      })
-      .catch(err => {
-        console.warn('Arya live AI was too slow; kept instant guided answer.', err);
-        updateAryaStatus('Instant guidance ready · WhatsApp support available');
-      });
+    try {
+      const reply = await callClaude(chatHistory.slice(), SYSTEM, 420, { model: ARYA_MODEL, temperature: 0.72, top_p: 0.9, timeoutMs: 25000 });
+      typing.className = 'ai-msg bot';
+      typing.textContent = reply;
+      chatHistory.push({ role: 'assistant', content: reply });
+      trimAryaHistory();
+      updateAryaStatus('⚡ Live AI ready · WhatsApp support available');
+    } catch (err) {
+      console.warn('Arya live AI failed.', err);
+      typing.className = 'ai-msg bot';
+      typing.textContent = 'I could not connect to live AI right now. Please try again in a moment, or WhatsApp +91 8082151063 for quick counseling.';
+      updateAryaStatus('Live AI connection issue · please retry');
+    } finally {
+      aryaSending = false;
+      if (sendBtn) sendBtn.disabled = false;
+      inp.focus();
+    }
   };
 
 
