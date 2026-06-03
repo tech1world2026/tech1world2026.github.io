@@ -2131,14 +2131,14 @@ const AI_SETTINGS = Object.assign({
   provider: 'puter',
   endpoint: '',
   apiKey: '',
-  model: 'gpt-5-nano',
-  aryaModel: 'gpt-5-nano',
+  model: 'openai/gpt-4o-mini',
+  aryaModel: 'openai/gpt-4o-mini',
   timeoutMs: 5000,
   fallbackToPuter: true
 }, window.TECH1WORLD_AI || {});
 AI_SETTINGS.endpoint = AI_SETTINGS.endpoint || window.TECH1WORLD_AI_ENDPOINT || '';
 AI_SETTINGS.apiKey = AI_SETTINGS.apiKey || window.TECH1WORLD_AI_API_KEY || '';
-AI_SETTINGS.model = AI_SETTINGS.model || window.TECH1WORLD_AI_MODEL || 'gpt-5-nano';
+AI_SETTINGS.model = AI_SETTINGS.model || window.TECH1WORLD_AI_MODEL || 'openai/gpt-4o-mini';
 AI_SETTINGS.aryaModel = AI_SETTINGS.aryaModel || window.TECH1WORLD_ARYA_MODEL || AI_SETTINGS.model;
 
 const MODEL = AI_SETTINGS.model;
@@ -2226,20 +2226,38 @@ async function callPuterAI(messages, system, maxTokens, options, timeoutMs) {
   const remainingMs = timeoutMs - (Date.now() - startedAt);
   if (remainingMs <= 0) throw new Error('AI provider loaded too slowly.');
 
-  const puterOptions = {
-    model: options.model || MODEL,
-    max_tokens: maxTokens,
-    stream: false
-  };
-  if (typeof options.temperature === 'number') puterOptions.temperature = options.temperature;
+  const requestedModel = options.model || MODEL;
+  const modelAttempts = [requestedModel, 'openai/gpt-4o-mini', 'openai/gpt-4.1-nano', 'gpt-5.4-nano']
+    .filter((model, index, arr) => model && arr.indexOf(model) === index);
+  let lastError;
 
-  const response = await Promise.race([
-    window.puter.ai.chat([{ role: 'system', content: system }, ...messages], false, puterOptions),
-    aiTimeout(remainingMs)
-  ]);
-  const content = extractAIContent(response);
-  if (!content) throw new Error('AI returned an empty response.');
-  return content;
+  for (const model of modelAttempts) {
+    const elapsed = Date.now() - startedAt;
+    const budget = Math.min(9000, timeoutMs - elapsed);
+    if (budget <= 0) break;
+
+    const puterOptions = {
+      model,
+      max_tokens: maxTokens,
+      stream: false
+    };
+    if (typeof options.temperature === 'number') puterOptions.temperature = options.temperature;
+
+    try {
+      const response = await Promise.race([
+        window.puter.ai.chat([{ role: 'system', content: system }, ...messages], false, puterOptions),
+        aiTimeout(budget)
+      ]);
+      const content = extractAIContent(response);
+      if (content) return content;
+      lastError = new Error(`AI model ${model} returned an empty response.`);
+    } catch (err) {
+      lastError = err;
+      console.warn(`Puter AI model ${model} failed; trying next model if available.`, err);
+    }
+  }
+
+  throw lastError || new Error('AI request timed out.');
 }
 
 function warmAIProvider() {
@@ -2382,7 +2400,7 @@ Response rules:
     const typing = appendAIMsg('Arya is thinking with live AI...', 'typing');
 
     try {
-      const reply = await callClaude(chatHistory.slice(), SYSTEM, 420, { model: ARYA_MODEL, temperature: 0.72, top_p: 0.9, timeoutMs: 25000 });
+      const reply = await callClaude(chatHistory.slice(), SYSTEM, 420, { model: ARYA_MODEL, temperature: 0.72, top_p: 0.9, timeoutMs: 18000 });
       typing.className = 'ai-msg bot';
       typing.textContent = reply;
       chatHistory.push({ role: 'assistant', content: reply });
@@ -2391,7 +2409,7 @@ Response rules:
     } catch (err) {
       console.warn('Arya live AI failed.', err);
       typing.className = 'ai-msg bot';
-      typing.textContent = 'I could not connect to live AI right now. Please try again in a moment, or WhatsApp +91 8082151063 for quick counseling.';
+      typing.textContent = 'Live AI could not respond from this browser. Please refresh and try again, or WhatsApp +91 8082151063 for quick counseling.';
       updateAryaStatus('Live AI connection issue · please retry');
     } finally {
       aryaSending = false;
