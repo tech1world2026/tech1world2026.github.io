@@ -2359,19 +2359,34 @@ Response rules:
     if (chatHistory.length > ARYA_HISTORY_LIMIT) chatHistory.splice(0, chatHistory.length - ARYA_HISTORY_LIMIT);
   }
 
-  function getAryaFallbackReply(message) {
-    const msg = message.toLowerCase();
-    const hasAny = words => words.some(word => msg.includes(word));
-    const hasManualTestingBackground = msg === 'manual' || msg === 'manual testing' || msg === 'manual tester' || (msg.includes('manual') && hasAny(['experience', 'experienced', 'tester', 'testing', 'qa', 'quality']));
-    const hasAutomationBackground = hasAny(['selenium', 'automation tester', 'automation testing', 'webdriver']);
-    const hasItBackground = hasAny(['support', 'linux', 'network', 'system admin', 'it experience', 'devops']);
-    const hasCodingInterest = hasAny(['coding', 'developer', 'development', 'java', 'javascript', 'python', 'full stack']);
+  function getAryaFallbackReply(message, history = []) {
+    const msg = message.toLowerCase().trim();
+    const recentUserText = history
+      .filter(item => item && item.role === 'user')
+      .map(item => String(item.content || '').toLowerCase())
+      .join(' ');
+    const profileText = `${recentUserText} ${msg}`.trim();
+    const hasAny = (text, words) => words.some(word => text.includes(word));
+    const exactManual = ['manual', 'manual testing', 'manual tester', 'manual qa'].includes(msg);
+    const hasManualTestingBackground = exactManual || (profileText.includes('manual') && hasAny(profileText, ['experience', 'experienced', 'tester', 'testing', 'qa', 'quality']));
+    const hasAutomationBackground = hasAny(profileText, ['selenium', 'automation tester', 'automation testing', 'automation qa', 'webdriver']);
+    const hasDevOpsEngineerBackground = hasAny(profileText, ['devops engineer', 'devops professional', 'devops experience']) || (profileText.includes('devops') && hasAny(profileText, ['engineer', 'working', 'experience', 'i also']));
+    const hasItBackground = hasAny(profileText, ['support', 'linux', 'network', 'system admin', 'it experience']);
+    const hasCodingInterest = hasAny(profileText, ['coding', 'developer', 'development', 'java', 'javascript', 'python', 'full stack']);
+    const knowsAllCourses = hasAny(profileText, ['knowledge of every course', 'knowledge of all course', 'know every course', 'know all course', 'all courses', 'every course']);
+    const hasAdvancedProfile = knowsAllCourses || (hasAutomationBackground && hasDevOpsEngineerBackground);
 
+    if (hasAdvancedProfile) {
+      return 'Got it — you are not looking for a beginner course path. With automation plus DevOps knowledge, the best focus is an advanced career track: SDET/QA Architect, DevOps-SDET, QA Lead, or DevOps/SRE. I would work on framework design, API automation, CI/CD, Docker/Kubernetes, cloud, performance/security testing, resume positioning and mock interviews. Which target role do you want next?';
+    }
+    if (hasDevOpsEngineerBackground) {
+      return 'Since you are already a DevOps engineer, skip beginner DevOps basics and focus on advanced CI/CD, Docker, Kubernetes, Terraform, AWS, monitoring, security and deployment troubleshooting. If you want to combine it with testing, DevOps-SDET or QA automation pipeline roles are a strong target.';
+    }
     if (hasManualTestingBackground) {
       return 'Since you already have manual testing experience, the best next step is Selenium Automation. It will help you move from manual QA to automation/SDET roles. Focus on Core Java, Selenium WebDriver, TestNG, framework design, Git, basic API testing and SQL. How many years of manual testing experience do you have?';
     }
     if (hasAutomationBackground) {
-      return 'Because you already know automation/Selenium, you should strengthen framework design, API automation, CI/CD with Jenkins, Git, Docker basics and interview-level Java. Performance or DevOps can be a good next add-on depending on your target role.';
+      return 'Because you already know automation/Selenium, you should strengthen framework design, API automation, CI/CD with Jenkins, Git, Docker basics and interview-level Java. Performance testing, security testing or DevOps can be good add-ons depending on whether you want SDET, QA Lead or DevOps-SDET roles.';
     }
     if (hasItBackground) {
       return 'With an IT/support/Linux background, DevOps is a strong fit. Start with Linux, Git, Jenkins, Docker, basic AWS and deployment pipelines. If your testing basics are weak, add Manual Testing fundamentals first.';
@@ -2389,12 +2404,12 @@ Response rules:
       return 'For most freshers, Manual Testing & QA is the safest starting point. After basics, Selenium Automation is a practical next step. If you already know coding, Full Stack or DevOps may fit better. What is your education background?';
     }
     if (msg.includes('course') || msg.includes('best') || msg.includes('which')) {
-      return 'If you are a fresher, start with Manual Testing. If you have manual QA experience, move to Selenium Automation. If you come from IT/support/Linux, DevOps fits well. If you like coding and building apps, choose Full Stack. What is your current role?';
+      return 'Tell me your current role and target role, and I will suggest the exact path. Fresher: Manual Testing. Manual QA: Selenium Automation. IT/Linux: DevOps. Coding/app-building: Full Stack. Already advanced: focus on specialization, projects and interview prep.';
     }
     if (msg.includes('contact') || msg.includes('demo') || msg.includes('call') || msg.includes('batch')) {
       return 'For demo class, batch timing or counseling, WhatsApp/call +91 8082151063. Email: info@tech1world.com. Address: 877 Janipur Colony, Jammu. Batch timing can change, so the counselor can confirm the latest slot.';
     }
-    return 'Tell me your current background in one line, for example: fresher, manual tester, support engineer, developer, or non-IT. Then I can suggest the best course path, fees, placement plan and interview preparation steps.';
+    return 'Tell me your current role and your target role in one line. For example: manual tester to SDET, automation tester to QA lead, DevOps engineer to SRE, or fresher to QA. Then I can suggest a specific path.';
   }
 
 
@@ -2418,7 +2433,7 @@ Response rules:
     trimAryaHistory();
 
     const liveMessages = chatHistory.slice();
-    const fallback = getAryaFallbackReply(txt);
+    const fallback = getAryaFallbackReply(txt, liveMessages);
     const botMsg = appendAIMsg(fallback, 'bot');
     chatHistory.push({ role: 'assistant', content: fallback });
     trimAryaHistory();
