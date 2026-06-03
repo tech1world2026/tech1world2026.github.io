@@ -2133,7 +2133,7 @@ const AI_SETTINGS = Object.assign({
   apiKey: '',
   model: 'gpt-5-nano',
   aryaModel: 'gpt-5-nano',
-  timeoutMs: 12000,
+  timeoutMs: 5000,
   fallbackToPuter: true
 }, window.TECH1WORLD_AI || {});
 AI_SETTINGS.endpoint = AI_SETTINGS.endpoint || window.TECH1WORLD_AI_ENDPOINT || '';
@@ -2396,32 +2396,38 @@ Response rules:
     inp.value = '';
     document.getElementById('aiQuickBtns').style.display = 'none';
     appendAIMsg(txt, 'user');
-    updateAryaStatus('⚡ Live AI answering...');
-    const typing = appendAIMsg('Arya is preparing your answer...', 'typing');
     chatHistory.push({ role: 'user', content: txt });
     trimAryaHistory();
 
-    try {
-      const reply = await callClaude(chatHistory, SYSTEM, 260, { model: ARYA_MODEL, temperature: 0.72, top_p: 0.9, timeoutMs: 7000 });
-      updateAryaStatus('⚡ Live AI ready · WhatsApp support available');
-      typing.remove();
-      appendAIMsg(reply, 'bot');
-      chatHistory.push({ role: 'assistant', content: reply });
-      trimAryaHistory();
-    } catch (err) {
-      updateAryaStatus('Guided answer ready · WhatsApp support available');
-      console.warn('Arya live AI failed; using local fallback.', err);
-      const fallback = getAryaFallbackReply(txt);
-      typing.remove();
-      appendAIMsg(fallback, 'bot');
-      chatHistory.push({ role: 'assistant', content: fallback });
-      trimAryaHistory();
-    } finally {
-      aryaSending = false;
-      if (sendBtn) sendBtn.disabled = false;
-      inp.focus();
-    }
+    const liveMessages = chatHistory.slice();
+    const fallback = getAryaFallbackReply(txt);
+    const botMsg = appendAIMsg(fallback, 'bot');
+    chatHistory.push({ role: 'assistant', content: fallback });
+    trimAryaHistory();
+    updateAryaStatus('Guided answer ready · checking live AI...');
+
+    aryaSending = false;
+    if (sendBtn) sendBtn.disabled = false;
+    inp.focus();
+
+    callClaude(liveMessages, SYSTEM, 220, { model: ARYA_MODEL, temperature: 0.72, top_p: 0.9, timeoutMs: 2500 })
+      .then(reply => {
+        if (!reply || !document.body.contains(botMsg)) return;
+        botMsg.textContent = reply;
+        for (let i = chatHistory.length - 1; i >= 0; i--) {
+          if (chatHistory[i]?.role === 'assistant' && chatHistory[i].content === fallback) {
+            chatHistory[i].content = reply;
+            break;
+          }
+        }
+        updateAryaStatus('⚡ Live AI ready · WhatsApp support available');
+      })
+      .catch(err => {
+        console.warn('Arya live AI was too slow; kept instant guided answer.', err);
+        updateAryaStatus('Guided answer ready · WhatsApp support available');
+      });
   };
+
 
   function appendAIMsg(text, cls) {
     const msgs = document.getElementById('aiMsgs');
