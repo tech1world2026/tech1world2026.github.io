@@ -2128,26 +2128,20 @@ function dlBrochure(key){
 ═══════════════════════════════════════════════════════ */
 
 const AI_SETTINGS = Object.assign({
-  provider: 'puter',
+  provider: 'backend',
   endpoint: '',
   apiKey: '',
-  model: 'openai/gpt-4o-mini',
-  aryaModel: 'openai/gpt-4o-mini',
-  timeoutMs: 5000,
-  fallbackToPuter: true
+  model: 'llama-3.1-8b-instant',
+  aryaModel: 'llama-3.1-8b-instant',
+  timeoutMs: 18000
 }, window.TECH1WORLD_AI || {});
 AI_SETTINGS.endpoint = AI_SETTINGS.endpoint || window.TECH1WORLD_AI_ENDPOINT || '';
 AI_SETTINGS.apiKey = AI_SETTINGS.apiKey || window.TECH1WORLD_AI_API_KEY || '';
-AI_SETTINGS.model = AI_SETTINGS.model || window.TECH1WORLD_AI_MODEL || 'openai/gpt-4o-mini';
+AI_SETTINGS.model = AI_SETTINGS.model || window.TECH1WORLD_AI_MODEL || 'llama-3.1-8b-instant';
 AI_SETTINGS.aryaModel = AI_SETTINGS.aryaModel || window.TECH1WORLD_ARYA_MODEL || AI_SETTINGS.model;
 
 const MODEL = AI_SETTINGS.model;
 const ARYA_MODEL = AI_SETTINGS.aryaModel;
-let puterLoadPromise = null;
-
-function aiTimeout(ms) {
-  return new Promise((_, reject) => setTimeout(() => reject(new Error('AI request timed out.')), ms));
-}
 
 function extractAIContent(response) {
   if (typeof response === 'string') return response.trim();
@@ -2155,41 +2149,11 @@ function extractAIContent(response) {
   return String(content || '').trim();
 }
 
-function loadPuterAI(timeoutMs) {
-  if (window.puter?.ai?.chat) return Promise.resolve(window.puter);
-  if (puterLoadPromise) return puterLoadPromise;
-
-  puterLoadPromise = new Promise((resolve, reject) => {
-    const existing = document.querySelector('script[data-tech1world-puter]');
-    const script = existing || document.createElement('script');
-    const timer = setTimeout(() => reject(new Error('Puter AI library load timed out.')), timeoutMs);
-
-    script.onload = () => {
-      clearTimeout(timer);
-      if (window.puter?.ai?.chat) resolve(window.puter);
-      else reject(new Error('Puter AI library loaded without chat support.'));
-    };
-    script.onerror = () => {
-      clearTimeout(timer);
-      reject(new Error('Could not load Puter AI library.'));
-    };
-
-    if (!existing) {
-      script.src = 'https://js.puter.com/v2/';
-      script.async = true;
-      script.defer = true;
-      script.dataset.tech1worldPuter = 'true';
-      document.head.appendChild(script);
-    }
-  }).catch(err => {
-    puterLoadPromise = null;
-    throw err;
-  });
-
-  return puterLoadPromise;
-}
-
 async function callOpenAICompatible(messages, system, maxTokens, options, timeoutMs) {
+  if (!AI_SETTINGS.endpoint) {
+    throw new Error('AI backend endpoint is not configured. Set window.TECH1WORLD_AI_ENDPOINT to your Groq proxy URL.');
+  }
+
   const payload = {
     model: options.model || MODEL,
     max_tokens: maxTokens,
@@ -2220,67 +2184,15 @@ async function callOpenAICompatible(messages, system, maxTokens, options, timeou
   }
 }
 
-async function callPuterAI(messages, system, maxTokens, options, timeoutMs) {
-  const startedAt = Date.now();
-  await loadPuterAI(Math.min(timeoutMs, 6000));
-  const remainingMs = timeoutMs - (Date.now() - startedAt);
-  if (remainingMs <= 0) throw new Error('AI provider loaded too slowly.');
-
-  const requestedModel = options.model || MODEL;
-  const modelAttempts = [requestedModel, 'openai/gpt-4o-mini', 'openai/gpt-4.1-nano', 'gpt-5.4-nano']
-    .filter((model, index, arr) => model && arr.indexOf(model) === index);
-  let lastError;
-
-  for (const model of modelAttempts) {
-    const elapsed = Date.now() - startedAt;
-    const budget = Math.min(9000, timeoutMs - elapsed);
-    if (budget <= 0) break;
-
-    const puterOptions = {
-      model,
-      max_tokens: maxTokens,
-      stream: false
-    };
-    if (typeof options.temperature === 'number') puterOptions.temperature = options.temperature;
-
-    try {
-      const response = await Promise.race([
-        window.puter.ai.chat([{ role: 'system', content: system }, ...messages], false, puterOptions),
-        aiTimeout(budget)
-      ]);
-      const content = extractAIContent(response);
-      if (content) return content;
-      lastError = new Error(`AI model ${model} returned an empty response.`);
-    } catch (err) {
-      lastError = err;
-      console.warn(`Puter AI model ${model} failed; trying next model if available.`, err);
-    }
-  }
-
-  throw lastError || new Error('AI request timed out.');
-}
-
 function warmAIProvider() {
-  if (AI_SETTINGS.endpoint && AI_SETTINGS.fallbackToPuter === false) return;
-  const warm = () => loadPuterAI(8000).catch(err => console.warn('AI provider warmup failed.', err));
-  if ('requestIdleCallback' in window) window.requestIdleCallback(warm, { timeout: 2500 });
-  else setTimeout(warm, 800);
+  // No browser-side provider warmup. This avoids third-party auth popups.
 }
 
 async function callClaude(messages, system, maxTokens = 800, options = {}) {
   const timeoutMs = typeof options.timeoutMs === 'number' ? options.timeoutMs : AI_SETTINGS.timeoutMs;
-
-  if (AI_SETTINGS.endpoint) {
-    try {
-      return await callOpenAICompatible(messages, system, maxTokens, options, timeoutMs);
-    } catch (err) {
-      if (AI_SETTINGS.fallbackToPuter === false) throw err;
-      console.warn('Configured AI endpoint failed; trying Puter AI provider.', err);
-    }
-  }
-
-  return callPuterAI(messages, system, maxTokens, options, timeoutMs);
+  return callOpenAICompatible(messages, system, maxTokens, options, timeoutMs);
 }
+
 /* ─── 1. AI CAREER CHATBOT ─── */
 function injectChatbot() {
   const style = document.createElement('style');
@@ -2409,7 +2321,7 @@ Response rules:
     } catch (err) {
       console.warn('Arya live AI failed.', err);
       typing.className = 'ai-msg bot';
-      typing.textContent = 'Live AI could not respond from this browser. Please refresh and try again, or WhatsApp +91 8082151063 for quick counseling.';
+      typing.textContent = 'Live AI backend is not connected yet. Please connect the Groq backend endpoint, or WhatsApp +91 8082151063 for quick counseling.';
       updateAryaStatus('Live AI connection issue · please retry');
     } finally {
       aryaSending = false;
