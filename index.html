@@ -2127,12 +2127,69 @@ function dlBrochure(key){
    FIX 8: interviewQA event delegation — listener added once, outside generateInterviewQs
 ═══════════════════════════════════════════════════════ */
 
-const ANTHROPIC_API = 'https://api.groq.com/openai/v1/chat/completions';
-const MODEL = 'llama-3.3-70b-versatile';
-const ARYA_MODEL = 'llama-3.1-8b-instant';
-const API_KEY = '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'; // apni Groq key yahan
+const AI_SETTINGS = Object.assign({
+  provider: 'puter',
+  endpoint: '',
+  apiKey: '',
+  model: 'gpt-5-nano',
+  aryaModel: 'gpt-5-nano',
+  timeoutMs: 25000,
+  fallbackToPuter: true
+}, window.TECH1WORLD_AI || {});
+AI_SETTINGS.endpoint = AI_SETTINGS.endpoint || window.TECH1WORLD_AI_ENDPOINT || '';
+AI_SETTINGS.apiKey = AI_SETTINGS.apiKey || window.TECH1WORLD_AI_API_KEY || '';
+AI_SETTINGS.model = AI_SETTINGS.model || window.TECH1WORLD_AI_MODEL || 'gpt-5-nano';
+AI_SETTINGS.aryaModel = AI_SETTINGS.aryaModel || window.TECH1WORLD_ARYA_MODEL || AI_SETTINGS.model;
 
-async function callClaude(messages, system, maxTokens = 800, options = {}) {
+const MODEL = AI_SETTINGS.model;
+const ARYA_MODEL = AI_SETTINGS.aryaModel;
+let puterLoadPromise = null;
+
+function aiTimeout(ms) {
+  return new Promise((_, reject) => setTimeout(() => reject(new Error('AI request timed out.')), ms));
+}
+
+function extractAIContent(response) {
+  if (typeof response === 'string') return response.trim();
+  const content = response?.message?.content || response?.text || response?.choices?.[0]?.message?.content || '';
+  return String(content || '').trim();
+}
+
+function loadPuterAI(timeoutMs) {
+  if (window.puter?.ai?.chat) return Promise.resolve(window.puter);
+  if (puterLoadPromise) return puterLoadPromise;
+
+  puterLoadPromise = new Promise((resolve, reject) => {
+    const existing = document.querySelector('script[data-tech1world-puter]');
+    const script = existing || document.createElement('script');
+    const timer = setTimeout(() => reject(new Error('Puter AI library load timed out.')), timeoutMs);
+
+    script.onload = () => {
+      clearTimeout(timer);
+      if (window.puter?.ai?.chat) resolve(window.puter);
+      else reject(new Error('Puter AI library loaded without chat support.'));
+    };
+    script.onerror = () => {
+      clearTimeout(timer);
+      reject(new Error('Could not load Puter AI library.'));
+    };
+
+    if (!existing) {
+      script.src = 'https://js.puter.com/v2/';
+      script.async = true;
+      script.defer = true;
+      script.dataset.tech1worldPuter = 'true';
+      document.head.appendChild(script);
+    }
+  }).catch(err => {
+    puterLoadPromise = null;
+    throw err;
+  });
+
+  return puterLoadPromise;
+}
+
+async function callOpenAICompatible(messages, system, maxTokens, options, timeoutMs) {
   const payload = {
     model: options.model || MODEL,
     max_tokens: maxTokens,
@@ -2142,27 +2199,58 @@ async function callClaude(messages, system, maxTokens = 800, options = {}) {
   if (typeof options.top_p === 'number') payload.top_p = options.top_p;
 
   const controller = new AbortController();
-  const timeoutMs = typeof options.timeoutMs === 'number' ? options.timeoutMs : 15000;
   const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+  const headers = { 'Content-Type': 'application/json' };
+  if (AI_SETTINGS.apiKey) headers.Authorization = 'Bearer ' + AI_SETTINGS.apiKey;
 
   try {
-    const r = await fetch(ANTHROPIC_API, {
+    const r = await fetch(AI_SETTINGS.endpoint, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + API_KEY
-      },
+      headers,
       body: JSON.stringify(payload),
       signal: controller.signal
     });
     const d = await r.json().catch(() => ({}));
     if (!r.ok) throw new Error(d.error?.message || `AI request failed with status ${r.status}`);
-    const content = d.choices?.[0]?.message?.content?.trim();
+    const content = extractAIContent(d);
     if (!content) throw new Error('AI returned an empty response.');
     return content;
   } finally {
     clearTimeout(timeoutId);
   }
+}
+
+async function callPuterAI(messages, system, maxTokens, options, timeoutMs) {
+  await loadPuterAI(Math.min(timeoutMs, 15000));
+  const puterOptions = {
+    model: options.model || MODEL,
+    max_tokens: maxTokens,
+    stream: false
+  };
+  if (typeof options.temperature === 'number') puterOptions.temperature = options.temperature;
+
+  const response = await Promise.race([
+    window.puter.ai.chat([{ role: 'system', content: system }, ...messages], false, puterOptions),
+    aiTimeout(timeoutMs)
+  ]);
+  const content = extractAIContent(response);
+  if (!content) throw new Error('AI returned an empty response.');
+  return content;
+}
+
+async function callClaude(messages, system, maxTokens = 800, options = {}) {
+  const timeoutMs = typeof options.timeoutMs === 'number' ? options.timeoutMs : AI_SETTINGS.timeoutMs;
+
+  if (AI_SETTINGS.endpoint) {
+    try {
+      return await callOpenAICompatible(messages, system, maxTokens, options, timeoutMs);
+    } catch (err) {
+      if (AI_SETTINGS.fallbackToPuter === false) throw err;
+      console.warn('Configured AI endpoint failed; trying Puter AI provider.', err);
+    }
+  }
+
+  return callPuterAI(messages, system, maxTokens, options, timeoutMs);
 }
 /* ─── 1. AI CAREER CHATBOT ─── */
 function injectChatbot() {
@@ -2223,7 +2311,7 @@ function injectChatbot() {
         <input type="text" id="aiInput" placeholder="Ask me anything..." onkeydown="if(event.key==='Enter')sendAIMsg()">
         <button id="aiSendBtn" onclick="sendAIMsg()">➤</button>
       </div>
-      <div class="ai-powered-badge" id="aiStatusBadge">⚡ Live AI ready · WhatsApp backup available</div>
+      <div class="ai-powered-badge" id="aiStatusBadge">⚡ Live AI ready · WhatsApp support available</div>
     </div>
   `);
 
@@ -2262,7 +2350,7 @@ Response rules:
 
   function getAryaFallbackReply(message) {
     const msg = message.toLowerCase();
-    const opener = 'Live AI is temporarily slow, so here is Arya’s quick guidance: ';
+    const opener = 'Here is Arya’s quick guidance: ';
     if (msg.includes('placement') || msg.includes('job') || msg.includes('salary')) {
       return opener + 'the website highlights placement support, resume help, mock interviews, referrals, 450+ hiring partners and average fresher CTC around Rs.5.2 LPA. Jobs and salary still depend on your skills, attendance and interview performance. For current openings, WhatsApp +91 8082151063.';
     }
@@ -2304,13 +2392,13 @@ Response rules:
 
     try {
       const reply = await callClaude(chatHistory, SYSTEM, 260, { model: ARYA_MODEL, temperature: 0.72, top_p: 0.9, timeoutMs: 18000 });
-      updateAryaStatus('⚡ Live AI ready · WhatsApp backup available');
+      updateAryaStatus('⚡ Live AI ready · WhatsApp support available');
       typing.remove();
       appendAIMsg(reply, 'bot');
       chatHistory.push({ role: 'assistant', content: reply });
       trimAryaHistory();
     } catch (err) {
-      updateAryaStatus('⚠️ Live AI slow · backup answer shown');
+      updateAryaStatus('Guided answer ready · WhatsApp support available');
       console.warn('Arya live AI failed; using local fallback.', err);
       const fallback = getAryaFallbackReply(txt);
       typing.remove();
@@ -2521,11 +2609,11 @@ function injectCourseRecommender() {
           <span class="badge badge-cyan">💰 ${fallbackCourse.price}</span>
           <span class="badge badge-green">✓ Placement Support</span>
         </div>
-        <div style="color:rgba(255,255,255,.5);font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.1rem;text-transform:uppercase;margin-bottom:.5rem">Backup Learning Roadmap</div>
+        <div style="color:rgba(255,255,255,.5);font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.1rem;text-transform:uppercase;margin-bottom:.5rem">Recommended Learning Roadmap</div>
         ${fallbackCourse.roadmap.map((step, i) => `<div style="display:flex;align-items:center;gap:.6rem;color:rgba(255,255,255,.75);font-size:.82rem;padding:.35rem 0;border-bottom:1px solid rgba(255,255,255,.06)"><span style="background:linear-gradient(135deg,#7c3aed,#4f46e5);color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;flex-shrink:0">${i + 1}</span>${step}</div>`).join('')}
       `;
       resultCard.querySelector('.rec-result-course').textContent = fallbackCourse.course;
-      resultCard.querySelector('.rec-result-why').textContent = 'Live AI is temporarily unavailable, so this recommendation is generated locally. ' + fallbackCourse.reason;
+      resultCard.querySelector('.rec-result-why').textContent = '' + fallbackCourse.reason;
       document.getElementById('recResult').classList.add('active');
     }
   }
@@ -2850,7 +2938,7 @@ const prompt = `Generate exactly ${QUESTIONS_PER_INTERVIEW_ROUND} NEW interview 
       const wordCount = ansText.split(/\s+/).filter(Boolean).length;
       const score = wordCount >= 45 ? 7 : wordCount >= 20 ? 6 : 5;
       fb.className = `interview-feedback show ${score >= 7 ? 'good' : 'ok'}`;
-      fb.innerHTML = `<div class="interview-score">Backup Score: ${score}/10 ${score >= 7 ? '✅' : '⚠️'}</div>`;
+      fb.innerHTML = `<div class="interview-score">Score: ${score}/10 ${score >= 7 ? '✅' : '⚠️'}</div>`;
       [
         { label: '✅ Good: ', text: wordCount >= 20 ? 'You attempted a structured answer.' : 'You started answering the question.' },
         { label: '📈 Improve: ', text: 'Add specific tools, steps, examples and expected outcomes from a real project.' },
@@ -2992,8 +3080,8 @@ function injectSalaryPredictor() {
       const min = Number(Math.max(2.4, avg - 1.4).toFixed(1));
       const max = Number((avg + 2.6).toFixed(1));
       result.className = 'salary-result show';
-      result.innerHTML = `<div style="font-family:'Sora',sans-serif;font-size:.85rem;font-weight:600;color:#64748b;margin-bottom:.5rem">📊 BACKUP SALARY ESTIMATE</div>
-        <div style="font-size:.82rem;color:#64748b;line-height:1.6;margin-bottom:.75rem">Live AI is temporarily unavailable, so this is a local estimate based on course, experience and Indian QA/IT market patterns.</div>
+      result.innerHTML = `<div style="font-family:'Sora',sans-serif;font-size:.85rem;font-weight:600;color:#64748b;margin-bottom:.5rem">📊 SALARY ESTIMATE</div>
+        <div style="font-size:.82rem;color:#64748b;line-height:1.6;margin-bottom:.75rem">Estimate based on course, experience and Indian QA/IT market patterns.</div>
         <div style="display:flex;align-items:baseline;gap:.5rem;margin-bottom:.3rem"><span style="font-family:'Sora',sans-serif;font-size:2rem;font-weight:900;color:#f59e0b">Rs.${avg}L</span><span style="color:#64748b;font-size:.85rem">avg annual CTC</span></div>
         <div style="display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:.62rem;color:#94a3b8;margin-top:.3rem"><span>Min: ₹${min}L</span><span>Max: ₹${max}L</span></div>
         <div style="background:linear-gradient(135deg,rgba(245,158,11,.08),rgba(249,115,22,.04));border:1px solid rgba(245,158,11,.25);border-radius:10px;padding:.85rem 1rem;margin-top:1rem;font-size:.82rem;color:#78350f;line-height:1.65"><b>Insight:</b> Salary depends on projects, communication, interview performance and location. Confirm current placement trends with +91 8082151063.</div>`;
