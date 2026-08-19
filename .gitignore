@@ -1,0 +1,5 @@
+scripts/job-apply/node_modules/
+scripts/job-apply/.storage/
+scripts/job-apply/reports/
+scripts/job-apply/screenshots/
+scripts/job-apply/assets/resume.pdf

@@ -1,0 +1,15 @@
+{
+  "name": "tech1world-job-apply",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "apply": "node run.mjs",
+    "linkedin": "node run.mjs --platform linkedin",
+    "naukri": "node run.mjs --platform naukri",
+    "jsearch": "node run.mjs --platform jsearch",
+    "all": "node run.mjs --platform all"
+  },
+  "dependencies": {
+    "playwright": "^1.51.0"
+  }
+}
