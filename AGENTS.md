@@ -1,24 +1,30 @@
 # Cloud Agent instructions
 
-## Job apply automation
+## Browser-based job apply skills
 
-This repo includes a Cloud Agent skill at `.cursor/skills/job-apply/` for applying to jobs on **LinkedIn**, **Naukri**, and **JSearch**.
+This repo uses **Cursor Cloud Agent browser skills** (not Playwright scripts) for job applications:
 
-When the user asks to apply for jobs (including from phone Cursor):
+| Skill | Platform | Trigger |
+| --- | --- | --- |
+| `cloud-browser` | Browser setup for cloud VM | `/cloud-browser` |
+| `naukri-apply-anyone` | Naukri.com | `/naukri-apply-anyone` |
+| `apply-to-jobs` | LinkedIn Easy Apply | `/apply-to-jobs` |
 
-1. Read and follow `.cursor/skills/job-apply/SKILL.md`.
-2. Use secrets from the Cloud Agent environment — never hardcode credentials.
-3. Default to `--dry-run` unless the user explicitly wants live applications.
-4. Run scripts from `scripts/job-apply/`:
-   ```bash
-   cd scripts/job-apply && node run.mjs --platform all --query "QA Engineer" --limit 5 --dry-run
-   ```
-5. Summarize results from `scripts/job-apply/reports/*.json`.
+Skills live in `.cursor/skills/` and load automatically when a Cloud Agent starts.
 
-Environment setup is defined in `.cursor/environment.json` (Playwright + Chromium + Xvfb).
+### Phone Cursor workflow
 
-## Site context
+1. Open this repo → start **Cloud Agent**
+2. Message: `/naukri-apply-anyone apply to QA jobs in Bangalore, limit 5`
+3. Agent loads `cloud-browser` + `naukri-apply-anyone`, opens browser on the cloud VM, applies, and reports results
 
-- Static Tech1World institute site (`index.html`).
-- Live job board section: `#jobs` (JSearch API).
-- AI resume analyzer with skills gap detection is embedded in `index.html`.
+### First-time setup
+
+1. Merge the branch with these skills
+2. Optional: **Environment → Build** once (starts Xvfb for browser display via `.cursor/environment.json`)
+3. On first Naukri/LinkedIn run, log in once in the cloud browser when prompted
+4. Save profile to `naukri-profile.md` or `applicant-profile.md` for faster future runs
+
+### Site context
+
+Static Tech1World site in `index.html`. Live job board at `#jobs` (JSearch API) for browsing only — automated apply uses the skills above.

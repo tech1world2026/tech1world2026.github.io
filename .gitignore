@@ -1,5 +1,3 @@
-scripts/job-apply/node_modules/
-scripts/job-apply/.storage/
-scripts/job-apply/reports/
-scripts/job-apply/screenshots/
-scripts/job-apply/assets/resume.pdf
+naukri-profile.md
+applicant-profile.md
+naukri-applications.csv
