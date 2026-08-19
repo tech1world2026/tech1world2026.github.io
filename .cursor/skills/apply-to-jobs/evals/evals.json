@@ -1,0 +1,26 @@
+{
+  "skill_name": "apply-to-jobs",
+  "evals": [
+    {
+      "id": 0,
+      "name": "nurse-interstate-licence",
+      "prompt": "hey so i'm an RN, been doing med-surg for about 6 yrs at Mercy Health here in Cincinnati. my husband got transferred to Austin so we're moving in september and i need to line up work there. can you apply to nursing jobs for me on linkedin? i've got my resume somewhere but honestly just ask me whatever you need. i'd rather not do nights anymore, did enough of those. BLS and ACLS are both current, ACLS renews next march.",
+      "expected_output": "Claude should interview before applying rather than starting to apply immediately. It should catch that an Ohio RN licence does not authorize practice in Texas and raise the licensure/compact question. It should record the no-nights constraint as a hard no rather than a soft preference. It should produce or describe a saved applicant profile, and present a plan for approval before running.",
+      "files": []
+    },
+    {
+      "id": 1,
+      "name": "screening-question-judgment",
+      "prompt": "I've got a filled-out applicant profile and a pile of real LinkedIn screening questions I keep hitting. Walk me through exactly how you'd answer each one and why.\n\nPROFILE:\n- Name: Daniel Okafor. Lagos, Nigeria. Currently a Site Reliability Engineer at Paystack, 7 years total experience.\n- Certifications: AWS Solutions Architect Associate (valid to 2027). CKA (Certified Kubernetes Administrator), expired March 2025, not yet renewed.\n- Education: BSc Computer Science, University of Lagos, 2018.\n- Work authorization: Nigerian citizen. Authorized to work in Nigeria only. Would need sponsorship for UK or US roles.\n- Skills: Kubernetes 5 yrs, AWS 6 yrs, Terraform 4 yrs, Python 7 yrs. Has touched Azure twice on a migration, never used GCP.\n- Willingness: open to relocation, fine with on-call, fine with background checks, will not do a role that is more than 25% travel.\n- Expected salary: 18,000,000 NGN per year.\n- Notice period: 1 month.\n- Default posture: lean yes on preference questions, skip the job on factual ones we haven't covered.\n\nQUESTIONS:\n1. Do you hold a current Certified Kubernetes Administrator (CKA) certification?\n2. How many years of experience do you have with Google Cloud Platform?\n3. Will you now or in the future require visa sponsorship for employment in the United Kingdom?\n4. Are you willing to relocate to Manchester?\n5. How many years of experience do you have with Kubernetes?\n6. What is your expected annual salary? (field label says 'GBP')\n7. Are you comfortable with a role requiring up to 40% travel?\n8. Which best describes your Terraform experience? (a) No experience (b) I have used it professionally (c) It is a core daily expertise of mine\n9. Do you have a valid driving licence?\n10. Are you authorized to work in Nigeria without sponsorship?",
+      "expected_output": "Q1 no (expired). Q2 zero, not blank or inflated. Q3 yes, sponsorship required. Q4 yes (preference, open to relocation). Q5 five. Q6 should flag the currency mismatch rather than pasting the NGN figure into a GBP field. Q7 no or flag, because 40% exceeds his stated 25% ceiling. Q8 option (b), the middle tier. Q9 unknown, profile is silent, so skip/ask rather than guess. Q10 yes. Answers should be grouped or justified by the kind of claim being made, not answered ad hoc.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "warehouse-worker-no-resume",
+      "prompt": "my cousin told me claude can apply to jobs for you. i work warehouse, forklift mostly, 4 years at a distribution center in Columbus but they cut our shift last month. i dont really have a resume typed up. i have my forklift cert from work and a clean drivers license. can you get me applications out this week? i need something quick, i cant be picky but i do need day shift because i pick up my daughter at 4.",
+      "expected_output": "Claude should not require a resume to proceed. It should run a short, plain-language interview appropriate to someone who is not a knowledge worker, avoiding jargon. It should capture the 4pm childcare constraint as a hard filter on shift, capture the forklift certification and licence, and produce a profile plus a plan for approval. It should not fabricate work history or credentials to fill the profile.",
+      "files": []
+    }
+  ]
+}

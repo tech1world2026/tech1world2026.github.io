@@ -1,0 +1,5 @@
+{
+  "$schema": "https://cursor.com/schemas/environment.schema.json",
+  "name": "tech1world-browser-jobs",
+  "start": "Xvfb :99 -screen 0 1920x1080x24 -ac +extension RANDR > /tmp/xvfb.log 2>&1 &"
+}
